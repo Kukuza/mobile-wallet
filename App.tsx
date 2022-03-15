@@ -1,12 +1,20 @@
+import 'react-native-gesture-handler';
+
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import Onboarding from "./src/screens/Onboarding/Onboarding";
+import MyDrawer from './src/screens/Drawer/MyDrawer';
+import { NavigationContainer } from '@react-navigation/native';
+
 
 export default function App() {
+  
   return (
-    <View style={styles.container}>
-      <Onboarding />
-    </View>
+    // <View style={styles.container}>
+    //   <Onboarding />
+    // </View>
+    <NavigationContainer>
+        <MyDrawer></MyDrawer>
+    </NavigationContainer>
   );
 }
 
