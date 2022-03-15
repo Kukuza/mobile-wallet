@@ -26,10 +26,6 @@ export default function NextButton({ percentage, scrollTo }) {
   }, [percentage]);
 
   useEffect(() => {
-    animation(percentage);
-  }, [percentage]);
-
-  useEffect(() => {
     progressAnimation.addListener((value) => {
       const strokeDashoffset =
         circumfrence - (circumfrence * value.value) / 100;
@@ -64,7 +60,6 @@ export default function NextButton({ percentage, scrollTo }) {
             r={radius}
             strokeWidth={strokeWidth}
             strokeDasharray={circumfrence}
-            // strokeDashoffset={circumfrence - (circumfrence * 25) / 100}
           />
         </G>
       </Svg>
