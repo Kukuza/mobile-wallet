@@ -46,7 +46,7 @@ export default function NextButton({ percentage, scrollTo }) {
       <Svg width={size} height={size}>
         <G rotation="-90" origin={center}>
           <Circle
-            stroke="#E6E7E8"
+            stroke="#fff"
             cx={center}
             cy={center}
             r={radius}
@@ -60,6 +60,7 @@ export default function NextButton({ percentage, scrollTo }) {
             r={radius}
             strokeWidth={strokeWidth}
             strokeDasharray={circumfrence}
+            strokeDashoffset={circumfrence}
           />
         </G>
       </Svg>

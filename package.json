@@ -17,6 +17,7 @@
     ]
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.16.2",
     "@types/jest-in-case": "^1.0.5",
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",

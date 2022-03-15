@@ -4,6 +4,7 @@ import slides from "../Onboarding/slides";
 import OnboardingItem from "../Onboarding/OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Onboarding() {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -16,11 +17,15 @@ export default function Onboarding() {
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-  const scrollTo = () => {
+  const scrollTo = async () => {
     if (currentIndex < slides.length - 1) {
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      console.log("Last item.");
+      try {
+        await AsyncStorage.setItem("@viewedOnboarding", "true");
+      } catch (error) {
+        console.log("Error @setItem", error);
+      }
     }
   };
 
@@ -55,7 +60,7 @@ export default function Onboarding() {
       {/* <Paginator data={slides} scrollX={scrollX} /> */}
       <NextButton
         scrollTo={scrollTo}
-        percentage={(currentIndex + 1) * (100 / slides.length)}
+        percentage={currentIndex * (100 / slides.length)}
       />
     </View>
   );

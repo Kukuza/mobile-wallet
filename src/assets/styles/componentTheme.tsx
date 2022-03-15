@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { SIZES } from "./../fonts/fonts";
+import { FONTS } from "../../styles/theme";
 
 const mainStyles = StyleSheet.create({
   container: {
@@ -28,20 +29,20 @@ const mainStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: "#333333",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.h1.fontFamily,
   },
 
   text: {
     fontSize: 14,
     lineHeight: 21,
     color: "#333333",
-    fontFamily: "Rubik_400Regular",
+    fontFamily: FONTS.h2.fontFamily,
   },
 
   secondaryButtonText: {
     fontSize: 20,
     lineHeight: 24,
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.h1.fontFamily,
     textAlign: "center",
     color: "#FFF",
   },
@@ -68,7 +69,7 @@ const cardStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: "#A2A3A2",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.h1.fontFamily,
   },
 
   title: {
