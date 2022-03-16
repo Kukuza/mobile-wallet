@@ -5,6 +5,7 @@ import OnboardingItem from "../Onboarding/OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import StandardBtn from "../../components/StandardBtn";
 
 export default function Onboarding() {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -23,6 +24,7 @@ export default function Onboarding() {
     } else {
       try {
         await AsyncStorage.setItem("@viewedOnboarding", "true");
+        console.log(currentIndex);
       } catch (error) {
         console.log("Error @setItem", error);
       }
@@ -58,10 +60,14 @@ export default function Onboarding() {
         />
       </View>
       {/* <Paginator data={slides} scrollX={scrollX} /> */}
-      <NextButton
-        scrollTo={scrollTo}
-        percentage={currentIndex * (100 / slides.length)}
-      />
+      {currentIndex >= 3 ? (
+        <StandardBtn />
+      ) : (
+        <NextButton
+          scrollTo={scrollTo}
+          percentage={currentIndex * (100 / slides.length)}
+        />
+      )}
     </View>
   );
 }
