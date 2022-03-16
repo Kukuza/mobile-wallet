@@ -3,6 +3,23 @@ import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
 import AuthScreen from "./src/screens/Auth/AuthScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  Rubik_300Light,
+  Rubik_300Light_Italic,
+  Rubik_400Regular,
+  Rubik_400Regular_Italic,
+  Rubik_500Medium,
+  Rubik_500Medium_Italic,
+  Rubik_700Bold,
+  Rubik_700Bold_Italic,
+  Rubik_900Black,
+  Rubik_900Black_Italic,
+} from "@expo-google-fonts/rubik";
+import { useFonts } from "expo-font";
+import HeaderTitle from "./src/components/HeaderTitle";
+
+import { FONTS } from "./src/assets/fonts/fonts";
+import AppLoading from "expo-app-loading";
 
 const Loading = () => {
   return (
@@ -13,6 +30,18 @@ const Loading = () => {
 };
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    Rubik_500Medium,
+    Rubik_300Light,
+    Rubik_300Light_Italic,
+    Rubik_400Regular,
+    Rubik_400Regular_Italic,
+    Rubik_500Medium_Italic,
+    Rubik_700Bold,
+    Rubik_700Bold_Italic,
+    Rubik_900Black,
+    Rubik_900Black_Italic,
+  });
   const [loading, setLoading] = useState(true);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
 
@@ -33,8 +62,13 @@ export default function App() {
   useEffect(() => {
     checkOnboarding();
   }, []);
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <View style={styles.container}>
+      {/* <AuthScreen /> */}
+
       {loading ? (
         <Loading />
       ) : viewedOnboarding ? (

@@ -1,5 +1,22 @@
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
+import {
+  useFonts,
+  Rubik_300Light,
+  Rubik_400Regular,
+  Rubik_500Medium,
+  Rubik_600SemiBold,
+  Rubik_700Bold,
+  Rubik_800ExtraBold,
+  Rubik_900Black,
+  Rubik_300Light_Italic,
+  Rubik_400Regular_Italic,
+  Rubik_500Medium_Italic,
+  Rubik_600SemiBold_Italic,
+  Rubik_700Bold_Italic,
+  Rubik_800ExtraBold_Italic,
+  Rubik_900Black_Italic,
+} from "@expo-google-fonts/rubik";
 
 export const SIZES = {
   // global sizes
@@ -9,56 +26,147 @@ export const SIZES = {
   padding: 10,
   padding2: 12,
 
-  // font sizes
-  largeTitle: 50,
-  h1: 30,
-  h2: 22,
-  h3: 20,
-  h4: 18,
-  body1: 30,
-  body2: 20,
-  body3: 16,
-  body4: 14,
-  body5: 12,
-
   // app dimensions
   width,
   height,
 };
 
 export const FONTS = {
-  largeTitle: {
-    fontSize: SIZES.largeTitle,
-    lineHeight: 55,
+  // Main Title
+  displayBold: {
     fontFamily: "Rubik_700Bold",
+    fontSize: 28,
+    lineHeight: 42,
   },
-  h1: { fontSize: SIZES.h1, lineHeight: 36, fontFamily: "Rubik_500Medium" },
-  h2: { fontSize: SIZES.h2, lineHeight: 30, fontFamily: "Rubik_400Regular" },
-  h3: { fontSize: SIZES.h3, lineHeight: 22, fontFamily: "Rubik_400Regular" },
-  h4: { fontSize: SIZES.h4, lineHeight: 22, fontFamily: "Rubik_400Regular" },
-  body1: { fontSize: SIZES.body1, lineHeight: 36, fontFamily: "Inter_700Bold" },
-  body2: {
-    fontSize: SIZES.body2,
+  // Headers
+  h1: {
+    fontFamily: "Rubik_500Medium",
+    fontSize: 28,
+    lineHeight: 42,
+  },
+  h2: {
+    fontFamily: "Rubik_500Medium",
+    fontSize: 24,
+    lineHeight: 36,
+  },
+  h3: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 24,
+    lineHeight: 36,
+  },
+  h4: {
+    fontFamily: "Rubik_700Bold",
+    fontSize: 20,
     lineHeight: 30,
-    fontFamily: "Inter_600SemiBold",
   },
+  h5: {
+    fontFamily: "Rubik_700Bold",
+    fontSize: 18,
+    lineHeight: 27,
+  },
+
+  //  Subheaders
+  sh1: {
+    fontFamily: "Rubik_500Medium",
+    fontSize: 20,
+    lineHeight: 30,
+  },
+
+  sh2: {
+    fontFamily: "Rubik_500Medium",
+    fontSize: 20,
+    lineHeight: 30,
+  },
+
+  // Body
+  body1: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 18,
+    lineHeight: 27,
+  },
+  body2: {
+    fontFamily: "Rubik_700Bold",
+    fontSize: 16,
+    lineHeight: 24,
+  },
+
   body3: {
-    fontSize: SIZES.body3,
-    lineHeight: 22,
-    fontFamily: "Inter_500Medium",
+    fontFamily: "Rubik_500Medium",
+    fontSize: 16,
+    lineHeight: 24,
   },
+
   body4: {
-    fontSize: SIZES.body4,
-    lineHeight: 22,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Rubik_400Regular",
+    fontSize: 16,
+    lineHeight: 24,
   },
+
   body5: {
-    fontSize: SIZES.body5,
-    lineHeight: 22,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Rubik_700Bold",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+
+  body6: {
+    fontFamily: "Rubik_700Bold",
+    fontSize: 12,
+    lineHeight: 18,
+  },
+
+  body7: {
+    fontFamily: "Rubik_500Medium",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+
+  body8: {
+    fontFamily: "Rubik_500Medium",
+    fontSize: 12,
+    lineHeight: 18,
+  },
+
+  body9: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 12,
+    lineHeight: 18,
+  },
+
+  // Headline
+  headline: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+
+  // Small Text
+  s1: {
+    fontFamily: "Rubik_300Light",
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  s2: {
+    fontFamily: "Rubik_300Light",
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  s3: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 11,
+    lineHeight: 16.5,
+  },
+  s4: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 10,
+    lineHeight: 15,
+  },
+  s5: {
+    fontFamily: "Rubik_400Regular",
+    fontSize: 8,
+    lineHeight: 12,
   },
 };
 
-const appTheme = { SIZES, FONTS };
+const appFont = { SIZES, FONTS };
 
-export default appTheme;
+export default appFont;

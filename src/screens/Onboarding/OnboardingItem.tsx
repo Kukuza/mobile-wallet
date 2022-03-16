@@ -6,8 +6,23 @@ import {
   useWindowDimensions,
   ImageSourcePropType,
 } from "react-native";
-import { COLORS, FONTS, SIZES } from "../../styles/theme";
-
+// import { COLORS, FONTS, SIZES } from "../../styles/theme";
+import { COLORS } from "../../assets/styles/colors";
+import { FONTS } from "../../assets/fonts/fonts";
+import AppLoading from "expo-app-loading";
+import {
+  Rubik_300Light,
+  Rubik_300Light_Italic,
+  Rubik_400Regular,
+  Rubik_400Regular_Italic,
+  Rubik_500Medium,
+  Rubik_500Medium_Italic,
+  Rubik_700Bold,
+  Rubik_700Bold_Italic,
+  Rubik_900Black,
+  Rubik_900Black_Italic,
+} from "@expo-google-fonts/rubik";
+import { useFonts } from "expo-font";
 interface Props {
   id: string;
   title: string;
@@ -16,6 +31,13 @@ interface Props {
 }
 
 const OnboardingItem: React.FC<Props> = ({ id, title, description, image }) => {
+  //   let [fontsLoaded] = useFonts({
+  //     Rubik_500Medium,
+  //   });
+
+  //   if (!fontsLoaded) {
+  //     return <AppLoading />;
+  //   }
   const { width } = useWindowDimensions();
   return (
     <View style={(styles.container, { width })}>
@@ -23,9 +45,22 @@ const OnboardingItem: React.FC<Props> = ({ id, title, description, image }) => {
         source={image}
         style={[styles.image, { width, resizeMode: "contain" }]}
       />
+
       <View style={{ flex: 0.3 }}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text
+          style={{ ...FONTS.h3, color: COLORS.primary, textAlign: "center" }}
+        >
+          {title}
+        </Text>
+        <Text
+          style={{
+            ...FONTS.body3,
+            color: COLORS.textColor2,
+            textAlign: "center",
+          }}
+        >
+          {description}
+        </Text>
       </View>
     </View>
   );
@@ -42,16 +77,9 @@ const styles = StyleSheet.create({
     flex: 0.7,
     justifyContent: "center",
   },
-  title: {
-    color: COLORS.primary,
-    fontSize: 30,
-    fontWeight: "bold",
-    marginVertical: 15,
-    textAlign: "center",
-  },
   description: {
-    ...FONTS.body3,
-    color: COLORS.textBlack,
+    // ...FONTS.body3,
+    // color: COLORS.textBlack,
     fontSize: 18,
     marginHorizontal: 40,
     textAlign: "center",
