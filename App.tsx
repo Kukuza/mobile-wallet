@@ -17,9 +17,14 @@ import {
 } from "@expo-google-fonts/rubik";
 import { useFonts } from "expo-font";
 import HeaderTitle from "./src/components/HeaderTitle";
-
+import "react-native-gesture-handler";
 import { FONTS } from "./src/assets/fonts/fonts";
 import AppLoading from "expo-app-loading";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import routes from "./src/navigation/Routes";
+
+const Stack = createStackNavigator();
 
 const Loading = () => {
   return (
@@ -67,7 +72,13 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
-      {/* <AuthScreen /> */}
+      {/* <NavigationContainer>
+        <Stack.Navigator initialRouteName="Onboarding">
+          {routes.map((r, i) => (
+            <Stack.Screen key={i} name={r.name} component={r.component} />
+          ))}
+        </Stack.Navigator>
+      </NavigationContainer> */}
 
       {loading ? (
         <Loading />

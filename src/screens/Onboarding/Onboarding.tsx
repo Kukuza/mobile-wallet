@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, FlatList, Animated } from "react-native";
 import React, { useState, useRef } from "react";
-// import { NavigationProp, ParamListBase } from "@react-navigat"
 import slides from "../Onboarding/slides";
 import OnboardingItem from "../Onboarding/OnboardingItem";
 import Paginator from "./Paginator";
@@ -10,9 +9,6 @@ import StandardBtn from "../../components/StandardBtn";
 import ScreenComponent from "../../components/ScreenComponent";
 import { SIZES } from "../../assets/fonts/fonts";
 
-interface IProps {
-  // navigation: NavigationProp<ParamListBase>
-}
 export default function Onboarding() {
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = React.useRef<any>(null);
