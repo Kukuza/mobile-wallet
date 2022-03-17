@@ -1,12 +1,18 @@
 import { StyleSheet, Text, View, FlatList, Animated } from "react-native";
 import React, { useState, useRef } from "react";
+// import { NavigationProp, ParamListBase } from "@react-navigat"
 import slides from "../Onboarding/slides";
 import OnboardingItem from "../Onboarding/OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandardBtn from "../../components/StandardBtn";
+import ScreenComponent from "../../components/ScreenComponent";
+import { SIZES } from "../../assets/fonts/fonts";
 
+interface IProps {
+  // navigation: NavigationProp<ParamListBase>
+}
 export default function Onboarding() {
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = React.useRef<any>(null);
@@ -32,8 +38,8 @@ export default function Onboarding() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{ flex: 3 }}>
+    <ScreenComponent>
+      <View style={styles.slide}>
         <FlatList
           data={slides}
           renderItem={({ item }) => (
@@ -58,25 +64,31 @@ export default function Onboarding() {
           viewabilityConfig={viewConfig}
           ref={slidesRef}
         />
+        {/* </View> */}
+        {/* <Paginator data={slides} scrollX={scrollX} /> */}
+        {currentIndex >= 3 ? (
+          <StandardBtn />
+        ) : (
+          <NextButton
+            scrollTo={scrollTo}
+            percentage={currentIndex * (100 / slides.length)}
+          />
+        )}
       </View>
-      {/* <Paginator data={slides} scrollX={scrollX} /> */}
-      {currentIndex >= 3 ? (
-        <StandardBtn />
-      ) : (
-        <NextButton
-          scrollTo={scrollTo}
-          percentage={currentIndex * (100 / slides.length)}
-        />
-      )}
-    </View>
+    </ScreenComponent>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    height: SIZES.height,
+  },
+  // Slide styles
+  slide: {
+    flex: 1, // Take up all screen
+    justifyContent: "center", // Center vertically
+    alignItems: "center", // Center horizontally
   },
 });

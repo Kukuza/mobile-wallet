@@ -3,7 +3,7 @@ import React from "react";
 
 const StandardBtn = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         title="Get Started"
         onPress={() => Alert.alert("Simple Button pressed")}
@@ -14,4 +14,10 @@ const StandardBtn = () => {
 
 export default StandardBtn;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 0.2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

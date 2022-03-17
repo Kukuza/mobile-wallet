@@ -2,7 +2,7 @@ import { SafeAreaView, StatusBar, StyleSheet, View, Text } from "react-native";
 import React, { Fragment } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
-const ScreenComponent = ({ children }) => {
+function ScreenComponent({ children }) {
   return (
     <Fragment>
       <SafeAreaView style={styles.topSafeArea} />
@@ -10,7 +10,7 @@ const ScreenComponent = ({ children }) => {
       <SafeAreaView
         style={[
           styles.bottomSafeArea,
-          //   home === true && { backgroundColor: "#F5F5F5" },
+          // home === true && { backgroundColor: "#F5F5F5" },
         ]}
       >
         <View style={styles.statusBar}>
@@ -32,7 +32,7 @@ const ScreenComponent = ({ children }) => {
       </SafeAreaView>
     </Fragment>
   );
-};
+}
 
 const STATUS_BAR_HEIGHT = StatusBar.currentHeight;
 
