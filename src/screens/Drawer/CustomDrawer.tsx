@@ -35,10 +35,16 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
                 style={styles.header}
             >
                 <View style={{ marginBottom: 80, marginTop: 31}} >
-                    <Image source={require("../../assets/images/drawer/dummyimages/dummy_identicone.png")} style={styles.identiconImg}></Image>
+                    <Image 
+                      source={require("../../assets/images/drawer/dummyimages/dummy_identicone.png")}
+                      style={styles.identiconImg}
+                    ></Image>
+
                     <View style={{ flexDirection: "row", height: 'auto' }}>
-                      
-                        <Image source={require("../../assets/images/drawer/dummyimages/kenya_flag.png")} style={styles.phoneCountryFlag}/>
+                        <Image 
+                          source={require("../../assets/images/drawer/dummyimages/kenya_flag.png")}
+                          style={styles.phoneCountryFlag}
+                        />
                         
                         <Text style={styles.phoneNumberTest}>+254 706 427718</Text> 
                        
@@ -58,7 +64,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
                 <View> 
                     <Text style={stylesBalance.text}>Current Balance</Text>
                     <Text style={stylesBalance.ksh}>Ksh {kshBalance}</Text>
-                    <Text style={stylesBalance.cusd}>{cUSDBalance} cUSD</Text>
+                    <Text style={stylesBalance.cUSD}>{cUSDBalance} cUSD</Text>
                 </View> 
                 
             
@@ -157,7 +163,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
         margin: 2
       },
     
-      cusd: {
+      cUSD: {
         ...FONTS.body3,
         color: COLORS.textBlack, 
         fontWeight: 'bold',
