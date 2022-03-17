@@ -15,8 +15,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import ScreenComponent from "../../components/ScreenComponent";
-import { COLORS } from "../../styles/theme";
-import { SIZES } from "../../assets/fonts/fonts";
+import { COLORS } from "../../assets/styles/colors";
+import { FONTS, SIZES } from "../../assets/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { Magic } from "@magic-sdk/react-native";
@@ -57,9 +57,15 @@ export default function AuthScreen() {
       alert(err);
     }
   };
+  const title = "A community \nthat you \nwill love.";
+
   return (
     <ScreenComponent>
-      <View>
+      <View style={styles.wrapper}>
+        <HeaderTitle title={title} />
+        <Text style={{ ...FONTS.body3, alignSelf: "center" }}>
+          Enter your phone number to join or log in.
+        </Text>
         <PhoneInput
           ref={phoneInput}
           defaultValue={value}
@@ -122,29 +128,29 @@ const styles = StyleSheet.create({
   orText: {
     textAlign: "center",
     padding: 15,
-    color: COLORS.textBlack,
+    color: COLORS.textDarker,
   },
   numberInputBlock: {
     flexDirection: "row",
     width: SIZES.width * 0.8,
     height: 40,
-    borderColor: COLORS.black,
-    backgroundColor: COLORS.white,
+    borderColor: COLORS.textDarker,
+    backgroundColor: COLORS.textDarker,
   },
   countryInput: {
     width: SIZES.width * 0.15,
     paddingLeft: 10,
     borderBottomLeftRadius: 10,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.textDarker,
   },
   numberInput: {
     width: "80%",
     paddingLeft: 5,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.textDarker,
     borderBottomRightRadius: 10,
   },
   border: {
-    backgroundColor: COLORS.backgroundColor,
+    backgroundColor: COLORS.textDarker,
     width: 1,
     height: 25,
     alignSelf: "center",
