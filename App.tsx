@@ -1,17 +1,18 @@
 import 'react-native-gesture-handler';
+import React from 'react';
 
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import MyDrawer from './src/screens/Drawer/MyDrawer';
-import { NavigationContainer } from '@react-navigation/native';
+import { DrawerActions, NavigationContainer, useNavigation } from '@react-navigation/native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { COLORS } from './src/styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function App() {
   
+  const navigation = useNavigation();
+
   return (
-    // <View style={styles.container}>
-    //   <Onboarding />
-    // </View>
     <NavigationContainer>
         <MyDrawer></MyDrawer>
     </NavigationContainer>
@@ -19,10 +20,12 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
+
+  menu: {
+    width: "100%",
+    height: 50,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    marginLeft: 30,
   },
 });
