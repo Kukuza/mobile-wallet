@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Onboarding from '../Onboarding/Onboarding';
-import { StyleSheet, Image, SafeAreaView, Text, View, ViewStyle, TextStyle } from 'react-native';
+import { ViewStyle, TextStyle } from 'react-native';
 import {
     createDrawerNavigator, DrawerNavigationOptions,
   } from '@react-navigation/drawer';
@@ -14,29 +14,6 @@ import OpenRequestsScreen from '../TransactionRequests/OpenRequestsScreen';
 import PendingRequestsScreen from '../TransactionRequests/PendingRequestsScreen';
 import TransactionHistoryScreen from '../TransactionRequests/TransactionHistoryScreen';
 import CustomDrawerContent from './CustomDrawer';
-import { createStackNavigator } from "@react-navigation/stack";
-
-
-const Stack = createStackNavigator();
-
-function StackNav() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Home" component={Onboarding} />
-      <Stack.Screen name="PendingRequests" component={PendingRequestsScreen} />
-      <Stack.Screen name="TransactionHistory" component={TransactionHistoryScreen} />
-      <Stack.Screen name="Governance" component={GovernanceScreen} />
-      <Stack.Screen name="Tamp" component={RampScreen} />
-      <Stack.Screen name="Help" component={HelpScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
-      <Stack.Screen name="OpenRequests" component={OpenRequestsScreen} />
-    </Stack.Navigator>
-  );
-}
 
 const Drawer = createDrawerNavigator();
 
@@ -48,7 +25,7 @@ export default function MyDrawer() {
         drawerStyle: {
           width: SIZES.width * 0.8,
           borderRadius: 15,
-          backgroundColor: '#F5F5F5',
+          backgroundColor: COLORS.menuBackground,
         },
       }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -102,8 +79,6 @@ export default function MyDrawer() {
 const drawerItemStyle: ViewStyle = {
   borderTopColor: COLORS.textBlack,
   borderTopWidth: 0.2,
-  // borderBottomWidth: 0.2,
-  // borderBottomColor: COLORS.black,
   borderStartColor: COLORS.black,
   width: SIZES.width * 0.9,
   marginTop: -5,
@@ -116,17 +91,14 @@ const drawerItemStyleLastItem: ViewStyle = {
   borderTopWidth: 0.2,
   borderBottomWidth: 0.2,
   borderBottomColor: COLORS.black,
-  // borderStartColor: COLORS.black,
-  // width: SIZES.width * 0.9,
   marginTop: -5,
   marginLeft: -10,
   paddingBottom: 5
 }
 
 const drawerLabelStyle: TextStyle = {
-      fontSize: 18,
+      ...FONTS.h4,
       color: COLORS.primary,
-      fontFamily: "Rubik_400Regular",
       paddingLeft: 52,
 }
 

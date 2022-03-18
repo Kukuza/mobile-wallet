@@ -23,13 +23,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
       <SafeAreaView style={styles.container}>
         <View>
             <LinearGradient
-                colors={[
-                    "rgba(255, 140, 161, 0.08)",
-                    "rgba(252, 207, 47, 0.08)",
-                    "rgba(255, 255, 255, 0.08)",
-                    "rgba(248, 48, 180, 0.08)",
-                    "rgba(47, 68, 252, 0.08)",
-                ]}
+                colors={COLORS.drawerMenuGradient}
                 start={[0, 1]}
                 end={[1, 0]}
                 style={styles.header}
@@ -145,7 +139,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
         padding: 13,
         justifyContent: "space-between",
     
-        shadowColor: "#7a5dba",
+        shadowColor: COLORS.shadowColor,
         shadowOffset: { width: 10, height: 2.5 },
         shadowOpacity: 0.25,
         shadowRadius: 25,

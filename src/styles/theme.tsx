@@ -5,11 +5,19 @@ export const COLORS = {
   // base colors
   primary: "#3A4276",
   secondary: "#B0F623", // gray
+  shadowColor: "#7a5dba",
 
   mainGray: "#B3B3B3",
   backgroundColor: "#E5E5E5",
   menuBackground: '#F5F5F5',
   buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  drawerMenuGradient: [
+    "rgba(255, 140, 161, 0.08)",
+    "rgba(252, 207, 47, 0.08)",
+    "rgba(255, 255, 255, 0.08)",
+    "rgba(248, 48, 180, 0.08)",
+    "rgba(47, 68, 252, 0.08)",  
+  ],
 
   //pdm
   inputFieldBorder: "rgba(195, 211, 212, 0.9)",
