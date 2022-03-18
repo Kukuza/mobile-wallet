@@ -63,11 +63,24 @@ export default function Onboarding() {
         {/* </View> */}
         {/* <Paginator data={slides} scrollX={scrollX} /> */}
         {currentIndex >= 3 ? (
-          <StandardBtn />
+          <StandardBtn
+            onPress={() => alert("Button Pressed")}
+            style={{
+              padding: 15,
+              alignItems: "center",
+              borderRadius: 22,
+              flexDirection: "row",
+            }}
+            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
+            text="Get Started"
+          />
         ) : (
           <NextButton
+            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
             scrollTo={scrollTo}
             percentage={currentIndex * (100 / slides.length)}
+            style={undefined}
+            backgroundColor={undefined}
           />
         )}
       </View>

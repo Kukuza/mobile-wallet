@@ -80,15 +80,15 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer> */}
 
-      <AuthScreen />
+      {/* <AuthScreen /> */}
 
-      {/* {loading ? (
+      {loading ? (
         <Loading />
       ) : viewedOnboarding ? (
         <AuthScreen />
       ) : (
         <Onboarding />
-      )} */}
+      )}
     </View>
   );
 }

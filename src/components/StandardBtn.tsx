@@ -1,13 +1,22 @@
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
-
-const StandardBtn = () => {
+import { LinearGradient } from "expo-linear-gradient";
+import { FONTS } from "../assets/fonts/fonts";
+const StandardBtn = ({ onPress, style, colors, text }) => {
   return (
     <View style={styles.container}>
-      <Button
-        title="Get Started"
-        onPress={() => Alert.alert("Simple Button pressed")}
-      />
+      <TouchableOpacity onPress={onPress} style={styles.button}>
+        <LinearGradient colors={colors} style={style}>
+          <Text style={{ color: "#ffffff" }}>{text}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -19,5 +28,10 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
+  },
+  button: {
+    // width: 150,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

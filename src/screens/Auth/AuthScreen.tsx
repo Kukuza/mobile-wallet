@@ -82,7 +82,7 @@ export default function AuthScreen() {
           autoFocus
         />
         <TouchableOpacity onPress={login}>
-          <Text>Loginss</Text>
+          <Text>Logins</Text>
         </TouchableOpacity>
         {/* <TouchableOpacity onPress={clearOnboarding}>
             <Text>Clear Onboarding</Text>
