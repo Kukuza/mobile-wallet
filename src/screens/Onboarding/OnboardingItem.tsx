@@ -6,8 +6,9 @@ import {
   useWindowDimensions,
   ImageSourcePropType,
 } from "react-native";
-import { COLORS, FONTS, SIZES } from "../../styles/theme";
-
+// import { COLORS, FONTS, SIZES } from "../../styles/theme";
+import { COLORS } from "../../assets/styles/colors";
+import { FONTS, SIZES } from "../../assets/fonts/fonts";
 interface Props {
   id: string;
   title: string;
@@ -24,7 +25,7 @@ const OnboardingItem: React.FC<Props> = ({ id, title, description, image }) => {
         style={[styles.image, { width, resizeMode: "contain" }]}
       />
       <View style={{ flex: 0.3 }}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.header}>{title}</Text>
         <Text style={styles.description}>{description}</Text>
       </View>
     </View>
@@ -34,28 +35,37 @@ const OnboardingItem: React.FC<Props> = ({ id, title, description, image }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
   },
   image: {
-    flex: 0.7,
+    flex: 0.6,
     justifyContent: "center",
+    marginTop: 60,
   },
-  title: {
+
+  // slide: {
+  //   flex: 1, // Take up all screen
+  //   justifyContent: "center", // Center vertically
+  //   alignItems: "center", // Center horizontally
+  // },
+
+  header: {
+    ...FONTS.h3,
     color: COLORS.primary,
-    fontSize: 30,
     fontWeight: "bold",
-    marginVertical: 15,
+    flex: 0.6,
+    // marginVertical: 10,
     textAlign: "center",
   },
+
   description: {
     ...FONTS.body3,
-    color: COLORS.textBlack,
-    fontSize: 18,
-    marginHorizontal: 40,
+    color: COLORS.textColor2,
+    paddingHorizontal: 64,
+    flex: 0.6,
+    // marginVertical: 20,
+    // marginHorizontal: 40,
     textAlign: "center",
-    marginBottom: 80,
   },
 });
 
