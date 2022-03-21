@@ -31,9 +31,8 @@ export default function AuthScreen() {
     }
   };
   const [value, setValue] = useState("");
+  const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
-  const [valid, setValid] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
   // magic
   const magicClient = new Magic("pk_live_5B2A9951805695BB", {
@@ -44,51 +43,66 @@ export default function AuthScreen() {
 
   const login = async () => {
     try {
-      // todo remove
-      const phoneNo = "+254726111690";
+      const isValid = phoneInput.current?.isValidNumber(value);
+      setValid(isValid);
 
-      const DID = await magicClient.auth.loginWithSMS({
-        phoneNumber: phoneNo,
-      });
-      console.log("Works");
+      if (isValid) {
+        Keyboard.dismiss();
+        let DID = await magicClient.auth.loginWithSMS({
+          phoneNumber: value, //pass the phone input value to get otp sms
+        });
+        console.log("works");
+      } else {
+        setTimeout(() => {
+          setValid(true);
+        }, 2000);
+      }
 
       //   magicClient.user.getMetadata().then(setUser);
     } catch (err) {
+      console.log("doesn't Work");
+
       alert(err);
     }
   };
   const title = "A community \nthat you \nwill love.";
 
   return (
-    <ScreenComponent>
-      <View style={styles.wrapper}>
-        <HeaderTitle title={title} />
-        <Text style={{ ...FONTS.body3, alignSelf: "center" }}>
-          Enter your phone number to join or log in.
-        </Text>
-        <PhoneInput
-          ref={phoneInput}
-          defaultValue={value}
-          defaultCode="KE"
-          layout="first"
-          onChangeText={(text) => {
-            setValue(text);
-          }}
-          onChangeFormattedText={(text) => {
-            setFormattedValue(text);
-          }}
-          withDarkTheme
-          withShadow
-          autoFocus
-        />
-        <TouchableOpacity onPress={login}>
-          <Text>Logins</Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity onPress={clearOnboarding}>
-            <Text>Clear Onboarding</Text>
-        </TouchableOpacity> */}
-      </View>
-    </ScreenComponent>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <ScreenComponent>
+        <View style={styles.wrapper}>
+          <HeaderTitle title={title} />
+          <Text style={{ ...FONTS.body3, alignSelf: "center" }}>
+            Enter your phone number to join or log in.
+          </Text>
+          <PhoneInput
+            ref={phoneInput}
+            defaultValue={value}
+            defaultCode="KE"
+            onChangeFormattedText={(text) => {
+              setValue(text);
+            }}
+            withDarkTheme
+            withShadow
+            autoFocus
+          />
+          <TouchableOpacity onPress={() => login()}>
+            <LinearGradient
+              colors={COLORS.gradientBackground}
+              start={[1, 0]}
+              end={[0, 1]}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Verify</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <magicClient.Relayer />
+        </View>
+      </ScreenComponent>
+    </KeyboardAvoidingView>
   );
 }
 

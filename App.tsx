@@ -20,11 +20,11 @@ import HeaderTitle from "./src/components/HeaderTitle";
 import "react-native-gesture-handler";
 import { FONTS } from "./src/assets/fonts/fonts";
 import AppLoading from "expo-app-loading";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+// import { createStackNavigator } from "@react-navigation/stack";
+// import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
 const Loading = () => {
   return (
