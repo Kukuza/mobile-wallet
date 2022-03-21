@@ -14,7 +14,7 @@ import {
   View,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import ScreenComponent from "../../components/ScreenComponent";
+import ScreenComponent from "../../containers/ScreenComponent";
 import { COLORS } from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
@@ -55,6 +55,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           phoneNumber: value, //pass the phone input value to get otp sms
         });
         console.log("works");
+        navigation.navigate("Home");
       } else {
         setTimeout(() => {
           setValid(true);
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     height: 56,
-    width: "100%",
+    width: 200,
   },
 
   buttonText: {

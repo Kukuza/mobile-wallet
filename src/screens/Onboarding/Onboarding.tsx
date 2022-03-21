@@ -5,8 +5,8 @@ import OnboardingItem from "../Onboarding/OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import StandardBtn from "../../components/StandardBtn";
-import ScreenComponent from "../../components/ScreenComponent";
+import StandardBtn from "../../components/Buttons/StandardBtn";
+import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
