@@ -20,8 +20,11 @@ import { FONTS, SIZES } from "../../assets/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { Magic } from "@magic-sdk/react-native";
+import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
-export default function AuthScreen() {
+const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const { navigation, route } = props;
+
   //todo Remove this
   const clearOnboarding = async () => {
     try {
@@ -104,7 +107,7 @@ export default function AuthScreen() {
       </ScreenComponent>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -179,3 +182,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#4840BB",
   },
 });
+
+export default AuthScreen;
