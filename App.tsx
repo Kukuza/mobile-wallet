@@ -1,3 +1,5 @@
+import "react-native-gesture-handler";
+
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
@@ -24,6 +26,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
 import Screens from "./src/screens";
+import MyDrawer from "./src/screens/Drawer/MyDrawer";
 
 const Stack = createStackNavigator();
 
@@ -99,12 +102,19 @@ export default function App() {
     );
   }
 }
+//   }
+//   return (
+//      <NavigationContainer>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+//       {loading ? (
+//          <Loading />
+//       ) : viewedOnboarding ? (
+//          <AuthScreen />
+//       ) : (
+//         <MyDrawer></MyDrawer>
+//       )}
+// >>>>>>> d693948c910ee62948e6928b33f1472fc4ba7895
+
+//     </NavigationContainer>
+//   );
+// }
