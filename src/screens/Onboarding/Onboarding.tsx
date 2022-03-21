@@ -8,8 +8,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandardBtn from "../../components/StandardBtn";
 import ScreenComponent from "../../components/ScreenComponent";
 import { SIZES } from "../../assets/fonts/fonts";
+import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
-export default function Onboarding() {
+const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const { navigation, route } = props;
+
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = React.useRef<any>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -64,7 +67,7 @@ export default function Onboarding() {
         {/* <Paginator data={slides} scrollX={scrollX} /> */}
         {currentIndex >= 3 ? (
           <StandardBtn
-            onPress={() => alert("Button Pressed")}
+            onPress={() => navigation.navigate("Auth")}
             style={{
               padding: 15,
               alignItems: "center",
@@ -86,7 +89,7 @@ export default function Onboarding() {
       </View>
     </ScreenComponent>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -101,3 +104,5 @@ const styles = StyleSheet.create({
     alignItems: "center", // Center horizontally
   },
 });
+
+export default Onboarding;

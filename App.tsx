@@ -72,17 +72,20 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
-      //   {/* <NavigationContainer>
-      //   <Stack.Navigator initialRouteName="Auth">
-      //     {routes.map((r, i) => (
-      //       <Stack.Screen key={i} name={r.name} component={r.component} />
-      //     ))}
-      //   </Stack.Navigator>
-      // </NavigationContainer> */}
-
       <NavigationContainer>
-        <Screens />
+        <Stack.Navigator
+          initialRouteName="Onboarding"
+          screenOptions={{ headerShown: false }}
+        >
+          {routes.map((r, i) => (
+            <Stack.Screen key={i} name={r.name} component={r.component} />
+          ))}
+        </Stack.Navigator>
       </NavigationContainer>
+
+      // <NavigationContainer>
+      //   <Screens />
+      // </NavigationContainer>
 
       //   {/* <AuthScreen /> */}
 
