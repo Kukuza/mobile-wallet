@@ -7,7 +7,7 @@ import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandardBtn from "../../components/StandardBtn";
 import ScreenComponent from "../../components/ScreenComponent";
-import { SIZES } from "../../assets/fonts/fonts";
+import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
 const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {

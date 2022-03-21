@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import Svg, { G, Circle } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "../../assets/styles/colors";
+import { COLORS } from "../../styles/colors/colors";
 
 export default function NextButton({
   percentage,

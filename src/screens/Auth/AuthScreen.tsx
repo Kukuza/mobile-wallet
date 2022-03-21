@@ -15,8 +15,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import ScreenComponent from "../../components/ScreenComponent";
-import { COLORS } from "../../assets/styles/colors";
-import { FONTS, SIZES } from "../../assets/fonts/fonts";
+import { COLORS } from "../../styles/colors/colors";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { Magic } from "@magic-sdk/react-native";
