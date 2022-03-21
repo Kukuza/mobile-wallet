@@ -2,13 +2,23 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 export const COLORS = {
-  primary: "#4840BB",
+  // base colors
+  primary: "#3A4276",
   secondary: "#B0F623", // gray
+  shadowColor: "#7a5dba",
 
   mainGray: "#B3B3B3",
   backgroundColor: "#E5E5E5",
+  menuBackground: '#F5F5F5',
   buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
   cardGradient: [
+    "rgba(255, 140, 161, 0.08)",
+    "rgba(252, 207, 47, 0.08)",
+    "rgba(255, 255, 255, 0.08)",
+    "rgba(248, 48, 180, 0.08)",
+    "rgba(47, 68, 252, 0.08)",  
+  ],
+  drawerMenuGradient: [
     "rgba(255, 140, 161, 0.08)",
     "rgba(252, 207, 47, 0.08)",
     "rgba(255, 255, 255, 0.08)",
@@ -25,7 +35,7 @@ export const COLORS = {
 
   // colors
   black: "#181725",
-  textBlack: "#1C1939CC",
+  textBlack: "#333333",
   white: "#FFFFFF",
   darkBlue: "#4840BB",
   textDarkBlue: "#002B4E",
@@ -52,13 +62,16 @@ export const SIZES = {
 
   // font sizes
   largeTitle: 50,
+  mediumTitle: 24,
+  smallText: 10,
   h1: 30,
   h2: 22,
   h3: 20,
   h4: 18,
+  h5: 14,
 
   sh2: 18,
-
+  
   body1: 30,
   body2: 20,
   body3: 16,
@@ -80,6 +93,11 @@ export const FONTS = {
     lineHeight: 55,
     fontFamily: "Rubik_700Bold",
   },
+  mediumTitle: {
+    fontSize: SIZES.mediumTitle,
+    lineHeight: 34,
+    fontFamily: "Rubik_500Medium",
+  },
   h1: { fontSize: SIZES.h1, lineHeight: 36, fontFamily: "Rubik_500Medium" },
   h2: { fontSize: SIZES.h2, lineHeight: 30, fontFamily: "Rubik_400Regular" },
   h3: { fontSize: SIZES.h3, lineHeight: 22, fontFamily: "Rubik_400Regular" },
@@ -87,7 +105,11 @@ export const FONTS = {
   
   sh2: { fontSize: SIZES.h2, lineHeight: 27, fontFamily: "Rubik_500Regular" },
   
-  body1: { fontSize: SIZES.body1, lineHeight: 36, fontFamily: "Inter_700Bold" },
+
+  h5: { fontSize: SIZES.h5, lineHeight: 18, fontFamily: "Rubik_400Regular" },
+
+  smallText: { fontSize: SIZES.smallText, lineHeight: 22, fontFamily: "Rubik_400Regular" },
+  body1: { fontSize: SIZES.body1, lineHeight: 15, fontFamily: "Rubik_400Bold" },
   body2: {
     fontSize: SIZES.body2,
     lineHeight: 30,
@@ -96,7 +118,7 @@ export const FONTS = {
   body3: {
     fontSize: SIZES.body3,
     lineHeight: 22,
-    fontFamily: "Inter_500Medium",
+    fontFamily: "Rubik_500Medium",
   },
   body4: {
     fontSize: SIZES.body4,

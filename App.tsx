@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
@@ -23,7 +25,7 @@ import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
-import TransactionsListScreen from "./src/screens/Transactions/TransactionsListScreen";
+import MyDrawer from './src/screens/Drawer/MyDrawer';
 
 const Stack = createStackNavigator();
 
@@ -72,31 +74,16 @@ export default function App() {
     return <AppLoading />;
   }
   return (
-    <View style={styles.container}>
-      {/* <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding">
-          {routes.map((r, i) => (
-            <Stack.Screen key={i} name={r.name} component={r.component} />
-          ))}
-        </Stack.Navigator>
-      </NavigationContainer> */}
-
+     <NavigationContainer>
+    
       {loading ? (
-        <Loading />
+         <Loading />
       ) : viewedOnboarding ? (
-        <TransactionsListScreen />
+         <AuthScreen />
       ) : (
-        <TransactionsListScreen />
+        <MyDrawer></MyDrawer>
       )}
-    </View>
+
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
