@@ -23,6 +23,7 @@ import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
+import TransactionsListScreen from "./src/screens/Transactions/TransactionsListScreen";
 
 const Stack = createStackNavigator();
 
@@ -83,9 +84,9 @@ export default function App() {
       {loading ? (
         <Loading />
       ) : viewedOnboarding ? (
-        <AuthScreen />
+        <TransactionsListScreen />
       ) : (
-        <Onboarding />
+        <TransactionsListScreen />
       )}
     </View>
   );
