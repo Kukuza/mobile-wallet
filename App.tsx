@@ -86,6 +86,20 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
 
+      // testt
+
+      // <NavigationContainer>
+      //   {loading ? (
+      //     <Loading />
+      //   ) : viewedOnboarding ? (
+      //     <MyDrawer></MyDrawer>
+      //   ) : (
+      //     <MyDrawer></MyDrawer>
+      //   )}
+      // </NavigationContainer>
+
+      // tessst
+
       // <NavigationContainer>
       //   <Screens />
       // </NavigationContainer>
@@ -113,8 +127,6 @@ export default function App() {
 //       ) : (
 //         <MyDrawer></MyDrawer>
 //       )}
-// >>>>>>> d693948c910ee62948e6928b33f1472fc4ba7895
-
 //     </NavigationContainer>
 //   );
 // }
