@@ -25,6 +25,14 @@ export const COLORS = {
     "rgba(248, 48, 180, 0.08)",
     "rgba(47, 68, 252, 0.08)",  
   ],
+  wakalaBtn1LinearGradient: [
+    "#133FDB",
+    "rgba(20, 63, 218, 0.994943)",
+    "rgba(183, 0, 77, 0.3)",
+  ],
+  wakalaBtn2LinearGradient: [
+    "#133FDB", "rgba(183, 0, 77, 0.3)"
+  ],
 
   //pdm
   inputFieldBorder: "rgba(195, 211, 212, 0.9)",
@@ -92,11 +100,19 @@ export const FONTS = {
     fontSize: SIZES.largeTitle,
     lineHeight: 55,
     fontFamily: "Rubik_700Bold",
+    
   },
   mediumTitle: {
     fontSize: SIZES.mediumTitle,
     lineHeight: 34,
     fontFamily: "Rubik_500Medium",
+  },
+  buttonTitle: {
+    fontSize: 12,
+    lineHeight: 14.22,
+    fontFamily: "Rubik_500Medium",
+    color: COLORS.white,
+    alignSelf: 'center'
   },
   h1: { fontSize: SIZES.h1, lineHeight: 36, fontFamily: "Rubik_500Medium" },
   h2: { fontSize: SIZES.h2, lineHeight: 30, fontFamily: "Rubik_400Regular" },
@@ -151,7 +167,7 @@ export const FONTS = {
     fontFamily: "Rubik_400Regular",
     lineHeight: 12,
     fontSize: SIZES.small5
-  }
+  },
 };
 
 const appTheme = { COLORS, SIZES, FONTS };

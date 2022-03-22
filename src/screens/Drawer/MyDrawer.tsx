@@ -14,6 +14,7 @@ import OpenRequestsScreen from '../TransactionRequests/OpenRequestsScreen';
 import PendingRequestsScreen from '../TransactionRequests/PendingRequestsScreen';
 import TransactionHistoryScreen from '../TransactionRequests/TransactionHistoryScreen';
 import CustomDrawerContent from './CustomDrawer';
+import HomeScreen from '../Home/Home';
 
 const Drawer = createDrawerNavigator();
 
@@ -33,7 +34,7 @@ export default function MyDrawer() {
 
       <Drawer.Screen 
         name="Home" 
-        component={Onboarding} options={drawerScreenOptions}
+        component={HomeScreen} options={drawerScreenOptions}
       />
 
       <Drawer.Screen 

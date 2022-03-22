@@ -1,8 +1,8 @@
-import { Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Alert, Pressable, Text, View, StyleSheet, Image, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, FONTS, SIZES } from '../styles/theme';
+import { COLORS, FONTS, SIZES } from '../../styles/theme';
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -60,7 +60,6 @@ const RequestCardComponent  = (props) => {
           onSwipeableLeftOpen={() =>
                  console.log("Swipe Left")
           }
-          // friction=
           overshootRight={false}
           renderRightActions={swipeRightContent}
           onSwipeableRightOpen={handleDeleteItem}
@@ -76,7 +75,7 @@ const RequestCardComponent  = (props) => {
                 <View style={{ flexDirection: 'column' }}>
                   <View style={{ flexDirection: 'row' }}>
                     <Image 
-                        source={require("../assets/images/Transactions/dummy_identicone.png")}
+                        source={require("../../assets/images/Transactions/dummy_identicone.png")}
                         style={styles.identiconImg}
                       />
                       <Text style={styles.cardTitle}>Deposit Request</Text>
