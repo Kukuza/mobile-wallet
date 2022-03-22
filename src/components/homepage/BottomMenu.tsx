@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     borderRadius: 5,
     backgroundColor: COLORS.menuBackground,
+    
   },
   scanQRCodeBtn: {
     marginTop: 6

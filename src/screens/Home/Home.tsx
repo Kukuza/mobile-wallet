@@ -1,10 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as React from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 import BottomMenu from '../../components/homepage/BottomMenu';
 import RequestCardComponent from '../../components/homepage/RequestCardComponent';
 import ScreenComponent from '../../components/ScreenComponent';
-import { COLORS, SIZES } from '../../styles/theme';
+import { COLORS, FONTS, SIZES } from '../../styles/theme';
 
 const DATA = [
   {
@@ -43,32 +43,44 @@ export default function HomeScreen(props) {
 
     return (
       <ScreenComponent>
-        <View
-          style={{
-            justifyContent: "center",
-          }}
-        >
-
-          <View style={styles.menu}>
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <MaterialIcons name="menu" size={24} color={COLORS.primary} />
-            </TouchableOpacity>
-          </View>
         
-        <View style={{alignItems: 'center', height: SIZES.height * 0.82}}>
-          <FlatList
-                data={DATA}
-                renderItem={({ item }) => (
-                  <RequestCardComponent
-                  />
-                )}
-                keyExtractor={(item) => item.id}
-              />
+            <View
+            style={{
+                justifyContent: "center",
+            }}
+            >
+            <View style={styles.menu}>
+                <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <MaterialIcons name="menu" size={24} color={COLORS.primary} />
+                </TouchableOpacity>
+            </View>
+            <View style={{alignItems: 'center', height: SIZES.height * 0.82}}>
+            {DATA.length > 0 ? (
+                <View style={styles.wrapper}>
+                    {/* {isFetching ? <Text>{loadingMessage}</Text> : <></>} */}
+                    <Image source={require("../../assets/images/home/home_empty.png")} style={styles.image} />
+                    <Text style={styles.text}>
+                    All requests have been fullfilled. Take a break, get some air,
+                    check back in later
+                    </Text>
+                </View>
+                ) : (
+                   
+                        <FlatList
+                                data={DATA}
+                                renderItem={({ item }) => (
+                                <RequestCardComponent
+                                />
+                                )}
+                                keyExtractor={(item) => item.id}
+                            />
+                   
+                
+            )}
+             </View>
+            <BottomMenu></BottomMenu>
         </View>
-      
-          
-          <BottomMenu></BottomMenu>
-      </View>
+        
       </ScreenComponent>
     );
   }
@@ -82,4 +94,19 @@ export default function HomeScreen(props) {
       marginLeft: 30,
       marginTop: 20
     },
+    image: {
+        height: 180,
+        maxWidth: SIZES.width * 0.8,
+        resizeMode: "contain",
+    },
+    text: {
+        ...FONTS.body4,
+        textAlign: "center",
+    },
+    wrapper: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 30,
+    }
   });
