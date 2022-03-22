@@ -9,14 +9,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const swipeLeftContent = () => {
   return (
-    <Animated.View
-      style={{
-        width: 120,
-        justifyContent: "center",
-        alignItems: "center",
-        marginLeft: 20,
-      }}
-    >
+    <Animated.View style={[styles.swipeActionContent, ,
+        { marginLeft: 20, }]}>
       <MaterialIcons name="preview" size={24} color={COLORS.textLightBlue} />
           <Text style={{
               color: COLORS.textLightBlue,
@@ -31,18 +25,11 @@ const swipeLeftContent = () => {
 
 const swipeRightContent = () => {
   return (
-    <View
-      style={{
-        width: 120,
-        justifyContent: "center",
-        alignItems: "center",
-        marginRight: 20,
-      }}
-    >
-      <MaterialIcons name="block-flipped" size={24} color={COLORS.warn} />
+    <View style={[ styles.swipeActionContent, { marginRight: 20, }]} >
+      <MaterialIcons name="block-flipped" size={24} color={COLORS.textLightBlue} />
       <Text
         style={{
-          color: COLORS.textLightBlue,
+          color: COLORS.warn,
           ...FONTS.body5
         }}
       >
@@ -69,11 +56,12 @@ const RequestCardComponent  = (props) => {
       <GestureHandlerRootView>
         <Swipeable
           renderLeftActions={swipeLeftContent}
-          overshootLeft={true}
+          overshootLeft={false}
           onSwipeableLeftOpen={() =>
                  console.log("Swipe Left")
           }
-          overshootRight={true}
+          // friction=
+          overshootRight={false}
           renderRightActions={swipeRightContent}
           onSwipeableRightOpen={handleDeleteItem}
           // onSwipeableRightWillOpen={() => setVisible(!visible)}
@@ -189,4 +177,9 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.white,
   },
+  swipeActionContent: {
+    width: 120,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
