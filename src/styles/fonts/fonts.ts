@@ -10,8 +10,8 @@ export const SIZES = {
   padding2: 12,
 
   // app dimensions
-  width,
-  height,
+  width: width,
+  height: height,
 };
 
 export const FONTS = {
