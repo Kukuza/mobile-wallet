@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import { FONTS } from "../assets/fonts/fonts";
-import COLORS from "../assets/styles/colors";
+import { FONTS } from "../styles/fonts/fonts";
+import COLORS from "../styles/colors/colors";
 const HeaderTitle = (props) => {
   return (
     <View
