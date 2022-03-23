@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Animated, Alert } from "react-native";
+import { StyleSheet, Text, View, FlatList, Animated } from "react-native";
 import React, { useState, useRef } from "react";
 import slides from "../Onboarding/slides";
 import OnboardingItem from "../Onboarding/OnboardingItem";
@@ -9,7 +9,6 @@ import StandardBtn from "../../components/buttons/StandardBtn";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import LargeModal from "../../components/modals/LargeModals";
 
 const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route } = props;
@@ -38,9 +37,8 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
   };
 
   return (
-    // <ScreenComponent>
+    <ScreenComponent>
       <View style={styles.slide}>
-      {/* 
         <FlatList
           data={slides}
           renderItem={({ item }) => (
@@ -64,10 +62,10 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
           onViewableItemsChanged={viewableItemsChanged}
           viewabilityConfig={viewConfig}
           ref={slidesRef}
-        /> */}
+        />
         {/* </View> */}
         {/* <Paginator data={slides} scrollX={scrollX} /> */}
-        {/* {currentIndex >= 3 ? (
+        {currentIndex >= 3 ? (
           <StandardBtn
             onPress={() => navigation.navigate("Auth")}
             style={{
@@ -88,16 +86,8 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
             backgroundColor={undefined}
           />
         )}
-      </View> */}
-
-        <LargeModal
-        title={"Thank you!"}
-        message={"After the user confirms of M-PESA payment receipt. Your cUSD will be deposited to your wallet."}
-        btnText={"Got It!"}
-        imageSrc={require("../../assets/images/modals/Thank_you_image.png")}
-          ></LargeModal>
       </View>
-    // </ScreenComponent>
+    </ScreenComponent>
   );
 };
 
