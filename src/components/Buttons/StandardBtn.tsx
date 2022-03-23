@@ -1,14 +1,6 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { FONTS } from "../../styles/fonts/fonts";
 const StandardBtn = ({ onPress, style, colors, text }) => {
   return (
     <View style={styles.container}>

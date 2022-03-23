@@ -33,6 +33,8 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       console.log("Error @clearOnboarding: ", error);
     }
   };
+  const [submitted, SetSubmitted] = useState(false);
+
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
@@ -48,6 +50,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     try {
       const isValid = phoneInput.current?.isValidNumber(value);
       setValid(isValid);
+      SetSubmitted(!submitted);
 
       if (isValid) {
         Keyboard.dismiss();
@@ -68,6 +71,13 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
       alert(err);
     }
+  };
+
+  // Logout of Magic session
+  const logout = async () => {
+    await magicClient.user.logout();
+    // setUser("");
+    console.log("logged out");
   };
   const title = "A community \nthat you \nwill love.";
 
@@ -100,7 +110,21 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
               end={[0, 1]}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>Verify</Text>
+              <Text style={styles.buttonText}>
+                {submitted ? "Logging in..." : "Verify"}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          {/* todo Remove logout */}
+          <TouchableOpacity onPress={() => logout()}>
+            <LinearGradient
+              colors={COLORS.gradientBackground}
+              start={[1, 0]}
+              end={[0, 1]}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Logout</Text>
             </LinearGradient>
           </TouchableOpacity>
           <magicClient.Relayer />
