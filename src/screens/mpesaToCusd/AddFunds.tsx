@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: "#FFFFFF",
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: "Rubik_700Bold",
   },
 });
 

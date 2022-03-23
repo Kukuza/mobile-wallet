@@ -111,7 +111,7 @@ const KeyPad = (props) => {
           style={styles.key}
         >
           {/* Dummy key to make keypad first line position consistent */}
-          <Text></Text>
+          <Text style={styles.number}> . </Text>
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => handleChange("0")}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     color: "#1C1939",
     textAlign: "center",
-    fontFamily: "DMSans_700Bold",
+    fontFamily: "Rubik_700Bold",
   },
 });
 
