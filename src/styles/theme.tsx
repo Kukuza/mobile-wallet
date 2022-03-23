@@ -108,7 +108,7 @@ export const FONTS = {
   },
   body5: {
     fontSize: SIZES.body5,
-    lineHeight: 22,
+    lineHeight: 18,
     fontFamily: "Inter_400Regular",
   },
 };

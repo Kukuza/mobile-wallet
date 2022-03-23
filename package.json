@@ -37,6 +37,7 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-gesture-handler": "~2.1.0",
+    "react-native-masked-text": "^1.13.0",
     "react-native-phone-number-input": "^2.1.0",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "~2.3.1",
