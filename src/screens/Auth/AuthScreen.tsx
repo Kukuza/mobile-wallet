@@ -14,14 +14,17 @@ import {
   View,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import ScreenComponent from "../../components/ScreenComponent";
-import { COLORS } from "../../styles/theme";
-import { SIZES } from "../../assets/fonts/fonts";
+import ScreenComponent from "../../containers/ScreenComponent";
+import { COLORS } from "../../styles/colors/colors";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { Magic } from "@magic-sdk/react-native";
+import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
-export default function AuthScreen() {
+const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const { navigation, route } = props;
+
   //todo Remove this
   const clearOnboarding = async () => {
     try {
@@ -31,9 +34,8 @@ export default function AuthScreen() {
     }
   };
   const [value, setValue] = useState("");
+  const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
-  const [valid, setValid] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
   const phoneInput = useRef<PhoneInput>(null);
   // magic
   const magicClient = new Magic("pk_live_5B2A9951805695BB", {
@@ -44,47 +46,69 @@ export default function AuthScreen() {
 
   const login = async () => {
     try {
-      // todo remove
-      const phoneNo = "+254726111690";
+      const isValid = phoneInput.current?.isValidNumber(value);
+      setValid(isValid);
 
-      const DID = await magicClient.auth.loginWithSMS({
-        phoneNumber: phoneNo,
-      });
-      console.log("Works");
+      if (isValid) {
+        Keyboard.dismiss();
+        let DID = await magicClient.auth.loginWithSMS({
+          phoneNumber: value, //pass the phone input value to get otp sms
+        });
+        console.log("works");
+        navigation.navigate("Home");
+      } else {
+        setTimeout(() => {
+          setValid(true);
+        }, 2000);
+      }
 
       //   magicClient.user.getMetadata().then(setUser);
     } catch (err) {
+      console.log("doesn't Work");
+
       alert(err);
     }
   };
+  const title = "A community \nthat you \nwill love.";
+
   return (
-    <ScreenComponent>
-      <View>
-        <PhoneInput
-          ref={phoneInput}
-          defaultValue={value}
-          defaultCode="KE"
-          layout="first"
-          onChangeText={(text) => {
-            setValue(text);
-          }}
-          onChangeFormattedText={(text) => {
-            setFormattedValue(text);
-          }}
-          withDarkTheme
-          withShadow
-          autoFocus
-        />
-        <TouchableOpacity onPress={login}>
-          <Text>Loginss</Text>
-        </TouchableOpacity>
-        {/* <TouchableOpacity onPress={clearOnboarding}>
-            <Text>Clear Onboarding</Text>
-        </TouchableOpacity> */}
-      </View>
-    </ScreenComponent>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <ScreenComponent>
+        <View style={styles.wrapper}>
+          <HeaderTitle title={title} />
+          <Text style={{ ...FONTS.body3, alignSelf: "center" }}>
+            Enter your phone number to join or log in.
+          </Text>
+          <PhoneInput
+            ref={phoneInput}
+            defaultValue={value}
+            defaultCode="KE"
+            onChangeFormattedText={(text) => {
+              setValue(text);
+            }}
+            withDarkTheme
+            withShadow
+            autoFocus
+          />
+          <TouchableOpacity onPress={() => login()}>
+            <LinearGradient
+              colors={COLORS.gradientBackground}
+              start={[1, 0]}
+              end={[0, 1]}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Verify</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <magicClient.Relayer />
+        </View>
+      </ScreenComponent>
+    </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -109,7 +133,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     height: 56,
-    width: "100%",
+    width: 200,
   },
 
   buttonText: {
@@ -122,29 +146,29 @@ const styles = StyleSheet.create({
   orText: {
     textAlign: "center",
     padding: 15,
-    color: COLORS.textBlack,
+    color: COLORS.textDarker,
   },
   numberInputBlock: {
     flexDirection: "row",
     width: SIZES.width * 0.8,
     height: 40,
-    borderColor: COLORS.black,
-    backgroundColor: COLORS.white,
+    borderColor: COLORS.textDarker,
+    backgroundColor: COLORS.textDarker,
   },
   countryInput: {
     width: SIZES.width * 0.15,
     paddingLeft: 10,
     borderBottomLeftRadius: 10,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.textDarker,
   },
   numberInput: {
     width: "80%",
     paddingLeft: 5,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.textDarker,
     borderBottomRightRadius: 10,
   },
   border: {
-    backgroundColor: COLORS.backgroundColor,
+    backgroundColor: COLORS.textDarker,
     width: 1,
     height: 25,
     alignSelf: "center",
@@ -159,3 +183,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#4840BB",
   },
 });
+
+export default AuthScreen;

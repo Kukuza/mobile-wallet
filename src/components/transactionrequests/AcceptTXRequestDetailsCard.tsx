@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
-import { FONTS } from "../../assets/fonts/fonts";
+import { FONTS } from "../../font/fonts/fonts";
 import { COLORS } from "../../styles/theme";
 
 const AcceptTXRequestDetailsCard = (props) => {

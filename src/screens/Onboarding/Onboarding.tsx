@@ -5,11 +5,14 @@ import OnboardingItem from "../Onboarding/OnboardingItem";
 import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import StandardBtn from "../../components/StandardBtn";
-import ScreenComponent from "../../components/ScreenComponent";
-import { SIZES } from "../../assets/fonts/fonts";
+import StandardBtn from "../../components/Buttons/StandardBtn";
+import ScreenComponent from "../../containers/ScreenComponent";
+import { SIZES } from "../../styles/fonts/fonts";
+import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
-export default function Onboarding() {
+const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const { navigation, route } = props;
+
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = React.useRef<any>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -63,17 +66,30 @@ export default function Onboarding() {
         {/* </View> */}
         {/* <Paginator data={slides} scrollX={scrollX} /> */}
         {currentIndex >= 3 ? (
-          <StandardBtn />
+          <StandardBtn
+            onPress={() => navigation.navigate("Auth")}
+            style={{
+              padding: 15,
+              alignItems: "center",
+              borderRadius: 22,
+              flexDirection: "row",
+            }}
+            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
+            text="Get Started"
+          />
         ) : (
           <NextButton
+            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
             scrollTo={scrollTo}
             percentage={currentIndex * (100 / slides.length)}
+            style={undefined}
+            backgroundColor={undefined}
           />
         )}
       </View>
     </ScreenComponent>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -88,3 +104,5 @@ const styles = StyleSheet.create({
     alignItems: "center", // Center horizontally
   },
 });
+
+export default Onboarding;
