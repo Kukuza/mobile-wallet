@@ -4,15 +4,18 @@ import { LinearGradient } from "expo-linear-gradient";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 
-
 /**
  * 
  * @param props {
+ *      title: Modal title,
+        message: Message title,
+        btnText: button text,
+        imageSrc: the image file to be displayed,
  *      onPressHanlder: the action to be taken on pressing the button.
  * }
- * @returns 
+ * @returns large modal component.
  */
-const ErrorModal = (props) => {
+const LargeModal = (props) => {
 
   return (
         <View style={styles.container}>
@@ -43,7 +46,7 @@ const ErrorModal = (props) => {
   );
 };
 
-export default ErrorModal;
+export default LargeModal;
 
 /**
  * Default handler method for on onEnd.
@@ -57,7 +60,7 @@ export default ErrorModal;
 * @title the title of the button.
 * @handleAction the method to be executed on onEnd call.
 */
-ErrorModal.defaultProps = {
+LargeModal.defaultProps = {
   title: "Prop {title}",
   message: "Prop {message}",
   btnText: "Prop {btnText}",
@@ -89,6 +92,7 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: 'center',
+    
     marginBottom: 58,
   },
   modalTitle: {

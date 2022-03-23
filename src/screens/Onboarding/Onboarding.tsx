@@ -9,7 +9,7 @@ import StandardBtn from "../../components/buttons/StandardBtn";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import ErrorModal from "../../components/modals/ErrorModal";
+import LargeModal from "../../components/modals/LargeModals";
 
 const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route } = props;
@@ -90,7 +90,12 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
         )}
       </View> */}
 
-        <ErrorModal></ErrorModal>
+        <LargeModal
+        title={"Thank you!"}
+        message={"After the user confirms of M-PESA payment receipt. Your cUSD will be deposited to your wallet."}
+        btnText={"Got It!"}
+        imageSrc={require("../../assets/images/modals/Thank_you_image.png")}
+          ></LargeModal>
       </View>
     // </ScreenComponent>
   );
