@@ -4,6 +4,7 @@ import HomeScreen from "../screens/Home";
 import SelectOperation from "../screens/mpesaToCusd/TransactionType";
 import Onboarding from "../screens/Onboarding/Onboarding";
 import SelectPaymentMethod from "../screens/mpesaToCusd/SelectPaymentMethodScreen";
+import AddFunds from "../screens/mpesaToCusd/AddFunds";
 const routes: IRouteProps[] = [
   {
     name: "Onboarding",
@@ -24,6 +25,10 @@ const routes: IRouteProps[] = [
   {
     name: "SelectPaymentMethod",
     component: SelectPaymentMethod,
+  },
+  {
+    name: "Add Funds",
+    component: AddFunds,
   },
 ];
 
