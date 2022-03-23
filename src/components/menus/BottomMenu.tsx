@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import React from "react";
-import { mainStyles } from "../../styles/componentTheme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { COLORS } from "../../styles/theme";

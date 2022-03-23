@@ -15,7 +15,7 @@ import Animated, {
 import { LinearGradient } from "expo-linear-gradient";
 
 import { AntDesign } from "@expo/vector-icons";
-import { SIZES, COLORS, FONTS } from '../styles/theme';
+import { SIZES, COLORS, FONTS } from '../../styles/theme';
 import { Alert } from "react-native";
 
 const BUTTON_WIDTH = SIZES.width * 0.85;
