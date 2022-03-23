@@ -3,7 +3,7 @@ const { width, height } = Dimensions.get("window");
 
 export const COLORS = {
   // base colors
-  primary: "#4840BB",
+  primary: "#3A4276",
   secondary: "#B0F623", // gray
   shadowColor: "#7a5dba",
 
@@ -45,16 +45,15 @@ export const COLORS = {
   black: "#181725",
   textBlack: "#333333",
   white: "#FFFFFF",
-  darkBlue: "#002B4E",
+  darkBlue: "#4840BB",
   textDarkBlue: "#002B4E",
   tertiary: "#7C7C7C",
   realBlack: "#000000",
   buttonGray: "#E6E6E6",
   textLightBlue: "#133FDB",
-  lightGray: "#595959",
 
   line: "#444444",
-  // lightGrey: "#F3EBFC",
+  lightGrey: "#F3EBFC",
   keypad: "#1C1939",
 
   //Menu
