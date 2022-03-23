@@ -39,7 +39,7 @@ const swipeRightContent = () => {
   );
 };
 
-const RequestCardComponent  = (props) => {
+const RequestViewCard  = (props) => {
 
     const { transaction } = props;
     // const [amount, setAmount] = useState();
@@ -110,7 +110,7 @@ const RequestCardComponent  = (props) => {
     );
   }
 
-export default RequestCardComponent;
+export default RequestViewCard;
 
 
 const styles = StyleSheet.create({

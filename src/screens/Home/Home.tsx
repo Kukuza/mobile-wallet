@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image, Text } from 'react-native';
-import BottomMenu from '../../components/homepage/BottomMenu';
-import RequestCardComponent from '../../components/homepage/RequestCardComponent';
+import BottomMenu from '../../components/menus/BottomMenu';
+import RequestCardComponent from '../../components/cards/RequestViewCard';
 import ScreenComponent from '../../components/ScreenComponent';
 import { COLORS, FONTS, SIZES } from '../../styles/theme';
 

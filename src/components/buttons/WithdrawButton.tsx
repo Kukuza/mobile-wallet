@@ -1,34 +1,33 @@
 import { StyleSheet, Text, View, Button, Alert, NativeSyntheticEvent, NativeTouchEvent, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS, FONTS, SIZES } from "../styles/theme";
+import { COLORS, FONTS, SIZES } from "../../styles/theme";
 
-const WakalaBtn1 = (props) => {
+const WithdrawButton = (props) => {
 
    const title: string = props.title;
    const onPressHandle = props.onPressHandler; 
    
   return (
-    <View>
-        <Pressable
+      <Pressable
             onPress={onPressHandle}
             style={styles.button}
             >
                 <LinearGradient
-                    colors={COLORS.wakalaBtn1LinearGradient}
-                start={{ x: 0, y: 1 }}
-                end={{ x: 1.2, y: 1.4 }}
-                locations={[0.09, 0.5754, 1]}
+                    colors={COLORS.wakalaBtn2LinearGradient}
+                    start={{ x: 0.2, y: -1.0 }}
+                    end={{ x: 0.3, y: 1.1 }}
+                    locations={[0.1, 1.5]}
                 style={styles.button}
                 >
-                  <Text style={styles.buttonText} >{title}</Text>
+                
+                    <Text style={styles.buttonText} >{title}</Text>
             </LinearGradient>
         </Pressable>
-    </View>
   );
 };
 
-export default WakalaBtn1;
+export default WithdrawButton;
 
 const styles = StyleSheet.create({
   button: {
