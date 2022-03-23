@@ -1,3 +1,4 @@
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -7,8 +8,8 @@ import {
   ImageSourcePropType,
 } from "react-native";
 // import { COLORS, FONTS, SIZES } from "../../styles/theme";
-import { COLORS } from "../../assets/styles/colors";
-import { FONTS, SIZES } from "../../assets/fonts/fonts";
+import { COLORS } from "../../styles/colors/colors";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
 interface Props {
   id: string;
   title: string;

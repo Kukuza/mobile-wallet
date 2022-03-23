@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -20,12 +20,13 @@ import {
 import { useFonts } from "expo-font";
 import HeaderTitle from "./src/components/HeaderTitle";
 import "react-native-gesture-handler";
-import { FONTS } from "./src/assets/fonts/fonts";
+import { FONTS } from "./src/styles/fonts/fonts";
 import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
-import MyDrawer from './src/screens/Drawer/MyDrawer';
+import Screens from "./src/screens";
+import MyDrawer from "./src/screens/Drawer/MyDrawer";
 
 const Stack = createStackNavigator();
 
@@ -72,18 +73,60 @@ export default function App() {
   }, []);
   if (!fontsLoaded) {
     return <AppLoading />;
-  }
-  return (
-     <NavigationContainer>
-    
-      {loading ? (
-         <Loading />
-      ) : viewedOnboarding ? (
-         <AuthScreen />
-      ) : (
-        <MyDrawer></MyDrawer>
-      )}
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Onboarding"
+          screenOptions={{ headerShown: false }}
+        >
+          {routes.map((r, i) => (
+            <Stack.Screen key={i} name={r.name} component={r.component} />
+          ))}
+        </Stack.Navigator>
+      </NavigationContainer>
 
-    </NavigationContainer>
-  );
+      // testt
+
+      // <NavigationContainer>
+      //   {loading ? (
+      //     <Loading />
+      //   ) : viewedOnboarding ? (
+      //     <MyDrawer></MyDrawer>
+      //   ) : (
+      //     <MyDrawer></MyDrawer>
+      //   )}
+      // </NavigationContainer>
+
+      // tessst
+
+      // <NavigationContainer>
+      //   <Screens />
+      // </NavigationContainer>
+
+      //   {/* <AuthScreen /> */}
+
+      //   {/* {loading ? (
+      //   <Loading />
+      // ) : viewedOnboarding ? (
+      //   <AuthScreen />
+      // ) : (
+      //   <Onboarding />
+      // )} */}
+    );
+  }
 }
+//   }
+//   return (
+//      <NavigationContainer>
+
+//       {loading ? (
+//          <Loading />
+//       ) : viewedOnboarding ? (
+//          <AuthScreen />
+//       ) : (
+//         <MyDrawer></MyDrawer>
+//       )}
+//     </NavigationContainer>
+//   );
+// }

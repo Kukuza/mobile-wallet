@@ -2,9 +2,16 @@ import { View, Animated, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef } from "react";
 import Svg, { G, Circle } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
-import ScreenComponent from "../../components/ScreenComponent";
+import { LinearGradient } from "expo-linear-gradient";
+import { COLORS } from "../../styles/colors/colors";
 
-export default function NextButton({ percentage, scrollTo }) {
+export default function NextButton({
+  percentage,
+  scrollTo,
+  style,
+  backgroundColor,
+  colors,
+}) {
   const size = 80;
   const strokeWidth = 2;
   const center = size / 2;
@@ -53,6 +60,7 @@ export default function NextButton({ percentage, scrollTo }) {
             r={radius}
             strokeWidth={strokeWidth}
           />
+
           <Circle
             ref={progressRef}
             stroke="#4840BB"
@@ -65,6 +73,7 @@ export default function NextButton({ percentage, scrollTo }) {
           />
         </G>
       </Svg>
+      {/* <LinearGradient colors={colors} style={style}> */}
       <TouchableOpacity
         onPress={scrollTo}
         style={styles.button}
@@ -72,6 +81,7 @@ export default function NextButton({ percentage, scrollTo }) {
       >
         <AntDesign name="arrowright" size={20} color="#fff" />
       </TouchableOpacity>
+      {/* </LinearGradient> */}
     </View>
   );
 }
