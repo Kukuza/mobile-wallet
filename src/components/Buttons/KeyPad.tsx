@@ -25,28 +25,28 @@ const KeyPad = (props) => {
     <View>
       <View style={styles.row}>
         <TouchableHighlight
-          onPress={() => handleChange("7")}
+          onPress={() => handleChange("1")}
           underlayColor="rgba(247, 239, 250, 1)"
           delayPressOut={100}
           style={styles.key}
         >
-          <Text style={styles.number}>7</Text>
+          <Text style={styles.number}>1</Text>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={() => handleChange("8")}
+          onPress={() => handleChange("2")}
           underlayColor="rgba(247, 239, 250, 1)"
           delayPressOut={100}
           style={styles.key}
         >
-          <Text style={styles.number}>8</Text>
+          <Text style={styles.number}>2</Text>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={() => handleChange("9")}
+          onPress={() => handleChange("3")}
           underlayColor="rgba(247, 239, 250, 1)"
           delayPressOut={100}
           style={styles.key}
         >
-          <Text style={styles.number}>9</Text>
+          <Text style={styles.number}>3</Text>
         </TouchableHighlight>
       </View>
 
@@ -79,28 +79,28 @@ const KeyPad = (props) => {
 
       <View style={styles.row}>
         <TouchableHighlight
-          onPress={() => handleChange("1")}
+          onPress={() => handleChange("7")}
           underlayColor="rgba(247, 239, 250, 1)"
           delayPressOut={100}
           style={styles.key}
         >
-          <Text style={styles.number}>1</Text>
+          <Text style={styles.number}>7</Text>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={() => handleChange("2")}
+          onPress={() => handleChange("8")}
           underlayColor="rgba(247, 239, 250, 1)"
           delayPressOut={100}
           style={styles.key}
         >
-          <Text style={styles.number}>2</Text>
+          <Text style={styles.number}>8</Text>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={() => handleChange("3")}
+          onPress={() => handleChange("9")}
           underlayColor="rgba(247, 239, 250, 1)"
           delayPressOut={100}
           style={styles.key}
         >
-          <Text style={styles.number}>3</Text>
+          <Text style={styles.number}>9</Text>
         </TouchableHighlight>
       </View>
 
