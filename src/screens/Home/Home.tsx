@@ -3,8 +3,9 @@ import * as React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 import BottomMenu from '../../components/menus/BottomMenu';
 import RequestCardComponent from '../../components/cards/RequestViewCard';
-import ScreenComponent from '../../components/ScreenComponent';
 import { COLORS, FONTS, SIZES } from '../../styles/theme';
+import ScreenComponent from '../../containers/ScreenComponent';
+import { IStackScreenProps } from '../../navigation/StackScreenProps';
 
 const DATA = [
   {
@@ -37,7 +38,7 @@ const DATA = [
   },
 ];
 
-export default function HomeScreen(props) {
+const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 
   const { navigation } = props;
 
@@ -84,6 +85,8 @@ export default function HomeScreen(props) {
       </ScreenComponent>
     );
   }
+
+  export default HomeScreen;
 
   const styles = StyleSheet.create({
     menu: {
