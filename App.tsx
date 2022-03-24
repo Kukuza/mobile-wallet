@@ -77,7 +77,7 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName="Add Funds Confirmation"
           screenOptions={{ headerShown: false }}
         >
           {routes.map((r, i) => (
