@@ -36,6 +36,8 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
+  const [submitted, SetSubmitted] = useState(false);
+
   const phoneInput = useRef<PhoneInput>(null);
   // magic
   const magicClient = new Magic("pk_live_5B2A9951805695BB", {
@@ -48,6 +50,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     try {
       const isValid = phoneInput.current?.isValidNumber(value);
       setValid(isValid);
+      SetSubmitted(!submitted);
 
       if (isValid) {
         Keyboard.dismiss();
@@ -69,7 +72,13 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       alert(err);
     }
   };
-  const title = "A community \nthat you \nwill love.";
+  // Logout of Magic session
+  const logout = async () => {
+    await magicClient.user.logout();
+    // setUser("");
+    console.log("logged out");
+  };
+  const title = "Join Wakala";
 
   return (
     <KeyboardAvoidingView
@@ -100,9 +109,24 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
               end={[0, 1]}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>Verify</Text>
+              <Text style={styles.buttonText}>
+                {submitted ? "Logging in..." : "Verify"}
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
+
+          {/* todo Remove logout */}
+          <TouchableOpacity onPress={() => logout()}>
+            <LinearGradient
+              colors={COLORS.gradientBackground}
+              start={[1, 0]}
+              end={[0, 1]}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Logout</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
           <magicClient.Relayer />
         </View>
       </ScreenComponent>

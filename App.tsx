@@ -85,48 +85,6 @@ export default function App() {
           ))}
         </Stack.Navigator>
       </NavigationContainer>
-
-      // testt
-
-      // <NavigationContainer>
-      //   {loading ? (
-      //     <Loading />
-      //   ) : viewedOnboarding ? (
-      //     <MyDrawer></MyDrawer>
-      //   ) : (
-      //     <MyDrawer></MyDrawer>
-      //   )}
-      // </NavigationContainer>
-
-      // tessst
-
-      // <NavigationContainer>
-      //   <Screens />
-      // </NavigationContainer>
-
-      //   {/* <AuthScreen /> */}
-
-      //   {/* {loading ? (
-      //   <Loading />
-      // ) : viewedOnboarding ? (
-      //   <AuthScreen />
-      // ) : (
-      //   <Onboarding />
-      // )} */}
     );
   }
 }
-//   }
-//   return (
-//      <NavigationContainer>
-
-//       {loading ? (
-//          <Loading />
-//       ) : viewedOnboarding ? (
-//          <AuthScreen />
-//       ) : (
-//         <MyDrawer></MyDrawer>
-//       )}
-//     </NavigationContainer>
-//   );
-// }

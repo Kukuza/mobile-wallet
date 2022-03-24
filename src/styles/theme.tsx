@@ -9,30 +9,28 @@ export const COLORS = {
 
   mainGray: "#B3B3B3",
   backgroundColor: "#E5E5E5",
-  menuBackground: '#F5F5F5',
+  menuBackground: "#F5F5F5",
   buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
   cardGradient: [
     "rgba(255, 140, 161, 0.08)",
     "rgba(252, 207, 47, 0.08)",
     "rgba(255, 255, 255, 0.08)",
     "rgba(248, 48, 180, 0.08)",
-    "rgba(47, 68, 252, 0.08)",  
+    "rgba(47, 68, 252, 0.08)",
   ],
   drawerMenuGradient: [
     "rgba(255, 140, 161, 0.08)",
     "rgba(252, 207, 47, 0.08)",
     "rgba(255, 255, 255, 0.08)",
     "rgba(248, 48, 180, 0.08)",
-    "rgba(47, 68, 252, 0.08)",  
+    "rgba(47, 68, 252, 0.08)",
   ],
   wakalaBtn1LinearGradient: [
     "#133FDB",
     "rgba(20, 63, 218, 0.994943)",
     "rgba(183, 0, 77, 0.3)",
   ],
-  wakalaBtn2LinearGradient: [
-    "#133FDB", "rgba(183, 0, 77, 0.3)"
-  ],
+  wakalaBtn2LinearGradient: ["#133FDB", "rgba(183, 0, 77, 0.3)"],
 
   //pdm
   inputFieldBorder: "rgba(195, 211, 212, 0.9)",
@@ -80,7 +78,7 @@ export const SIZES = {
   h5: 14,
 
   sh2: 18,
-  
+
   body1: 30,
   body2: 20,
   body3: 16,
@@ -90,7 +88,7 @@ export const SIZES = {
 
   small4: 10,
   small5: 8,
-  
+
   // app dimensions
   width,
   height,
@@ -101,7 +99,6 @@ export const FONTS = {
     fontSize: SIZES.largeTitle,
     lineHeight: 55,
     fontFamily: "Rubik_700Bold",
-    
   },
   mediumTitle: {
     fontSize: SIZES.mediumTitle,
@@ -113,24 +110,27 @@ export const FONTS = {
     lineHeight: 14.22,
     fontFamily: "Rubik_500Medium",
     color: COLORS.white,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   h1: { fontSize: SIZES.h1, lineHeight: 36, fontFamily: "Rubik_500Medium" },
   h2: { fontSize: SIZES.h2, lineHeight: 30, fontFamily: "Rubik_400Regular" },
   h3: { fontSize: SIZES.h3, lineHeight: 22, fontFamily: "Rubik_400Regular" },
   h4: { fontSize: SIZES.h4, lineHeight: 22, fontFamily: "Rubik_400Regular" },
-  
+
   sh2: { fontSize: SIZES.h2, lineHeight: 27, fontFamily: "Rubik_500Regular" },
-  
 
   h5: { fontSize: SIZES.h5, lineHeight: 18, fontFamily: "Rubik_400Regular" },
 
-  smallText: { fontSize: SIZES.smallText, lineHeight: 22, fontFamily: "Rubik_400Regular" },
+  smallText: {
+    fontSize: SIZES.smallText,
+    lineHeight: 22,
+    fontFamily: "Rubik_400Regular",
+  },
   body1: { fontSize: SIZES.body1, lineHeight: 15, fontFamily: "Rubik_400Bold" },
   body2: {
     fontSize: SIZES.body2,
     lineHeight: 30,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Rubik_600SemiBold",
   },
   body3: {
     fontSize: SIZES.body3,
@@ -140,12 +140,12 @@ export const FONTS = {
   body4: {
     fontSize: SIZES.body4,
     lineHeight: 22,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Rubik_400Regular",
   },
   body5: {
     fontSize: SIZES.body5,
     lineHeight: 22,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Rubik_400Regular",
   },
   body6: {
     fontSize: SIZES.body6,
@@ -161,13 +161,13 @@ export const FONTS = {
   small4: {
     fontFamily: "Rubik_400Regular",
     lineHeight: 15,
-    fontSize: SIZES.small5
+    fontSize: SIZES.small5,
   },
 
   small5: {
     fontFamily: "Rubik_400Regular",
     lineHeight: 12,
-    fontSize: SIZES.small5
+    fontSize: SIZES.small5,
   },
 };
 

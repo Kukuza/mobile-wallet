@@ -48,7 +48,8 @@
     "react-native-svg": "12.1.1",
     "react-native-web": "0.17.1",
     "react-native-webview": "11.15.0",
-    "web3": "^1.7.1"
+    "web3": "^1.7.1",
+    "expo-updates": "~0.11.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
