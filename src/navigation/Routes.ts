@@ -1,6 +1,6 @@
 import IRouteProps from "../navigation/RouteProps";
 import AuthScreen from "../screens/Auth/AuthScreen";
-import HomeScreen from "../screens/Home";
+import HomeScreen from "../screens/Home/Home";
 import Onboarding from "../screens/Onboarding/Onboarding";
 const routes: IRouteProps[] = [
   {
