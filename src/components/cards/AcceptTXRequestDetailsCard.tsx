@@ -6,6 +6,14 @@ import { TextInputMask } from "react-native-masked-text";
 import { FONTS } from "../../font/fonts/fonts";
 import { COLORS } from "../../styles/theme";
 
+
+/**
+ * @param props {
+ *    grossAmount: the gross amount before all additions.
+ *    earningsValue:  the earnings value.
+ *    totalValue: the total amount in the transactions.
+ * }
+ */
 const AcceptTXRequestDetailsCard = (props) => {
     return (
       
@@ -24,7 +32,7 @@ const AcceptTXRequestDetailsCard = (props) => {
                     options={{
                       unit: "Ksh ",
                     }}
-                    value={props.value}
+                    value={props.grossAmount}
                     style={styles.grossAmount}
                     placeholder="Ksh 1,000 "
                     placeholderTextColor={COLORS.primary}
@@ -39,7 +47,7 @@ const AcceptTXRequestDetailsCard = (props) => {
                     options={{
                       unit: "Ksh ",
                     }}
-                    value={props.value}
+                    value={props.earningsValue}
                     style={styles.earningsValue}
                     placeholder="Ksh 10"
                     placeholderTextColor={COLORS.textBlack}
@@ -53,7 +61,7 @@ const AcceptTXRequestDetailsCard = (props) => {
                     options={{
                       unit: "Ksh ",
                     }}
-                    value={props.value}
+                    value={props.totalValue}
                     style={styles.totalValue}
                     placeholder="Ksh 900 "
                     placeholderTextColor={COLORS.textBlack}
