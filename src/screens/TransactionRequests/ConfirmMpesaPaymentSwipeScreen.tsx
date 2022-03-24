@@ -50,11 +50,7 @@ const ConfirmMpesaPaymentSwipeScreen: React.FunctionComponent<IStackScreenProps>
           </Pressable>
           
       </View>
-
       
-
-      
-    
     </ScreenComponent>
   );
 };
