@@ -6,7 +6,7 @@ import { COLORS } from "../../styles/theme";
 import SendButton from "../buttons/SendButton";
 import WithdrawButton from "../buttons/WithdrawButton";
 
-const BottomMenu = () => {
+const BottomMenu = ({navigation}) => {
   return (
     <View style={{ flexDirection: 'column' }}>
       <View style={[styles.container]}>
@@ -16,7 +16,7 @@ const BottomMenu = () => {
               <MaterialCommunityIcons name="qrcode-scan" size={24} color={COLORS.textLightBlue} />
           </Pressable>
 
-          <WithdrawButton title={"Add/Withdraw"} onPressHandler={() => Alert.alert('Wakala Btn 2.')}></WithdrawButton>
+          <WithdrawButton title={"Add/Withdraw"} onPressHandler={() => navigation.navigate("Add Funds Confirmation")}></WithdrawButton>
       </View>
     </View>
   );

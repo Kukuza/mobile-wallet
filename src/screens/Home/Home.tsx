@@ -79,7 +79,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
                 
             )}
              </View>
-            <BottomMenu></BottomMenu>
+            <BottomMenu navigation={navigation}></BottomMenu>
         </View>
         
       </ScreenComponent>

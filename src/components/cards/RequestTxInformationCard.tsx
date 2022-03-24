@@ -12,17 +12,18 @@ import { COLORS } from "../../styles/theme";
  *                grossAmount: the gross amount of the transaction.
  *                earnings: the amount the agent is expected to earn.
  *                netValue: the final amount after all calculations.
+ *                additionalStyling: Additional stylings
  *              }
  * @returns 
  */
-const RequestTxInformationCard = (props) => {
+const RequestTxInformationCard = (props: any) => {
     return (
       
          <LinearGradient
                 colors={COLORS.drawerMenuGradient}
                 start={[0, 1]}
                 end={[1, 0]}
-                style={styles.container}
+                style={[styles.container, props.additionalStyling]}
             >
 
             <Text style={styles.cardTitle}>M-PESA to cUSD Deposit Request</Text>
