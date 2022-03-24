@@ -22,7 +22,7 @@ const ConfirmMpesaPaymentSwipeScreen: React.FunctionComponent<IStackScreenProps>
   return (
     <ScreenComponent>
       <View style={styles.container}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', width: SIZES.width * 0.7, alignSelf: 'center' }}>
                 <Image 
                   source={require("../../assets/icons/subheadingicon3.png")}
                   style={styles.titleIcon}
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center", 
+    alignContent: 'center',
     height: SIZES.height,
     paddingTop: 115
   },
@@ -74,7 +75,6 @@ const styles = StyleSheet.create({
   },
   titleIcon: {
       alignSelf: 'flex-start',
-      marginLeft: -70,
       height: 32,
       width: 40
   },
