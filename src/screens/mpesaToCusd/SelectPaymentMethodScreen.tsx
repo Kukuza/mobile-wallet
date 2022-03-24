@@ -6,7 +6,7 @@ import NavHeader from "../../containers/NavHeader";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COMING_SOON, TOKENS, MPESA } from "../../assets/images";
 import COLORS from "../../styles/colors/colors";
-// import Banner from "../../components/cards/Banner";
+import Banner from "../../components/cards/Banner";
 
 const PaymentMethodButton = (props) => {
   return (
@@ -79,11 +79,11 @@ const SelectPaymentMethod: React.FunctionComponent = () => {
           />
         </View>
       </ScreenComponent>
-      {/* <Banner
+      <Banner
         ref={bannerRef}
         style={{ height: 350 }}
         content={<BannerContent bannerRef={bannerRef} />}
-      /> */}
+      />
     </Fragment>
   );
 };
