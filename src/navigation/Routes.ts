@@ -17,7 +17,7 @@ const routes: IRouteProps[] = [
     component: HomeScreen,
   },
   {
-    name: "Swipe Screen",
+    name: "Confirm Mpesa Payment Swipe Screen",
     component: ConfirmMpesaPaymentSwipeScreen,
   },
 ];
