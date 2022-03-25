@@ -3,6 +3,7 @@ import AuthScreen from "../screens/Auth/AuthScreen";
 import HomeScreen from "../screens/Home/Home";
 import Onboarding from "../screens/Onboarding/Onboarding";
 import AddFundsConfirmationScreen from '../screens/TransactionRequests/AddFundsConfirmationScreen';
+import ConfirmMpesaPaymentSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentSwipeScreen";
 const routes: IRouteProps[] = [
   {
     name: "Onboarding",
@@ -19,6 +20,10 @@ const routes: IRouteProps[] = [
   {
     name: "Add Funds Confirmation",
     component: AddFundsConfirmationScreen,
+  },
+  {
+    name: "Confirm Mpesa Payment Swipe Screen",
+    component: ConfirmMpesaPaymentSwipeScreen,
   },
 ];
 

@@ -29,6 +29,16 @@ const H_SWIPE_RANGE = BUTTON_WIDTH - 2 * BUTTON_PADDING - SWIPEABLE_DIMENSIONS;
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
+
+/**
+ * 
+ * @param props {
+ *             @title the title of the button.
+ *             @handleAction the method to be executed on onEnd call.
+ *             @additionalStyling extra styling on the button.
+ *        }
+ * @returns 
+ */
 const SwipeButton = (props) => {
     
     // Animated value for X translation
@@ -52,7 +62,7 @@ const SwipeButton = (props) => {
 
   // Gesture Handler Events
   const animatedGestureHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx) => {
+    onStart: (_, ctx: any) => {
       ctx.completed = toggled;
     },
     onActive: (e, ctx) => {
@@ -119,7 +129,7 @@ const SwipeButton = (props) => {
 
   return (
     <AnimatedLinearGradient
-          style={styles.swipeCont}
+          style={[styles.swipeCont, props.additionalStyling]}
           start={[1, 0]}
           end={[0, 1]} colors={COLORS.buttonGradient}    >
       <PanGestureHandler onGestureEvent={animatedGestureHandler}>
