@@ -2,9 +2,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
+import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-
-import { COLORS } from "../../styles/theme";
 
 /**
  * 
@@ -20,7 +19,7 @@ const RequestTxInformationCard = (props: any) => {
     return (
       
          <LinearGradient
-                colors={COLORS.drawerMenuGradient}
+                colors={COLORS.cardGradient}
                 start={[0, 1]}
                 end={[1, 0]}
                 style={[styles.container, props.additionalStyling]}
@@ -41,7 +40,7 @@ const RequestTxInformationCard = (props: any) => {
                         value={props.grossAmount}
                         style={styles.grossAmount}
                         placeholder="Ksh 1,000 "
-                        placeholderTextColor={COLORS.textBlack}
+                        placeholderTextColor={COLORS.textPrimary}
                       />
 
                     <View style={{ justifyContent: 'space-between', marginTop: 15  }}>
@@ -56,7 +55,7 @@ const RequestTxInformationCard = (props: any) => {
                         value={props.earnings}
                         style={styles.earningsValue}
                         placeholder="Ksh 10"
-                        placeholderTextColor={COLORS.textBlack}
+                        placeholderTextColor={COLORS.textPrimary}
                       />
                     </View>
                 </View>
@@ -111,7 +110,7 @@ const RequestTxInformationCard = (props: any) => {
     },
     cardTitle: {
       ...FONTS.body3,
-      color: COLORS.darkBlue,
+      color: COLORS.textDarkBlue,
       marginBottom: 30,
     },
     cardSubTitle: {
@@ -126,7 +125,7 @@ const RequestTxInformationCard = (props: any) => {
     },
     earningsLabel: {
       ...FONTS.body4,
-      color: COLORS.lightGray
+      color: COLORS.grayLight
     },
     totalValue: {
       ...FONTS.h1,
@@ -134,7 +133,7 @@ const RequestTxInformationCard = (props: any) => {
     },
     totalLabel: {
       ...FONTS.body4,
-      color: COLORS.darkBlue,
+      color: COLORS.textDarkBlue,
       marginTop: 15
     },
     cardFooter: {

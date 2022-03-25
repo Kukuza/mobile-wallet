@@ -1,11 +1,9 @@
 import * as React from "react";
-import Onboarding from "../Onboarding/Onboarding";
 import { ViewStyle, TextStyle } from "react-native";
 import {
   createDrawerNavigator,
   DrawerNavigationOptions,
 } from "@react-navigation/drawer";
-import { SIZES, COLORS, FONTS } from "../../styles/theme";
 import RampScreen from "../Ramp/Ramp";
 import SettingsScreen from "../Settings/Settings";
 import HelpScreen from "../Help/Help";
@@ -14,12 +12,16 @@ import OpenRequestsScreen from "../TransactionRequests/OpenRequestsScreen";
 import PendingRequestsScreen from "../TransactionRequests/PendingRequestsScreen";
 import TransactionHistoryScreen from "../TransactionRequests/TransactionHistoryScreen";
 import CustomDrawerContent from "./CustomDrawer";
+import COLORS from "../../styles/colors/colors";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import HomeScreen from "../Home/Home";
 
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawer() {
   return (
     <Drawer.Navigator
+    initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         drawerStyle: {
@@ -32,7 +34,7 @@ export default function MyDrawer() {
     >
       <Drawer.Screen
         name="Home"
-        component={Onboarding}
+        component={HomeScreen}
         options={drawerScreenOptions}
       />
 
@@ -83,7 +85,7 @@ export default function MyDrawer() {
 
 // Item style for last item in the drawer.
 const drawerItemStyle: ViewStyle = {
-  borderTopColor: COLORS.textBlack,
+  borderTopColor: COLORS.textPrimary,
   borderTopWidth: 0.2,
   borderStartColor: COLORS.black,
   width: SIZES.width * 0.9,
@@ -93,7 +95,7 @@ const drawerItemStyle: ViewStyle = {
 };
 
 const drawerItemStyleLastItem: ViewStyle = {
-  borderTopColor: COLORS.textBlack,
+  borderTopColor: COLORS.textPrimary,
   borderTopWidth: 0.2,
   borderBottomWidth: 0.2,
   borderBottomColor: COLORS.black,

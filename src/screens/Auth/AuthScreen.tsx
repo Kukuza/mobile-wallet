@@ -55,7 +55,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           phoneNumber: value, //pass the phone input value to get otp sms
         });
         console.log("works");
-        navigation.navigate("Home");
+        navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {
           setValid(true);

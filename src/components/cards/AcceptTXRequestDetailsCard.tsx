@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 
 import { FONTS } from "../../font/fonts/fonts";
-import { COLORS } from "../../styles/theme";
+import COLORS from "../../styles/colors/colors";
 
 
 /**
@@ -18,7 +18,7 @@ const AcceptTXRequestDetailsCard = (props) => {
     return (
       
          <LinearGradient
-                colors={COLORS.drawerMenuGradient}
+                colors={COLORS.cardGradient}
                 start={[0, 1]}
                 end={[1, 0]}
                 style={styles.container}
@@ -50,7 +50,7 @@ const AcceptTXRequestDetailsCard = (props) => {
                     value={props.earningsValue}
                     style={styles.earningsValue}
                     placeholder="Ksh 10"
-                    placeholderTextColor={COLORS.textBlack}
+                    placeholderTextColor={COLORS.textPrimary}
                   />
                 </View>
 
@@ -64,7 +64,7 @@ const AcceptTXRequestDetailsCard = (props) => {
                     value={props.totalValue}
                     style={styles.totalValue}
                     placeholder="Ksh 900 "
-                    placeholderTextColor={COLORS.textBlack}
+                    placeholderTextColor={COLORS.textPrimary}
                   />
                 </View>
             </View>

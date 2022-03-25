@@ -15,8 +15,9 @@ import Animated, {
 import { LinearGradient } from "expo-linear-gradient";
 
 import { AntDesign } from "@expo/vector-icons";
-import { SIZES, COLORS, FONTS } from '../../styles/theme';
 import { Alert } from "react-native";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import COLORS from "../../styles/colors/colors";
 
 const BUTTON_WIDTH = SIZES.width * 0.85;
 const BUTTON_HEIGHT = 56;
@@ -100,7 +101,7 @@ const SwipeButton = (props) => {
         backgroundColor: interpolateColor(
           X.value,
           [0, BUTTON_WIDTH - SWIPEABLE_DIMENSIONS - BUTTON_PADDING],
-          ["#FFF", "#FFF"]
+          [COLORS.white, COLORS.white]
         ),
         transform: [{ translateX: X.value }],
       };
@@ -134,7 +135,7 @@ const SwipeButton = (props) => {
           end={[0, 1]} colors={COLORS.buttonGradient}    >
       <PanGestureHandler onGestureEvent={animatedGestureHandler}>
         <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]}>
-          <AntDesign name="arrowright" size={24} color={COLORS.darkBlue} />
+          <AntDesign name="arrowright" size={24} color={COLORS.textDarkBlue} />
         </Animated.View>
       </PanGestureHandler>
       <Animated.Text style={[styles.swipeText, AnimatedStyles.swipeText]}>
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   swipeText: {
-    ...FONTS.mediumTitle,
+    ...FONTS.h4,
     alignSelf: "center",
     zIndex: 2,
     color: COLORS.white,

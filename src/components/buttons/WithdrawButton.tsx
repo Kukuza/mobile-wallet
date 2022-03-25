@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Button, Alert, NativeSyntheticEvent, NativeTouchEvent, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS, FONTS, SIZES } from "../../styles/theme";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import COLORS from "../../styles/colors/colors";
 
 const WithdrawButton = (props) => {
 
@@ -14,7 +15,7 @@ const WithdrawButton = (props) => {
             style={styles.button}
             >
                 <LinearGradient
-                    colors={COLORS.wakalaBtn2LinearGradient}
+                    colors={["#133FDB", "rgba(183, 0, 77, 0.3)"]}
                     start={{ x: 0.2, y: -1.0 }}
                     end={{ x: 0.3, y: 1.1 }}
                     locations={[0.1, 1.5]}
@@ -37,6 +38,8 @@ const styles = StyleSheet.create({
     minWidth: 150,
   },
   buttonText: {
-    ...FONTS.buttonTitle,
+    ...FONTS.body8,
+    color: COLORS.white,
+    alignSelf: 'center'
   }
 });
