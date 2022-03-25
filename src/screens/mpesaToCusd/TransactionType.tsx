@@ -69,7 +69,7 @@ const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
             icon="plus"
             chevIcon="chevron-right"
             handleAction={() =>
-              navigation.navigate("Select Payment Method", {
+              navigation.navigate("SelectPaymentMethod", {
                 operation: "TopUp",
               })
             }
@@ -83,7 +83,7 @@ const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
             icon="minus"
             chevIcon="chevron-right"
             handleAction={() =>
-              navigation.navigate("Select Payment Method", {
+              navigation.navigate("SelectPaymentMethod", {
                 operation: "Withdraw",
               })
             }

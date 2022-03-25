@@ -77,7 +77,7 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="SelectPaymentMethod"
+          initialRouteName="TransactionType"
           screenOptions={{ headerShown: false }}
         >
           {routes.map((r, i) => (
