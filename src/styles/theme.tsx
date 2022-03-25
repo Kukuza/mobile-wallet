@@ -6,6 +6,7 @@ export const COLORS = {
   primary: "#4840BB",
   secondary: "#B0F623", // gray
   shadowColor: "#7a5dba",
+  
 
   mainGray: "#B3B3B3",
   backgroundColor: "#E5E5E5",
@@ -32,6 +33,9 @@ export const COLORS = {
   ],
   wakalaBtn2LinearGradient: [
     "#133FDB", "rgba(183, 0, 77, 0.3)"
+  ],
+  wakalaModalLinearGradient: [
+    '#F7EFFA', '#FCF8ED'
   ],
 
   //pdm
