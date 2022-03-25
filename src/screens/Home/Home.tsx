@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import BottomMenu from "../../components/menus/BottomMenu";
 import RequestCardComponent from "../../components/cards/RequestViewCard";
-import { COLORS, FONTS, SIZES } from "../../styles/theme";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
+import COLORS from "../../styles/colors/colors";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import { DrawerActions } from "@react-navigation/native";
 
 const DATA = [
   {

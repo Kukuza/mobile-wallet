@@ -6,9 +6,10 @@ import {
     DrawerItemList,
   } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SIZES, COLORS, FONTS } from '../../styles/theme';
 import { AntDesign } from "@expo/vector-icons";
 import * as Progress from 'react-native-progress';
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import { COLORS } from "../../styles/colors/colors";
   
 
 export default function CustomDrawerContent(props: DrawerContentComponentProps) {
@@ -23,7 +24,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
       <SafeAreaView style={styles.container}>
         <View>
             <LinearGradient
-                colors={COLORS.drawerMenuGradient}
+                colors={COLORS.cardGradient}
                 start={[0, 1]}
                 end={[1, 0]}
                 style={styles.header}
@@ -57,8 +58,9 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
           
                 <View> 
                     <Text style={stylesBalance.text}>Current Balance</Text>
+                    <Text style={stylesBalance.cUSD}>cUSD {cUSDBalance}</Text>
                     <Text style={stylesBalance.ksh}>Ksh {kshBalance}</Text>
-                    <Text style={stylesBalance.cUSD}>{cUSDBalance} cUSD</Text>
+                    
                 </View> 
                 
             
@@ -108,14 +110,14 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
         backgroundColor: COLORS.white,
       },
     phoneNumberTest: {
-          ...FONTS.smallText,
-          color: COLORS.textBlack,  
-          marginTop: 14,
+          ...FONTS.s4,
+          color: COLORS.textPrimary,  
+          paddingTop: 20,
           marginLeft: 5,
 
       },
       versionNumber: {
-        ...FONTS.smallText,
+        ...FONTS.s4,
         marginTop: 30,
         marginLeft: 40,
         color: COLORS.primary,
@@ -147,19 +149,19 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
       },
     
       text: {
-        ...FONTS.h5,
+        ...FONTS.body9,
       },
     
       ksh: {
-        ...FONTS.mediumTitle,
-        color: COLORS.textBlack,
+        ...FONTS.body3,
+        color: COLORS.textPrimary,
         fontWeight: 'bold',
         margin: 2
       },
     
       cUSD: {
-        ...FONTS.body3,
-        color: COLORS.textBlack, 
+        ...FONTS.h2,
+        color: COLORS.textPrimary, 
         fontWeight: 'bold',
         marginTop: 2
       },

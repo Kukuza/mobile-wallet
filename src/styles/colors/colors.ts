@@ -4,11 +4,13 @@ export const COLORS = {
   primary: "#4840BB",
   accent1: "#133FDB",
   secondary: "#DB86C7",
+  shadowColor: "#7a5dba",
 
   // Alerts
   success: "#4840BB",
   warning: "#F3BB1C",
   error: "#EF8787",
+  warn: "#ba4848",
 
   // Gray Color variants
   grayLightest1: "#CFCFCF",
@@ -25,12 +27,23 @@ export const COLORS = {
   textColor3: "#1C1939",
 
   realBlack: "#000000",
+  black: "#181725",
 
   //
-  // buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+
+  cardGradient: [
+    "rgba(255, 140, 161, 0.08)",
+    "rgba(252, 207, 47, 0.08)",
+    "rgba(255, 255, 255, 0.08)",
+    "rgba(248, 48, 180, 0.08)",
+    "rgba(47, 68, 252, 0.08)",
+  ],
 
   // TODO Background color gradient
   gradientBackground: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  menuBackground: "#F5F5F5",
+
   //TODO Other Gradients
   // gradientDark:["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]
 

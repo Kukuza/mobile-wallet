@@ -1,19 +1,20 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Pressable, Text, View, StyleSheet, Image, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORS, FONTS, SIZES } from '../../styles/theme';
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import COLORS from '../../styles/colors/colors';
+import { FONTS, SIZES } from '../../styles/fonts/fonts';
 
 
 const swipeLeftContent = () => {
   return (
     <Animated.View style={[styles.swipeActionContent, ,
         { marginLeft: 20, }]}>
-      <MaterialIcons name="preview" size={24} color={COLORS.textLightBlue} />
+      <MaterialIcons name="preview" size={24} color={COLORS.accent1} />
           <Text style={{
-              color: COLORS.textLightBlue,
+              color: COLORS.accent1,
               ...FONTS.body5
             }}
           >
@@ -26,7 +27,7 @@ const swipeLeftContent = () => {
 const swipeRightContent = () => {
   return (
     <View style={[ styles.swipeActionContent, { marginRight: 20, }]} >
-      <MaterialIcons name="block-flipped" size={24} color={COLORS.textLightBlue} />
+      <MaterialIcons name="block-flipped" size={24} color={COLORS.accent1} />
       <Text
         style={{
           color: COLORS.warn,
@@ -83,7 +84,7 @@ const RequestCardComponent  = (props) => {
                       
 
                       <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                        <Ionicons style={styles.ratingIcon} name="star" size={SIZES.small5} color={COLORS.textLightBlue} />
+                        <Ionicons style={styles.ratingIcon} name="star" size={SIZES.small5} color={COLORS.accent1} />
                         <Text style={styles.rating}>5.0</Text>
                       </View>
                       
@@ -134,20 +135,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   ratingCount: {
-    ...FONTS.small5,
-    color: COLORS.textLightBlue,
+    ...FONTS.s5,
+    color: COLORS.accent1,
   },
   rating: {
-    ...FONTS.small5,
+    ...FONTS.s5,
     marginLeft: 2, 
-    color: COLORS.textLightBlue,
+    color: COLORS.accent1,
 
   },
   ratingIcon: {
     // marginLeft: 108, 
   },
   amountTitle: {
-    ...FONTS.small4,
+    ...FONTS.s4,
     marginLeft: 50.15,
     
   },
@@ -167,8 +168,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white
   },
   viewButtonTxt: {
-    ...FONTS.body6Bold,
-    color: COLORS.textLightBlue,
+    ...FONTS.body6,
+    color: COLORS.accent1,
   },
   identiconImg: {
     width: 29,

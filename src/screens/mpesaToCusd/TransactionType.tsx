@@ -5,7 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { EvilIcons } from "@expo/vector-icons";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";
-import { SIZES } from "../../styles/theme";
+import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";

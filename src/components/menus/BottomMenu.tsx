@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
-import { COLORS } from "../../styles/theme";
 import SendButton from "../buttons/SendButton";
 import WithdrawButton from "../buttons/WithdrawButton";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import COLORS from "../../styles/colors/colors";
 
 const BottomMenu = ({ navigation }) => {
   return (
@@ -23,7 +23,7 @@ const BottomMenu = ({ navigation }) => {
           <MaterialCommunityIcons
             name="qrcode-scan"
             size={24}
-            color={COLORS.textLightBlue}
+            color={COLORS.accent1}
           />
         </Pressable>
 
