@@ -23,13 +23,13 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
       <View style={styles.wrapper}>
         <HeaderTitle 
             additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={ () => navigation.navigate("Home") }
+            backButtonHandler={ () => navigation.navigate("MyDrawer") }
         />
         <RequestTxInformationCard
             additionalStyling={styles.requestTsxInfoCard}
         ></RequestTxInformationCard>
         <DefaultButton
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("MyDrawer")}
             style= {{ minWidth: 286, marginTop: 40 }}
             text="Continue"
           />

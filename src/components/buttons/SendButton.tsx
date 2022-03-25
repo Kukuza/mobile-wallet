@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Button, Alert, NativeSyntheticEvent, NativeTouchEvent, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS, FONTS, SIZES } from "../../styles/theme";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import COLORS from "../../styles/colors/colors";
 
 const SendButton = (props) => {
 
@@ -15,7 +16,11 @@ const SendButton = (props) => {
             style={styles.button}
             >
                 <LinearGradient
-                    colors={COLORS.wakalaBtn1LinearGradient}
+                    colors={[
+                      "#133FDB",
+                      "rgba(20, 63, 218, 0.994943)",
+                      "rgba(183, 0, 77, 0.3)",
+                    ]}
                 start={{ x: 0, y: 1 }}
                 end={{ x: 1.2, y: 1.4 }}
                 locations={[0.09, 0.5754, 1]}
@@ -38,6 +43,8 @@ const styles = StyleSheet.create({
     minWidth: 150,
   },
   buttonText: {
-    ...FONTS.buttonTitle,
+    ...FONTS.body8,
+      color: COLORS.white,
+      alignSelf: 'center'
   }
 });

@@ -3,9 +3,11 @@ import * as React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 import BottomMenu from '../../components/menus/BottomMenu';
 import RequestCardComponent from '../../components/cards/RequestViewCard';
-import { COLORS, FONTS, SIZES } from '../../styles/theme';
 import ScreenComponent from '../../containers/ScreenComponent';
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
+import COLORS from '../../styles/colors/colors';
+import { FONTS, SIZES } from '../../styles/fonts/fonts';
+import { DrawerActions } from '@react-navigation/native';
 
 const DATA = [
   {
@@ -40,7 +42,7 @@ const DATA = [
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 
-  const { navigation } = props;
+  const { navigation, route } = props;
 
     return (
       <ScreenComponent>
@@ -51,7 +53,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
             }}
             >
             <View style={styles.menu}>
-                <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
                 <MaterialIcons name="menu" size={24} color={COLORS.primary} />
                 </TouchableOpacity>
             </View>
