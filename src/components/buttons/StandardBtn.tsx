@@ -2,19 +2,18 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { FONTS } from "../../styles/fonts/fonts";
+import COLORS from "../../styles/colors/colors";
+
 const StandardBtn = ({ onPress, style, colors, text }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <LinearGradient colors={colors} style={style}>
-          <Text style={{ color: "#ffffff" }}>{text}</Text>
+          <Text style={{ color: COLORS.white }}>{text}</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -30,7 +29,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    // width: 150,
     justifyContent: "center",
     alignItems: "center",
   },

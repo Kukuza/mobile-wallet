@@ -24,14 +24,21 @@ export const COLORS = {
   textColor2: "#1C1939CC",
   textColor3: "#1C1939",
 
+  realBlack: "#000000",
+
   //
   // buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
 
   // TODO Background color gradient
   gradientBackground: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  white: "#ffffff"
 
   //TODO Other Gradients
   // gradientDark:["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]
+
+  wakalaModalLinearGradient: [
+    '#F7EFFA', '#FCF8ED'
+  ],
 };
 
 // export const COLORS = {

@@ -80,8 +80,29 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
               keyExtractor={(item) => item.id}
             />
           )}
+          <View style={{ alignItems: "center", height: SIZES.height * 0.82 }}>
+            {DATA.length > 0 ? (
+              <View style={styles.wrapper}>
+                {/* {isFetching ? <Text>{loadingMessage}</Text> : <></>} */}
+                <Image
+                  source={require("../../assets/images/home/home_empty.png")}
+                  style={styles.image}
+                />
+                <Text style={styles.text}>
+                  All requests have been fullfilled. Take a break, get some air,
+                  check back in later
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                data={DATA}
+                renderItem={({ item }) => <RequestCardComponent />}
+                keyExtractor={(item) => item.id}
+              />
+            )}
+          </View>
+          <BottomMenu navigation={navigation}></BottomMenu>
         </View>
-        <BottomMenu></BottomMenu>
       </View>
     </ScreenComponent>
   );

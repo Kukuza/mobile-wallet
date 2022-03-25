@@ -5,6 +5,8 @@ import AddFunds from "../screens/mpesaToCusd/AddFunds";
 import SelectPaymentMethod from "../screens/mpesaToCusd/SelectPaymentMethodScreen";
 import TransactionType from "../screens/mpesaToCusd/TransactionType";
 import Onboarding from "../screens/Onboarding/Onboarding";
+import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
+import ConfirmMpesaPaymentSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentSwipeScreen";
 const routes: IRouteProps[] = [
   {
     name: "Onboarding",
@@ -29,6 +31,14 @@ const routes: IRouteProps[] = [
   {
     name: "SelectPaymentMethod",
     component: SelectPaymentMethod,
+  },
+  {
+    name: "Add Funds Confirmation",
+    component: AddFundsConfirmationScreen,
+  },
+  {
+    name: "Confirm Mpesa Payment Swipe Screen",
+    component: ConfirmMpesaPaymentSwipeScreen,
   },
 ];
 

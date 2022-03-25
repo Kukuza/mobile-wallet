@@ -7,9 +7,7 @@ import SendButton from "../buttons/SendButton";
 import WithdrawButton from "../buttons/WithdrawButton";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const BottomMenu = () => {
-  const navigation = useNavigation<any>();
-
+const BottomMenu = ({ navigation }) => {
   return (
     <View style={{ flexDirection: "column" }}>
       <View style={[styles.container]}>
@@ -31,11 +29,7 @@ const BottomMenu = () => {
 
         <WithdrawButton
           title={"Add/Withdraw"}
-          onPressHandler={() =>
-            navigation.navigate("TransactionType", {
-              // operation: operation,
-            })
-          }
+          onPressHandler={() => navigation.navigate("Add Funds Confirmation")}
         ></WithdrawButton>
       </View>
     </View>

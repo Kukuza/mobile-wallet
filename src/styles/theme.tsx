@@ -31,6 +31,7 @@ export const COLORS = {
     "rgba(183, 0, 77, 0.3)",
   ],
   wakalaBtn2LinearGradient: ["#133FDB", "rgba(183, 0, 77, 0.3)"],
+  wakalaModalLinearGradient: ["#F7EFFA", "#FCF8ED"],
 
   //pdm
   inputFieldBorder: "rgba(195, 211, 212, 0.9)",
