@@ -31,14 +31,10 @@ export const COLORS = {
 
   // TODO Background color gradient
   gradientBackground: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
-  white: "#ffffff"
-
   //TODO Other Gradients
   // gradientDark:["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]
 
-  wakalaModalLinearGradient: [
-    '#F7EFFA', '#FCF8ED'
-  ],
+  wakalaModalLinearGradient: ["#F7EFFA", "#FCF8ED"],
 };
 
 // export const COLORS = {
