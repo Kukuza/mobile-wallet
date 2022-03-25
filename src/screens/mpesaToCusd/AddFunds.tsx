@@ -19,7 +19,7 @@ import { FONTS } from "../../styles/fonts/fonts";
 
 const AddFunds: React.FunctionComponent = () => {
   const route = useRoute();
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   const [value, setValue] = useState("");
   // const operation = route.params.operation;
@@ -47,12 +47,7 @@ const AddFunds: React.FunctionComponent = () => {
         />
         <KeyPad value={value} onChange={handleChange} />
         <TouchableOpacity
-        // onPress={() =>
-        //   navigation.navigate("Confirm Funds", {
-        //     value: value,
-        //     operation: operation,
-        //   })
-        // }
+          onPress={() => navigation.navigate("Add Funds Confirmation")}
         >
           <LinearGradient
             colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}

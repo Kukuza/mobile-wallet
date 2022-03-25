@@ -21,7 +21,7 @@ const routes: IRouteProps[] = [
     component: HomeScreen,
   },
   {
-    name: "AddFunds",
+    name: "Add Funds",
     component: AddFunds,
   },
   {

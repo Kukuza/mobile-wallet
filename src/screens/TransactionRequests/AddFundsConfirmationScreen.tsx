@@ -8,31 +8,33 @@ import RequestTxInformationCard from "../../components/cards/RequestTxInformatio
 import DefaultButton from "../../components/buttons/DefaultButton";
 
 /**
- * 
- * @param props { 
- *          navigaion: 
- *          route: 
+ *
+ * @param props {
+ *          navigaion:
+ *          route:
  * }
- * @returns 
+ * @returns
  */
-const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
+  props
+) => {
   const { navigation, route } = props;
 
   return (
     <ScreenComponent>
       <View style={styles.wrapper}>
-        <HeaderTitle 
-            additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={ () => navigation.navigate("Home") }
+        <HeaderTitle
+          additionalStyling={styles.headerTitleAdditionalStyling}
+          backButtonHandler={() => navigation.navigate("Home")}
         />
         <RequestTxInformationCard
-            additionalStyling={styles.requestTsxInfoCard}
+          additionalStyling={styles.requestTsxInfoCard}
         ></RequestTxInformationCard>
         <DefaultButton
-            onPress={() => navigation.navigate("Home")}
-            style= {{ minWidth: 286, marginTop: 40 }}
-            text="Continue"
-          />
+          onPress={() => navigation.navigate("Home")}
+          style={{ minWidth: 286, marginTop: 40 }}
+          text="Continue"
+        />
       </View>
     </ScreenComponent>
   );
@@ -42,15 +44,15 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     paddingHorizontal: 15,
-    paddingTop: 52
+    paddingTop: 52,
   },
   requestTsxInfoCard: {
-      minWidth: 375,
-      marginTop: -30
+    minWidth: 375,
+    marginTop: -30,
   },
   headerTitleAdditionalStyling: {
-      paddingLeft: 24
-  }
+    paddingLeft: 24,
+  },
 });
 
 export default AddFundsConfirmationScreen;

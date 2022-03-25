@@ -66,7 +66,7 @@ const SelectPaymentMethod: React.FunctionComponent = () => {
             subTitle="Deposit funds using mpesa"
             image={MPESA}
             handleAction={() =>
-              navigation.navigate("AddFunds", {
+              navigation.navigate("Add Funds", {
                 // operation: operation,
               })
             }

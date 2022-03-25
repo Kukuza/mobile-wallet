@@ -29,7 +29,7 @@ const BottomMenu = ({ navigation }) => {
 
         <WithdrawButton
           title={"Add/Withdraw"}
-          onPressHandler={() => navigation.navigate("Add Funds Confirmation")}
+          onPressHandler={() => navigation.navigate("TransactionType")}
         ></WithdrawButton>
       </View>
     </View>
