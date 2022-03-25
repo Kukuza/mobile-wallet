@@ -105,7 +105,7 @@ const drawerItemStyleLastItem: ViewStyle = {
 };
 
 const drawerLabelStyle: TextStyle = {
-  ...FONTS.h4,
+  ...FONTS.body1,
   color: COLORS.primary,
   paddingLeft: 52,
 };

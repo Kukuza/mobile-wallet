@@ -58,8 +58,9 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
           
                 <View> 
                     <Text style={stylesBalance.text}>Current Balance</Text>
+                    <Text style={stylesBalance.cUSD}>cUSD {cUSDBalance}</Text>
                     <Text style={stylesBalance.ksh}>Ksh {kshBalance}</Text>
-                    <Text style={stylesBalance.cUSD}>{cUSDBalance} cUSD</Text>
+                    
                 </View> 
                 
             
@@ -111,7 +112,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
     phoneNumberTest: {
           ...FONTS.s4,
           color: COLORS.textPrimary,  
-          marginTop: 14,
+          paddingTop: 20,
           marginLeft: 5,
 
       },
@@ -148,7 +149,7 @@ export default function CustomDrawerContent(props: DrawerContentComponentProps) 
       },
     
       text: {
-        ...FONTS.h5,
+        ...FONTS.body9,
       },
     
       ksh: {
