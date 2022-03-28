@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, Image, Alert, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, Alert, Pressable, Modal } from "react-native";
 import React, { useState, useRef } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from '../../styles/fonts/fonts';
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import SwipeButton from "../../components/buttons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
+import LargeModal from "../../components/modals/LargeModals";
+import SuccessModal from "../../components/modals/SuccessModal";
 
 
 /**
@@ -18,6 +20,13 @@ import COLORS from "../../styles/colors/colors";
 const ConfirmMpesaPaymentSwipeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
  
   const { navigation, route } = props;
+  
+  // used to change the visibility state of the modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // used to change the message of the modal.
+  const [processIsError, setProcessIsError] = useState(false);
+
 
   return (
     <ScreenComponent>
@@ -40,17 +49,46 @@ const ConfirmMpesaPaymentSwipeScreen: React.FunctionComponent<IStackScreenProps>
           <SwipeButton 
               title={"Swipe to confirm"}
               handleAction={() => {
-                Alert.alert("Pass handler method on prop (handleAction)")
+                setModalVisible(true)
               }}
               additionalStyling={styles.slidingButtonCustomStyling}
           />
 
-          <Pressable>
+          <Pressable onPress={() => setModalVisible(true)}>
                <Text style={styles.pressableTxt}>Didn’t receive payments?</Text>
           </Pressable>
           
       </View>
       
+
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+          >
+
+      <View style={styles.modalOverlay}>
+          {!processIsError ? (
+              <LargeModal 
+                  onPressHanlder={() => setModalVisible(false)}
+                  title={"Oh Snap!"}
+                  message={"Something just happened. Please try  again."}
+                  btnText={"Try again"}
+              ></LargeModal>
+            ) : (
+              <SuccessModal 
+                  onPressHanlder={() => setModalVisible(false)}
+                  title={"Transaction Successful!"}
+                  message={""}
+                  btnText={"Okay!"}
+              ></SuccessModal>
+          )}
+        </View>
+        
+      </Modal>
     </ScreenComponent>
   );
 };
@@ -92,7 +130,12 @@ const styles = StyleSheet.create({
     ...FONTS.sh1,
     color: COLORS.primary,
     marginTop: 70
-  }
+  },
+  modalOverlay: {
+    // backgroundColor: 'rgba(0,0,0,0.2)',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
 });
 
 export default ConfirmMpesaPaymentSwipeScreen;

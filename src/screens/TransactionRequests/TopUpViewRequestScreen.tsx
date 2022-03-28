@@ -26,13 +26,7 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   return (
     <ScreenComponent>
       <View style={styles.wrapper}>
-        {/* <HeaderTitle 
-            additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={ () => navigation.goBack() }
-            headerTxt={" Top Up Request"}
-            // title={" Top Up Request "}
-        /> */}
-
+ 
         <NavHeader showTitle={true} newTitle={"Top Up Request"}></NavHeader>
 
         <RequestTxInformationCard
