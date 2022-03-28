@@ -25,8 +25,7 @@ import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
-import Screens from "./src/screens";
-import MyDrawer from "./src/screens/Drawer/MyDrawer";
+import { Magic } from "@magic-sdk/react-native";
 
 const Stack = createStackNavigator();
 
