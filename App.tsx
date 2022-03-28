@@ -76,7 +76,7 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Confirm Mpesa Payment Swipe Screen"
+          initialRouteName="Onboarding"
           screenOptions={{ headerShown: false }}
         >
           {routes.map((r, i) => (
