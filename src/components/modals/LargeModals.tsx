@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: 'baseline'
   },
+  
   linearGradient: {
       borderRadius: 20, 
       shadowColor: COLORS.realBlack,
@@ -84,22 +85,26 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-end',
       height: SIZES.height * 0.598522167,
   },
+
   contentDivStyle: {
     alignItems: 'center',
     justifyContent: 'center',
     alignContent: 'center',
     
   },
+
   image: {
     alignSelf: 'center',
     
     marginBottom: 58,
   },
+
   modalTitle: {
     ...FONTS.body3,
     alignSelf: 'center',
     marginBottom: 28
   },
+
   modalMessage: {
     ...FONTS.headline,
     alignSelf: 'center',
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     width: SIZES.width * 0.7,
   },
+
   pressableText: {
     ...FONTS.h1,
     color: COLORS.accent1, 

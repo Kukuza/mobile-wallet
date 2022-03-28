@@ -6,8 +6,15 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { Ionicons } from "@expo/vector-icons";
 
 /**
- *
- * @returns successful transaction modal component.
+ * 
+ * @param props {
+ *      title: Modal title,
+        message: Message title,
+        btnText: button text,
+        imageSrc: the image file to be displayed,
+ *      onPressHanlder: the action to be taken on pressing the button.
+ * }
+ * @returns large modal component.
  */
 const SuccessModal = (props) => {
 
@@ -31,7 +38,7 @@ const SuccessModal = (props) => {
                       </Pressable>
 
                   </View>
-
+                  
           </LinearGradient>
         </View>
   );
@@ -49,6 +56,9 @@ export default SuccessModal;
 /**
 * Default values for expected props.
 * @title the title of the button.
+* @message the modal message.
+* @btnText the buttons text.
+* @imageSrc the image source.
 * @handleAction the method to be executed on onEnd call.
 */
 SuccessModal.defaultProps = {
