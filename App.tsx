@@ -4,6 +4,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
 import AuthScreen from "./src/screens/Auth/AuthScreen";
+import SettingsScreen from "./src/screens/Settings/Settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Rubik_300Light,
@@ -76,6 +77,12 @@ export default function App() {
   } else {
     return (
       <NavigationContainer>
+        <SettingsScreen />
+      </NavigationContainer>
+
+    );
+      {/* 
+    <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{ headerShown: false }}
@@ -85,6 +92,8 @@ export default function App() {
           ))}
         </Stack.Navigator>
       </NavigationContainer>
+    */}
+      
 
       // testt
 
@@ -113,7 +122,7 @@ export default function App() {
       // ) : (
       //   <Onboarding />
       // )} */}
-    );
+      
   }
 }
 //   }
