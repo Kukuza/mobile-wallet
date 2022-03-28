@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "mobile-wallet",
-    "slug": "mobile-wallet",
+    "slug": "kukuza",
+    "owner": "kukuza",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icons/icon.png",
