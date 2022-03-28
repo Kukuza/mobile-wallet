@@ -36,18 +36,20 @@ const AddFunds: React.FunctionComponent = () => {
       />
       <View style={styles.container}>
         <TextInputMask
-          type={"money"}
+          type={"only-numbers"}
           options={{
-            unit: "Ksh ",
+            unit: "cUsd ",
           }}
           value={value}
           style={styles.title}
-          placeholder="Ksh 0,00"
+          placeholder="cUsd 0,00"
           placeholderTextColor={COLORS.primary}
         />
         <KeyPad value={value} onChange={handleChange} />
         <TouchableOpacity
-          onPress={() => navigation.navigate("Add Funds Confirmation")}
+          onPress={() =>
+            navigation.navigate("Add Funds Confirmation", { param: value })
+          }
         >
           <LinearGradient
             colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}

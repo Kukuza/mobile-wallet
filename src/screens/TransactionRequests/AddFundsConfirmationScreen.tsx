@@ -16,9 +16,11 @@ import DefaultButton from "../../components/buttons/DefaultButton";
  * @returns
  */
 const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
-  props
+  props: any
 ) => {
   const { navigation, route } = props;
+
+  // console.log(props.route.params?.param);
 
   return (
     <ScreenComponent>
@@ -28,6 +30,8 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
           backButtonHandler={() => navigation.navigate("Home")}
         />
         <RequestTxInformationCard
+          grossAmount={props.route.params?.param}
+          netValue={"Ksh " + props.route.params?.param * 114}
           additionalStyling={styles.requestTsxInfoCard}
         ></RequestTxInformationCard>
         <DefaultButton
