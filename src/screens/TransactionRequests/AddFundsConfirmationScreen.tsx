@@ -166,6 +166,12 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   const [viewSize, onViewLayout] = useViewSize();
   const [textSize, onTextLayout] = useTextSize();
 
+  // used to change the visibility state of the modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // used to change the message of the modal.
+  const [processIsError, setProcessIsError] = useState(false);
+
   return (
     <Fragment>
       <ScreenComponent>
@@ -218,6 +224,11 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   headerTitleAdditionalStyling: {
+      paddingLeft: 24
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
     paddingLeft: 24,
   },
   container: {

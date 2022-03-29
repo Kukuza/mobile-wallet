@@ -32,7 +32,7 @@ const HeaderTitle = (props) => {
           <Ionicons
             name="chevron-back"
             style={{ fontSize: RFPercentage(3.2), alignSelf: "flex-start" }}
-            color={COLORS.darkBlue}
+            color={COLORS.textDarkBlue}
           />
         </TouchableOpacity>
         {props.skipButton ? (
