@@ -20,10 +20,13 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { Magic } from "@magic-sdk/react-native";
+import { connect, useDispatch } from "react-redux";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
 const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-  const { navigation, route } = props;
+  const dispatch = useDispatch();
+  const [user, setUser] = React.useState({});
+  const { navigation, route, magic } = props;
 
   //todo Remove this
   const clearOnboarding = async () => {
@@ -57,6 +60,18 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         let DID = await magicClient.auth.loginWithSMS({
           phoneNumber: value, //pass the phone input value to get otp sms
         });
+
+        // Consume decentralized identity (DID)
+        if (DID !== null) {
+          magicClient.user.getMetadata().then((userMetadata) => {
+            setUser(userMetadata);
+            dispatch({
+              type: "LOGIN",
+              payload: { phoneNumber: value, userMetadata: userMetadata },
+            });
+          });
+        }
+
         console.log("works");
         navigation.navigate("MyDrawer");
       } else {

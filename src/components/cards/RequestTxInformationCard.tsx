@@ -31,9 +31,9 @@ const RequestTxInformationCard = (props: any) => {
 
         <View style={{ flexDirection: "column" }}>
           <TextInputMask
-            type={"money"}
+            type={"only-numbers"}
             options={{
-              unit: "Ksh ",
+              unit: "cUSD ",
             }}
             value={props.grossAmount}
             style={styles.grossAmount}
@@ -62,7 +62,7 @@ const RequestTxInformationCard = (props: any) => {
       <View style={{ justifyContent: "space-between", marginTop: 15 }}>
         <Text style={styles.totalLabel}>Total you Send</Text>
         <TextInputMask
-          type={"money"}
+          type={"only-numbers"}
           options={{
             unit: "Ksh ",
           }}

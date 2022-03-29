@@ -5,4 +5,5 @@ export interface IStackScreenProps {
   name: string;
   navigation: StackNavigationProp<any>;
   route: RouteProp<ParamListBase, any>;
+  magic?: any;
 }
