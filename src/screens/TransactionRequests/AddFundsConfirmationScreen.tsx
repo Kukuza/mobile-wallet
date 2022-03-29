@@ -85,6 +85,7 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
       contractMethods = props.contractMethods;
     } else {
       setLoadingMessage("Initializing the Blockchain connection...");
+      console.log("reached here");
       await contractMethods.init();
       dispatch({
         type: "INIT_CONTRACT_METHODS",
