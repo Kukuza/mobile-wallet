@@ -3,6 +3,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import { Ionicons } from "@expo/vector-icons";
 
 /**
  * 
@@ -15,7 +16,7 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
  * }
  * @returns large modal component.
  */
-const LargeModal = (props) => {
+const SuccessModal = (props) => {
 
   return (
         <View style={styles.container}>
@@ -27,10 +28,7 @@ const LargeModal = (props) => {
               >
                   <View style={props.contentDivStyle}>
                       
-                      <Image 
-                        source={props.imageSrc}
-                        style={styles.image}
-                      />
+                      <Ionicons name="checkmark-circle" size={34} color="black" style={styles.icons}/>
 
                       <Text style={styles.modalTitle}>{props.title}</Text>
                       <Text style={styles.modalMessage}>{props.message}</Text>
@@ -40,13 +38,13 @@ const LargeModal = (props) => {
                       </Pressable>
 
                   </View>
-
+                  
           </LinearGradient>
         </View>
   );
 };
 
-export default LargeModal;
+export default SuccessModal;
 
 /**
  * Default handler method for on onEnd.
@@ -58,21 +56,23 @@ export default LargeModal;
 /**
 * Default values for expected props.
 * @title the title of the button.
+* @message the modal message.
+* @btnText the buttons text.
+* @imageSrc the image source.
 * @handleAction the method to be executed on onEnd call.
 */
-LargeModal.defaultProps = {
-  title: "Prop {title}",
-  message: "Prop {message}",
-  btnText: "Prop {btnText}",
-  imageSrc: require("../../assets/images/modals/Connectivity.png"),
-  onPressHanlder: handler
-}
+SuccessModal.defaultProps = {
+    title: "Prop {title}",
+    message: "Prop {message}",
+    btnText: "Prop {btnText}",
+    imageSrc: require("../../assets/images/modals/Connectivity.png"),
+    onPressHanlder: handler
+  }
 
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'baseline'
   },
-  
   linearGradient: {
       borderRadius: 20, 
       shadowColor: COLORS.realBlack,
@@ -81,41 +81,36 @@ const styles = StyleSheet.create({
       elevation: 24,
       width: SIZES.width,
       paddingBottom: 58,
-      paddingTop: 68,
+      paddingTop: 168,
       alignSelf: 'flex-end',
       height: SIZES.height * 0.598522167,
   },
-
   contentDivStyle: {
     alignItems: 'center',
     justifyContent: 'center',
-    alignContent: 'center',
-    
+    alignContent: 'center', 
   },
-
-  image: {
+  icons: {
     alignSelf: 'center',
-    
-    marginBottom: 58,
+    marginBottom: 36,
+    color: COLORS.primary, 
   },
-
   modalTitle: {
     ...FONTS.body3,
     alignSelf: 'center',
-    marginBottom: 28
+    marginBottom: 26,
+    color: COLORS.primary, 
   },
-
+  pressableText: {
+    ...FONTS.h1,
+    color: COLORS.primary, 
+    alignSelf: 'center'
+  },
   modalMessage: {
     ...FONTS.headline,
     alignSelf: 'center',
     textAlign: 'center',
-    marginBottom: 50,
+    marginBottom: 70,
     width: SIZES.width * 0.7,
   },
-
-  pressableText: {
-    ...FONTS.h1,
-    color: COLORS.accent1, 
-    alignSelf: 'center'
-  }
 });

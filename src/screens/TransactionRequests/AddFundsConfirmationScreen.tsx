@@ -8,7 +8,7 @@ import RequestTxInformationCard from "../../components/cards/RequestTxInformatio
 import DefaultButton from "../../components/buttons/DefaultButton";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { connect, useDispatch } from "react-redux";
-import { CONECTIVITY, SHARED } from "../../assets/images";
+import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
@@ -34,7 +34,7 @@ const ModalContent = (props) => {
         </View>
       ) : (
         <View>
-          <Image source={CONECTIVITY} style={modalStyles.errorImage} />
+          <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
             Something just happened. Please try again.
@@ -167,6 +167,12 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   const [viewSize, onViewLayout] = useViewSize();
   const [textSize, onTextLayout] = useTextSize();
 
+  // used to change the visibility state of the modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // used to change the message of the modal.
+  const [processIsError, setProcessIsError] = useState(false);
+
   return (
     <Fragment>
       <ScreenComponent>
@@ -219,6 +225,11 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   headerTitleAdditionalStyling: {
+      paddingLeft: 24
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
     paddingLeft: 24,
   },
   container: {

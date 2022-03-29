@@ -10,7 +10,6 @@ function ScreenComponent({ children }) {
       <SafeAreaView
         style={[
           styles.bottomSafeArea,
-          // home === true && { backgroundColor: "#F5F5F5" },
         ]}
       >
         <View style={styles.statusBar}>
