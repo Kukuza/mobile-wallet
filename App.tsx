@@ -1,5 +1,6 @@
+import "./global";
+import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
-
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
@@ -26,8 +27,36 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
 import { Magic } from "@magic-sdk/react-native";
+import globalStore from "./src/redux/GlobalStore";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "Warning: The provided value 'moz",
+  "Warning: The provided value 'ms-stream",
+]);
 
 const Stack = createStackNavigator();
+const store = createStore(globalStore);
+const magic = new Magic("pk_live_5B2A9951805695BB", {
+  network: {
+    rpcUrl: "https://alfajores-forno.celo-testnet.org",
+  },
+});
+
+const loadAppSession = async () => {
+  try {
+    let user = await AsyncStorage.getItem("user");
+    let data = JSON.parse(user!);
+    let action = { type: "INIT", value: { ...data, magic: magic } };
+    //console.log(data)
+    store.dispatch(action);
+    // return true;
+  } catch (err) {
+    console.log(err);
+    // return true;
+  }
+};
 
 const Loading = () => {
   return (
@@ -50,6 +79,8 @@ export default function App() {
     Rubik_900Black,
     Rubik_900Black_Italic,
   });
+  let [isReady, setReady] = React.useState(false);
+
   const [loading, setLoading] = useState(true);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
 
@@ -70,20 +101,30 @@ export default function App() {
   useEffect(() => {
     checkOnboarding();
   }, []);
-  if (!fontsLoaded) {
-    return <AppLoading />;
+
+  if (!isReady || !fontsLoaded) {
+    return (
+      <AppLoading
+        startAsync={loadAppSession}
+        onFinish={() => setReady(true)}
+        onError={console.warn}
+        autoHideSplash={true}
+      />
+    );
   } else {
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Onboarding"
-          screenOptions={{ headerShown: false }}
-        >
-          {routes.map((r, i) => (
-            <Stack.Screen key={i} name={r.name} component={r.component} />
-          ))}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Onboarding"
+            screenOptions={{ headerShown: false }}
+          >
+            {routes.map((r, i) => (
+              <Stack.Screen key={i} name={r.name} component={r.component} />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     );
   }
 }

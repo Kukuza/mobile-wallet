@@ -18,11 +18,11 @@ import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
 
 const AddFunds: React.FunctionComponent = () => {
-  const route = useRoute();
+  const route = useRoute<any>();
   const navigation = useNavigation<any>();
 
   const [value, setValue] = useState("");
-  // const operation = route.params.operation;
+  const operation = route.params.operation;
 
   function handleChange(newValue) {
     setValue(newValue);
@@ -32,22 +32,27 @@ const AddFunds: React.FunctionComponent = () => {
     <ScreenComponent>
       <NavHeader
         showTitle={true}
-        //   newTitle={operation === "TopUp" ? "Add Funds" : "Withdraw Funds"}
+        newTitle={operation === "TopUp" ? "Add Funds" : "Withdraw Funds"}
       />
       <View style={styles.container}>
         <TextInputMask
-          type={"money"}
+          type={"only-numbers"}
           options={{
-            unit: "Ksh ",
+            unit: "cUsd ",
           }}
           value={value}
           style={styles.title}
-          placeholder="Ksh 0,00"
+          placeholder="cUsd 0,00"
           placeholderTextColor={COLORS.primary}
         />
         <KeyPad value={value} onChange={handleChange} />
         <TouchableOpacity
-          onPress={() => navigation.navigate("Add Funds Confirmation")}
+          onPress={() =>
+            navigation.navigate("Add Funds Confirmation", {
+              param: value,
+              operation: operation,
+            })
+          }
         >
           <LinearGradient
             colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
