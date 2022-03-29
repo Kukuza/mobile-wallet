@@ -45,11 +45,11 @@ const BannerContent = (props) => {
 };
 
 const SelectPaymentMethod: React.FunctionComponent = () => {
-  //   const route = useRoute();
+  const route = useRoute<any>();
   const bannerRef = useRef<any>();
   const navigation = useNavigation<any>();
 
-  //   const operation = route.params.operation;
+  const operation = route.params.operation;
 
   return (
     <Fragment>
@@ -58,7 +58,7 @@ const SelectPaymentMethod: React.FunctionComponent = () => {
         <View style={styles.container}>
           <Text style={styles.title}>
             How do you want to top up your wallet{" "}
-            {/* {operation === "TopUp" ? "top up" : "withdraw from"} your wallet? */}
+            {operation === "TopUp" ? "top up" : "withdraw from"} your wallet?
           </Text>
 
           <PaymentMethodButton
@@ -67,7 +67,7 @@ const SelectPaymentMethod: React.FunctionComponent = () => {
             image={MPESA}
             handleAction={() =>
               navigation.navigate("Add Funds", {
-                // operation: operation,
+                operation: operation,
               })
             }
           />

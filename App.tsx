@@ -1,5 +1,6 @@
+import "./global";
+import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
-
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
@@ -29,6 +30,11 @@ import { Magic } from "@magic-sdk/react-native";
 import globalStore from "./src/redux/GlobalStore";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+  "Warning: The provided value 'moz",
+  "Warning: The provided value 'ms-stream",
+]);
 
 const Stack = createStackNavigator();
 const store = createStore(globalStore);

@@ -36,6 +36,7 @@
     "expo-updates": "~0.11.6",
     "jest": "^26.6.3",
     "jest-expo": "^44.0.1",
+    "net": "^1.0.2",
     "node-libs-react-native": "^1.2.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -51,10 +52,13 @@
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
+    "react-native-tcp": "^4.0.0",
     "react-native-web": "0.17.1",
     "react-native-webview": "11.15.0",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
+    "rn-nodeify": "^10.3.0",
+    "vm-browserify": "^1.1.2",
     "web3": "^1.7.1"
   },
   "devDependencies": {
