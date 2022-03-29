@@ -76,12 +76,6 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
-      <NavigationContainer>
-        <SettingsScreen />
-      </NavigationContainer>
-
-    );
-      {/* 
     <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Home"
@@ -92,9 +86,6 @@ export default function App() {
           ))}
         </Stack.Navigator>
       </NavigationContainer>
-    */}
-      
-
       // testt
 
       // <NavigationContainer>
@@ -122,7 +113,7 @@ export default function App() {
       // ) : (
       //   <Onboarding />
       // )} */}
-      
+      );
   }
 }
 //   }
