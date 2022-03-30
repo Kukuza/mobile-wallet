@@ -9,45 +9,72 @@ import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 /**
  * Wakala contract kit.
  */
-export class WakalaContractKit {
+export default class WakalaContractKit {
 
     /**
      * Tag for logging and debugging purposes.
      */
     private TAG = "[ " + this.constructor.name + "] : "
 
-    web3: Web3 
+    /**
+     * Private instance of the wakala contract kit.
+     */
+    private static wakalaContractKitInstance?: WakalaContractKit;
+
+    web3?: Web3 
     
     /**
      * Magic provider instance.
      */
-    magic: Magic
+    magic?: Magic
 
     /**
      * Instance of wakala escrow smart contract.
      */
-    wakalaEscrowContract: Contract
+    wakalaEscrowContract?: Contract
 
     /**
      * Instance of the cUSD smart contract.
      */
-    cUSDContract: Contract
+    cUSDContract?: Contract
 
-    kit: ContractKit
-   
+    kit?: ContractKit
+
+    /**
+     * Gets a running instance of wakala contract kit utils.
+     * @returns instance of wakala contract kit.
+     */
+    static getInstance() {
+      return this.wakalaContractKitInstance;
+    }
+    
+    /**
+     * Creates a singleton instance of wakala contract kit.
+     * @param magic instance of magic provider.
+     * @returns instance of wakala contract kit.
+     */
+    static createInstance(magic: Magic) {
+
+      if (WakalaContractKit.wakalaContractKitInstance) {
+         console.log(" instance already created!!");
+      } else {
+        let instance: WakalaContractKit = new WakalaContractKit(magic);
+        WakalaContractKit.wakalaContractKitInstance = instance;
+      }
+      
+    }
+
     /**
      * 
-     * @param magic the magic provider instance.
+     * @param magic magic provider instance.
      */
-    constructor(magic: Magic) {
+    private constructor(magic: Magic) {
       this.web3 = new Web3(magic.rpcProvider);
-      this.magic  = magic;
+      this.magic = magic;
       this.wakalaEscrowContract = new this.web3.eth.Contract(wakalaEscrowAbi,
         WAKALA_CONTRACT_ADDRESS);
-
       this.cUSDContract = new this.web3.eth.Contract(ERC20Abi,
         ERC20_ADDRESS);
-
       this.kit = newKitFromWeb3(this.web3);
     }
 
@@ -67,4 +94,4 @@ export class WakalaContractKit {
       }
     }
   }
-  
+
