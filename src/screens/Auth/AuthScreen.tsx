@@ -72,7 +72,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           });
         }
 
-        console.log("works");
+        console.log((await magicClient.user.getMetadata()).publicAddress);
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {

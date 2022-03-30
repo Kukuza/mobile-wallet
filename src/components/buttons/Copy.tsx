@@ -3,25 +3,18 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FONTS } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-const DefaultButton = ({ onPress, style, text }) => {
+
+const CopyButton = ({ onPress, text }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPress} style={styles.button}>
-        <LinearGradient
-          colors={["rgba(19, 63, 219, 1)", "rgba(183, 0, 76, 0.3)"]}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 0.99, y: 0 }}
-          locations={[-2.5, 1.5]}
-          style={[styles.grandient, style]}
-        >
-          <Text style={{ ...FONTS.h4, color: COLORS.white }}>{text}</Text>
-        </LinearGradient>
+        <Text style={{ ...FONTS.body8, color: COLORS.primary }}>{text}</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default DefaultButton;
+export default CopyButton;
 
 const styles = StyleSheet.create({
   container: {
@@ -32,11 +25,14 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: COLORS.white,
+    height: 29,
+    width: 68,
+    borderRadius: 8,
   },
   grandient: {
     justifyContent: "center",
     alignItems: "center",
-    height: 56,
     borderRadius: 50,
     flexDirection: "row",
   },

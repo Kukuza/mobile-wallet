@@ -1,4 +1,4 @@
-import wakalaEscrowAbi from "../ContractABIs/WakalaEscrow.abi.json";
+import wakalaEscrowAbi from "../ContractABIs/wakalaEscrow.abi";
 import ERC20Abi from "../ContractABIs/ERC20.abi.json";
 import {
   WAKALA_CONTRACT_ADDRESS,

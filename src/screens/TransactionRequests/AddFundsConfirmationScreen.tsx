@@ -12,6 +12,17 @@ import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
+import {
+  WAKALA_CONTRACT_ADDRESS,
+  ERC20_ADDRESS,
+  KARMA_CONTRACT_ADDRESS,
+} from "../../utils/ContractAdresses/contract";
+import wakalaEscrowAbi from "../../utils/ContractABIs/wakalaEscrow.abi.json";
+import { magic, web3 } from "../../utils/magic";
+import { AbiItem } from "web3-utils";
+import Web3 from "web3";
+import { newKitFromWeb3 } from "@celo/contractkit";
+import { CeloContract } from "@celo/contractkit";
 
 const ModalContent = (props) => {
   return (
@@ -73,6 +84,59 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+
+  // test new contract call
+  const web3: any = new Web3("https://alfajores-forno.celo-testnet.org");
+  const kit = newKitFromWeb3(web3);
+  const contract = new web3.eth.Contract(
+    wakalaEscrowAbi as AbiItem[],
+    WAKALA_CONTRACT_ADDRESS
+  );
+
+  const contractCall = async () => {
+    let totalBalance = await kit.getTotalBalance(
+      "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757"
+    );
+    console.log("============================>");
+    console.log(totalBalance.cUSD);
+    console.log("============================>");
+
+    let cUSDcontract = await kit.contracts.getStableToken();
+    let contract = new kit.connection.web3.eth.Contract(
+      wakalaEscrowAbi as AbiItem[],
+      WAKALA_CONTRACT_ADDRESS
+    );
+    console.log("******************************");
+    const user = {
+      publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+    };
+
+    const tx = await contract.methods.initializeDepositTransaction(2).send({
+      from: user.publicAdress,
+      feeCurrency: cUSDcontract.address,
+    });
+
+    let receipt = await tx.waitReceipt();
+    console.log(receipt);
+
+    console.log("******************************");
+
+    // Encode the transaction to HelloWorld.sol according to the ABI
+    // let txObject = await contract.methods.initializeDepositTransaction(2);
+
+    // Send the transaction
+    // let tx = await kit.sendTransactionObject(txObject, {
+    //   from: user.publicAdress,
+    //   feeCurrency: cUSDcontract.address,
+    // });
+
+    // let contractCall = await contract.methods
+    //   .initializeDepositTransaction(value)
+    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+    console.log("The transaction has gone through");
+  };
+
+  // end test here
 
   const handleAction = async () => {
     openModal();
@@ -182,12 +246,15 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
             backButtonHandler={() => navigation.navigate("Add Funds")}
           />
           <RequestTxInformationCard
+            cardSubtitle={
+              operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
+            }
             grossAmount={props.route.params?.param}
             netValue={"Ksh " + props.route.params?.param * 114}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
           <DefaultButton
-            onPress={handleAction}
+            onPress={contractCall}
             // onPress={() => navigation.navigate("Home")}
             style={{ minWidth: 286, marginTop: 40 }}
             text="Continue"
@@ -225,11 +292,11 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   headerTitleAdditionalStyling: {
-      paddingLeft: 24
+    paddingLeft: 24,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingLeft: 24,
   },
   container: {
