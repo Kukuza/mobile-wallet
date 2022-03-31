@@ -19,36 +19,30 @@ import { COLORS } from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
-import { Magic } from "@magic-sdk/react-native";
 import { connect, useDispatch } from "react-redux";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 
-const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
-  const { navigation, route, magic } = props;
+  // const { navigation, route, magic } = props;
+  const magic = props.magic;
+  const navigation = props.navigation;
 
   //todo Remove this
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem("@viewedOnboarding");
-    } catch (error) {
-      console.log("Error @clearOnboarding: ", error);
-    }
-  };
+  // const clearOnboarding = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem("@viewedOnboarding");
+  //   } catch (error) {
+  //     console.log("Error @clearOnboarding: ", error);
+  //   }
+  // };
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
 
   const phoneInput = useRef<PhoneInput>(null);
-  // magic
-  const magicClient = new Magic("pk_live_5B2A9951805695BB", {
-    network: {
-      rpcUrl: "https://alfajores-forno.celo-testnet.org",
-    },
-  });
-
   const login = async () => {
     try {
       const isValid = phoneInput.current?.isValidNumber(value);
@@ -57,13 +51,13 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
       if (isValid) {
         Keyboard.dismiss();
-        let DID = await magicClient.auth.loginWithSMS({
+        let DID = await magic.auth.loginWithSMS({
           phoneNumber: value, //pass the phone input value to get otp sms
         });
 
         // Consume decentralized identity (DID)
         if (DID !== null) {
-          magicClient.user.getMetadata().then((userMetadata) => {
+          magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
             dispatch({
               type: "LOGIN",
@@ -72,7 +66,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           });
         }
 
-        console.log((await magicClient.user.getMetadata()).publicAddress);
+        console.log((await magic.user.getMetadata()).publicAddress);
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {
@@ -89,7 +83,7 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   };
   // Logout of Magic session
   const logout = async () => {
-    await magicClient.user.logout();
+    await magic.user.logout();
     // setUser("");
     console.log("logged out");
   };
@@ -142,12 +136,26 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <magicClient.Relayer />
+          <magic.Relayer />
         </View>
       </ScreenComponent>
     </KeyboardAvoidingView>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -223,4 +231,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+// export default AuthScreen;

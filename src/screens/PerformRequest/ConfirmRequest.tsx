@@ -11,7 +11,7 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { CONNECTIVITY, THANK_YOU_IMAGE } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { connect, useDispatch } from "react-redux";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import DefaultButton from "../../components/buttons/DefaultButton";
 
 const CardElement = (props) => {
