@@ -22,8 +22,10 @@ import HeaderTitle from "../../components/HeaderTitle";
 import { Magic } from "@magic-sdk/react-native";
 import { connect, useDispatch } from "react-redux";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 
 const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+  
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
   const { navigation, route, magic } = props;
@@ -48,13 +50,13 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       rpcUrl: "https://alfajores-forno.celo-testnet.org",
     },
   });
-
+  
   const login = async () => {
     try {
       const isValid = phoneInput.current?.isValidNumber(value);
       setValid(isValid);
       SetSubmitted(!submitted);
-
+      console.log("Load data ====>")
       if (isValid) {
         Keyboard.dismiss();
         let DID = await magicClient.auth.loginWithSMS({
@@ -71,18 +73,23 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             });
           });
         }
-
-        console.log("works");
-        navigation.navigate("MyDrawer");
+        
       } else {
         setTimeout(() => {
           setValid(true);
         }, 2000);
       }
 
-      //   magicClient.user.getMetadata().then(setUser);
+      // console.log("Load data <====")
+      WakalaContractKit.createInstance(magicClient);
+
+      // console.log("works", WakalaContractKit.getInstance());
+      console.log("works")
+      navigation.navigate("MyDrawer");
+
     } catch (err) {
-      console.log("doesn't Work");
+      console.log("AuthScreen", err);
+      console.error(err)
 
       alert(err);
     }
