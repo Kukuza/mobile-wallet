@@ -93,64 +93,62 @@ const AddFundsConfirmationScreen = (props: any) => {
   const web3: any = new Web3("https://alfajores-forno.celo-testnet.org");
 
   const kit = newKitFromWeb3(web3);
-  kit.connection.addAccount(
-    "2b2dbe085dab7bed83428a24ebfbae2deea0fd37b62b267a12f78d36bb175193"
-  );
+
   const contract = new web3.eth.Contract(
     wakalaEscrowAbi as AbiItem[],
     WAKALA_CONTRACT_ADDRESS
   );
 
-  const contractCall = async () => {
-    let totalBalance = await kit.getTotalBalance(
-      "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757"
-    );
-    console.log("============================>");
-    console.log(totalBalance.cUSD);
-    console.log("============================>");
+  // const contractCall = async () => {
+  //   let totalBalance = await kit.getTotalBalance(
+  //     "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757"
+  //   );
+  //   console.log("============================>");
+  //   console.log(totalBalance.cUSD);
+  //   console.log("============================>");
 
-    console.log("++++++++++++++++++++++++++++++++++");
-    const accounts = await kit.web3.eth.getAccounts();
-    console.log(accounts);
-    kit.defaultAccount = accounts[0];
-    web3.eth.defaultAccount = accounts[0];
+  //   console.log("++++++++++++++++++++++++++++++++++");
+  //   const accounts = await kit.web3.eth.getAccounts();
+  //   console.log(accounts);
+  //   kit.defaultAccount = accounts[0];
+  //   web3.eth.defaultAccount = accounts[0];
 
-    console.log("++++++++++++++++++++++++++++++++++");
+  //   console.log("++++++++++++++++++++++++++++++++++");
 
-    let cUSDcontract = await kit.contracts.getStableToken();
-    let contract = new kit.web3.eth.Contract(
-      wakalaEscrowAbi as AbiItem[],
-      WAKALA_CONTRACT_ADDRESS
-    );
-    console.log("******************************");
-    const user = {
-      publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-    };
+  //   let cUSDcontract = await kit.contracts.getStableToken();
+  //   let contract = new kit.web3.eth.Contract(
+  //     wakalaEscrowAbi as AbiItem[],
+  //     WAKALA_CONTRACT_ADDRESS
+  //   );
+  //   console.log("******************************");
+  //   const user = {
+  //     publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+  //   };
 
-    // const tx = await contract.methods.initializeDepositTransaction(2).send({
-    //   from: user.publicAdress,
-    // });
+  //   // const tx = await contract.methods.initializeDepositTransaction(2).send({
+  //   //   from: user.publicAdress,
+  //   // });
 
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
+  //   // let receipt = await tx.waitReceipt();
+  //   // console.log(receipt);
 
-    // Encode the transaction to HelloWorld.sol according to the ABI
-    let txObject = await contract.methods.initializeDepositTransaction(2);
+  //   // Encode the transaction to HelloWorld.sol according to the ABI
+  //   let txObject = await contract.methods.initializeDepositTransaction(2);
 
-    // Send the transaction
-    let tx = await kit.sendTransactionObject(txObject, {
-      from: user.publicAdress,
-      feeCurrency: cUSDcontract.address,
-    });
-    let receipt = await tx.waitReceipt();
-    console.log(receipt);
-    console.log("******************************");
+  //   // Send the transaction
+  //   let tx = await kit.sendTransactionObject(txObject, {
+  //     from: user.publicAdress,
+  //     feeCurrency: cUSDcontract.address,
+  //   });
+  //   let receipt = await tx.waitReceipt();
+  //   console.log(receipt);
+  //   console.log("******************************");
 
-    // let contractCall = await contract.methods
-    //   .initializeDepositTransaction(value)
-    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
-    console.log("The transaction has gone through");
-  };
+  //   // let contractCall = await contract.methods
+  //   //   .initializeDepositTransaction(value)
+  //   //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+  //   console.log("The transaction has gone through");
+  // };
 
   const handleAction = async () => {
     openModal();
