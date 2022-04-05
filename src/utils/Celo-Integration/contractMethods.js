@@ -1,5 +1,5 @@
-import wakalaEscrowAbi from "../ContractABIs/wakalaEscrow.abi.json";
 import ERC20Abi from "../ContractABIs/ERC20.abi.json";
+import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
 import {
   WAKALA_CONTRACT_ADDRESS,
   ERC20_ADDRESS,
@@ -13,7 +13,7 @@ function ContractMethods(magic) {
   let web3 = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
   let contract = new kit.web3.eth.Contract(
-    wakalaEscrowAbi,
+    WakalaEscrowAbi,
     WAKALA_CONTRACT_ADDRESS
   );
   // Karma Protocol integration => karma contract link: https://github.com/karma-reputation-protocol/karma/tree/main

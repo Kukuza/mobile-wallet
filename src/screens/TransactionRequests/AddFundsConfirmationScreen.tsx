@@ -12,7 +12,7 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import DefaultButton from "../../components/buttons/DefaultButton";
-import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
+// import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
@@ -23,19 +23,22 @@ import {
   ERC20_ADDRESS,
   KARMA_CONTRACT_ADDRESS,
 } from "../../utils/ContractAdresses/contract";
-import wakalaEscrowAbi from "../../utils/ContractABIs/wakalaEscrow.abi.json";
 import { magic, web3 } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import { CeloContract } from "@celo/contractkit";
+import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
+import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
       {props.isActionSuccess ? (
         <View>
-          <Image source={SHARED} style={modalStyles.image} />
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={SHARED} style={modalStyles.image} />
+          </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
             We shared your{" "}
@@ -51,7 +54,9 @@ const ModalContent = (props) => {
         </View>
       ) : (
         <View>
-          <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
             Something just happened. Please try again.
@@ -89,66 +94,97 @@ const AddFundsConfirmationScreen = (props: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
-  // test new contract call
-  const web3: any = new Web3("https://alfajores-forno.celo-testnet.org");
+  let web3: any = new Web3(magic.rpcProvider);
+  let kit = newKitFromWeb3(web3);
 
-  const kit = newKitFromWeb3(web3);
-
-  const contract = new web3.eth.Contract(
-    wakalaEscrowAbi as AbiItem[],
+  const contract = new kit.web3.eth.Contract(
+    WakalaEscrowAbi as AbiItem[],
     WAKALA_CONTRACT_ADDRESS
   );
 
-  // const contractCall = async () => {
-  //   let totalBalance = await kit.getTotalBalance(
-  //     "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757"
-  //   );
-  //   console.log("============================>");
-  //   console.log(totalBalance.cUSD);
-  //   console.log("============================>");
+  const openModal = () => {
+    modalRef.current?.openModal();
+  };
 
-  //   console.log("++++++++++++++++++++++++++++++++++");
-  //   const accounts = await kit.web3.eth.getAccounts();
-  //   console.log(accounts);
-  //   kit.defaultAccount = accounts[0];
-  //   web3.eth.defaultAccount = accounts[0];
+  const call = async () => {
+    let txObject = await contract.methods.initializeDepositTransaction(value);
+    let cUSDcontract = await kit.contracts.getStableToken();
+    let tx = await kit.sendTransactionObject(txObject, {
+      from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+      // feeCurrency: cUSDcontract.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log(receipt);
+  };
+  const contractCall = async () => {
+    // console.log("++++++++++++++++++++++++++++++++++");
 
-  //   console.log("++++++++++++++++++++++++++++++++++");
+    // let cUSDcontract = await kit.contracts.getStableToken();
+    // let contract = new kit.web3.eth.Contract(
+    //   WakalEscrowAbi as AbiItem[],
+    //   WAKALA_CONTRACT_ADDRESS
+    // );
+    // console.log("******************************");
+    // const user = {
+    //   publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+    // };
 
-  //   let cUSDcontract = await kit.contracts.getStableToken();
-  //   let contract = new kit.web3.eth.Contract(
-  //     wakalaEscrowAbi as AbiItem[],
-  //     WAKALA_CONTRACT_ADDRESS
-  //   );
-  //   console.log("******************************");
-  //   const user = {
-  //     publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-  //   };
+    // const tx = await contract.methods.initializeDepositTransaction(2).send({
+    //   from: user.publicAdress,
+    // });
 
-  //   // const tx = await contract.methods.initializeDepositTransaction(2).send({
-  //   //   from: user.publicAdress,
-  //   // });
+    // let receipt = await tx.waitReceipt();
+    // console.log(receipt);
 
-  //   // let receipt = await tx.waitReceipt();
-  //   // console.log(receipt);
+    // Encode the transaction to HelloWorld.sol according to the ABI
+    // let txObject = await contract.methods.initializeDepositTransaction(2);
 
-  //   // Encode the transaction to HelloWorld.sol according to the ABI
-  //   let txObject = await contract.methods.initializeDepositTransaction(2);
+    // Send the transaction
+    // let tx = await kit.sendTransactionObject(txObject, {
+    //   from: user.publicAdress,
+    //   feeCurrency: cUSDcontract.address,
+    // });
+    // let receipt = await tx.waitReceipt();
+    // console.log(receipt);
+    // console.log("******************************");
 
-  //   // Send the transaction
-  //   let tx = await kit.sendTransactionObject(txObject, {
-  //     from: user.publicAdress,
-  //     feeCurrency: cUSDcontract.address,
-  //   });
-  //   let receipt = await tx.waitReceipt();
-  //   console.log(receipt);
-  //   console.log("******************************");
+    // let contractCall = await contract.methods
+    //   .initializeDepositTransaction(value)
+    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+    openModal();
+    setIsLoading(true);
+    console.log("something is cooking");
+    setLoadingMessage("Initializing the transaction...");
+    console.log("==============>");
+    console.log(operation);
+    if (operation === "TopUp") {
+      setLoadingMessage("Sending the deposit transaction...");
+      console.log("The transaction has started");
 
-  //   // let contractCall = await contract.methods
-  //   //   .initializeDepositTransaction(value)
-  //   //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
-  //   console.log("The transaction has gone through");
-  // };
+      await contract.methods
+        .initializeDepositTransaction(value)
+        .send({ from: (await magic.user.getMetadata()).publicAddress })
+        .then(() => {
+          console.log("reached 2nd then");
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + value.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+      console.log("The transaction has gone through");
+      setIsLoading(false);
+
+      // console.log("The transaction has started");
+      // await contract.methods
+      //   .initializeDepositTransaction(2)
+      //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+      // console.log("The transaction has gone through");
+    }
+  };
 
   const handleAction = async () => {
     openModal();
@@ -212,10 +248,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     setIsLoading(false);
   };
 
-  const openModal = () => {
-    modalRef.current?.openModal();
-  };
-
   const closeModal = () => {
     if (!isActionSuccess) {
       modalRef.current?.closeModal();
@@ -277,11 +309,12 @@ const AddFundsConfirmationScreen = (props: any) => {
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
           <DefaultButton
-            onPress={handleAction}
+            onPress={() => contractCall()}
             // onPress={() => navigation.navigate("Home")}
             style={{ minWidth: 286, marginTop: 40 }}
             text="Continue"
           />
+          <magic.Relayer />
         </View>
       </ScreenComponent>
       <Modal
@@ -394,6 +427,7 @@ const modalStyles = StyleSheet.create({
   image: {
     height: 150,
     maxWidth: SIZES.width * 0.8,
+    alignContent: "center",
     resizeMode: "contain",
     marginBottom: 20,
   },
