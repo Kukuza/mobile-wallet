@@ -152,9 +152,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     console.log("The transaction has gone through");
   };
 
-  // end test here
-
-  useEffect(() => {}, []);
   const handleAction = async () => {
     openModal();
     //Init
@@ -167,27 +164,36 @@ const AddFundsConfirmationScreen = (props: any) => {
     } else {
       setLoadingMessage("Initializing the Blockchain connection...");
       console.log("reached here");
-      await contractMethods.init();
-      dispatch({
-        type: "INIT_CONTRACT_METHODS",
-        value: contractMethods,
+      await contractMethods.init().then((result) => {
+        dispatch({
+          type: "INIT_CONTRACT_METHODS",
+          value: contractMethods,
+        });
       });
     }
     console.log("==============>");
     let amount = contractMethods.web3.utils.toBN(value);
-    console.log("Teh" + amount);
+    console.log(operation);
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
-      try {
-        let result = await contractMethods.initializeDepositTransaction(amount);
-        setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        console.log(error.toString() + " \n Amount: " + amount.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
+      // try {
+      await contractMethods
+        .initializeDepositTransaction(amount)
+        .then(() => {
+          console.log("reached 2nd then");
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + amount.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+
+      // } catch (error: any) {
+
+      // }
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
@@ -207,6 +213,7 @@ const AddFundsConfirmationScreen = (props: any) => {
     }
     setIsLoading(false);
   };
+
   const openModal = () => {
     modalRef.current?.openModal();
   };

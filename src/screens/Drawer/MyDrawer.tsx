@@ -21,7 +21,7 @@ const Drawer = createDrawerNavigator();
 export default function MyDrawer() {
   return (
     <Drawer.Navigator
-    initialRouteName="Home"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         drawerStyle: {

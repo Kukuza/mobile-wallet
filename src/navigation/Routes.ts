@@ -10,7 +10,12 @@ import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsC
 import ConfirmMpesaPaymentSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentSwipeScreen";
 import ConfirmRequest from "../screens/PerformRequest/ConfirmRequest";
 import TransactionConfirmationScreen from "../screens/TransactionRequests/TransactionConfirmationScreen";
+import TestScreen from "../screens/TestScreen/TestScreen";
 const routes: IRouteProps[] = [
+  {
+    name: "Test",
+    component: TestScreen,
+  },
   {
     name: "Onboarding",
     component: Onboarding,

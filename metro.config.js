@@ -1,7 +1,10 @@
+const { getDefaultConfig } = require("metro-config");
+const defaultConfig = getDefaultConfig.getDefaultValues(__dirname);
 const crypto = require.resolve("crypto-browserify");
 const url = require.resolve("url/");
 module.exports = {
   resolver: {
+    assetExts: [...defaultConfig.resolver.assetExts, "pem"],
     extraNodeModules: {
       crypto,
       url,

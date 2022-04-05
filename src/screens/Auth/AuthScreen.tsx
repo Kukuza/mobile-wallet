@@ -21,13 +21,30 @@ import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { connect, useDispatch } from "react-redux";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-
+import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
+import wakalaEscrowAbi from "../../utils/ContractABIs/wakalaEscrow.abi.json";
+import { AbiItem } from "web3-utils";
+import { web3 } from "../../utils/magic";
 const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
   // const { navigation, route, magic } = props;
   const magic = props.magic;
   const navigation = props.navigation;
+
+  const magicCall = async () => {
+    const helloWorldContract = "0x1e1bF128A09fD30420CE9fc294C4266C032eF6E7";
+    const contract = new web3.eth.Contract(
+      wakalaEscrowAbi as AbiItem[],
+      WAKALA_CONTRACT_ADDRESS
+    );
+
+    console.log("xxxxxxxxxxxxxxxxxxxxxxx> start");
+    await contract.methods
+      .initializeDepositTransaction(1)
+      .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+    console.log("<xxxxxxxxxxxxxxxxxxxxxxx finish");
+  };
 
   //todo Remove this
   // const clearOnboarding = async () => {
