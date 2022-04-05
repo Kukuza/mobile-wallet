@@ -227,26 +227,26 @@ const modalStyles = StyleSheet.create({
   title: {
     fontSize: 16,
     lineHeight: 24,
-    color: "#333333",
+    color: COLORS.textPrimary,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.body3.fontFamily,
   },
 
   text: {
     fontSize: 14,
     lineHeight: 21,
-    color: "#333333",
+    color: COLORS.textPrimary,
     textAlign: "center",
-    fontFamily: "Rubik_400Regular",
+    fontFamily: FONTS.headline.fontFamily,
     marginTop: 25,
   },
 
   button: {
     fontSize: 20,
     lineHeight: 24,
-    color: "#133FDB",
+    color: COLORS.accent1,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.sh1.fontFamily,
     marginTop: 60,
   },
 });
