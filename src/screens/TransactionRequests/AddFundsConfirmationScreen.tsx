@@ -93,9 +93,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   const web3: any = new Web3("https://alfajores-forno.celo-testnet.org");
 
   const kit = newKitFromWeb3(web3);
-  kit.connection.addAccount(
-    "2b2dbe085dab7bed83428a24ebfbae2deea0fd37b62b267a12f78d36bb175193"
-  );
+
   const contract = new web3.eth.Contract(
     wakalaEscrowAbi as AbiItem[],
     WAKALA_CONTRACT_ADDRESS
