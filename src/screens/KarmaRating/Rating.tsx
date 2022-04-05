@@ -8,6 +8,7 @@ import Modal from "../../components/modals/Modal";
 import NavHeader from "../../components/NavHeader";
 import { CONNECTIVITY } from "../../assets/images";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import COLORS from "../../styles/colors/colors";
 
 const ModalContent = (props) => {
   return (
@@ -168,14 +169,14 @@ const styles = StyleSheet.create({
 
   starsText: {
     fontSize: 12,
-    color: "#4840BB",
-    fontFamily: FONTS.h1.fontFamily,
+    color: COLORS.primary,
+    fontFamily: FONTS.body6.fontFamily,
   },
 
   transactionsText: {
     fontSize: 14,
-    color: "#333333",
-    fontFamily: "Rubik_400Regular",
+    color: COLORS.textPrimary,
+    fontFamily: FONTS.h1.fontFamily,
     marginTop: 10,
   },
 
@@ -185,9 +186,9 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 16,
-    color: "#333333",
+    color: COLORS.textPrimary,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.body3.fontFamily,
     marginBottom: 50,
   },
 
@@ -195,16 +196,16 @@ const styles = StyleSheet.create({
     width: 150,
     height: 50,
     borderRadius: 24,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.white,
     justifyContent: "center",
     marginTop: 30,
   },
 
   buttonText: {
     fontSize: 18,
-    color: "#4840BB",
+    color: COLORS.primary,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
+    fontFamily: FONTS.sh2.fontFamily,
   },
 });
 
