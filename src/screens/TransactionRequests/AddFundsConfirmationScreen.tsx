@@ -1,17 +1,34 @@
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import React, { Fragment, useCallback, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import DefaultButton from "../../components/buttons/DefaultButton";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
+import {
+  WAKALA_CONTRACT_ADDRESS,
+  ERC20_ADDRESS,
+  KARMA_CONTRACT_ADDRESS,
+} from "../../utils/ContractAdresses/contract";
+import wakalaEscrowAbi from "../../utils/ContractABIs/wakalaEscrow.abi.json";
+import { magic, web3 } from "../../utils/magic";
+import { AbiItem } from "web3-utils";
+import Web3 from "web3";
+import { newKitFromWeb3 } from "@celo/contractkit";
+import { CeloContract } from "@celo/contractkit";
 
 const ModalContent = (props) => {
   return (
@@ -59,11 +76,9 @@ const ModalContent = (props) => {
  * }
  * @returns
  */
-const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
-  props: any
-) => {
-  const { navigation, route } = props;
-  const operation = route.params.operation;
+const AddFundsConfirmationScreen = (props: any) => {
+  // const { navigation, route } = props;
+  const operation = props.route.params.operation;
   const modalRef = useRef<any>();
 
   // console.log(props.route.params?.param);
@@ -73,6 +88,69 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+
+  // test new contract call
+  const web3: any = new Web3("https://alfajores-forno.celo-testnet.org");
+
+  const kit = newKitFromWeb3(web3);
+  kit.connection.addAccount(
+    "2b2dbe085dab7bed83428a24ebfbae2deea0fd37b62b267a12f78d36bb175193"
+  );
+  const contract = new web3.eth.Contract(
+    wakalaEscrowAbi as AbiItem[],
+    WAKALA_CONTRACT_ADDRESS
+  );
+
+  const contractCall = async () => {
+    let totalBalance = await kit.getTotalBalance(
+      "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757"
+    );
+    console.log("============================>");
+    console.log(totalBalance.cUSD);
+    console.log("============================>");
+
+    console.log("++++++++++++++++++++++++++++++++++");
+    const accounts = await kit.web3.eth.getAccounts();
+    console.log(accounts);
+    kit.defaultAccount = accounts[0];
+    web3.eth.defaultAccount = accounts[0];
+
+    console.log("++++++++++++++++++++++++++++++++++");
+
+    let cUSDcontract = await kit.contracts.getStableToken();
+    let contract = new kit.web3.eth.Contract(
+      wakalaEscrowAbi as AbiItem[],
+      WAKALA_CONTRACT_ADDRESS
+    );
+    console.log("******************************");
+    const user = {
+      publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+    };
+
+    // const tx = await contract.methods.initializeDepositTransaction(2).send({
+    //   from: user.publicAdress,
+    // });
+
+    // let receipt = await tx.waitReceipt();
+    // console.log(receipt);
+
+    // Encode the transaction to HelloWorld.sol according to the ABI
+    let txObject = await contract.methods.initializeDepositTransaction(2);
+
+    // Send the transaction
+    let tx = await kit.sendTransactionObject(txObject, {
+      from: user.publicAdress,
+      feeCurrency: cUSDcontract.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log(receipt);
+    console.log("******************************");
+
+    // let contractCall = await contract.methods
+    //   .initializeDepositTransaction(value)
+    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+    console.log("The transaction has gone through");
+  };
 
   const handleAction = async () => {
     openModal();
@@ -85,26 +163,37 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
       contractMethods = props.contractMethods;
     } else {
       setLoadingMessage("Initializing the Blockchain connection...");
-      await contractMethods.init();
-      dispatch({
-        type: "INIT_CONTRACT_METHODS",
-        value: contractMethods,
+      console.log("reached here");
+      await contractMethods.init().then((result) => {
+        dispatch({
+          type: "INIT_CONTRACT_METHODS",
+          value: contractMethods,
+        });
       });
     }
+    console.log("==============>");
     let amount = contractMethods.web3.utils.toBN(value);
-    console.log("Teh" + amount);
+    console.log(operation);
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
-      try {
-        let result = await contractMethods.initializeDepositTransaction(amount);
-        setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        console.log(error.toString() + " \n Amount: " + amount.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
+      // try {
+      await contractMethods
+        .initializeDepositTransaction(amount)
+        .then(() => {
+          console.log("reached 2nd then");
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + amount.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+
+      // } catch (error: any) {
+
+      // }
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
@@ -124,6 +213,7 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
     }
     setIsLoading(false);
   };
+
   const openModal = () => {
     modalRef.current?.openModal();
   };
@@ -134,7 +224,7 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
       return;
     }
     modalRef.current?.closeModal();
-    navigation.navigate("Home Screen");
+    props.navigation.navigate("Home Screen");
     /*navigation.navigate("Confirm Request", {
       value: value,
       operation: operation,
@@ -178,9 +268,12 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
         <View style={styles.wrapper}>
           <HeaderTitle
             additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={() => navigation.navigate("Add Funds")}
+            backButtonHandler={() => props.navigation.navigate("Add Funds")}
           />
           <RequestTxInformationCard
+            cardSubtitle={
+              operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
+            }
             grossAmount={props.route.params?.param}
             netValue={"Ksh " + props.route.params?.param * 114}
             additionalStyling={styles.requestTsxInfoCard}
@@ -224,11 +317,11 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   headerTitleAdditionalStyling: {
-      paddingLeft: 24
+    paddingLeft: 24,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingLeft: 24,
   },
   container: {

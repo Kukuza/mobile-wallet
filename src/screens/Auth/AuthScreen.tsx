@@ -19,53 +19,62 @@ import { COLORS } from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
-import { Magic } from "@magic-sdk/react-native";
 import { connect, useDispatch } from "react-redux";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-
-const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-  
+import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
+import wakalaEscrowAbi from "../../utils/ContractABIs/wakalaEscrow.abi.json";
+import { AbiItem } from "web3-utils";
+import { web3 } from "../../utils/magic";
+const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
-  const { navigation, route, magic } = props;
+  // const { navigation, route, magic } = props;
+  const magic = props.magic;
+  const navigation = props.navigation;
+
+  const magicCall = async () => {
+    const helloWorldContract = "0x1e1bF128A09fD30420CE9fc294C4266C032eF6E7";
+    const contract = new web3.eth.Contract(
+      wakalaEscrowAbi as AbiItem[],
+      WAKALA_CONTRACT_ADDRESS
+    );
+
+    console.log("xxxxxxxxxxxxxxxxxxxxxxx> start");
+    await contract.methods
+      .initializeDepositTransaction(1)
+      .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
+    console.log("<xxxxxxxxxxxxxxxxxxxxxxx finish");
+  };
 
   //todo Remove this
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem("@viewedOnboarding");
-    } catch (error) {
-      console.log("Error @clearOnboarding: ", error);
-    }
-  };
+  // const clearOnboarding = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem("@viewedOnboarding");
+  //   } catch (error) {
+  //     console.log("Error @clearOnboarding: ", error);
+  //   }
+  // };
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
 
   const phoneInput = useRef<PhoneInput>(null);
-  // magic
-  const magicClient = new Magic("pk_live_5B2A9951805695BB", {
-    network: {
-      rpcUrl: "https://alfajores-forno.celo-testnet.org",
-    },
-  });
-  
   const login = async () => {
     try {
       const isValid = phoneInput.current?.isValidNumber(value);
       setValid(isValid);
       SetSubmitted(!submitted);
-      console.log("Load data ====>")
+      console.log("Load data ====>");
       if (isValid) {
         Keyboard.dismiss();
-        let DID = await magicClient.auth.loginWithSMS({
+        let DID = await magic.auth.loginWithSMS({
           phoneNumber: value, //pass the phone input value to get otp sms
         });
 
         // Consume decentralized identity (DID)
         if (DID !== null) {
-          magicClient.user.getMetadata().then((userMetadata) => {
+          magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
             dispatch({
               type: "LOGIN",
@@ -73,30 +82,28 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             });
           });
         }
-        
+
+        console.log((await magic.user.getMetadata()).publicAddress);
+        navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {
           setValid(true);
         }, 2000);
       }
 
-      // console.log("Load data <====")
-      WakalaContractKit.createInstance(magicClient);
-
       // console.log("works", WakalaContractKit.getInstance());
-      console.log("works")
+      console.log("works");
       navigation.navigate("MyDrawer");
-
     } catch (err) {
       console.log("AuthScreen", err);
-      console.error(err)
+      console.error(err);
 
       alert(err);
     }
   };
   // Logout of Magic session
   const logout = async () => {
-    await magicClient.user.logout();
+    await magic.user.logout();
     // setUser("");
     console.log("logged out");
   };
@@ -149,12 +156,26 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <magicClient.Relayer />
+          <magic.Relayer />
         </View>
       </ScreenComponent>
     </KeyboardAvoidingView>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -230,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+// export default AuthScreen;

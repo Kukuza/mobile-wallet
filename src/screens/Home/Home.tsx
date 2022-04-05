@@ -83,7 +83,9 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
             />
           )}
         </View>
-        <BottomMenu navigation={navigation}></BottomMenu>
+        <View style={{ marginBottom: 100 }}>
+          <BottomMenu navigation={navigation}></BottomMenu>
+        </View>
       </View>
     </ScreenComponent>
   );

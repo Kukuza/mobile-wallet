@@ -1,4 +1,4 @@
-import wakalaEscrowAbi from "../ContractABIs/WakalaEscrow.abi.json";
+import wakalaEscrowAbi from "../ContractABIs/wakalaEscrow.abi.json";
 import ERC20Abi from "../ContractABIs/ERC20.abi.json";
 import {
   WAKALA_CONTRACT_ADDRESS,
@@ -8,7 +8,6 @@ import {
 import { CeloContract, newKitFromWeb3 } from "@celo/contractkit";
 import Web3 from "web3";
 import karmaAbi from "../ContractABIs/karma.abi.json";
-
 function ContractMethods(magic) {
   const root = this;
   let web3 = new Web3(magic.rpcProvider);
