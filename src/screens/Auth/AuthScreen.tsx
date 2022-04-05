@@ -65,7 +65,7 @@ const AuthScreen = (props) => {
       const isValid = phoneInput.current?.isValidNumber(value);
       setValid(isValid);
       SetSubmitted(!submitted);
-
+      console.log("Load data ====>");
       if (isValid) {
         Keyboard.dismiss();
         let DID = await magic.auth.loginWithSMS({
@@ -91,9 +91,12 @@ const AuthScreen = (props) => {
         }, 2000);
       }
 
-      //   magicClient.user.getMetadata().then(setUser);
+      // console.log("works", WakalaContractKit.getInstance());
+      console.log("works");
+      navigation.navigate("MyDrawer");
     } catch (err) {
-      console.log("doesn't Work");
+      console.log("AuthScreen", err);
+      console.error(err);
 
       alert(err);
     }
