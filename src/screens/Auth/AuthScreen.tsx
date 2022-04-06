@@ -24,11 +24,13 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import { AbiItem } from "web3-utils";
 import { web3 } from "../../utils/magic";
+import { magic } from "../../utils/magic";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
   // const { navigation, route, magic } = props;
-  const magic = props.magic;
+  // const magic = props.magic;
   const navigation = props.navigation;
 
   //todo Remove this
@@ -43,6 +45,8 @@ const AuthScreen = (props) => {
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
+  WakalaContractKit.createInstance(magic);
+  const wakalaContractKit = WakalaContractKit.getInstance();
 
   const phoneInput = useRef<PhoneInput>(null);
   const login = async () => {
@@ -61,6 +65,7 @@ const AuthScreen = (props) => {
         if (DID !== null) {
           magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
+            wakalaContractKit.setUserMetadata(userMetadata);
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },

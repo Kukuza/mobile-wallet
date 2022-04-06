@@ -30,6 +30,7 @@ import { newKitFromWeb3 } from "@celo/contractkit";
 import { CeloContract } from "@celo/contractkit";
 import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 
 const ModalContent = (props) => {
   return (
@@ -85,6 +86,10 @@ const AddFundsConfirmationScreen = (props: any) => {
   // const { navigation, route } = props;
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
+
+  const publicAddress =
+    WakalaContractKit.getInstance().userMetadata.publicAddress;
+  // console.log(WakalaContractKit.getInstance().userMetadata);
 
   // console.log(props.route.params?.param);
   const value = props.route.params?.param;
@@ -163,7 +168,7 @@ const AddFundsConfirmationScreen = (props: any) => {
 
       await contract.methods
         .initializeDepositTransaction(value)
-        .send({ from: (await magic.user.getMetadata()).publicAddress })
+        .send({ from: publicAddress })
         .then(() => {
           console.log("reached 2nd then");
           setLoadingMessage("");
@@ -183,7 +188,7 @@ const AddFundsConfirmationScreen = (props: any) => {
 
       await contract.methods
         .initializeWithdrawalTransaction(value)
-        .send({ from: (await magic.user.getMetadata()).publicAddress })
+        .send({ from: publicAddress })
         .then(() => {
           setLoadingMessage("");
           setIsLoading(false);
