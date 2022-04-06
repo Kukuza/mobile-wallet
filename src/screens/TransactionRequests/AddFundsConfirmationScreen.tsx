@@ -177,12 +177,25 @@ const AddFundsConfirmationScreen = (props: any) => {
         });
       console.log("The transaction has gone through");
       setIsLoading(false);
+    } else {
+      setLoadingMessage("Sending the Withdrawal transaction...");
+      console.log("The withdrawal transaction has started");
 
-      // console.log("The transaction has started");
-      // await contract.methods
-      //   .initializeDepositTransaction(2)
-      //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
-      // console.log("The transaction has gone through");
+      await contract.methods
+        .initializeWithdrawalTransaction(value)
+        .send({ from: (await magic.user.getMetadata()).publicAddress })
+        .then(() => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + value.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+      console.log("The withdrawal transaction has gone through");
+      setIsLoading(false);
     }
   };
 
@@ -255,10 +268,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     }
     modalRef.current?.closeModal();
     props.navigation.navigate("MyDrawer");
-    /*navigation.navigate("Confirm Request", {
-      value: value,
-      operation: operation,
-    });*/
   };
 
   const useViewSize = () => {
