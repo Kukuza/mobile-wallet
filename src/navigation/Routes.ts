@@ -11,6 +11,7 @@ import ConfirmMpesaPaymentSwipeScreen from "../screens/TransactionRequests/Confi
 import ConfirmRequest from "../screens/PerformRequest/ConfirmRequest";
 import TransactionConfirmationScreen from "../screens/TransactionRequests/TransactionConfirmationScreen";
 import TestScreen from "../screens/TestScreen/TestScreen";
+import Rating from "../screens/KarmaRating/Rating";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -55,6 +56,10 @@ const routes: IRouteProps[] = [
   {
     name: "Transaction Information Screen",
     component: TransactionConfirmationScreen,
+  },
+  {
+    name: "Rating",
+    component: Rating,
   },
 ];
 
