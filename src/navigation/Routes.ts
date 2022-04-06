@@ -12,6 +12,7 @@ import ConfirmRequest from "../screens/PerformRequest/ConfirmRequest";
 import TransactionConfirmationScreen from "../screens/TransactionRequests/TransactionConfirmationScreen";
 import TestScreen from "../screens/TestScreen/TestScreen";
 import Rating from "../screens/KarmaRating/Rating";
+import TransactionSuccess from "../screens/TransactionRequests/TransactionSuccess";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -54,12 +55,16 @@ const routes: IRouteProps[] = [
     component: ConfirmRequest,
   },
   {
-    name: "Transaction Information Screen",
+    name: "Transaction Confirmation Screen",
     component: TransactionConfirmationScreen,
   },
   {
     name: "Rating",
     component: Rating,
+  },
+  {
+    name: "TransactionSuccess",
+    component: TransactionSuccess,
   },
 ];
 

@@ -1,16 +1,188 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import React, { Fragment, useRef, useState } from "react";
 import TransactionConfirmationCard from "../../components/cards/TransactionConfirmationCard";
 import SwipeButton from "../../components/buttons/SwipeButton";
+import ScreenComponent from "../../containers/ScreenComponent";
+import NavHeader from "../../containers/NavHeader";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import Modal from "../../components/modals/Modal";
+import ModalLoading from "../../components/modals/ModalLoading";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import { Ionicons } from "@expo/vector-icons";
+import { THANK_YOU_IMAGE, CONNECTIVITY } from "../../assets/images";
+import { mainStyles } from "../../components/componentTheme";
+import Web3 from "web3";
+import { newKitFromWeb3 } from "@celo/contractkit";
+import { magic } from "../../utils/magic";
+import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
+import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import { AbiItem } from "web3-utils";
+
+const ModalContent = (props) => {
+  return (
+    <View style={modalStyles.container}>
+      {props.isActionSuccess ? (
+        props.operation === "TopUp" ? (
+          <View>
+            <Image source={THANK_YOU_IMAGE} style={modalStyles.image} />
+            <Text style={modalStyles.title}>Thank you!</Text>
+            <Text style={modalStyles.text}>
+              After your agents confirms of M-PESA payment receipt. Your cUSD
+              will be deposited to your wallet.
+            </Text>
+
+            <TouchableOpacity onPress={() => props.handleAction()}>
+              <Text style={modalStyles.button}>Got it!</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View>
+            <Ionicons
+              name="checkmark-circle"
+              size={36}
+              color="#4840BB"
+              style={{ textAlign: "center", marginBottom: 12 }}
+            />
+            <Text style={[mainStyles.title, { color: "#4840BB" }]}>
+              Transaction Successful!
+            </Text>
+            <TouchableOpacity onPress={() => props.handleAction()}>
+              <Text style={modalStyles.button}>Got it!</Text>
+            </TouchableOpacity>
+          </View>
+        )
+      ) : (
+        <View>
+          <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          <Text style={modalStyles.title}>Oh Snap!</Text>
+          <Text style={modalStyles.text}>
+            Something just happened. Please try again.
+          </Text>
+          <Text style={{ ...FONTS.body5, textAlign: "center", marginTop: 5 }}>
+            {props.errorMessage}
+          </Text>
+          <TouchableOpacity onPress={() => props.handleAction()}>
+            <Text style={modalStyles.button}>Try again</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
+  );
+};
 
 const TransactionConfirmationScreen = () => {
+  const route = useRoute<any>();
+  const modalRef = useRef<any>();
+  const navigation = useNavigation<any>();
+
+  //   const value = route.params.value;
+  //   const operation = route.params.operation;
+  //   const transaction = route.params.transaction;
+
+  //   todo remove
+  const value = 2;
+  const operation = "TopUp";
+  const transaction = route.params?.transaction;
+  const dispatch = useDispatch();
+
+  const [isActionSuccess, setIsActionSuccess] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("");
+  // const publicAddress =
+  //   WakalaContractKit.getInstance().userMetadata.publicAddress;
+  const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
+  let web3: any = new Web3(magic.rpcProvider);
+  let kit = newKitFromWeb3(web3);
+  const contract = new kit.web3.eth.Contract(
+    WakalaEscrowAbi as AbiItem[],
+    WAKALA_CONTRACT_ADDRESS
+  );
+  const handleAction = async () => {
+    openModal();
+    setIsLoading(true);
+    setLoadingMessage("Confirming Payment...");
+    console.log("==============>");
+    console.log("The transaction has started");
+    await contract.methods
+      .clientConfirmPayment(transaction)
+      .send({ from: publicAddress })
+      .then(() => {
+        console.log("reached 2nd then");
+        setLoadingMessage("");
+        setIsLoading(false);
+      })
+      .catch((error: any) => {
+        setLoadingMessage(error.toString());
+        console.log(error.toString() + " \n Amount: " + transaction.toString());
+        setIsActionSuccess(false);
+        setIsLoading(false);
+      });
+    console.log("The transaction has gone through");
+    setIsLoading(false);
+  };
+
+  const openModal = () => {
+    modalRef.current?.openModal();
+  };
+
+  const closeModal = () => {
+    if (!isActionSuccess) {
+      modalRef.current?.closeModal();
+      return;
+    }
+
+    modalRef.current?.closeModal();
+
+    navigation.navigate("MyDrawer");
+
+    // if (operation === "TopUp") {
+    //   navigation.navigate("Success", {
+    //     operation: operation,
+    //   });
+    // } else {
+    //   navigation.navigate("Rate", {
+    //     operation: operation,
+    //   });
+    // }
+  };
   return (
-    <View style={styles.container}>
-      <TransactionConfirmationCard />
-      <View style={{ marginTop: 25 }}>
-        <SwipeButton title="Swipe to Confirm" />
-      </View>
-    </View>
+    <Fragment>
+      <ScreenComponent>
+        <NavHeader />
+        <View style={styles.container}>
+          <TransactionConfirmationCard />
+          <View style={{ marginTop: 40 }}>
+            <SwipeButton
+              title="Swipe to Confirm"
+              handleAction={() => handleAction()}
+            />
+          </View>
+        </View>
+      </ScreenComponent>
+      <Modal
+        ref={modalRef}
+        style={
+          !isActionSuccess
+            ? { height: 490 }
+            : operation === "TopUp"
+            ? { height: 420 }
+            : { height: 300 }
+        }
+        content={
+          isLoading ? (
+            <ModalLoading loadingMessage={loadingMessage} />
+          ) : (
+            <ModalContent
+              handleAction={closeModal}
+              isActionSuccess={isActionSuccess}
+              errorMessage={loadingMessage}
+            />
+          )
+        }
+      />
+    </Fragment>
   );
 };
 
@@ -19,7 +191,56 @@ export default TransactionConfirmationScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
     margin: 30,
+  },
+});
+
+const modalStyles = StyleSheet.create({
+  container: {
+    height: "auto",
+    paddingVertical: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+
+  image: {
+    height: 70,
+    maxWidth: SIZES.width * 0.8,
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+
+  errorImage: {
+    height: 180,
+    maxWidth: SIZES.width * 0.8,
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+
+  title: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#333333",
+    textAlign: "center",
+    fontFamily: "Rubik_500Medium",
+  },
+
+  text: {
+    fontSize: 14,
+    lineHeight: 21,
+    color: "#333333",
+    textAlign: "center",
+    fontFamily: "Rubik_400Regular",
+    marginTop: 25,
+  },
+
+  button: {
+    fontSize: 20,
+    lineHeight: 24,
+    color: "#133FDB",
+    textAlign: "center",
+    fontFamily: "Rubik_500Medium",
+    marginTop: 40,
   },
 });
