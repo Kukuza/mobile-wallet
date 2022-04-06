@@ -254,7 +254,7 @@ const AddFundsConfirmationScreen = (props: any) => {
       return;
     }
     modalRef.current?.closeModal();
-    props.navigation.navigate("Home Screen");
+    props.navigation.navigate("MyDrawer");
     /*navigation.navigate("Confirm Request", {
       value: value,
       operation: operation,
