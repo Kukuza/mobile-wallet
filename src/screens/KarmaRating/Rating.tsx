@@ -64,7 +64,6 @@ const Rating = () => {
       setNewTitle("Support community");
     }
   }, []);
-
   function handleChange(newValue) {
     setRatingValue(newValue);
   }
@@ -90,7 +89,7 @@ const Rating = () => {
 
   const closeModal = () => {
     if (isRatingSubmissionSuccess) {
-      navigation.navigate("Home Screen");
+      navigation.navigate("MyDrawer");
     }
     modalRef.current?.closeModal();
   };
@@ -117,7 +116,10 @@ const Rating = () => {
             <Text style={styles.text}>
               How was your experience with the community member?
             </Text>
-            <RateSlider rating={ratingValue} onChange={handleChange} />
+            <RateSlider
+              // rating={ratingValue}
+              onChange={() => handleChange(ratingValue)}
+            />
             <TouchableOpacity
               style={styles.button}
               onPress={handleRatingSubmition}

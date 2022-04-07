@@ -117,7 +117,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName="TransactionSuccess"
+            initialRouteName="TopUpViewRequestScreen"
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (

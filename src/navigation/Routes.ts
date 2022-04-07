@@ -13,6 +13,7 @@ import TransactionConfirmationScreen from "../screens/TransactionRequests/Transa
 import TestScreen from "../screens/TestScreen/TestScreen";
 import Rating from "../screens/KarmaRating/Rating";
 import TransactionSuccess from "../screens/TransactionRequests/TransactionSuccess";
+import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -65,6 +66,10 @@ const routes: IRouteProps[] = [
   {
     name: "TransactionSuccess",
     component: TransactionSuccess,
+  },
+  {
+    name: "TopUpViewRequestScreen",
+    component: TopUpViewRequestScreen,
   },
 ];
 

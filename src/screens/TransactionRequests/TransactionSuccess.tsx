@@ -6,7 +6,7 @@ import COLORS from "../../styles/colors/colors";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { LinearGradient } from "expo-linear-gradient";
 
-const TransactionSuccess = () => {
+const TransactionSuccess = (props) => {
   return (
     <ScreenComponent>
       <View style={styles.container}>
@@ -18,7 +18,12 @@ const TransactionSuccess = () => {
         </Text>
         <SuccessCard />
         <View style={{ marginTop: 120 }}>
-          <Text style={styles.textButton}>Okay</Text>
+          <Text
+            style={styles.textButton}
+            onPress={() => props.navigation.navigate("Rating")}
+          >
+            Okay
+          </Text>
         </View>
       </View>
     </ScreenComponent>

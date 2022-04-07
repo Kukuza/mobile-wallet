@@ -112,16 +112,16 @@ const AddFundsConfirmationScreen = (props: any) => {
     modalRef.current?.openModal();
   };
 
-  const call = async () => {
-    let txObject = await contract.methods.initializeDepositTransaction(value);
-    let cUSDcontract = await kit.contracts.getStableToken();
-    let tx = await kit.sendTransactionObject(txObject, {
-      from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-      // feeCurrency: cUSDcontract.address,
-    });
-    let receipt = await tx.waitReceipt();
-    console.log(receipt);
-  };
+  // const call = async () => {
+  //   let txObject = await contract.methods.initializeDepositTransaction(value);
+  //   let cUSDcontract = await kit.contracts.getStableToken();
+  //   let tx = await kit.sendTransactionObject(txObject, {
+  //     from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+  //     // feeCurrency: cUSDcontract.address,
+  //   });
+  //   let receipt = await tx.waitReceipt();
+  //   console.log(receipt);
+  // };
   const contractCall = async () => {
     // console.log("++++++++++++++++++++++++++++++++++");
 
@@ -329,6 +329,7 @@ const AddFundsConfirmationScreen = (props: any) => {
             cardSubtitle={
               operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
             }
+            cardSubtitle2="Fee"
             grossAmount={props.route.params?.param}
             netValue={"Ksh " + props.route.params?.param * 114}
             additionalStyling={styles.requestTsxInfoCard}
