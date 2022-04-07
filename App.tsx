@@ -117,7 +117,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName="TopUpViewRequestScreen"
+            initialRouteName="Onboarding"
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (
