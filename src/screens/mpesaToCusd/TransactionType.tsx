@@ -64,14 +64,10 @@ const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
   const [balance, setBalance] = useState("...");
 
   useEffect(() => {
-    contractKitBalance(publicAddress);
+    walletBalance(publicAddress);
   }, []);
 
-  //   let res = utils.formatEther(balance);
-  // res = (+res).toFixed(4);
-  // console.log(res);
-
-  const contractKitBalance = async (publicAddress) => {
+  const walletBalance = async (publicAddress) => {
     const kit = WakalaContractKit.getInstance().kit;
     let totalBalance = await kit.getTotalBalance(publicAddress);
     let money = totalBalance.cUSD;
