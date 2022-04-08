@@ -20,7 +20,7 @@ export default class WakalaContractKit {
   private TAG = "[ " + this.constructor.name + "] : ";
 
   /**
-   * Private instance of the wakala contract kit.
+   * Private instance of the wakala contract kit class.
    */
   private static wakalaContractKitInstance?: WakalaContractKit | any;
 
