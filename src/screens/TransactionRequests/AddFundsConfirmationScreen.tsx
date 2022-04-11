@@ -89,7 +89,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   const modalRef = useRef<any>();
   console.log(props.route.params.operation);
   const publicAddress =
-    WakalaContractKit.getInstance().userMetadata.publicAddress;
+    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
   // console.log(WakalaContractKit.getInstance().userMetadata);
 
   // console.log(props.route.params?.param);
@@ -163,6 +163,9 @@ const AddFundsConfirmationScreen = (props: any) => {
     setLoadingMessage("Initializing the transaction...");
     console.log("==============>");
     console.log(operation);
+
+    WakalaContractKit.getInstance()?.listenToEvent();
+    
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
       console.log("The transaction has started");

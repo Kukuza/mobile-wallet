@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 import { EvilIcons } from "@expo/vector-icons";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";
@@ -9,10 +8,7 @@ import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-import { magic, web3 } from "../../utils/magic";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-import Web3 from "web3";
-import { newKitFromWeb3 } from "@celo/contractkit";
 
 const OperationButton = (props) => {
   return (
@@ -59,7 +55,7 @@ const OperationButton = (props) => {
 const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
   const navigation = useNavigation<any>();
   const publicAddress =
-    WakalaContractKit.getInstance().userMetadata.publicAddress;
+    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
 
   const [balance, setBalance] = useState("...");
 
@@ -68,7 +64,7 @@ const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
   }, []);
 
   const walletBalance = async (publicAddress) => {
-    const kit = WakalaContractKit.getInstance().kit;
+    const kit = WakalaContractKit?.getInstance()?.kit;
     let totalBalance = await kit.getTotalBalance(publicAddress);
     let money = totalBalance.cUSD;
     let amount = kit.web3.utils.fromWei(money.toString(), "ether");
