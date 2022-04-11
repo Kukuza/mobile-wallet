@@ -19,6 +19,7 @@ import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { AbiItem } from "web3-utils";
+import COLORS from "../../styles/colors/colors";
 
 const ModalContent = (props) => {
   return (
@@ -92,7 +93,7 @@ const TransactionConfirmationScreen = () => {
   const [loadingMessage, setLoadingMessage] = useState("");
   // const publicAddress =
   //   WakalaContractKit.getInstance().userMetadata.publicAddress;
-  const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
+  const publicAddress = "";
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
   const contract = new kit.web3.eth.Contract(
@@ -219,28 +220,22 @@ const modalStyles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: "#333333",
-    textAlign: "center",
-    fontFamily: "Rubik_500Medium",
+    ...FONTS.body3,
+    alignSelf: "center",
+    marginBottom: 28,
   },
 
   text: {
-    fontSize: 14,
-    lineHeight: 21,
-    color: "#333333",
+    ...FONTS.headline,
+    alignSelf: "center",
     textAlign: "center",
-    fontFamily: "Rubik_400Regular",
     marginTop: 25,
   },
 
   button: {
-    fontSize: 20,
-    lineHeight: 24,
-    color: "#133FDB",
+    ...FONTS.sh1,
+    color: COLORS.accent1,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
     marginTop: 40,
   },
 });

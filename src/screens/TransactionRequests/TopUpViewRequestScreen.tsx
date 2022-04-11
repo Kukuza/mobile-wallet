@@ -20,6 +20,7 @@ import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import COLORS from "../../styles/colors/colors";
 
 const ModalContent = (props) => {
   return (
@@ -282,28 +283,22 @@ const modalStyles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: "#333333",
+    ...FONTS.body3,
+    color: COLORS.textPrimary,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
   },
 
   text: {
-    fontSize: 14,
-    lineHeight: 21,
-    color: "#333333",
+    ...FONTS.headline,
+    color: COLORS.textPrimary,
     textAlign: "center",
-    fontFamily: "Rubik_400Regular",
     marginTop: 20,
   },
 
   button: {
-    fontSize: 20,
-    lineHeight: 24,
-    color: "#133FDB",
+    ...FONTS.sh1,
+    color: COLORS.accent1,
     textAlign: "center",
-    fontFamily: "Rubik_500Medium",
     marginTop: 50,
   },
 });

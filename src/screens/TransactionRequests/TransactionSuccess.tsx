@@ -39,7 +39,15 @@ const SuccessCard = () => {
       style={[styles.cardContainer]}
     >
       <View>
-        <Text style={styles.cardHeader}>Your New Balance</Text>
+        <Text
+          style={{
+            ...FONTS.headline,
+            textAlign: "center",
+            color: COLORS.textPrimary,
+          }}
+        >
+          Your New Balance
+        </Text>
       </View>
       <View style={styles.imageContainer}>
         <View style={{ marginRight: 10 }}>
@@ -101,13 +109,7 @@ const styles = StyleSheet.create({
     lineHeight: FONTS.headline.lineHeight,
     marginTop: 15,
   },
-  cardHeader: {
-    fontFamily: FONTS.headline.fontFamily,
-    fontSize: FONTS.headline.fontSize,
-    lineHeight: FONTS.headline.lineHeight,
-    textAlign: "center",
-    color: COLORS.textPrimary,
-  },
+
   textButton: {
     fontFamily: FONTS.sh2.fontFamily,
     fontSize: 20,
