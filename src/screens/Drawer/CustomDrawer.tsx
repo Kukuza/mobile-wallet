@@ -30,13 +30,13 @@ export default function CustomDrawerContent(
   const loadingMessage = "Loading...";
 
   const publicAddress =
-    WakalaContractKit.getInstance().userMetadata.publicAddress;
+    WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
   useEffect(() => {
     walletBalance(publicAddress);
   }, []);
 
   const walletBalance = async (publicAddress) => {
-    const kit = WakalaContractKit.getInstance().kit;
+    const kit = WakalaContractKit?.getInstance()?.kit;
     let totalBalance = await kit.getTotalBalance(publicAddress);
     let money = totalBalance.cUSD;
     let amount = kit.web3.utils.fromWei(money.toString(), "ether");

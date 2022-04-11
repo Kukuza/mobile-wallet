@@ -21,7 +21,7 @@ import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { connect, useDispatch } from "react-redux";
 import { magic } from "../../utils/magic";
-import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
@@ -42,10 +42,10 @@ const AuthScreen = (props) => {
   const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
 
-  if (!WakalaContractKit.getInstance()) {
-    WakalaContractKit.createInstance(magic);
+  if (!WakalaContractKit?.getInstance()) {
+    WakalaContractKit?.createInstance(magic);
   }
-  const wakalaContractKit = WakalaContractKit.getInstance();
+  const wakalaContractKit = WakalaContractKit?.getInstance();
 
   const phoneInput = useRef<PhoneInput>(null);
   const login = async () => {
@@ -63,8 +63,8 @@ const AuthScreen = (props) => {
         // Consume decentralized identity (DID)
         if (DID !== null) {
           magic.user.getMetadata().then((userMetadata) => {
+            wakalaContractKit?.setUserMetadata(userMetadata);
             setUser(userMetadata);
-            
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
