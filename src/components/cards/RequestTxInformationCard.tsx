@@ -45,7 +45,7 @@ const RequestTxInformationCard = (props: any) => {
           />
 
           <View style={{ justifyContent: "space-between", marginTop: 15 }}>
-            <Text style={styles.earningsLabel}>Fee </Text>
+            <Text style={styles.earningsLabel}>{props.cardSubtitle2} </Text>
 
             <TextInputMask
               type={"money"}

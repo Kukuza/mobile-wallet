@@ -224,11 +224,12 @@ const ConfirmRequest = (props) => {
           <View>
             <DefaultButton
               // onPress={contractCall}
-              onPress={() => navigation.navigate("Home")}
+              onPress={() =>
+                navigation.navigate("Transaction Confirmation Screen")
+              }
               style={{ minWidth: 286, marginTop: 40 }}
               text="Continue"
             />
-            {/* <SwipeButton handleAction={handleAction} /> */}
             <TouchableOpacity
               style={mainStyles.button}
               onPress={() => navigation.goBack()}
@@ -271,6 +272,7 @@ const mainStyles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 30,
+    marginTop: 100,
     justifyContent: "space-between",
     alignItems: "center",
   },
