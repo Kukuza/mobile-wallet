@@ -65,6 +65,7 @@ const AuthScreen = (props) => {
           magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
             wakalaContractKit?.setUserMetadata(userMetadata);
+            wakalaContractKit?.init()
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
@@ -75,6 +76,7 @@ const AuthScreen = (props) => {
         let x = await magic.user.getMetadata()
         if (x) {
           wakalaContractKit?.setUserMetadata(x);
+          wakalaContractKit?.init()
         }
        
         navigation.navigate("MyDrawer");
