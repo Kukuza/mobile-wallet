@@ -9,8 +9,6 @@ import StandardBtn from "../../components/buttons/StandardBtn";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import EnterPin from "../Settings/RecoveryPhrase/EnterPin";
-import RecoveryPhrase from "../Settings/RecoveryPhrase/RecoveryPhrase";
 
 const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route } = props;
@@ -40,7 +38,55 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   return (
     <ScreenComponent>
-      <RecoveryPhrase/>
+      <View style={styles.slide}>
+        <FlatList
+          data={slides}
+          renderItem={({ item }) => (
+            <OnboardingItem
+              title={item.title}
+              id={item.id}
+              description={item.description}
+              image={item.image}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          scrollEventThrottle={32}
+          bounces={false}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: false }
+          )}
+          onViewableItemsChanged={viewableItemsChanged}
+          viewabilityConfig={viewConfig}
+          ref={slidesRef}
+        />
+        {/* </View> */}
+        {/* <Paginator data={slides} scrollX={scrollX} /> */}
+        {currentIndex >= 3 ? (
+          <StandardBtn
+            onPress={() => navigation.navigate("Auth")}
+            style={{
+              padding: 15,
+              alignItems: "center",
+              borderRadius: 22,
+              flexDirection: "row",
+            }}
+            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
+            text="Get Started"
+          />
+        ) : (
+          <NextButton
+            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
+            scrollTo={scrollTo}
+            percentage={currentIndex * (100 / slides.length)}
+            style={undefined}
+            backgroundColor={undefined}
+          />
+        )}
+      </View>
     </ScreenComponent>
   );
 };
