@@ -22,6 +22,8 @@ import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { connect, useDispatch } from "react-redux";
+import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 
 const ModalContent = (props) => {
   return (
@@ -74,27 +76,28 @@ const ModalContent = (props) => {
  * @returns
  */
 const TopUpViewRequestScreen = (props) => {
+  console.log(props.magic);
   const { navigation, route } = props;
+  const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
+  console.log("TopUpViewRequestScreen () ->", wakalaEscrowTx);
+
   // fetch route params operation and txId
-  const operation = "TopUp";
-  const txId = 2;
+  const operation = wakalaEscrowTx?.txType;
   const modalRef = useRef<any>();
   const [loadingMessage, setLoadingMessage] = useState("");
-  const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
-  // const publicAddress =
-  // WakalaContractKit.getInstance().userMetadata.publicAddress;
+  // const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
+  const publicAddress =
+    WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
+  const dispatch = useDispatch();
 
   const contract = new kit.web3.eth.Contract(
     WakalaEscrowAbi as AbiItem[],
     WAKALA_CONTRACT_ADDRESS
   );
-  const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
-
-  console.log("TopUpViewRequestScreen () ->", wakalaEscrowTx);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -111,19 +114,79 @@ const TopUpViewRequestScreen = (props) => {
     props.navigation.navigate("MyDrawer");
   };
 
+  // const handleAction = async () => {
+  //   openModal();
+  //   setIsLoading(true);
+  //   console.log("something is cooking");
+  //   setLoadingMessage("Initializing the transaction...");
+  //   console.log("==============>");
+  //   console.log(operation);
+  //   if (operation === "DEPOSIT") {
+  //     setLoadingMessage("Accepting the deposit transaction...");
+  //     console.log("The transaction has started");
+  //     await contract.methods
+  //       .agentAcceptDepositTransaction(wakalaEscrowTx?.id)
+  //       .send({ from: publicAddress })
+  //       .then(() => {
+  //         console.log("reached 2nd then");
+  //         setLoadingMessage("");
+  //         setIsLoading(false);
+  //       })
+  //       .catch((error: any) => {
+  //         setLoadingMessage(error.toString());
+  //         setIsActionSuccess(false);
+  //         setIsLoading(false);
+  //       });
+  //     console.log("The transaction has gone through");
+  //     setIsLoading(false);
+  //   } else {
+  //     setLoadingMessage("Accepting the withdrawal transaction...");
+  //     console.log("The transaction has started");
+  //     await contract.methods
+  //       .agentAcceptWithdrawalTransaction(wakalaEscrowTx?.id)
+  //       .send({ from: publicAddress })
+  //       .then(() => {
+  //         console.log("reached 2nd then");
+  //         setLoadingMessage("");
+  //         setIsLoading(false);
+  //       })
+  //       .catch((error: any) => {
+  //         setLoadingMessage(error.toString());
+  //         setIsActionSuccess(false);
+  //         setIsLoading(false);
+  //       });
+  //     console.log("The transaction has gone through");
+  //     setIsLoading(false);
+  //     // todo navigation
+  //   }
+  // };
+
   const handleAction = async () => {
     openModal();
+    //Init
     setIsLoading(true);
-    console.log("something is cooking");
     setLoadingMessage("Initializing the transaction...");
+    let contractMethods: any = new ContractMethods(props.magic);
+    if (props.contractMethods instanceof ContractMethods) {
+      contractMethods = props.contractMethods;
+    } else {
+      setLoadingMessage("Initializing the Blockchain connection...");
+      console.log("reached here");
+      await contractMethods.init().then((result) => {
+        dispatch({
+          type: "INIT_CONTRACT_METHODS",
+          value: contractMethods,
+        });
+      });
+    }
     console.log("==============>");
     console.log(operation);
-    if (operation === "TopUp") {
-      setLoadingMessage("Accepting the deposit transaction...");
-      console.log("The transaction has started");
-      await contract.methods
-        .agentAcceptDepositTransaction(txId)
-        .send({ from: publicAddress })
+    if (operation === "DEPOSIT") {
+      setLoadingMessage("Accepting  transaction...");
+      console.log("modal opened");
+      // try {
+      await contractMethods
+        .agentAcceptDepositTransaction(wakalaEscrowTx?.id)
         .then(() => {
           console.log("reached 2nd then");
           setLoadingMessage("");
@@ -131,33 +194,27 @@ const TopUpViewRequestScreen = (props) => {
         })
         .catch((error: any) => {
           setLoadingMessage(error.toString());
+          console.log(error.toString());
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-      console.log("The transaction has gone through");
-      setIsLoading(false);
     } else {
-      setLoadingMessage("Accepting the withdrawal transaction...");
-      console.log("The transaction has started");
-      await contract.methods
-        .agentAcceptWithdrawalTransaction(txId)
-        .send({ from: publicAddress })
-        .then(() => {
-          console.log("reached 2nd then");
-          setLoadingMessage("");
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
-      console.log("The transaction has gone through");
-      setIsLoading(false);
-      // todo navigation
+      try {
+        setLoadingMessage("Accepting the withdrawal transaction...");
+        let result = await contractMethods.agentAcceptWithdrawalTransaction(
+          wakalaEscrowTx?.id
+        );
+        setLoadingMessage("");
+        setIsLoading(false);
+      } catch (error: any) {
+        setLoadingMessage(error.toString());
+        console.log(error.toString());
+        setIsActionSuccess(false);
+        setIsLoading(false);
+      }
     }
+    setIsLoading(false);
   };
-
   return (
     <Fragment>
       <ScreenComponent>
@@ -165,17 +222,20 @@ const TopUpViewRequestScreen = (props) => {
           <NavHeader
             showTitle={true}
             newTitle={
-              operation === "TopUp" ? "Top Up Request" : "Withdraw Request"
+              operation === "DEPOSIT" ? "Top Up Request" : "Withdraw Request"
             }
           ></NavHeader>
 
           <RequestTxInformationCard
             cardSubtitle={
-              operation === "TopUp"
+              operation === "DEPOSIT"
                 ? "Member wants to top up"
                 : "Member wants to withdraw"
             }
             cardSubtitle2="You Earn"
+            grossAmount={wakalaEscrowTx?.grossAmount}
+            earnings={wakalaEscrowTx?.agentFee}
+            netValue={wakalaEscrowTx?.grossAmount}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
 
@@ -184,7 +244,7 @@ const TopUpViewRequestScreen = (props) => {
             // handleAction={() => {
             //   setModalVisible(true);
             // }}
-            handleAction={handleAction}
+            handleAction={() => handleAction()}
             additionalStyling={styles.slidingButtonCustomStyling}
           />
           <magic.Relayer />
@@ -309,4 +369,23 @@ const modalStyles = StyleSheet.create({
   },
 });
 
-export default TopUpViewRequestScreen;
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+    contractMethods: state.contractMethods,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TopUpViewRequestScreen);
+
+// export default TopUpViewRequestScreen;

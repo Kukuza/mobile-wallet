@@ -15,10 +15,9 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-
+import { EventData } from "web3-eth-contract";
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
-
   let wakalaContractKit = WakalaContractKit.getInstance();
 
   const { navigation } = props;
@@ -55,7 +54,12 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
           ) : (
             <FlatList
               data={data}
-              renderItem={({ item }) => <RequestCardComponent navigation={navigation} wakalaTransaction={item} />}
+              renderItem={({ item }) => (
+                <RequestCardComponent
+                  navigation={navigation}
+                  wakalaTransaction={item}
+                />
+              )}
               keyExtractor={(item) => item.id}
             />
           )}

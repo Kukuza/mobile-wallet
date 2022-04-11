@@ -91,7 +91,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
   // console.log(WakalaContractKit.getInstance().userMetadata);
-
+  console.log(publicAddress);
   // console.log(props.route.params?.param);
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
@@ -123,6 +123,13 @@ const AddFundsConfirmationScreen = (props: any) => {
   //   console.log(receipt);
   // };
   const contractCall = async () => {
+    // console.log("++++++++++++++++++++++++++++++++++");
+    // await WakalaContractKit.getInstance()?.init();
+
+    // const approveTX = WakalaContractKit.getInstance()?.cUSDApproveAmount(value);
+
+    // await approveTX;
+    // console.log("++++++++++++++++++++++++++++++++++");
     // console.log("++++++++++++++++++++++++++++++++++");
 
     // let cUSDcontract = await kit.contracts.getStableToken();
@@ -163,12 +170,12 @@ const AddFundsConfirmationScreen = (props: any) => {
     setLoadingMessage("Initializing the transaction...");
     console.log("==============>");
     console.log(operation);
-    
+
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
       console.log("The transaction has started");
 
-      await contract.methods
+      await await contract.methods
         .initializeDepositTransaction(value)
         .send({ from: publicAddress })
         .then(() => {
@@ -336,7 +343,7 @@ const AddFundsConfirmationScreen = (props: any) => {
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
           <DefaultButton
-            onPress={() => contractCall()}
+            onPress={() => handleAction()}
             // onPress={() => navigation.navigate("Home")}
             style={{ minWidth: 286, marginTop: 200 }}
             text="Continue"

@@ -35,7 +35,7 @@ const RequestTxInformationCard = (props: any) => {
             options={{
               unit: "cUSD ",
               zeroCents: true,
-              separator: ',',
+              separator: ",",
               precision: 0,
             }}
             value={props.grossAmount}
@@ -52,7 +52,7 @@ const RequestTxInformationCard = (props: any) => {
               options={{
                 unit: "cUSD ",
                 zeroCents: true,
-                separator: ',',
+                separator: ",",
                 precision: 0,
               }}
               value={props.earnings}
@@ -72,7 +72,7 @@ const RequestTxInformationCard = (props: any) => {
           options={{
             unit: "cUSD ",
             zeroCents: true,
-            separator: ',',
+            separator: ",",
             precision: 0,
           }}
           value={props.netValue}
@@ -80,7 +80,6 @@ const RequestTxInformationCard = (props: any) => {
           placeholder="Ksh 1,000"
           placeholderTextColor={COLORS.primary}
         />
-
       </View>
 
       <Text style={styles.cardFooter}>
