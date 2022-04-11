@@ -82,7 +82,7 @@ const AuthScreen = (props) => {
       }
 
       console.log("works");
-      navigation.navigate("MyDrawer");
+      // navigation.navigate("MyDrawer");
     } catch (err) {
       console.log("AuthScreen", err);
       console.error(err);
