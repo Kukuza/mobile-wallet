@@ -41,6 +41,7 @@ const AuthScreen = (props) => {
   if (!WakalaContractKit.getInstance()) {
     WakalaContractKit.createInstance(magic);
   }
+
   const wakalaContractKit = WakalaContractKit.getInstance();
 
   const phoneInput = useRef<PhoneInput>(null);
@@ -72,7 +73,7 @@ const AuthScreen = (props) => {
         if (x) {
           wakalaContractKit?.setUserMetadata(x);
         }
-        await wakalaContractKit?.init()
+        await wakalaContractKit?.init();
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {
