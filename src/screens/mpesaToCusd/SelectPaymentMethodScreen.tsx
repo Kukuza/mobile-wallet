@@ -57,7 +57,7 @@ const SelectPaymentMethod: React.FunctionComponent = () => {
         <NavHeader />
         <View style={styles.container}>
           <Text style={styles.title}>
-            How do you want to top up your wallet{" "}
+            How do you want to{" "}
             {operation === "TopUp" ? "top up" : "withdraw from"} your wallet?
           </Text>
 

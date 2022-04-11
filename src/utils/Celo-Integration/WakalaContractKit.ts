@@ -9,8 +9,12 @@ import {
 } from "../ContractAdresses/contract";
 import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
-import { WakalaContractEventsKit } from './WakalaContractEventsKit';
-import { Status, TransactionType, WakalaEscrowTransaction } from './transaction_types';
+import { WakalaContractEventsKit } from "./WakalaContractEventsKit";
+import {
+  Status,
+  TransactionType,
+  WakalaEscrowTransaction,
+} from "./transaction_types";
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
 
 /**
@@ -23,7 +27,7 @@ export default class WakalaContractKit {
   private TAG = "[ " + this.constructor.name + "] : ";
 
   /**
-   * Private instance of the wakala contract kit.
+   * Private instance of the wakala contract kit class.
    */
   private static wakalaContractKitInstance?: WakalaContractKit;
 
@@ -109,7 +113,9 @@ export default class WakalaContractKit {
     this.cUSDContract = new this.web3.eth.Contract(ERC20Abi, ERC20_ADDRESS);
     this.kit = newKitFromWeb3(this.web3);
 
-    this.wakalaContractEvents = new WakalaContractEventsKit([WAKALA_CONTRACT_ADDRESS])
+    this.wakalaContractEvents = new WakalaContractEventsKit([
+      WAKALA_CONTRACT_ADDRESS,
+    ]);
   }
 
   /**
@@ -129,7 +135,6 @@ export default class WakalaContractKit {
         alert(error);
       }
     }
-
   }
 
   /**
@@ -156,59 +161,71 @@ export default class WakalaContractKit {
    * @param tag (optional) logging label for debugging purposes.
    * @param options (optional) options for the event listener.
    */
-  addContractEventListener(event: string,
+  addContractEventListener(
+    event: string,
     callback: (eventData: EventData) => void,
-    tag?: string, options?: EventOptions) {
+    tag?: string,
+    options?: EventOptions
+  ) {
+    // use params options if not null.
+    if (!options) {
+      options = {
+        filter: {
+          value: [],
+        },
+        fromBlock: "latest",
+      };
+    }
 
-      // use params options if not null.
-      if (!options) {
-        options = {
-          filter: {
-              value: [],
-          },
-          fromBlock: 'latest'
-        }
-      }
-      
-      this.wakalaContractEvents?.wakalaEscrowContract?.events[event](options)
-        .on('data', eventData => {
-          //data – Will fire each time an event of the type you are listening for has been emitted
-            console.log(`[ ${this.TAG} ] [ ${tag} ] data`)
-            console.debug(eventData);
+    this.wakalaContractEvents?.wakalaEscrowContract?.events[event](options)
+      .on("data", (eventData) => {
+        //data – Will fire each time an event of the type you are listening for has been emitted
+        console.log(`[ ${this.TAG} ] [ ${tag} ] data`);
+        console.debug(eventData);
 
-            // Act on the event data.
-            callback(eventData);
-        })
-        .on('changed', changed => { 
-          //  changed – Will fire for each event of the type you are
-          //  listening for that has been removed from the blockchain.
-          console.log(console.log(`[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`)) 
-        })
-        .on('error', err => {
-            //error – Will fire if an error in the event subscription occurs.
-            console.log(event + " error ", err)
-        })
-        .on('connected', str => { 
-          //  connected – Will fire when the subscription has successfully established a connection.
-          //  It will return a subscription id. This event only fires once.
-          console.log(event + " connected ", str)
-        });
+        // Act on the event data.
+        callback(eventData);
+      })
+      .on("changed", (changed) => {
+        //  changed – Will fire for each event of the type you are
+        //  listening for that has been removed from the blockchain.
+        console.log(
+          console.log(
+            `[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`
+          )
+        );
+      })
+      .on("error", (err) => {
+        //error – Will fire if an error in the event subscription occurs.
+        console.log(event + " error ", err);
+      })
+      .on("connected", (str) => {
+        //  connected – Will fire when the subscription has successfully established a connection.
+        //  It will return a subscription id. This event only fires once.
+        console.log(event + " connected ", str);
+      });
   }
 
   /**
    * Get transaction by index.
    */
   async getNextTxIndex(): Promise<number> {
-      const txIndexResp = await this.wakalaEscrowContract?.methods.getNextTransactionIndex().call();
-      console.log("getNextTxIndex()=>", txIndexResp);
-      return parseInt(txIndexResp)
+    const txIndexResp = await this.wakalaEscrowContract?.methods
+      .getNextTransactionIndex()
+      .call();
+    console.log("getNextTxIndex()=>", txIndexResp);
+    return parseInt(txIndexResp);
   }
 
   /**
    * Get transaction by index.
    */
-  async queryTransactionByIndex(index: number): Promise<WakalaEscrowTransaction> {
-    const tx = await this.wakalaEscrowContract?.methods.getTransactionByIndex(index).call();
+  async queryTransactionByIndex(
+    index: number
+  ): Promise<WakalaEscrowTransaction> {
+    const tx = await this.wakalaEscrowContract?.methods
+      .getTransactionByIndex(index)
+      .call();
     let wakalaTx = await this.convertToWakalaTransactionObj(tx);
     return wakalaTx;
   }
@@ -220,18 +237,18 @@ export default class WakalaContractKit {
    */
   convertToWakalaTransactionObj(tx: Object): WakalaEscrowTransaction {
     let wakalaTx: WakalaEscrowTransaction = {
-        id: parseInt(tx[0]),
-        txType: TransactionType[parseInt(tx[1])],
-        clientAddress: tx[2],
-        agentAddress: tx[3],
-        status: Status[parseInt(tx[4])],
-        amount: this.kit.web3.utils.fromWei(tx[5], "ether"),
-        agentFee: this.kit.web3.utils.fromWei(tx[6], "ether"),
-        wakalaFee: this.kit.web3.utils.fromWei(tx[7], "ether"),
-        grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
-        agentApproval: tx[9],
-        clientApproval: tx[10],
-    }
+      id: parseInt(tx[0]),
+      txType: TransactionType[parseInt(tx[1])],
+      clientAddress: tx[2],
+      agentAddress: tx[3],
+      status: Status[parseInt(tx[4])],
+      amount: this.kit.web3.utils.fromWei(tx[5], "ether"),
+      agentFee: this.kit.web3.utils.fromWei(tx[6], "ether"),
+      wakalaFee: this.kit.web3.utils.fromWei(tx[7], "ether"),
+      grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
+      agentApproval: tx[9],
+      clientApproval: tx[10],
+    };
 
     return wakalaTx;
   }

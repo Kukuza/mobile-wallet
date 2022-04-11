@@ -32,7 +32,7 @@ const AddFunds: React.FunctionComponent = () => {
     <ScreenComponent>
       <NavHeader
         showTitle={true}
-        newTitle={operation === "TopUp" ? "Add Funds" : "Withdraw Funds"}
+        newTitle={operation === "TopUp" ? "Top Up Request" : "Withdraw"}
       />
       <View style={styles.container}>
         <TextInputMask

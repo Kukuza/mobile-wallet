@@ -31,6 +31,7 @@ import { CeloContract } from "@celo/contractkit";
 import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import NavHeader from "../../containers/NavHeader";
 
 const ModalContent = (props) => {
   return (
@@ -86,7 +87,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   // const { navigation, route } = props;
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
-
+  console.log(props.route.params.operation);
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
   // console.log(WakalaContractKit.getInstance().userMetadata);
@@ -111,16 +112,16 @@ const AddFundsConfirmationScreen = (props: any) => {
     modalRef.current?.openModal();
   };
 
-  const call = async () => {
-    let txObject = await contract.methods.initializeDepositTransaction(value);
-    let cUSDcontract = await kit.contracts.getStableToken();
-    let tx = await kit.sendTransactionObject(txObject, {
-      from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-      // feeCurrency: cUSDcontract.address,
-    });
-    let receipt = await tx.waitReceipt();
-    console.log(receipt);
-  };
+  // const call = async () => {
+  //   let txObject = await contract.methods.initializeDepositTransaction(value);
+  //   let cUSDcontract = await kit.contracts.getStableToken();
+  //   let tx = await kit.sendTransactionObject(txObject, {
+  //     from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
+  //     // feeCurrency: cUSDcontract.address,
+  //   });
+  //   let receipt = await tx.waitReceipt();
+  //   console.log(receipt);
+  // };
   const contractCall = async () => {
     // console.log("++++++++++++++++++++++++++++++++++");
 
@@ -310,15 +311,26 @@ const AddFundsConfirmationScreen = (props: any) => {
   return (
     <Fragment>
       <ScreenComponent>
-        <View style={styles.wrapper}>
-          <HeaderTitle
+        <View>
+          {/* <HeaderTitle
             additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={() => props.navigation.navigate("Add Funds")}
+            backButtonHandler={() =>
+              props.navigation.navigate("Add Funds", { operation: operation })
+            }
+
+          /> */}
+          <NavHeader
+            showTitle={true}
+            newTitle={operation === "TopUp" ? "Top Up Request" : "Withdraw"}
           />
+        </View>
+
+        <View style={styles.wrapper}>
           <RequestTxInformationCard
             cardSubtitle={
               operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
             }
+            cardSubtitle2="Fee"
             grossAmount={props.route.params?.param}
             netValue={"Ksh " + props.route.params?.param * 114}
             additionalStyling={styles.requestTsxInfoCard}
@@ -326,7 +338,7 @@ const AddFundsConfirmationScreen = (props: any) => {
           <DefaultButton
             onPress={() => contractCall()}
             // onPress={() => navigation.navigate("Home")}
-            style={{ minWidth: 286, marginTop: 40 }}
+            style={{ minWidth: 286, marginTop: 200 }}
             text="Continue"
           />
           <magic.Relayer />
