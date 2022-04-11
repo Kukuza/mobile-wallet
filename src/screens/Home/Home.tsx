@@ -20,6 +20,15 @@ import { EventData } from "web3-eth-contract";
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   let wakalaContractKit = WakalaContractKit.getInstance();
 
+  // Listen to events and send user to confirm page
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "AgentConfirmationEvent",
+    async (error: Error, event: EventData) => {
+      let index: number = event.returnValues.wtxIndex;
+      console.log(event);
+    }
+  );
+
   const { navigation } = props;
 
   let data = wakalaContractKit?.wakalaTxsArray;
