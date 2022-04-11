@@ -1,15 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
-  Button,
-  Dimensions,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -45,7 +40,8 @@ const AuthScreen = (props) => {
   if (!WakalaContractKit?.getInstance()) {
     WakalaContractKit?.createInstance(magic);
   }
-  const wakalaContractKit = WakalaContractKit?.getInstance();
+
+  const wakalaContractKit = WakalaContractKit.getInstance();
 
   const phoneInput = useRef<PhoneInput>(null);
   const login = async () => {
@@ -65,6 +61,7 @@ const AuthScreen = (props) => {
           magic.user.getMetadata().then((userMetadata) => {
             wakalaContractKit?.setUserMetadata(userMetadata);
             setUser(userMetadata);
+            wakalaContractKit?.setUserMetadata(userMetadata);
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
@@ -72,7 +69,11 @@ const AuthScreen = (props) => {
           });
         }
 
-        console.log((await magic.user.getMetadata()).publicAddress);
+        let x = await magic.user.getMetadata();
+        if (x) {
+          wakalaContractKit?.setUserMetadata(x);
+        }
+        await wakalaContractKit?.init();
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {

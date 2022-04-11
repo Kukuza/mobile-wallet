@@ -14,6 +14,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
 
 const swipeLeftContent = () => {
   return (
@@ -48,7 +49,10 @@ const swipeRightContent = () => {
 };
 
 const RequestCardComponent = (props) => {
-  const { transaction } = props;
+
+  const wakalaTransaction: WakalaEscrowTransaction = props.wakalaTransaction;
+  const navigation = props.navigation;
+
   // const [amount, setAmount] = useState();
   // const [starsRate, setStarsRate] = useState();
   // const [ratingsNumber, setRatingsNumber] = useState();
@@ -83,7 +87,11 @@ const RequestCardComponent = (props) => {
                   source={require("../../assets/images/Transactions/dummy_identicone.png")}
                   style={styles.identiconImg}
                 />
-                <Text style={styles.cardTitle}>Deposit Request</Text>
+                <Text style={styles.cardTitle}>
+                    {wakalaTransaction?.txType === "DEPOSIT"
+                      ? "Deposit Request"
+                      : "Withdraw Request"}
+                </Text>
                 <View
                   style={{
                     flex: 1,
@@ -119,11 +127,11 @@ const RequestCardComponent = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={styles.amountKsh}>Ksh 567.56</Text>
+                <Text style={styles.amountKsh}>Ksh {wakalaTransaction.amount}</Text>
 
                 <Pressable
                   style={styles.viewButton}
-                  onPress={() => Alert.alert("View Transaction details")}
+                  onPress={() => navigation.navigate("Top Up View Request", {transaction: wakalaTransaction})}
                 >
                   <Text style={styles.viewButtonTxt}>View</Text>
                 </Pressable>

@@ -31,9 +31,12 @@ const RequestTxInformationCard = (props: any) => {
 
         <View style={{ flexDirection: "column" }}>
           <TextInputMask
-            type={"only-numbers"}
+            type={"money"}
             options={{
               unit: "cUSD ",
+              zeroCents: true,
+              separator: ',',
+              precision: 0,
             }}
             value={props.grossAmount}
             style={styles.grossAmount}
@@ -47,7 +50,10 @@ const RequestTxInformationCard = (props: any) => {
             <TextInputMask
               type={"money"}
               options={{
-                unit: "Ksh ",
+                unit: "cUSD ",
+                zeroCents: true,
+                separator: ',',
+                precision: 0,
               }}
               value={props.earnings}
               style={styles.earningsValue}
@@ -62,15 +68,19 @@ const RequestTxInformationCard = (props: any) => {
       <View style={{ justifyContent: "space-between", marginTop: 15 }}>
         <Text style={styles.totalLabel}>Total you Send</Text>
         <TextInputMask
-          type={"only-numbers"}
+          type={"money"}
           options={{
-            unit: "Ksh ",
+            unit: "cUSD ",
+            zeroCents: true,
+            separator: ',',
+            precision: 0,
           }}
           value={props.netValue}
           style={styles.totalValue}
           placeholder="Ksh 1,000"
           placeholderTextColor={COLORS.primary}
         />
+
       </View>
 
       <Text style={styles.cardFooter}>

@@ -10,6 +10,11 @@ import {
 import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
 import { WakalaContractEventsKit } from "./WakalaContractEventsKit";
+import {
+  Status,
+  TransactionType,
+  WakalaEscrowTransaction,
+} from "./transaction_types";
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
 
 /**
@@ -27,6 +32,11 @@ export default class WakalaContractKit {
   private static wakalaContractKitInstance?: WakalaContractKit;
 
   wakalaContractEvents?: WakalaContractEventsKit;
+
+  /**
+   * Contains a map of the transaction index to the transaction object.
+   */
+  public wakalaTxsArray = new Array<WakalaEscrowTransaction>();
 
   /**
    * Web3 instance.
@@ -83,9 +93,14 @@ export default class WakalaContractKit {
     WakalaContractKit.wakalaContractKitInstance = undefined;
   }
 
+  /**
+   * Set the currents users metadata.
+   * @param userMetadata the current users metadata.
+   */
   setUserMetadata(userMetadata?: MagicUserMetadata) {
     this.userMetadata = userMetadata;
   }
+
   /**
    *
    * @param magic magic provider instance.
@@ -123,7 +138,19 @@ export default class WakalaContractKit {
       console.log(this.TAG, error);
       alert(error);
     }
-    console.log;
+    await this.fetchTransactions();
+  }
+
+  /**
+   * Fetches the transactions from the smart contract.
+   */
+  async fetchTransactions() {
+    let l = (await this.getNextTxIndex()) - 1;
+    this.wakalaTxsArray = new Array<WakalaEscrowTransaction>();
+    for (let index = l; index >= 0; index--) {
+      let tx = await this.queryTransactionByIndex(index);
+      this.wakalaTxsArray.push(tx);
+    }
   }
 
   /**
@@ -178,13 +205,51 @@ export default class WakalaContractKit {
       });
   }
 
-  listenToEvent() {
-    console.log("====> listenToEvent", this.wakalaEscrowContract?.events);
-    this.addContractEventListener(
-      "TransactionInitEvent",
-      (eventData: EventData) => {
-        console.log(eventData);
-      }
-    );
+  /**
+   * Get transaction by index.
+   */
+  async getNextTxIndex(): Promise<number> {
+    const txIndexResp = await this.wakalaEscrowContract?.methods
+      .getNextTransactionIndex()
+      .call();
+    console.log("getNextTxIndex()=>", txIndexResp);
+    return parseInt(txIndexResp);
+  }
+
+  /**
+   * Get transaction by index.
+   */
+  async queryTransactionByIndex(
+    index: number
+  ): Promise<WakalaEscrowTransaction> {
+    const tx = await this.wakalaEscrowContract?.methods
+      .getTransactionByIndex(index)
+      .call();
+    let wakalaTx = await this.convertToWakalaTransactionObj(tx);
+    console.log("queryTransactionByIndex()=>");
+    return wakalaTx;
+  }
+
+  /**
+   * Convert response to wakala transaction object.
+   * @param tx the response object.
+   * @returns the wakala transaction object.
+   */
+  convertToWakalaTransactionObj(tx: Object): WakalaEscrowTransaction {
+    let wakalaTx: WakalaEscrowTransaction = {
+      id: parseInt(tx[0]),
+      txType: TransactionType[parseInt(tx[1])],
+      clientAddress: tx[2],
+      agentAddress: tx[3],
+      status: Status[parseInt(tx[4])],
+      amount: this.kit.web3.utils.fromWei(tx[5], "ether"),
+      agentFee: this.kit.web3.utils.fromWei(tx[6], "ether"),
+      wakalaFee: this.kit.web3.utils.fromWei(tx[7], "ether"),
+      grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
+      agentApproval: tx[9],
+      clientApproval: tx[10],
+    };
+
+    return wakalaTx;
   }
 }

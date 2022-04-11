@@ -163,8 +163,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     setLoadingMessage("Initializing the transaction...");
     console.log("==============>");
     console.log(operation);
-
-    WakalaContractKit.getInstance()?.listenToEvent();
     
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");

@@ -14,41 +14,18 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { DrawerActions } from "@react-navigation/native";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-];
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
+
+  let wakalaContractKit = WakalaContractKit.getInstance();
+
   const { navigation } = props;
+
+  let data = wakalaContractKit?.wakalaTxsArray;
+
+  console.log(` HOME ${data}`);
 
   return (
     <ScreenComponent>
@@ -63,7 +40,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: "center", height: SIZES.height * 0.82 }}>
-          {DATA.length > 0 ? (
+          {data?.length == 0 ? (
             <View style={styles.wrapper}>
               {/* {isFetching ? <Text>{loadingMessage}</Text> : <></>} */}
               <Image
@@ -77,8 +54,8 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
             </View>
           ) : (
             <FlatList
-              data={DATA}
-              renderItem={({ item }) => <RequestCardComponent />}
+              data={data}
+              renderItem={({ item }) => <RequestCardComponent navigation={navigation} wakalaTransaction={item} />}
               keyExtractor={(item) => item.id}
             />
           )}
