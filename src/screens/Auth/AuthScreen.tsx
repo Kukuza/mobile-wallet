@@ -20,12 +20,8 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
 import { connect, useDispatch } from "react-redux";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { AbiItem } from "web3-utils";
-import { web3 } from "../../utils/magic";
 import { magic } from "../../utils/magic";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
 const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
@@ -45,7 +41,10 @@ const AuthScreen = (props) => {
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
-  WakalaContractKit.createInstance(magic);
+
+  if (!WakalaContractKit.getInstance()) {
+    WakalaContractKit.createInstance(magic);
+  }
   const wakalaContractKit = WakalaContractKit.getInstance();
 
   const phoneInput = useRef<PhoneInput>(null);
@@ -65,7 +64,7 @@ const AuthScreen = (props) => {
         if (DID !== null) {
           magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
-            wakalaContractKit.setUserMetadata(userMetadata);
+            
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
@@ -94,6 +93,7 @@ const AuthScreen = (props) => {
   const logout = async () => {
     await magic.user.logout();
     // setUser("");
+    WakalaContractKit.destroyInstance();
     console.log("logged out");
   };
   const title = "Join Wakala";
