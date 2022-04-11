@@ -2,7 +2,6 @@ import { Modal, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import LargeModal from "../../components/modals/LargeModals";
 import SwipeButton from "../../components/buttons/SwipeButton";
