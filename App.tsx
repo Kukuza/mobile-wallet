@@ -3,10 +3,7 @@ import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
-import Onboarding from "./src/screens/Onboarding/Onboarding";
-import AuthScreen from "./src/screens/Auth/AuthScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import EnterPin from "./src/screens/Settings/RecoveryPhrase/EnterPin";
 import {
   Rubik_300Light,
   Rubik_300Light_Italic,
@@ -32,6 +29,7 @@ import globalStore from "./src/redux/GlobalStore";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { LogBox } from "react-native";
+import Screens from "./src/screens";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
@@ -49,25 +47,26 @@ const loadAppSession = async () => {
   try {
     let user = await AsyncStorage.getItem("user");
     let data = JSON.parse(user!);
+    console.log(data);
     let action = { type: "INIT", value: { ...data, magic: magic } };
     //console.log(data)
     store.dispatch(action);
     // return true;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     // return true;
   }
 };
 
-const Loading = () => {
-  return (
-    <View>
-      <ActivityIndicator size="large" />
-    </View>
-  );
-};
+// const Loading = () => {
+//   return (
+//     <View>
+//       <ActivityIndicator size="large" />
+//     </View>
+//   );
+// };
 
-export default function App() {
+const App = () => {
   let [fontsLoaded] = useFonts({
     Rubik_500Medium,
     Rubik_300Light,
@@ -99,9 +98,9 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    checkOnboarding();
-  }, []);
+  // useEffect(() => {
+  //   checkOnboarding();
+  // }, []);
 
   if (!isReady || !fontsLoaded) {
     return (
@@ -114,20 +113,21 @@ export default function App() {
     );
   } else {
     return (
- <Provider store={store}>   
-   <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Onboarding"
-          screenOptions={{ headerShown: false }}
-        >
-          {routes.map((r, i) => (
-            <Stack.Screen key={i} name={r.name} component={r.component} />
-          ))}
-        </Stack.Navigator>
-      </NavigationContainer> 
-   </Provider>
-    
+      <Provider store={store}>
+        <NavigationContainer>
+          {/* <Screens /> */}
+          <Stack.Navigator
+            initialRouteName="Onboarding"
+            screenOptions={{ headerShown: false }}
+          >
+            {routes.map((r, i) => (
+              <Stack.Screen key={i} name={r.name} component={r.component} />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     );
-  
   }
-}
+};
+
+export default App;
