@@ -1,15 +1,11 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState, useRef } from "react";
+
+import React, { useState, useRef } from "react";
 import {
-  Button,
-  Dimensions,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -65,7 +61,6 @@ const AuthScreen = (props) => {
           magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
             wakalaContractKit?.setUserMetadata(userMetadata);
-            wakalaContractKit?.init()
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
@@ -76,9 +71,8 @@ const AuthScreen = (props) => {
         let x = await magic.user.getMetadata()
         if (x) {
           wakalaContractKit?.setUserMetadata(x);
-          wakalaContractKit?.init()
         }
-       
+        await wakalaContractKit?.init()
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {

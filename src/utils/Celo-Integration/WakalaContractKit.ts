@@ -130,7 +130,7 @@ export default class WakalaContractKit {
       console.log(this.TAG, error);
       alert(error);
     }
-    this.fetchTransactions()
+    await this.fetchTransactions()
   }
 
   /**
@@ -197,7 +197,7 @@ export default class WakalaContractKit {
   async getNextTxIndex(): Promise<number> {
       const txIndexResp = await this.wakalaEscrowContract?.methods.getNextTransactionIndex().call();
       console.log("getNextTxIndex()=>", txIndexResp);
-      return parseInt(txIndexResp[0])
+      return parseInt(txIndexResp)
   }
 
   /**
