@@ -42,9 +42,9 @@ export enum Status {
  */
 export type WakalaEscrowTransaction = {
     id: number;
-    txType: TransactionType;
+    txType: string;
     clientAddress: string;
-    status: Status;
+    status: string;
     amount: any,
     agentAddress?: string;
     wakalaFee: number,

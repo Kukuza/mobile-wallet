@@ -10,7 +10,7 @@ import {
 import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
 import { WakalaContractEventsKit } from './WakalaContractEventsKit';
-import { WakalaEscrowEvent } from './transaction';
+import { Status, TransactionType, WakalaEscrowTransaction } from './transaction_types';
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
 
 /**
@@ -28,6 +28,11 @@ export default class WakalaContractKit {
   private static wakalaContractKitInstance?: WakalaContractKit;
 
   wakalaContractEvents?: WakalaContractEventsKit;
+
+  /**
+   * Contains a map of the transaction index to the transaction object.
+   */
+  public wakalaTxsArray = new Array<WakalaEscrowTransaction>()
 
   /**
    * Web3 instance.
@@ -84,9 +89,14 @@ export default class WakalaContractKit {
     WakalaContractKit.wakalaContractKitInstance = undefined;
   }
 
+  /**
+   * Set the currents users metadata.
+   * @param userMetadata the current users metadata.
+   */
   setUserMetadata(userMetadata?: MagicUserMetadata) {
     this.userMetadata = userMetadata;
   }
+
   /**
    *
    * @param magic magic provider instance.
@@ -120,7 +130,19 @@ export default class WakalaContractKit {
       console.log(this.TAG, error);
       alert(error);
     }
-    console.log;
+    this.fetchTransactions()
+  }
+
+  /**
+   * Fetches the transactions from the smart contract.
+   */
+  async fetchTransactions() {
+    let l = await this.getNextTxIndex() - 1;
+    this.wakalaTxsArray = new Array<WakalaEscrowTransaction>();
+    for (let index = l; index >= 0; index--) {
+      let tx = await this.queryTransactionByIndex(index);
+      this.wakalaTxsArray.push(tx);
+    }
   }
 
   /**
@@ -134,45 +156,80 @@ export default class WakalaContractKit {
     callback: (eventData: EventData) => void,
     tag?: string, options?: EventOptions) {
 
-    // use params options if not null.
-    if (!options) {
-      options = {
-        filter: {
-            value: [],
-        },
-        fromBlock: 'latest'
+      // use params options if not null.
+      if (!options) {
+        options = {
+          filter: {
+              value: [],
+          },
+          fromBlock: 'latest'
+        }
       }
-    }
-    
-    this.wakalaContractEvents?.wakalaEscrowContract?.events[event](options)
-      .on('data', eventData => {
-        //data – Will fire each time an event of the type you are listening for has been emitted
-          console.log(`[ ${this.TAG} ] [ ${tag} ] data`)
-          console.debug(eventData);
+      
+      this.wakalaContractEvents?.wakalaEscrowContract?.events[event](options)
+        .on('data', eventData => {
+          //data – Will fire each time an event of the type you are listening for has been emitted
+            console.log(`[ ${this.TAG} ] [ ${tag} ] data`)
+            console.debug(eventData);
 
-          // Act on the event data.
-          callback(eventData);
-      })
-      .on('changed', changed => { 
-        //  changed – Will fire for each event of the type you are
-        //  listening for that has been removed from the blockchain.
-        console.log(console.log(`[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`)) 
-      })
-      .on('error', err => {
-          //error – Will fire if an error in the event subscription occurs.
-          console.log(event + " error ", err)
-      })
-      .on('connected', str => { 
-        //  connected – Will fire when the subscription has successfully established a connection.
-        //  It will return a subscription id. This event only fires once.
-        console.log(event + " connected ", str)
-      });
+            // Act on the event data.
+            callback(eventData);
+        })
+        .on('changed', changed => { 
+          //  changed – Will fire for each event of the type you are
+          //  listening for that has been removed from the blockchain.
+          console.log(console.log(`[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`)) 
+        })
+        .on('error', err => {
+            //error – Will fire if an error in the event subscription occurs.
+            console.log(event + " error ", err)
+        })
+        .on('connected', str => { 
+          //  connected – Will fire when the subscription has successfully established a connection.
+          //  It will return a subscription id. This event only fires once.
+          console.log(event + " connected ", str)
+        });
   }
 
-  listenToEvent() {
-    console.log("====> listenToEvent", this.wakalaEscrowContract?.events)
-    this.addContractEventListener("TransactionInitEvent", (eventData: EventData) => {
-      console.log(eventData)
-    })
+  /**
+   * Get transaction by index.
+   */
+  async getNextTxIndex(): Promise<number> {
+      const txIndexResp = await this.wakalaEscrowContract?.methods.getNextTransactionIndex().call();
+      console.log("getNextTxIndex()=>", txIndexResp);
+      return parseInt(txIndexResp[0])
+  }
+
+  /**
+   * Get transaction by index.
+   */
+  async queryTransactionByIndex(index: number): Promise<WakalaEscrowTransaction> {
+    const tx = await this.wakalaEscrowContract?.methods.getTransactionByIndex(index).call();
+    let wakalaTx = await this.convertToWakalaTransactionObj(tx);
+    console.log("queryTransactionByIndex()=>");
+    return wakalaTx;
+  }
+
+  /**
+   * Convert response to wakala transaction object.
+   * @param tx the response object.
+   * @returns the wakala transaction object.
+   */
+  convertToWakalaTransactionObj(tx: Object): WakalaEscrowTransaction {
+    let wakalaTx: WakalaEscrowTransaction = {
+        id: parseInt(tx[0]),
+        txType: TransactionType[parseInt(tx[1])],
+        clientAddress: tx[2],
+        agentAddress: tx[3],
+        status: Status[parseInt(tx[4])],
+        amount: this.kit.web3.utils.fromWei(tx[5], "ether"),
+        agentFee: this.kit.web3.utils.fromWei(tx[6], "ether"),
+        wakalaFee: this.kit.web3.utils.fromWei(tx[7], "ether"),
+        grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
+        agentApproval: tx[9],
+        clientApproval: tx[10],
+    }
+
+    return wakalaTx;
   }
 }

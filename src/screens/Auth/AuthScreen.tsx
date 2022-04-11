@@ -64,7 +64,7 @@ const AuthScreen = (props) => {
         if (DID !== null) {
           magic.user.getMetadata().then((userMetadata) => {
             setUser(userMetadata);
-            
+            wakalaContractKit?.setUserMetadata(userMetadata);
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
@@ -72,7 +72,11 @@ const AuthScreen = (props) => {
           });
         }
 
-        console.log((await magic.user.getMetadata()).publicAddress);
+        let x = await magic.user.getMetadata()
+        if (x) {
+          wakalaContractKit?.setUserMetadata(x);
+        }
+       
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {

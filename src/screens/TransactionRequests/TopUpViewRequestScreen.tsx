@@ -7,6 +7,7 @@ import RequestTxInformationCard from "../../components/cards/RequestTxInformatio
 import LargeModal from "../../components/modals/LargeModals";
 import SwipeButton from "../../components/buttons/SwipeButton";
 import NavHeader from "../../components/NavHeader";
+import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
 
 /**
  * 
@@ -16,8 +17,12 @@ import NavHeader from "../../components/NavHeader";
  * }
  * @returns 
  */
-const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+const TopUpViewRequestScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route } = props;
+
+  const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
+
+  console.log("TopUpViewRequestScreen () ->", wakalaEscrowTx)
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -30,6 +35,9 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
         <NavHeader showTitle={true} newTitle={"Top Up Request"}></NavHeader>
 
         <RequestTxInformationCard
+            grossAmount={wakalaEscrowTx.amount}
+            earnings={wakalaEscrowTx.agentFee}
+            netValue={wakalaEscrowTx.grossAmount}
             additionalStyling={styles.requestTsxInfoCard}
         ></RequestTxInformationCard>
         
@@ -101,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddFundsConfirmationScreen;
+export default TopUpViewRequestScreen;
