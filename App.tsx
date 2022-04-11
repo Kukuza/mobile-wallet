@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import Onboarding from "./src/screens/Onboarding/Onboarding";
 import AuthScreen from "./src/screens/Auth/AuthScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import EnterPin from "./src/screens/Settings/RecoveryPhrase/EnterPin";
 import {
   Rubik_300Light,
   Rubik_300Light_Italic,
@@ -113,18 +114,20 @@ export default function App() {
     );
   } else {
     return (
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="Onboarding"
-            screenOptions={{ headerShown: false }}
-          >
-            {routes.map((r, i) => (
-              <Stack.Screen key={i} name={r.name} component={r.component} />
-            ))}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>
+ <Provider store={store}>   
+   <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Onboarding"
+          screenOptions={{ headerShown: false }}
+        >
+          {routes.map((r, i) => (
+            <Stack.Screen key={i} name={r.name} component={r.component} />
+          ))}
+        </Stack.Navigator>
+      </NavigationContainer> 
+   </Provider>
+    
     );
+  
   }
 }
