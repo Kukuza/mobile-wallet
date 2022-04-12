@@ -75,6 +75,7 @@ const ModalContent = (props) => {
 const TopUpViewRequestScreen = (props) => {
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
+  console.log("The total grossAmount is:" + wakalaEscrowTx?.grossAmount);
 
   const wakalaContractKit = WakalaContractKit.getInstance();
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(

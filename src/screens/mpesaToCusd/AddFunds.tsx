@@ -38,11 +38,11 @@ const AddFunds: React.FunctionComponent = () => {
         <TextInputMask
           type={"only-numbers"}
           options={{
-            unit: "cUsd ",
+            unit: "cUSD ",
           }}
           value={value}
           style={styles.title}
-          placeholder="cUsd 0,00"
+          placeholder="cUSD 0,00"
           placeholderTextColor={COLORS.primary}
         />
         <KeyPad value={value} onChange={handleChange} />

@@ -50,6 +50,7 @@ const swipeRightContent = () => {
 
 const RequestCardComponent = (props) => {
   const wakalaTransaction: WakalaEscrowTransaction = props.wakalaTransaction;
+  console.log(wakalaTransaction);
   const navigation = props.navigation;
 
   // const [amount, setAmount] = useState();
