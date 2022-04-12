@@ -5,7 +5,7 @@ import SwipeButton from "../../components/buttons/SwipeButton";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Modal from "../../components/modals/Modal";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
@@ -20,6 +20,8 @@ import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { AbiItem } from "web3-utils";
 import COLORS from "../../styles/colors/colors";
+import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+import { EventData } from "web3-eth-contract";
 
 const ModalContent = (props) => {
   return (
@@ -73,7 +75,7 @@ const ModalContent = (props) => {
   );
 };
 
-const TransactionConfirmationScreen = () => {
+const TransactionConfirmationScreen = (props) => {
   const route = useRoute<any>();
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
@@ -85,7 +87,21 @@ const TransactionConfirmationScreen = () => {
   //   todo remove
   const value = 2;
   const operation = "TopUp";
-  const transaction = route.params?.transaction;
+  const transaction = route.params?.tx;
+  console.log(transaction.id);
+
+  const wakalaContractKit = WakalaContractKit.getInstance();
+
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "ConfirmationCompletedEvent",
+    async (error: Error, event: EventData) => {
+      console.log("ConfirmationCompletedEvent", event.returnValues.wtx[0]);
+      const index: number = event.returnValues.wtx[0];
+      const tx = await wakalaContractKit?.queryTransactionByIndex(index);
+      props.navigation.navigate("TransactionSuccess", { tx: tx });
+      console.log("The transaction id is : " + index);
+    }
+  );
   const dispatch = useDispatch();
 
   const [isActionSuccess, setIsActionSuccess] = useState(true);
@@ -100,30 +116,74 @@ const TransactionConfirmationScreen = () => {
     WakalaEscrowAbi as AbiItem[],
     WAKALA_CONTRACT_ADDRESS
   );
+  // const handleAction = async () => {
+  //   openModal();
+  //   setIsLoading(true);
+  //   setLoadingMessage("Confirming Payment...");
+  //   console.log("==============>");
+  //   console.log("The transaction has started");
+  //   await contract.methods
+  //     .clientConfirmPayment(transaction)
+  //     .send({ from: publicAddress })
+  //     .then(() => {
+  //       console.log("reached 2nd then");
+  //       setLoadingMessage("");
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error: any) => {
+  //       setLoadingMessage(error.toString());
+  //       console.log(error.toString() + " \n Amount: " + transaction.toString());
+  //       setIsActionSuccess(false);
+  //       setIsLoading(false);
+  //     });
+  //   console.log("The transaction has gone through");
+  //   setIsLoading(false);
+  // };
+
   const handleAction = async () => {
     openModal();
+    //Init
     setIsLoading(true);
-    setLoadingMessage("Confirming Payment...");
-    console.log("==============>");
-    console.log("The transaction has started");
-    await contract.methods
-      .clientConfirmPayment(transaction)
-      .send({ from: publicAddress })
-      .then(() => {
-        console.log("reached 2nd then");
+    setLoadingMessage("Initializing the transaction...");
+    let contractMethods = new ContractMethods(props.magic);
+    if (props.contractMethods.initialized) {
+      contractMethods = props.contractMethods;
+    } else {
+      setLoadingMessage("Initializing the Blockchain connection...");
+      await contractMethods.init();
+      dispatch({
+        type: "INIT_CONTRACT_METHODS",
+        value: contractMethods,
+      });
+    }
+
+    if (operation === "TopUp") {
+      setLoadingMessage(`Accepting deposit request.... ${transaction.id}`);
+      try {
+        let result = await contractMethods.clientConfirmPayment(transaction.id);
         setLoadingMessage("");
         setIsLoading(false);
-      })
-      .catch((error: any) => {
+      } catch (error: any) {
         setLoadingMessage(error.toString());
-        console.log(error.toString() + " \n Amount: " + transaction.toString());
         setIsActionSuccess(false);
         setIsLoading(false);
-      });
-    console.log("The transaction has gone through");
+      }
+    } else {
+      try {
+        setLoadingMessage("Sending the withdrawal transaction...");
+        let result = await contractMethods.agentAcceptWithdrawalTransaction(
+          transaction.id
+        );
+        setLoadingMessage("");
+        setIsLoading(false);
+      } catch (error: any) {
+        setLoadingMessage(error.toString());
+        setIsActionSuccess(false);
+        setIsLoading(false);
+      }
+    }
     setIsLoading(false);
   };
-
   const openModal = () => {
     modalRef.current?.openModal();
   };
@@ -159,6 +219,7 @@ const TransactionConfirmationScreen = () => {
               title="Swipe to Confirm"
               handleAction={() => handleAction()}
             />
+            <magic.Relayer />
           </View>
         </View>
       </ScreenComponent>
@@ -186,8 +247,26 @@ const TransactionConfirmationScreen = () => {
     </Fragment>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+    contractMethods: state.contractMethods,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
 
-export default TransactionConfirmationScreen;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransactionConfirmationScreen);
+
+// export default TransactionConfirmationScreen;
 
 const styles = StyleSheet.create({
   container: {

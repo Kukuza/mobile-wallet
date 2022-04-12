@@ -13,8 +13,8 @@ import { connect, useDispatch } from "react-redux";
 // import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import DefaultButton from "../../components/buttons/DefaultButton";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
-import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
-import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { magic } from "../../utils/magic";
 import { EventData } from "web3-eth-contract";
 
@@ -103,9 +103,8 @@ const ConfirmRequest = (props) => {
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
 
-  
   const operation = "TopUp";
-  console.log("ConfirmRequest", route.params)
+  console.log("ConfirmRequest", route.params);
   const transaction: WakalaEscrowTransaction = route.params?.tx;
   const value = transaction.amount;
   const dispatch = useDispatch();
@@ -114,66 +113,21 @@ const ConfirmRequest = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  const wakalaContractKit = WakalaContractKit.getInstance()
+  const wakalaContractKit = WakalaContractKit.getInstance();
 
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "AgentConfirmationEvent",
     async (error: Error, event: EventData) => {
-      console.log("AgentConfirmationEvent", event.returnValues.wtx[0])
+      console.log("AgentConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = wakalaContractKit?.queryTransactionByIndex(index);
-      navigation.navigate("Transaction Confirmation Screen", {tx: tx})
+      navigation.navigate("Transaction Confirmation Screen", { tx: tx });
       console.log("The transaction id is : " + index);
     }
   );
 
   const handleAction = async () => {
-    openModal();
-    //Init
-    setIsLoading(true);
-    setLoadingMessage("Initializing the transaction...");
-    let contractMethods = new ContractMethods(props.magic);
-    if (props.contractMethods.initialized) {
-      contractMethods = props.contractMethods;
-    } else {
-      setLoadingMessage("Initializing the Blockchain connection...");
-      await contractMethods.init();
-      dispatch({
-        type: "INIT_CONTRACT_METHODS",
-        value: contractMethods,
-      });
-    }
-
-    if (operation === "TopUp") {
-      setLoadingMessage(`Accepting deposit request.... ${transaction.id}`);
-      try {
-        let result = await contractMethods.agentAcceptDepositTransaction(
-          transaction.id
-        );
-        setLoadingMessage("");
-        setIsLoading(false);
-       
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
-    } else {
-      try {
-        setLoadingMessage("Sending the withdrawal transaction...");
-        let result = await contractMethods.agentAcceptWithdrawalTransaction(
-          transaction.id
-        );
-        setLoadingMessage("");
-        setIsLoading(false);
-
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
-    }
-    setIsLoading(false);
+    navigation.navigate("Transaction Confirmation Screen", { tx: transaction });
   };
 
   const openModal = () => {
@@ -241,9 +195,7 @@ const ConfirmRequest = (props) => {
           <View>
             <DefaultButton
               // onPress={contractCall}
-              onPress={() =>
-                handleAction()
-              }
+              onPress={() => handleAction()}
               style={{ minWidth: 286, marginTop: 40 }}
               text="Continue"
             />
