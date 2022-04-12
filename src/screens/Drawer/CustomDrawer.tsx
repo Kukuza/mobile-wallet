@@ -18,10 +18,13 @@ import * as Progress from "react-native-progress";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import { EventData } from "web3-eth-contract";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
+
+  const wakalaContractKit = WakalaContractKit.getInstance();
   const [balance, setBalance] = useState("Loading...");
 
   const loading = false;
@@ -31,11 +34,12 @@ export default function CustomDrawerContent(
 
   const publicAddress =
     WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
+
   useEffect(() => {
-    walletBalance(publicAddress);
+    walletBalance();
   }, []);
 
-  const walletBalance = async (publicAddress) => {
+  const walletBalance = async () => {
     const kit = WakalaContractKit?.getInstance()?.kit;
     let totalBalance = await kit.getTotalBalance(publicAddress);
     let money = totalBalance.cUSD;
@@ -44,6 +48,20 @@ export default function CustomDrawerContent(
     const visibleAmount = toNum.toFixed(2);
     setBalance(visibleAmount);
   };
+
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "TransactionCompletionEvent",
+    async (error: Error, event: EventData) => {
+      await walletBalance()
+    }
+  );
+
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "TransactionInitEvent",
+    async (error: Error, event: EventData) => {
+      await walletBalance()
+    }
+  );
 
   return (
     <SafeAreaView style={styles.container}>
