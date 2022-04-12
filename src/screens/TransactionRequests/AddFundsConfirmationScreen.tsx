@@ -2,14 +2,11 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import React, {
   Fragment,
   useCallback,
-  useEffect,
   useRef,
   useState,
 } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import DefaultButton from "../../components/buttons/DefaultButton";
 // import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
@@ -20,14 +17,11 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 import {
   WAKALA_CONTRACT_ADDRESS,
-  ERC20_ADDRESS,
-  KARMA_CONTRACT_ADDRESS,
 } from "../../utils/ContractAdresses/contract";
 import { magic, web3 } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
-import { CeloContract } from "@celo/contractkit";
 import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
@@ -108,7 +102,8 @@ const AddFundsConfirmationScreen = (props: any) => {
     async (error: Error, event: EventData) => {
       console.log("AgentPairingEvent", event.returnValues.wtx[0])
       const index: number = event.returnValues.wtx[0];
-      props.navigation.navigate("Confirm Request");
+      const tx = await wakalaContractKit?.queryTransactionByIndex(index);
+      props.navigation.navigate("Confirm Request", { tx: tx });
       console.log("The transaction id is : " + index);
     }
   );
