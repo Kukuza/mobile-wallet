@@ -121,8 +121,10 @@ const ConfirmRequest = (props) => {
       console.log("AgentConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = wakalaContractKit?.queryTransactionByIndex(index);
-      navigation.navigate("Transaction Confirmation Screen", { tx: tx });
-      console.log("The transaction id is : " + index);
+      navigation.navigate("Transaction Confirmation Screen", {
+        tx: transaction,
+      });
+      console.log("The transaction id is : " + transaction);
     }
   );
 

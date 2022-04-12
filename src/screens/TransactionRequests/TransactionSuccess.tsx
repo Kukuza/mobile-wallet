@@ -1,32 +1,121 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { Fragment, useRef, useState } from "react";
 import { SUCCESS, WALLET } from "../../assets/icons";
-import { FONTS } from "../../styles/fonts/fonts";
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { LinearGradient } from "expo-linear-gradient";
+import { connect, useDispatch } from "react-redux";
+import { CONNECTIVITY, SHARED } from "../../assets/images";
+import { isLoading } from "expo-font";
+import ModalLoading from "../../components/modals/ModalLoading";
+import Modal from "../../components/modals/Modal";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 
-const TransactionSuccess = (props) => {
+const ModalContent = (props) => {
   return (
-    <ScreenComponent>
-      <View style={styles.container}>
-        <Image source={SUCCESS} />
-
-        <Text style={styles.headingText}>Transaction Successfull</Text>
-        <Text style={styles.subHeadingText}>
-          Your cUSD has been deposited to your wallet
-        </Text>
-        <SuccessCard />
-        <View style={{ marginTop: 120 }}>
-          <Text
-            style={styles.textButton}
-            onPress={() => props.navigation.navigate("Rating")}
-          >
-            Okay
+    <View style={modalStyles.container}>
+      {props.isActionSuccess ? (
+        <View>
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={SHARED} style={modalStyles.image} />
+          </View>
+          <Text style={modalStyles.title}>Request Shared</Text>
+          <Text style={modalStyles.text}>
+            We shared your{" "}
+            {props.operation === "TopUp" ? "deposit" : "withdraw"} request with
+            the agent community. We will notify you once an agent has answered
+            your request. It can take up to 4 minutes. Click OK to exit this
+            page.
           </Text>
+
+          <TouchableOpacity onPress={props.handleAction}>
+            <Text style={modalStyles.button}>Okay</Text>
+          </TouchableOpacity>
         </View>
-      </View>
-    </ScreenComponent>
+      ) : (
+        <View>
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          </View>
+          <Text style={modalStyles.title}>Oh Snap!</Text>
+          <Text style={modalStyles.text}>
+            Something just happened. Please try again.
+          </Text>
+          <Text style={{ ...FONTS.body5, textAlign: "center", marginTop: 5 }}>
+            {props.errorMessage}
+          </Text>
+          <TouchableOpacity onPress={() => props.handleAction()}>
+            <Text style={modalStyles.button}>Try again</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
+  );
+};
+const TransactionSuccess = (props) => {
+  const modalRef = useRef<any>();
+  const { navigation, route } = props;
+  const operation = "TopUp";
+  const [isLoading, setIsLoading] = useState(true);
+  const [isActionSuccess, setIsActionSuccess] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("");
+  const transaction: WakalaEscrowTransaction = route.params?.tx;
+  const dispatch = useDispatch();
+
+  const openModal = () => {
+    modalRef.current?.openModal();
+  };
+
+  const closeModal = () => {
+    if (!isActionSuccess) {
+      modalRef.current?.closeModal();
+      return;
+    }
+    modalRef.current?.closeModal();
+    props.navigation.navigate("MyDrawer");
+  };
+
+  const handleAction = async () => {
+    props.navigation.navigate("MyDrawer");
+  };
+
+  return (
+    <Fragment>
+      <ScreenComponent>
+        <View style={styles.container}>
+          <Image source={SUCCESS} />
+
+          <Text style={styles.headingText}>Transaction Successfull</Text>
+          <Text style={styles.subHeadingText}>
+            Your cUSD has been deposited to your wallet
+          </Text>
+          <SuccessCard />
+          <View style={{ marginTop: 120 }}>
+            <Text style={styles.textButton} onPress={() => handleAction()}>
+              Okay
+            </Text>
+          </View>
+        </View>
+      </ScreenComponent>
+      <Modal
+        ref={modalRef}
+        style={isActionSuccess ? { height: 510 } : { height: 490 }}
+        content={
+          isLoading ? (
+            <ModalLoading loadingMessage={loadingMessage} />
+          ) : (
+            <ModalContent
+              handleAction={closeModal}
+              operation={operation}
+              isActionSuccess={isActionSuccess}
+              errorMessage={loadingMessage}
+            />
+          )
+        }
+      />
+    </Fragment>
   );
 };
 
@@ -117,4 +206,64 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TransactionSuccess;
+const modalStyles = StyleSheet.create({
+  container: {
+    height: "auto",
+    paddingVertical: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+
+  image: {
+    height: 150,
+    maxWidth: SIZES.width * 0.8,
+    alignContent: "center",
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+
+  errorImage: {
+    height: 180,
+    maxWidth: SIZES.width * 0.8,
+    resizeMode: "contain",
+    marginBottom: 20,
+  },
+
+  title: {
+    ...FONTS.body3,
+    color: COLORS.textPrimary,
+    textAlign: "center",
+  },
+
+  text: {
+    ...FONTS.headline,
+    color: COLORS.textPrimary,
+    textAlign: "center",
+    marginTop: 20,
+  },
+
+  button: {
+    ...FONTS.sh1,
+    color: COLORS.accent1,
+    textAlign: "center",
+    marginTop: 50,
+  },
+});
+
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+    contractMethods: state.contractMethods,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionSuccess);
+
+// export default TransactionSuccess;
