@@ -102,13 +102,6 @@ const AddFundsConfirmationScreen = (props: any) => {
   const dispatch = useDispatch();
 
   const wakalaContractKit = WakalaContractKit.getInstance();
-  // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-  //   "TransactionInitEvent",
-  //   async (error: Error, event: EventData) => {
-  //     const index: number = event.returnValues.wtxIndex;
-  //     console.log("The transaction id is : " + index);
-  //   }
-  // );
 
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
@@ -133,47 +126,6 @@ const AddFundsConfirmationScreen = (props: any) => {
   //   console.log(receipt);
   // };
   const contractCall = async () => {
-    // console.log("++++++++++++++++++++++++++++++++++");
-    // await WakalaContractKit.getInstance()?.init();
-
-    // const approveTX = WakalaContractKit.getInstance()?.cUSDApproveAmount(value);
-
-    // await approveTX;
-    // console.log("++++++++++++++++++++++++++++++++++");
-    // console.log("++++++++++++++++++++++++++++++++++");
-
-    // let cUSDcontract = await kit.contracts.getStableToken();
-    // let contract = new kit.web3.eth.Contract(
-    //   WakalEscrowAbi as AbiItem[],
-    //   WAKALA_CONTRACT_ADDRESS
-    // );
-    // console.log("******************************");
-    // const user = {
-    //   publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-    // };
-
-    // const tx = await contract.methods.initializeDepositTransaction(2).send({
-    //   from: user.publicAdress,
-    // });
-
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
-
-    // Encode the transaction to HelloWorld.sol according to the ABI
-    // let txObject = await contract.methods.initializeDepositTransaction(2);
-
-    // Send the transaction
-    // let tx = await kit.sendTransactionObject(txObject, {
-    //   from: user.publicAdress,
-    //   feeCurrency: cUSDcontract.address,
-    // });
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
-    // console.log("******************************");
-
-    // let contractCall = await contract.methods
-    //   .initializeDepositTransaction(value)
-    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
     openModal();
     setIsLoading(true);
     console.log("something is cooking");

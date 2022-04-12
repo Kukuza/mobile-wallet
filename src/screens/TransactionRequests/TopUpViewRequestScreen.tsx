@@ -24,6 +24,7 @@ import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import { connect, useDispatch } from "react-redux";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+import { EventData } from "web3-eth-contract";
 
 const ModalContent = (props) => {
   return (
@@ -80,6 +81,18 @@ const TopUpViewRequestScreen = (props) => {
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
   console.log("TopUpViewRequestScreen () ->", wakalaEscrowTx);
+
+  const wakalaContractKit = WakalaContractKit.getInstance();
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "AgentConfirmationEvent",
+    async (error: Error, event: EventData) => {
+      console.log("AgentConfirmationEvent", event.returnValues.wtx[0]);
+      const index: number = event.returnValues.wtx[0];
+      const tx = wakalaContractKit?.queryTransactionByIndex(index);
+      props.navigation.navigate("Confirm Request", { tx: tx });
+      console.log("The transaction id is : " + index);
+    }
+  );
 
   // fetch route params operation and txId
   const operation = wakalaEscrowTx?.txType;
