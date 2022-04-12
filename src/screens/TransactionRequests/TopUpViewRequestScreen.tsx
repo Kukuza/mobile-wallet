@@ -1,13 +1,9 @@
 import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import React, { Fragment, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-import LargeModal from "../../components/modals/LargeModals";
 import SwipeButton from "../../components/buttons/SwipeButton";
 import NavHeader from "../../components/NavHeader";
-import { isLoading } from "expo-font";
 import { SHARED, CONNECTIVITY } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
@@ -77,19 +73,18 @@ const ModalContent = (props) => {
  * @returns
  */
 const TopUpViewRequestScreen = (props) => {
-  console.log(props.magic);
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
-  console.log("TopUpViewRequestScreen () ->", wakalaEscrowTx);
+
 
   const wakalaContractKit = WakalaContractKit.getInstance();
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-    "AgentConfirmationEvent",
+    "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
-      console.log("AgentConfirmationEvent", event.returnValues.wtx[0]);
+      console.log("ClientConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = wakalaContractKit?.queryTransactionByIndex(index);
-      props.navigation.navigate("Confirm Request", { tx: tx });
+      props.navigation.navigate("Confirm Mpesa Payment Swipe Screen", { transaction: tx });
       console.log("The transaction id is : " + index);
     }
   );
@@ -124,7 +119,7 @@ const TopUpViewRequestScreen = (props) => {
       return;
     }
     modalRef.current?.closeModal();
-    props.navigation.navigate("MyDrawer");
+    // props.navigation.navigate("MyDrawer");
   };
 
   // const handleAction = async () => {
@@ -184,7 +179,6 @@ const TopUpViewRequestScreen = (props) => {
       contractMethods = props.contractMethods;
     } else {
       setLoadingMessage("Initializing the Blockchain connection...");
-      console.log("reached here");
       await contractMethods.init().then((result) => {
         dispatch({
           type: "INIT_CONTRACT_METHODS",
@@ -192,8 +186,6 @@ const TopUpViewRequestScreen = (props) => {
         });
       });
     }
-    console.log("==============>");
-    console.log(operation);
     if (operation === "DEPOSIT") {
       setLoadingMessage("Accepting  transaction...");
       console.log("modal opened");
