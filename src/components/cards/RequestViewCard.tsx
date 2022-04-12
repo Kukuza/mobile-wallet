@@ -14,7 +14,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 
 const swipeLeftContent = () => {
   return (
@@ -49,7 +49,6 @@ const swipeRightContent = () => {
 };
 
 const RequestCardComponent = (props) => {
-
   const wakalaTransaction: WakalaEscrowTransaction = props.wakalaTransaction;
   const navigation = props.navigation;
 
@@ -88,9 +87,9 @@ const RequestCardComponent = (props) => {
                   style={styles.identiconImg}
                 />
                 <Text style={styles.cardTitle}>
-                    {wakalaTransaction?.txType === "DEPOSIT"
-                      ? "Deposit Request"
-                      : "Withdraw Request"}
+                  {wakalaTransaction?.txType === "DEPOSIT"
+                    ? "Deposit Request"
+                    : "Withdraw Request"}
                 </Text>
                 <View
                   style={{
@@ -127,11 +126,17 @@ const RequestCardComponent = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={styles.amountKsh}>Ksh {wakalaTransaction.amount}</Text>
+                <Text style={styles.amountKsh}>
+                  Ksh {wakalaTransaction.amount * 115}
+                </Text>
 
                 <Pressable
                   style={styles.viewButton}
-                  onPress={() => navigation.navigate("Top Up View Request", {transaction: wakalaTransaction})}
+                  onPress={() =>
+                    navigation.navigate("Top Up View Request", {
+                      transaction: wakalaTransaction,
+                    })
+                  }
                 >
                   <Text style={styles.viewButtonTxt}>View</Text>
                 </Pressable>
