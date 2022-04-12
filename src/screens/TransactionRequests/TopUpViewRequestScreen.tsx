@@ -76,15 +76,15 @@ const TopUpViewRequestScreen = (props) => {
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
 
-
   const wakalaContractKit = WakalaContractKit.getInstance();
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
       console.log("ClientConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
-      const tx = wakalaContractKit?.queryTransactionByIndex(index);
-      props.navigation.navigate("Confirm Mpesa Payment Swipe Screen", { transaction: tx });
+      props.navigation.navigate("Confirm Mpesa Payment Swipe Screen", {
+        transaction: wakalaEscrowTx,
+      });
       console.log("The transaction id is : " + index);
     }
   );
