@@ -8,8 +8,6 @@ import React, {
 } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import DefaultButton from "../../components/buttons/DefaultButton";
 // import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
@@ -20,8 +18,6 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 import {
   WAKALA_CONTRACT_ADDRESS,
-  ERC20_ADDRESS,
-  KARMA_CONTRACT_ADDRESS,
 } from "../../utils/ContractAdresses/contract";
 import { magic, web3 } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
@@ -102,13 +98,6 @@ const AddFundsConfirmationScreen = (props: any) => {
   const dispatch = useDispatch();
 
   const wakalaContractKit = WakalaContractKit.getInstance();
-  // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-  //   "TransactionInitEvent",
-  //   async (error: Error, event: EventData) => {
-  //     const index: number = event.returnValues.wtxIndex;
-  //     console.log("The transaction id is : " + index);
-  //   }
-  // );
 
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
@@ -122,58 +111,7 @@ const AddFundsConfirmationScreen = (props: any) => {
     modalRef.current?.openModal();
   };
 
-  // const call = async () => {
-  //   let txObject = await contract.methods.initializeDepositTransaction(value);
-  //   let cUSDcontract = await kit.contracts.getStableToken();
-  //   let tx = await kit.sendTransactionObject(txObject, {
-  //     from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-  //     // feeCurrency: cUSDcontract.address,
-  //   });
-  //   let receipt = await tx.waitReceipt();
-  //   console.log(receipt);
-  // };
   const contractCall = async () => {
-    // console.log("++++++++++++++++++++++++++++++++++");
-    // await WakalaContractKit.getInstance()?.init();
-
-    // const approveTX = WakalaContractKit.getInstance()?.cUSDApproveAmount(value);
-
-    // await approveTX;
-    // console.log("++++++++++++++++++++++++++++++++++");
-    // console.log("++++++++++++++++++++++++++++++++++");
-
-    // let cUSDcontract = await kit.contracts.getStableToken();
-    // let contract = new kit.web3.eth.Contract(
-    //   WakalEscrowAbi as AbiItem[],
-    //   WAKALA_CONTRACT_ADDRESS
-    // );
-    // console.log("******************************");
-    // const user = {
-    //   publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-    // };
-
-    // const tx = await contract.methods.initializeDepositTransaction(2).send({
-    //   from: user.publicAdress,
-    // });
-
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
-
-    // Encode the transaction to HelloWorld.sol according to the ABI
-    // let txObject = await contract.methods.initializeDepositTransaction(2);
-
-    // Send the transaction
-    // let tx = await kit.sendTransactionObject(txObject, {
-    //   from: user.publicAdress,
-    //   feeCurrency: cUSDcontract.address,
-    // });
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
-    // console.log("******************************");
-
-    // let contractCall = await contract.methods
-    //   .initializeDepositTransaction(value)
-    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
     openModal();
     setIsLoading(true);
     console.log("something is cooking");
@@ -264,9 +202,7 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsLoading(false);
         });
 
-      // } catch (error: any) {
 
-      // }
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
@@ -325,17 +261,6 @@ const AddFundsConfirmationScreen = (props: any) => {
         //     // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
         //   });
 
-        wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.events.wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-          "TransactionInitEvent",
-          // { filter: { wtxIndex: "71" } },
-          async (error: Error, event: EventData) => {
-            // let index: number = event.returnValues.wtxIndex;
-            console.log("The event is : " + event.returnValues.wtxIndex);
-            emmited = event;
-            // send to send mpesa screen with txID param
-            props.navigation.navigate("MyDrawer");
-          }
-        );
       } catch (error) {
         console.log(error);
       }

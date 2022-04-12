@@ -5,7 +5,7 @@ import SwipeButton from "../../components/buttons/SwipeButton";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Modal from "../../components/modals/Modal";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
@@ -20,6 +20,7 @@ import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { AbiItem } from "web3-utils";
 import COLORS from "../../styles/colors/colors";
+import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 
 const ModalContent = (props) => {
   return (
@@ -73,7 +74,7 @@ const ModalContent = (props) => {
   );
 };
 
-const TransactionConfirmationScreen = () => {
+const TransactionConfirmationScreen = (props) => {
   const route = useRoute<any>();
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
@@ -100,27 +101,90 @@ const TransactionConfirmationScreen = () => {
     WakalaEscrowAbi as AbiItem[],
     WAKALA_CONTRACT_ADDRESS
   );
+  // const handleAction = async () => {
+  //   openModal();
+  //   setIsLoading(true);
+  //   setLoadingMessage("Confirming Payment...");
+  //   console.log("==============>");
+  //   console.log("The transaction has started");
+  //   await contract.methods
+  //     .clientConfirmPayment(transaction)
+  //     .send({ from: publicAddress })
+  //     .then(() => {
+  //       console.log("reached 2nd then");
+  //       setLoadingMessage("");
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error: any) => {
+  //       setLoadingMessage(error.toString());
+  //       console.log(error.toString() + " \n Amount: " + transaction.toString());
+  //       setIsActionSuccess(false);
+  //       setIsLoading(false);
+  //     });
+  //   console.log("The transaction has gone through");
+  //   setIsLoading(false);
+  // };
   const handleAction = async () => {
     openModal();
+    //Init
     setIsLoading(true);
-    setLoadingMessage("Confirming Payment...");
+    console.log("something is cooking");
+    setLoadingMessage("Initializing the transaction...");
+    let contractMethods: any = new ContractMethods(props.magic);
+    if (props.contractMethods instanceof ContractMethods) {
+      contractMethods = props.contractMethods;
+    } else {
+      setLoadingMessage("Initializing the Blockchain connection...");
+      console.log("reached here");
+      await contractMethods.init().then((result) => {
+        dispatch({
+          type: "INIT_CONTRACT_METHODS",
+          value: contractMethods,
+        });
+      });
+    }
     console.log("==============>");
-    console.log("The transaction has started");
-    await contract.methods
-      .clientConfirmPayment(transaction)
-      .send({ from: publicAddress })
-      .then(() => {
-        console.log("reached 2nd then");
+    let amount = contractMethods.web3.utils.toBN(value);
+    console.log(operation);
+    if (operation === "TopUp") {
+      setLoadingMessage("Sending the deposit transaction...");
+
+      // try {
+      await contractMethods
+        .agentConfirmPayment(amount)
+        .then((receipt) => {
+          // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
+          // console.log("rx is of type: " + rx?.wtxIndex);
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + amount.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+
+      // } catch (error: any) {
+
+      // }
+    } else {
+      try {
+        setLoadingMessage("Sending the withdrawal transaction...");
+        let result = await contractMethods.initializeWithdrawalTransaction(
+          amount
+        );
         setLoadingMessage("");
         setIsLoading(false);
-      })
-      .catch((error: any) => {
+      } catch (error: any) {
         setLoadingMessage(error.toString());
-        console.log(error.toString() + " \n Amount: " + transaction.toString());
+        console.log(
+          error.toString() + " \n Amount to withdraw: " + amount.toString()
+        );
         setIsActionSuccess(false);
         setIsLoading(false);
-      });
-    console.log("The transaction has gone through");
+      }
+    }
     setIsLoading(false);
   };
 
@@ -161,6 +225,7 @@ const TransactionConfirmationScreen = () => {
             />
           </View>
         </View>
+        <magic.Relayer />
       </ScreenComponent>
       <Modal
         ref={modalRef}
@@ -187,7 +252,26 @@ const TransactionConfirmationScreen = () => {
   );
 };
 
-export default TransactionConfirmationScreen;
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+    contractMethods: state.contractMethods,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransactionConfirmationScreen);
+
+// export default TransactionConfirmationScreen;
 
 const styles = StyleSheet.create({
   container: {
