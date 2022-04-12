@@ -139,7 +139,6 @@ const TransactionConfirmationScreen = (props) => {
   //   console.log("The transaction has gone through");
   //   setIsLoading(false);
   // };
-
   const handleAction = async () => {
     openModal();
     //Init
@@ -222,6 +221,7 @@ const TransactionConfirmationScreen = (props) => {
             <magic.Relayer />
           </View>
         </View>
+        <magic.Relayer />
       </ScreenComponent>
       <Modal
         ref={modalRef}

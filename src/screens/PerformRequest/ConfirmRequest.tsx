@@ -195,17 +195,20 @@ const ConfirmRequest = (props) => {
 
           {operation === "TopUp" && <CardElement value={value} />}
           <View>
+            
             <DefaultButton
               // onPress={contractCall}
               onPress={() => handleAction()}
               style={{ minWidth: 286, marginTop: 40 }}
               text="Continue"
             />
+
             <TouchableOpacity
               style={mainStyles.button}
               onPress={() => navigation.goBack()}
             >
-              <Text
+
+            <Text
                 style={[mainStyles.secondaryButtonText, { color: "#133FDB" }]}
               >
                 {operation === "TopUp" ? "Cancel" : "Didn’t receive payments?"}

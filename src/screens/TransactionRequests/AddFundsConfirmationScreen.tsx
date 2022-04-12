@@ -1,10 +1,5 @@
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import React, {
-  Fragment,
-  useCallback,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
@@ -15,9 +10,7 @@ import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import {
-  WAKALA_CONTRACT_ADDRESS,
-} from "../../utils/ContractAdresses/contract";
+import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import { magic, web3 } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
@@ -100,7 +93,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "AgentPairingEvent",
     async (error: Error, event: EventData) => {
-      console.log("AgentPairingEvent", event.returnValues.wtx[0])
+      console.log("AgentPairingEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = await wakalaContractKit?.queryTransactionByIndex(index);
       props.navigation.navigate("Confirm Request", { tx: tx });
@@ -121,7 +114,6 @@ const AddFundsConfirmationScreen = (props: any) => {
   };
 
   const contractCall = async () => {
-
     openModal();
     setIsLoading(true);
     console.log("something is cooking");
@@ -132,7 +124,7 @@ const AddFundsConfirmationScreen = (props: any) => {
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
       console.log("The transaction has started");
-      
+
       await contract.methods
         .initializeDepositTransaction(value)
         .send({ from: publicAddress })
@@ -148,7 +140,6 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-      
     } else {
       setLoadingMessage("Sending the Withdrawal transaction...");
       console.log("The withdrawal transaction has started");
@@ -211,10 +202,6 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-
-      // } catch (error: any) {
-
-      // }
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
@@ -272,18 +259,6 @@ const AddFundsConfirmationScreen = (props: any) => {
         //   .on("error", function (error, receipt) {
         //     // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
         //   });
-
-        wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.events.wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-          "TransactionInitEvent",
-          // { filter: { wtxIndex: "71" } },
-          async (error: Error, event: EventData) => {
-            // let index: number = event.returnValues.wtxIndex;
-            console.log("The event is : " + event.returnValues.wtxIndex);
-            emmited = event;
-            // send to send mpesa screen with txID param
-            props.navigation.navigate("MyDrawer");
-          }
-        );
       } catch (error) {
         console.log(error);
       }
