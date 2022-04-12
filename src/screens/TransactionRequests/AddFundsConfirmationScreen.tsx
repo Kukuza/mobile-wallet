@@ -32,6 +32,7 @@ import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
+import { EventData } from "web3-eth-contract";
 
 const ModalContent = (props) => {
   return (
@@ -99,6 +100,15 @@ const AddFundsConfirmationScreen = (props: any) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+
+  const wakalaContractKit = WakalaContractKit.getInstance();
+  // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  //   "TransactionInitEvent",
+  //   async (error: Error, event: EventData) => {
+  //     const index: number = event.returnValues.wtxIndex;
+  //     console.log("The transaction id is : " + index);
+  //   }
+  // );
 
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
@@ -237,11 +247,13 @@ const AddFundsConfirmationScreen = (props: any) => {
     console.log(operation);
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
+
       // try {
       await contractMethods
         .initializeDepositTransaction(amount)
-        .then(() => {
-          console.log("reached 2nd then");
+        .then((receipt) => {
+          // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
+          // console.log("rx is of type: " + rx?.wtxIndex);
           setLoadingMessage("");
           setIsLoading(false);
         })
@@ -280,8 +292,58 @@ const AddFundsConfirmationScreen = (props: any) => {
       modalRef.current?.closeModal();
       return;
     }
+    let emmited: any = null;
+    console.log(emmited);
+    if (emmited == null) {
+      try {
+        // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+        //   "TransactionInitEvent",
+        //   async (error: Error, event: EventData) => {
+        //     const index: number = event.returnValues.wtxIndex;
+        //     console.log("The transaction id is : " + index);
+        //   }
+        // );
+        // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.events
+        //   .MyEvent(
+        //     // {
+        //     //   filter: { wtxIndex: "71" },
+        //     // },
+        //     function (error, event) {
+        //       console.log("-------> " + event);
+        //     }
+        //   )
+        //   .on("connected", function (subscriptionId) {
+        //     console.log("-------> " + subscriptionId);
+        //   })
+        //   .on("data", function (event) {
+        //     console.log(event); // same results as the optional callback above
+        //   })
+        //   .on("changed", function (event) {
+        //     // remove event from local database
+        //   })
+        //   .on("error", function (error, receipt) {
+        //     // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+        //   });
+
+        wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.events.wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+          "TransactionInitEvent",
+          // { filter: { wtxIndex: "71" } },
+          async (error: Error, event: EventData) => {
+            // let index: number = event.returnValues.wtxIndex;
+            console.log("The event is : " + event.returnValues.wtxIndex);
+            emmited = event;
+            // send to send mpesa screen with txID param
+            props.navigation.navigate("MyDrawer");
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("no event found staying here");
+    }
+
     modalRef.current?.closeModal();
-    props.navigation.navigate("MyDrawer");
   };
 
   const useViewSize = () => {

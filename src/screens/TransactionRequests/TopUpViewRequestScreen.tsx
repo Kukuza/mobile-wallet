@@ -2,6 +2,7 @@ import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import React, { Fragment, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
+import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import LargeModal from "../../components/modals/LargeModals";
 import SwipeButton from "../../components/buttons/SwipeButton";
