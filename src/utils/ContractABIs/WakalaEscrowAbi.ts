@@ -561,7 +561,7 @@ export const WakalaEscrowAbi = [
     ],
     name: "initializeWithdrawalTransaction",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
