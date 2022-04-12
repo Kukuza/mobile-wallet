@@ -1,11 +1,5 @@
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
@@ -16,14 +10,11 @@ import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import {
-  WAKALA_CONTRACT_ADDRESS,
-} from "../../utils/ContractAdresses/contract";
+import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import { magic, web3 } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
-import { CeloContract } from "@celo/contractkit";
 import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
@@ -99,6 +90,17 @@ const AddFundsConfirmationScreen = (props: any) => {
 
   const wakalaContractKit = WakalaContractKit.getInstance();
 
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "AgentPairingEvent",
+    async (error: Error, event: EventData) => {
+      console.log("AgentPairingEvent", event.returnValues.wtx[0]);
+      const index: number = event.returnValues.wtx[0];
+      const tx = await wakalaContractKit?.queryTransactionByIndex(index);
+      props.navigation.navigate("Confirm Request", { tx: tx });
+      console.log("The transaction id is : " + index);
+    }
+  );
+
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
 
@@ -123,13 +125,14 @@ const AddFundsConfirmationScreen = (props: any) => {
       setLoadingMessage("Sending the deposit transaction...");
       console.log("The transaction has started");
 
-      await await contract.methods
+      await contract.methods
         .initializeDepositTransaction(value)
         .send({ from: publicAddress })
         .then(() => {
           console.log("reached 2nd then");
           setLoadingMessage("");
           setIsLoading(false);
+          console.log("The transaction has gone through");
         })
         .catch((error: any) => {
           setLoadingMessage(error.toString());
@@ -137,8 +140,6 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-      console.log("The transaction has gone through");
-      setIsLoading(false);
     } else {
       setLoadingMessage("Sending the Withdrawal transaction...");
       console.log("The withdrawal transaction has started");
@@ -201,8 +202,6 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-
-
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
@@ -260,7 +259,6 @@ const AddFundsConfirmationScreen = (props: any) => {
         //   .on("error", function (error, receipt) {
         //     // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
         //   });
-
       } catch (error) {
         console.log(error);
       }

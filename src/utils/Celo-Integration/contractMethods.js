@@ -141,6 +141,17 @@ function ContractMethods(magic) {
     return receipt;
   };
 
+  // this.finalizeTransaction = async (transactionId) => {
+  //   let txObject = await contract.methods.finalizeTransaction(transactionId);
+  //   let tx = await kit.sendTransactionObject(txObject, {
+  //     from: kit.defaultAccount,
+  //     feeCurrency: stableToken.address,
+  //   });
+  //   let receipt = await tx.waitReceipt();
+  //   console.log("From finalizeTransaction", receipt);
+  //   return receipt;
+  // };
+
   /**
     * @dev Function to update a user's karma value for a specified application
     * @param address The address of the user whose karma is being updated
