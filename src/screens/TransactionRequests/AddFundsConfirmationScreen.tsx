@@ -102,13 +102,16 @@ const AddFundsConfirmationScreen = (props: any) => {
   const dispatch = useDispatch();
 
   const wakalaContractKit = WakalaContractKit.getInstance();
-  // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-  //   "TransactionInitEvent",
-  //   async (error: Error, event: EventData) => {
-  //     const index: number = event.returnValues.wtxIndex;
-  //     console.log("The transaction id is : " + index);
-  //   }
-  // );
+
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "AgentPairingEvent",
+    async (error: Error, event: EventData) => {
+      console.log("AgentPairingEvent", event.returnValues.wtx[0])
+      const index: number = event.returnValues.wtx[0];
+      props.navigation.navigate("Confirm Request");
+      console.log("The transaction id is : " + index);
+    }
+  );
 
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
@@ -122,58 +125,8 @@ const AddFundsConfirmationScreen = (props: any) => {
     modalRef.current?.openModal();
   };
 
-  // const call = async () => {
-  //   let txObject = await contract.methods.initializeDepositTransaction(value);
-  //   let cUSDcontract = await kit.contracts.getStableToken();
-  //   let tx = await kit.sendTransactionObject(txObject, {
-  //     from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-  //     // feeCurrency: cUSDcontract.address,
-  //   });
-  //   let receipt = await tx.waitReceipt();
-  //   console.log(receipt);
-  // };
   const contractCall = async () => {
-    // console.log("++++++++++++++++++++++++++++++++++");
-    // await WakalaContractKit.getInstance()?.init();
 
-    // const approveTX = WakalaContractKit.getInstance()?.cUSDApproveAmount(value);
-
-    // await approveTX;
-    // console.log("++++++++++++++++++++++++++++++++++");
-    // console.log("++++++++++++++++++++++++++++++++++");
-
-    // let cUSDcontract = await kit.contracts.getStableToken();
-    // let contract = new kit.web3.eth.Contract(
-    //   WakalEscrowAbi as AbiItem[],
-    //   WAKALA_CONTRACT_ADDRESS
-    // );
-    // console.log("******************************");
-    // const user = {
-    //   publicAdress: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757",
-    // };
-
-    // const tx = await contract.methods.initializeDepositTransaction(2).send({
-    //   from: user.publicAdress,
-    // });
-
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
-
-    // Encode the transaction to HelloWorld.sol according to the ABI
-    // let txObject = await contract.methods.initializeDepositTransaction(2);
-
-    // Send the transaction
-    // let tx = await kit.sendTransactionObject(txObject, {
-    //   from: user.publicAdress,
-    //   feeCurrency: cUSDcontract.address,
-    // });
-    // let receipt = await tx.waitReceipt();
-    // console.log(receipt);
-    // console.log("******************************");
-
-    // let contractCall = await contract.methods
-    //   .initializeDepositTransaction(value)
-    //   .send({ from: "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757" });
     openModal();
     setIsLoading(true);
     console.log("something is cooking");
@@ -184,14 +137,15 @@ const AddFundsConfirmationScreen = (props: any) => {
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
       console.log("The transaction has started");
-
-      await await contract.methods
+      
+      await contract.methods
         .initializeDepositTransaction(value)
         .send({ from: publicAddress })
         .then(() => {
           console.log("reached 2nd then");
           setLoadingMessage("");
           setIsLoading(false);
+          console.log("The transaction has gone through");
         })
         .catch((error: any) => {
           setLoadingMessage(error.toString());
@@ -199,8 +153,7 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-      console.log("The transaction has gone through");
-      setIsLoading(false);
+      
     } else {
       setLoadingMessage("Sending the Withdrawal transaction...");
       console.log("The withdrawal transaction has started");
