@@ -115,11 +115,21 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   );
 
   const wakalaContractKit = WakalaContractKit.getInstance();
+  // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  //   "TransactionCompletionEvent",
+  //   async (error: Error, event: EventData) => {
+  //     console.log("TransactionCompletionEvent", event.returnValues.wtx[0]);
+  //     const index: number = event.returnValues.wtx[0];
+  //     console.log("The transaction id is : " + index);
+  //   }
+  // );
+
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
-      console.log("ClientConfirmationEvent", event.returnValues.wtx[0]);
+      console.log("TransactionCompletionEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
+      navigation.navigate("MyDrawer");
       console.log("The transaction id is : " + index);
     }
   );
