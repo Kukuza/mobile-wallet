@@ -5,4 +5,3 @@ export const MPESA = require("../images/MpesaToCusd/mpesa.png");
 export const COMING_SOON = require("../images/MpesaToCusd/coming_soon.png");
 export const SHARED = require("../images/modals/Shared_image.png");
 export const CONNECTIVITY = require("../images/modals/Connectivity.png");
-
