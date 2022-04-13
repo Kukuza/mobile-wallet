@@ -105,9 +105,10 @@ const AddFundsConfirmationScreen = (props: any) => {
   };
 
   const handleAction = async () => {
-    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
 
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
     phoneNumber = Buffer.from(phoneNumber).toString("base64");
+    
     openModal();
     //Init
     setIsLoading(true);
