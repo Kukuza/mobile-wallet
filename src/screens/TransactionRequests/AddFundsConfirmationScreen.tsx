@@ -324,7 +324,7 @@ const AddFundsConfirmationScreen = (props: any) => {
             }
             cardSubtitle2="Fee"
             grossAmount={props.route.params?.param}
-            netValue={"Ksh " + props.route.params?.param * 114}
+            netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
           <DefaultButton
