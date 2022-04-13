@@ -1,13 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
 import { FONTS } from "../../styles/fonts/fonts";
 
 import { COLORS } from "../../styles/colors/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import CopyButton from "../buttons/Copy";
+import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
 
 /**
  *
@@ -20,6 +19,11 @@ import CopyButton from "../buttons/Copy";
  * @returns
  */
 const TransactionConfirmationCard = (props: any) => {
+
+  let transaction: WakalaEscrowTransaction = props.transaction;
+
+  let amount = Math.trunc(transaction.amount * 115)
+
   const copyToClipboard = () => {
     // todo
     console.log("copy button works");
@@ -40,9 +44,9 @@ const TransactionConfirmationCard = (props: any) => {
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text style={[styles.header, FONTS.h5]}>
             Did you send{" "}
-            <Text style={{ color: COLORS.primary }}>Ksh 1,000</Text> to M-Pesa
+            <Text style={{ color: COLORS.primary }}>Ksh {amount}</Text> to M-Pesa
             number{" "}
-            <Text style={{ color: COLORS.primary }}>+254 706 427 718?</Text>
+            <Text style={{ color: COLORS.primary }}>{transaction.agentPhoneNumber}?</Text>
           </Text>
         </View>
       </View>
@@ -50,16 +54,7 @@ const TransactionConfirmationCard = (props: any) => {
 
       <View style={{ justifyContent: "space-between", marginTop: 15 }}>
         <Text style={styles.totalLabel}>Send</Text>
-        <TextInputMask
-          type={"only-numbers"}
-          options={{
-            unit: "Ksh ",
-          }}
-          value={props.netValue}
-          style={styles.totalValue}
-          placeholder="Ksh 1,000"
-          placeholderTextColor={COLORS.primary}
-        />
+        <Text style={styles.totalValue}>Ksh {amount}</Text>
       </View>
       <View
         style={{
@@ -71,16 +66,7 @@ const TransactionConfirmationCard = (props: any) => {
         <Text style={styles.totalLabel}>To</Text>
         <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 4 }}>
-            <TextInputMask
-              type={"only-numbers"}
-              options={{
-                unit: "Ksh ",
-              }}
-              value={props.netValue}
-              style={styles.totalValue}
-              placeholder="+254 705 124 767"
-              placeholderTextColor={COLORS.primary}
-            />
+          <Text style={styles.totalValue}>{transaction.agentPhoneNumber}</Text>
           </View>
           <View style={{ flex: 2, justifyContent: "center" }}>
             <CopyButton text="Copy" onPress={copyToClipboard} />
@@ -153,7 +139,7 @@ const styles = StyleSheet.create({
   },
   totalValue: {
     ...FONTS.h5,
-    color: COLORS.textColor2,
+    color: COLORS.primary,
   },
   totalLabel: {
     ...FONTS.body7,
