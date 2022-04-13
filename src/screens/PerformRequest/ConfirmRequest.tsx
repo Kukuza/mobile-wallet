@@ -22,19 +22,14 @@ const CardElement = (props) => {
 
   return (
     <View style={cardStyles.container}>
+
       <View>
         <Text style={cardStyles.subTitle}>Send</Text>
-        <TextInputMask
-          type={"money"}
-          options={{
-            unit: "Ksh ",
-          }}
-          style={cardStyles.title}
-          value={transaction.amount}
-          placeholder="Ksh 0,00"
-          placeholderTextColor={COLORS.primary}
-        />
+        <Text style={cardStyles.title}>
+            Ksh {transaction.amount * 115}
+        </Text>
       </View>
+      
       <View>
         <Text style={cardStyles.subTitle}>To</Text>
         <Text style={cardStyles.title}>{transaction.agentPhoneNumber}</Text>
@@ -316,7 +311,7 @@ const cardStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     lineHeight: 34,
-    color: "#4840BB",
+    color: COLORS.primary,
     fontFamily: "Rubik_700Bold",
   },
 
