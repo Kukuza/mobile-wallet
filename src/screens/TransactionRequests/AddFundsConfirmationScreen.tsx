@@ -30,7 +30,9 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-          Request accepted and the user has been notified.Do not exit this page.
+          We shared your deposit request with the agent community.
+          We will notify you once an agent has answered the request.
+          It can take up to 4 minutes. Do not exit this page.
           </Text>
         </View>
       ) : (
