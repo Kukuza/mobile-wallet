@@ -31,9 +31,9 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-          We shared your deposit request with the agent community.
-          We will notify you once an agent has answered the request.
-          It can take up to 4 minutes. Do not exit this page.
+            We shared your deposit request with the agent community. We will
+            notify you once an agent has answered the request. It can take up to
+            4 minutes. Do not exit this page.
           </Text>
         </View>
       ) : (
@@ -246,6 +246,7 @@ const AddFundsConfirmationScreen = (props: any) => {
               operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
             }
             cardSubtitle2="Fee"
+            totalLabel="Total you receive"
             grossAmount={props.route.params?.param}
             // netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}

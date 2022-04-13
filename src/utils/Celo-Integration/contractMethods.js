@@ -65,7 +65,7 @@ function ContractMethods(magic) {
         feeCurrency: stableToken.address,
       });
       let receipt = await tx.waitReceipt();
-      console.log("From Approve", receipt);
+      // console.log("From Approve", receipt);
       return receipt;
     } catch (e) {
       console.log(e, "approveTransaction catch");
@@ -106,9 +106,17 @@ function ContractMethods(magic) {
     return receipt;
   };
 
-  this.agentAcceptDepositTransaction = async (transactionId) => {
+  this.agentAcceptDepositTransaction = async (
+    transactionId,
+    phoneNumber,
+    amount
+  ) => {
+    let amount1 = amount + 1;
+    amount1;
+    await approveTransaction(getAmountInGolds("100"));
     let txObject = await contract.methods.agentAcceptDepositTransaction(
-      transactionId
+      transactionId,
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -119,9 +127,13 @@ function ContractMethods(magic) {
     return receipt;
   };
 
-  this.agentAcceptWithdrawalTransaction = async (transactionId) => {
+  this.agentAcceptWithdrawalTransaction = async (
+    transactionId,
+    phoneNumber
+  ) => {
     let txObject = await contract.methods.agentAcceptWithdrawalTransaction(
-      transactionId
+      transactionId,
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
