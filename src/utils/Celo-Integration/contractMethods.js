@@ -76,10 +76,6 @@ function ContractMethods(magic) {
     return kit.web3.utils.toWei(sendAmount, "ether");
   }
 
-  function toBn(_amount) {
-    return kit.web3.utils.toBN(_amount);
-  }
-
   this.initializeDepositTransaction = async (amount) => {
     await approveTransaction(amount);
     let txObject = await contract.methods.initializeDepositTransaction(

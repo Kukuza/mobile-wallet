@@ -20,6 +20,7 @@ import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
+import SwipeButton from "../../components/buttons/SwipeButton";
 
 const ModalContent = (props) => {
   return (
@@ -181,8 +182,10 @@ const AddFundsConfirmationScreen = (props: any) => {
       });
     }
     console.log("==============>");
-    let txAmount = contractMethods.web3.utils.toBN(value + 1);
+    let txAmount = value + 1;
     let amount = contractMethods.web3.utils.toWei(txAmount, "ether");
+    // let amount = contractMethods.web3.utils.toBN(2);
+    // console.log("The BN amount is: " + amount);
     console.log(operation);
     if (operation === "TopUp") {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
@@ -324,15 +327,18 @@ const AddFundsConfirmationScreen = (props: any) => {
             }
             cardSubtitle2="Fee"
             grossAmount={props.route.params?.param}
-            netValue={"Ksh " + props.route.params?.param}
+            // netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
-          <DefaultButton
-            onPress={() => handleAction()}
-            // onPress={() => navigation.navigate("Home")}
-            style={{ minWidth: 286, marginTop: 200 }}
-            text="Continue"
-          />
+          <View style={{ marginTop: 100 }}>
+            <SwipeButton
+              title="Swipe to Confirm"
+              onPress={() => handleAction()}
+              // onPress={() => navigation.navigate("Home")}
+              style={{ minWidth: 286, marginTop: 200 }}
+              text="Continue"
+            />
+          </View>
           <magic.Relayer />
         </View>
       </ScreenComponent>
