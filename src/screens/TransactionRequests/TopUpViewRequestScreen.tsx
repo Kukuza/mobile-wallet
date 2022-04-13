@@ -30,7 +30,7 @@ const ModalContent = (props) => {
           <View style={{ alignItems: "center", justifyContent: "center" }}>
             <Image source={SHARED} style={modalStyles.image} />
           </View>
-          <Text style={modalStyles.title}>Request Shared</Text>
+          <Text style={modalStyles.title}>Request Accepted</Text>
           <Text style={modalStyles.text}>
           Request accepted and the user has been notified.
           Please do not exit this page.
