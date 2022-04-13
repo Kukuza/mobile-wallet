@@ -25,8 +25,9 @@ const AddFunds: React.FunctionComponent = () => {
   const [value, setValue] = useState("");
 
   // convert Ksh input to usd
-  const usdEquivalent = Math.trunc(parseInt(value) / 115);
+  const usdEquivalent = parseInt(value) / 115;
   const usdEquivalentString = usdEquivalent.toString();
+  console.log(usdEquivalentString);
   const operation = route.params.operation;
 
   function handleChange(newValue) {

@@ -79,7 +79,8 @@ function ContractMethods(magic) {
   this.initializeDepositTransaction = async (amount, phoneNumber) => {
     await approveTransaction(getAmountInGolds(amount + 1));
     let txObject = await contract.methods.initializeDepositTransaction(
-      getAmountInGolds(amount), phoneNumber
+      getAmountInGolds(amount),
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -93,7 +94,8 @@ function ContractMethods(magic) {
   this.initializeWithdrawalTransaction = async (amount, phoneNumber) => {
     await approveTransaction(getAmountInGolds(amount + 1));
     let txObject = await contract.methods.initializeWithdrawalTransaction(
-      getAmountInGolds(amount), phoneNumber
+      getAmountInGolds(amount),
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,

@@ -49,7 +49,7 @@ const RequestTxInformationCard = (props: any) => {
             <Text style={styles.earningsLabel}>{props.cardSubtitle2} </Text>
 
             <Text style={styles.earningsValue}>
-              cUSD {props.earnings ? props.earnings : "0.10"}
+              cUSD {props.earnings ? props.earnings : "0.05"}
             </Text>
 
             {/* <TextInputMask
@@ -71,8 +71,10 @@ const RequestTxInformationCard = (props: any) => {
       <View style={styles.borderSection}></View>
 
       <View style={{ justifyContent: "space-between", marginTop: 15 }}>
-        <Text style={styles.totalLabel}>Total you Send</Text>
-        <Text style={styles.totalValue}>cUSD {props.netValue}</Text>
+        <Text style={styles.totalLabel}>Total you receive</Text>
+        <Text style={styles.totalValue}>
+          cUSD {(props.grossAmount - 0.05).toFixed(2)}
+        </Text>
         {/* <TextInputMask
           type={"only-numbers"}
           // options={{

@@ -32,8 +32,8 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Accepted</Text>
           <Text style={modalStyles.text}>
-          Request accepted and the user has been notified.
-          Please do not exit this page.
+            Request accepted and the user has been notified. Please do not exit
+            this page.
           </Text>
         </View>
       ) : (
@@ -233,7 +233,7 @@ const TopUpViewRequestScreen = (props) => {
             }
             cardSubtitle2="You Earn"
             grossAmount={wakalaEscrowTx?.grossAmount}
-            earnings={wakalaEscrowTx?.agentFee}
+            earnings={0.05}
             netValue={wakalaEscrowTx?.grossAmount}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>

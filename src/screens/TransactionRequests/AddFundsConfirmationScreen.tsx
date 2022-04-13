@@ -3,7 +3,6 @@ import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-import SwipeButton from "../../components/buttons/SwipeButton";
 // import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
@@ -20,6 +19,8 @@ import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
+import SwipeButton from "../../components/buttons/SwipeButton";
+
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
@@ -67,12 +68,9 @@ const AddFundsConfirmationScreen = (props: any) => {
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
   console.log(props.route.params.operation);
-
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
-
   // console.log(WakalaContractKit.getInstance().userMetadata);
-  console.log(publicAddress);
   // console.log(props.route.params?.param);
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
@@ -106,66 +104,14 @@ const AddFundsConfirmationScreen = (props: any) => {
     modalRef.current?.openModal();
   };
 
-  const contractCall = async () => {
-    openModal();
-    setIsLoading(true);
-    setLoadingMessage("Initializing the transaction...");
-
-    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? '';
-
-    phoneNumber = Buffer.from(phoneNumber).toString('base64');
-
-    if (operation === "TopUp") {
-      setLoadingMessage("Posting your request to the Celo Blockchain...");
-      console.log("The transaction has started");
-
-      await contract.methods
-        .initializeDepositTransaction(value, phoneNumber)
-        .send({ from: publicAddress })
-        .then(() => {
-          console.log("reached 2nd then");
-          setLoadingMessage("");
-          setIsLoading(false);
-          console.log("The transaction has gone through");
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error.toString() + " \n Amount: " + value.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
-    } else {
-      setLoadingMessage("Sending the Withdrawal transaction...");
-      console.log("The withdrawal transaction has started");
-
-      await contract.methods
-        .initializeWithdrawalTransaction(value, phoneNumber)
-        .send({ from: publicAddress })
-        .then(() => {
-          setLoadingMessage("");
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error.toString() + " \n Amount: " + value.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
-      console.log("The withdrawal transaction has gone through");
-      setIsLoading(false);
-    }
-  };
-
   const handleAction = async () => {
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+
+    phoneNumber = Buffer.from(phoneNumber).toString("base64");
     openModal();
     //Init
     setIsLoading(true);
     console.log("something is cooking");
-
-    // Get phone number.
-    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? '';
-    phoneNumber = Buffer.from(phoneNumber).toString('base64');
-
     setLoadingMessage("Initializing the transaction...");
     let contractMethods: any = new ContractMethods(props.magic);
     if (props.contractMethods instanceof ContractMethods) {
@@ -180,8 +126,10 @@ const AddFundsConfirmationScreen = (props: any) => {
         });
       });
     }
-
-    let amount = contractMethods.web3.utils.toBN(value);
+    console.log("==============>");
+    let amount = value;
+    // let amount = contractMethods.web3.utils.toBN(2);
+    // console.log("The BN amount is: " + amount);
     console.log(operation);
     if (operation === "TopUp") {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
@@ -205,7 +153,8 @@ const AddFundsConfirmationScreen = (props: any) => {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
         let result = await contractMethods.initializeWithdrawalTransaction(
-          amount, phoneNumber
+          amount,
+          phoneNumber
         );
         setLoadingMessage("");
         setIsLoading(false);
@@ -230,34 +179,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     console.log(emmited);
     if (emmited == null) {
       try {
-        // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-        //   "TransactionInitEvent",
-        //   async (error: Error, event: EventData) => {
-        //     const index: number = event.returnValues.wtxIndex;
-        //     console.log("The transaction id is : " + index);
-        //   }
-        // );
-        // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.events
-        //   .MyEvent(
-        //     // {
-        //     //   filter: { wtxIndex: "71" },
-        //     // },
-        //     function (error, event) {
-        //       console.log("-------> " + event);
-        //     }
-        //   )
-        //   .on("connected", function (subscriptionId) {
-        //     console.log("-------> " + subscriptionId);
-        //   })
-        //   .on("data", function (event) {
-        //     console.log(event); // same results as the optional callback above
-        //   })
-        //   .on("changed", function (event) {
-        //     // remove event from local database
-        //   })
-        //   .on("error", function (error, receipt) {
-        //     // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-        //   });
       } catch (error) {
         console.log(error);
       }
@@ -323,15 +244,17 @@ const AddFundsConfirmationScreen = (props: any) => {
             }
             cardSubtitle2="Fee"
             grossAmount={props.route.params?.param}
-            netValue={"Ksh " + props.route.params?.param}
+            // netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
-          <SwipeButton
-            handleAction={() => handleAction()}
-            // onPress={() => navigation.navigate("Home")}
-            additionalStyling={styles.swipeButton}
-            title={"Swipe To Confirm"}
-          />
+          <View style={{ marginTop: 200 }}>
+            <SwipeButton
+              title="Swipe to Confirm"
+              handleAction={() => handleAction()}
+              // onPress={() => navigation.navigate("Home")}
+              style={{ minWidth: 286, marginTop: 200 }}
+            />
+          </View>
           <magic.Relayer />
         </View>
       </ScreenComponent>
@@ -378,9 +301,9 @@ const styles = StyleSheet.create({
     margin: 30,
     justifyContent: "space-between",
   },
-  swipeButton:{
+  swipeButton: {
     marginTop: 200,
-    marginLeft:"3%",
+    marginLeft: "3%",
   },
 
   cardContainer: {

@@ -1,17 +1,15 @@
 import { SafeAreaView, StatusBar, StyleSheet, View, Text } from "react-native";
 import React, { Fragment } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { Magic } from "@magic-sdk/react-native";
+import { magic } from "../utils/magic";
 
 function ScreenComponent({ children }) {
   return (
     <Fragment>
       <SafeAreaView style={styles.topSafeArea} />
 
-      <SafeAreaView
-        style={[
-          styles.bottomSafeArea,
-        ]}
-      >
+      <SafeAreaView style={[styles.bottomSafeArea]}>
         <View style={styles.statusBar}>
           <StatusBar
             translucent
@@ -29,6 +27,7 @@ function ScreenComponent({ children }) {
           {children}
         </LinearGradient>
       </SafeAreaView>
+      <magic.Relayer />
     </Fragment>
   );
 }
