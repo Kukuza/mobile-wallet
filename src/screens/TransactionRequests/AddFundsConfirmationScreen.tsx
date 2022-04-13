@@ -31,7 +31,8 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-          Request accepted and the user has been notified.Do not exit this page.
+            Request accepted and the user has been notified.Do not exit this
+            page.
           </Text>
         </View>
       ) : (
@@ -243,6 +244,7 @@ const AddFundsConfirmationScreen = (props: any) => {
               operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
             }
             cardSubtitle2="Fee"
+            totalLabel="Total you receive"
             grossAmount={props.route.params?.param}
             // netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}

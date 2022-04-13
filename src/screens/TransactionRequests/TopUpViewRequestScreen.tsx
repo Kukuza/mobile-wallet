@@ -68,9 +68,12 @@ const ModalContent = (props) => {
 const TopUpViewRequestScreen = (props) => {
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
-  console.log("The total grossAmount is:" + wakalaEscrowTx?.grossAmount);
+
+  console.log("The transction id: " + wakalaEscrowTx?.id);
 
   const wakalaContractKit = WakalaContractKit.getInstance();
+  let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+  phoneNumber = Buffer.from(phoneNumber).toString("base64");
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
@@ -185,7 +188,11 @@ const TopUpViewRequestScreen = (props) => {
       console.log("modal opened");
       // try {
       await contractMethods
-        .agentAcceptDepositTransaction(wakalaEscrowTx?.id)
+        .agentAcceptDepositTransaction(
+          wakalaEscrowTx?.id,
+          phoneNumber,
+          wakalaEscrowTx.amount
+        )
         .then(() => {
           console.log("reached 2nd then");
           setLoadingMessage("");
@@ -232,9 +239,10 @@ const TopUpViewRequestScreen = (props) => {
                 : "Member wants to withdraw"
             }
             cardSubtitle2="You Earn"
-            grossAmount={wakalaEscrowTx?.grossAmount}
+            grossAmount={wakalaEscrowTx?.amount}
+            totalLabel="Total you send"
             earnings={0.05}
-            netValue={wakalaEscrowTx?.grossAmount}
+            // netValue={wakalaEscrowTx?.grossAmount}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
 

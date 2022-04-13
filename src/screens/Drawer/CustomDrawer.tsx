@@ -23,7 +23,6 @@ import { EventData } from "web3-eth-contract";
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
-
   const wakalaContractKit = WakalaContractKit.getInstance();
   const [balance, setBalance] = useState("Loading...");
 
@@ -52,16 +51,18 @@ export default function CustomDrawerContent(
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
-      await walletBalance()
+      await walletBalance();
     }
   );
 
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     async (error: Error, event: EventData) => {
-      await walletBalance()
+      await walletBalance();
     }
   );
+
+  let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,7 +85,7 @@ export default function CustomDrawerContent(
                 style={styles.phoneCountryFlag}
               />
 
-              <Text style={styles.phoneNumberTest}>+254 706 427718</Text>
+              <Text style={styles.phoneNumberTest}>{phoneNumber}</Text>
             </View>
           </View>
 

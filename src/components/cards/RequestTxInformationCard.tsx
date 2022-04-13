@@ -71,7 +71,7 @@ const RequestTxInformationCard = (props: any) => {
       <View style={styles.borderSection}></View>
 
       <View style={{ justifyContent: "space-between", marginTop: 15 }}>
-        <Text style={styles.totalLabel}>Total you receive</Text>
+        <Text style={styles.totalLabel}>{props.totalLabel}</Text>
         <Text style={styles.totalValue}>
           cUSD {(props.grossAmount - 0.05).toFixed(2)}
         </Text>
