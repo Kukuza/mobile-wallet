@@ -76,6 +76,10 @@ const routes: IRouteProps[] = [
     name: "TopUpViewRequestScreen",
     component: TopUpViewRequestScreen,
   },
+  {
+    name: "AccountAddress",
+    component: AccountAddress,
+  },
 ];
 
 export default routes;

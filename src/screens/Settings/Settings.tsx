@@ -1,4 +1,5 @@
 import React , {useState} from 'react';
+import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../styles/fonts/fonts";
@@ -6,7 +7,7 @@ import COLORS from "../../styles/colors/colors";
 import ScreenComponent from '../../containers/ScreenComponent';
 
 
-export default function SettingsScreen() {
+export default function SettingsScreen({navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -16,7 +17,9 @@ export default function SettingsScreen() {
     return (
         <ScreenComponent>
             <View style={styles.settingsContainer}>
-                <Image style={styles.imageIcon}source={require('../../assets/icons/MenuIcon.png')} />
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <MaterialIcons name="menu" size={24} color={COLORS.primary} />
+          </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
             <ScrollView style={{ flex: 1, width: '100%' }} >
@@ -28,7 +31,9 @@ export default function SettingsScreen() {
                     <View style={styles.settingsListDivider} />
                     <Text style={styles.walletText}>Wallet</Text>
                     <View style={styles.settingsListDivider} />
-                    <TouchableOpacity activeOpacity={0.6}>
+                    <TouchableOpacity activeOpacity={0.6}
+                    onPress={() => navigation.navigate("AccountAddress")}
+                    >
                         <Text style={styles.button}>Account Address</Text>
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />    
@@ -128,7 +133,6 @@ button: {
     marginTop: RFPercentage(2.6),
     marginLeft: RFPercentage(6),
     color: COLORS.textColor4,
-    fontSize: RFPercentage(2.6), 
 },
 
 textDivider:{
@@ -181,12 +185,12 @@ reset:{
     marginTop: RFPercentage(5),
     marginLeft: RFPercentage(6),
     color: COLORS.textColor4,
-    fontSize: RFPercentage(2.6),
+   
 },
 security:{
     ...FONTS.body1,
     fontWeight:'bold',
-    marginTop: RFPercentage(10), 
+    marginTop: RFPercentage(5), 
     marginLeft: RFPercentage(6),
     color: COLORS.textColor4,
    
@@ -195,7 +199,7 @@ walletText:{
     ...FONTS.body1,
     fontWeight:'bold',
     color: COLORS.textColor4,
-     marginTop: RFPercentage(10),
+     marginTop: RFPercentage(5),
      marginLeft: RFPercentage(6),
      
      },

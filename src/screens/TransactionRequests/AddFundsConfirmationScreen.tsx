@@ -121,7 +121,7 @@ const AddFundsConfirmationScreen = (props: any) => {
     console.log(operation);
 
     if (operation === "TopUp") {
-      setLoadingMessage("Sending the deposit transaction...");
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
       console.log("The transaction has started");
 
       await contract.methods
@@ -185,7 +185,7 @@ const AddFundsConfirmationScreen = (props: any) => {
     let amount = contractMethods.web3.utils.toWei(txAmount, "ether");
     console.log(operation);
     if (operation === "TopUp") {
-      setLoadingMessage("Sending the deposit transaction...");
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
 
       // try {
       await contractMethods
