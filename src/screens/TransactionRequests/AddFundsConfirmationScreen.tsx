@@ -79,7 +79,6 @@ const AddFundsConfirmationScreen = (props: any) => {
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
   // console.log(WakalaContractKit.getInstance().userMetadata);
-  console.log(publicAddress);
   // console.log(props.route.params?.param);
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
@@ -182,7 +181,8 @@ const AddFundsConfirmationScreen = (props: any) => {
       });
     }
     console.log("==============>");
-    let amount = contractMethods.web3.utils.toBN(value);
+    let txAmount = contractMethods.web3.utils.toBN(value + 1);
+    let amount = contractMethods.web3.utils.toWei(txAmount, "ether");
     console.log(operation);
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");

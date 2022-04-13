@@ -14,6 +14,7 @@ import Rating from "../screens/KarmaRating/Rating";
 import TransactionSuccess from "../screens/TransactionRequests/TransactionSuccess";
 import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
+import AccountAddress from "../screens/Settings/AccountAddress";
 const routes: IRouteProps[] = [
   {
     name: "Test",
