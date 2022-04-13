@@ -128,7 +128,7 @@ const RequestCardComponent = (props) => {
                 }}
               >
                 <Text style={styles.amountKsh}>
-                  Ksh {wakalaTransaction.amount}
+                  Ksh {wakalaTransaction.amount * 115}
                 </Text>
 
                 <Pressable
