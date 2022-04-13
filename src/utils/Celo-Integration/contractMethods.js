@@ -76,10 +76,11 @@ function ContractMethods(magic) {
     return kit.web3.utils.toWei(sendAmount, "ether");
   }
 
-  this.initializeDepositTransaction = async (amount) => {
-    await approveTransaction(amount);
+  this.initializeDepositTransaction = async (amount, phoneNumber) => {
+    await approveTransaction(getAmountInGolds(amount + 1));
     let txObject = await contract.methods.initializeDepositTransaction(
-      getAmountInGolds(amount)
+      getAmountInGolds(amount),
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -90,10 +91,11 @@ function ContractMethods(magic) {
     return receipt;
   };
 
-  this.initializeWithdrawalTransaction = async (amount) => {
+  this.initializeWithdrawalTransaction = async (amount, phoneNumber) => {
     await approveTransaction(getAmountInGolds(amount + 1));
     let txObject = await contract.methods.initializeWithdrawalTransaction(
-      getAmountInGolds(amount)
+      getAmountInGolds(amount),
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,

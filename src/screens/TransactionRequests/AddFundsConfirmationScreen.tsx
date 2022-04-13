@@ -113,55 +113,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     modalRef.current?.openModal();
   };
 
-  const contractCall = async () => {
-    openModal();
-    setIsLoading(true);
-    console.log("something is cooking");
-    setLoadingMessage("Initializing the transaction...");
-    console.log("==============>");
-    console.log(operation);
-
-    if (operation === "TopUp") {
-      setLoadingMessage("Posting your request to the Celo Blockchain...");
-      console.log("The transaction has started");
-
-      await contract.methods
-        .initializeDepositTransaction(value)
-        .send({ from: publicAddress })
-        .then(() => {
-          console.log("reached 2nd then");
-          setLoadingMessage("");
-          setIsLoading(false);
-          console.log("The transaction has gone through");
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error.toString() + " \n Amount: " + value.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
-    } else {
-      setLoadingMessage("Sending the Withdrawal transaction...");
-      console.log("The withdrawal transaction has started");
-
-      await contract.methods
-        .initializeWithdrawalTransaction(value)
-        .send({ from: publicAddress })
-        .then(() => {
-          setLoadingMessage("");
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error.toString() + " \n Amount: " + value.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
-      console.log("The withdrawal transaction has gone through");
-      setIsLoading(false);
-    }
-  };
-
   const handleAction = async () => {
     openModal();
     //Init
@@ -182,8 +133,7 @@ const AddFundsConfirmationScreen = (props: any) => {
       });
     }
     console.log("==============>");
-    let txAmount = value + 1;
-    let amount = contractMethods.web3.utils.toWei(txAmount, "ether");
+    let amount = value;
     // let amount = contractMethods.web3.utils.toBN(2);
     // console.log("The BN amount is: " + amount);
     console.log(operation);
@@ -234,34 +184,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     console.log(emmited);
     if (emmited == null) {
       try {
-        // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-        //   "TransactionInitEvent",
-        //   async (error: Error, event: EventData) => {
-        //     const index: number = event.returnValues.wtxIndex;
-        //     console.log("The transaction id is : " + index);
-        //   }
-        // );
-        // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.events
-        //   .MyEvent(
-        //     // {
-        //     //   filter: { wtxIndex: "71" },
-        //     // },
-        //     function (error, event) {
-        //       console.log("-------> " + event);
-        //     }
-        //   )
-        //   .on("connected", function (subscriptionId) {
-        //     console.log("-------> " + subscriptionId);
-        //   })
-        //   .on("data", function (event) {
-        //     console.log(event); // same results as the optional callback above
-        //   })
-        //   .on("changed", function (event) {
-        //     // remove event from local database
-        //   })
-        //   .on("error", function (error, receipt) {
-        //     // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-        //   });
       } catch (error) {
         console.log(error);
       }
@@ -330,13 +252,12 @@ const AddFundsConfirmationScreen = (props: any) => {
             // netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
-          <View style={{ marginTop: 100 }}>
+          <View style={{ marginTop: 200 }}>
             <SwipeButton
               title="Swipe to Confirm"
-              onPress={() => handleAction()}
+              handleAction={() => handleAction()}
               // onPress={() => navigation.navigate("Home")}
               style={{ minWidth: 286, marginTop: 200 }}
-              text="Continue"
             />
           </View>
           <magic.Relayer />

@@ -43,7 +43,6 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState(new Array<WakalaEscrowTransaction>());
-  const didMount = React.useRef(false);
 
   // fetch data
   const fetchData = async () => {
