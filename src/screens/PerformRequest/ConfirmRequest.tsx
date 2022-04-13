@@ -64,14 +64,14 @@ const ModalContent = (props) => {
           </View>
         ) : (
           <View>
-            <Ionicons
-              name="checkmark-circle"
-              size={36}
-              color="#4840BB"
-              style={{ textAlign: "center", marginBottom: 12 }}
-            />
+         <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={THANK_YOU_IMAGE} style={modalStyles.errorImage} />
+          </View>
             <Text style={[mainStyles.title, { color: "#4840BB" }]}>
-              Transaction Successful!
+                Thank You!
+            </Text>
+            <Text style={mainStyles.thankyouText}>
+              After your agents confirms of M-PESA payment receipt. Your cUSD will be deposited to your wallet. Do not close this page.
             </Text>
             <TouchableOpacity onPress={() => props.handleAction()}>
               <Text style={modalStyles.button}>Got it!</Text>
@@ -294,6 +294,14 @@ const mainStyles = StyleSheet.create({
     marginTop: 60,
     justifyContent: "center",
   },
+  thankyouText:{
+    fontSize: 14,
+    lineHeight: 21,
+    color: "#333333",
+    textAlign: "center",
+    fontFamily: "Rubik_400Regular",
+    marginTop: 20,
+  }
 });
 
 const cardStyles = StyleSheet.create({
@@ -336,6 +344,7 @@ const cardStyles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Rubik_500Medium",
   },
+  
 });
 
 const modalStyles = StyleSheet.create({
@@ -385,6 +394,7 @@ const modalStyles = StyleSheet.create({
     fontFamily: "Rubik_500Medium",
     marginTop: 40,
   },
+
 });
 
 const mapStateToProps = (state) => {
