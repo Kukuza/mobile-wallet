@@ -16,12 +16,17 @@ import NavHeader from "../../containers/NavHeader";
 import KeyPad from "../../components/buttons/KeyPad";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
+import { TextInput } from "react-native-gesture-handler";
 
 const AddFunds: React.FunctionComponent = () => {
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
 
   const [value, setValue] = useState("");
+
+  // convert Ksh input to usd
+  const usdEquivalent = Math.trunc(parseInt(value) / 115);
+  const usdEquivalentString = usdEquivalent.toString();
   const operation = route.params.operation;
 
   function handleChange(newValue) {
@@ -35,21 +40,24 @@ const AddFunds: React.FunctionComponent = () => {
         newTitle={operation === "TopUp" ? "Top Up Request" : "Withdraw"}
       />
       <View style={styles.container}>
-        <TextInputMask
+        <TextInput style={styles.title} placeholder="Ksh 200">
+          Ksh {value}
+        </TextInput>
+        {/* <TextInputMask
           type={"only-numbers"}
           options={{
-            unit: "cUSD ",
+            unit: "Ksh ",
           }}
           value={value}
           style={styles.title}
-          placeholder="cUSD 0,00"
+          placeholder="Ksh 0,00"
           placeholderTextColor={COLORS.primary}
-        />
+        /> */}
         <KeyPad value={value} onChange={handleChange} />
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("Add Funds Confirmation", {
-              param: value,
+              param: usdEquivalentString,
               operation: operation,
             })
           }
