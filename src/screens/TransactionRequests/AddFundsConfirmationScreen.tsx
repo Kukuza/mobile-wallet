@@ -76,8 +76,10 @@ const AddFundsConfirmationScreen = (props: any) => {
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
   console.log(props.route.params.operation);
+
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+
   // console.log(WakalaContractKit.getInstance().userMetadata);
   console.log(publicAddress);
   // console.log(props.route.params?.param);
@@ -116,17 +118,18 @@ const AddFundsConfirmationScreen = (props: any) => {
   const contractCall = async () => {
     openModal();
     setIsLoading(true);
-    console.log("something is cooking");
     setLoadingMessage("Initializing the transaction...");
-    console.log("==============>");
-    console.log(operation);
+
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? '';
+
+    phoneNumber = Buffer.from(phoneNumber).toString('base64');
 
     if (operation === "TopUp") {
       setLoadingMessage("Sending the deposit transaction...");
       console.log("The transaction has started");
 
       await contract.methods
-        .initializeDepositTransaction(value)
+        .initializeDepositTransaction(value, phoneNumber)
         .send({ from: publicAddress })
         .then(() => {
           console.log("reached 2nd then");
@@ -145,7 +148,7 @@ const AddFundsConfirmationScreen = (props: any) => {
       console.log("The withdrawal transaction has started");
 
       await contract.methods
-        .initializeWithdrawalTransaction(value)
+        .initializeWithdrawalTransaction(value, phoneNumber)
         .send({ from: publicAddress })
         .then(() => {
           setLoadingMessage("");
@@ -167,6 +170,11 @@ const AddFundsConfirmationScreen = (props: any) => {
     //Init
     setIsLoading(true);
     console.log("something is cooking");
+
+    // Get phone number.
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? '';
+    phoneNumber = Buffer.from(phoneNumber).toString('base64');
+
     setLoadingMessage("Initializing the transaction...");
     let contractMethods: any = new ContractMethods(props.magic);
     if (props.contractMethods instanceof ContractMethods) {
@@ -181,7 +189,7 @@ const AddFundsConfirmationScreen = (props: any) => {
         });
       });
     }
-    console.log("==============>");
+
     let amount = contractMethods.web3.utils.toBN(value);
     console.log(operation);
     if (operation === "TopUp") {
@@ -189,7 +197,7 @@ const AddFundsConfirmationScreen = (props: any) => {
 
       // try {
       await contractMethods
-        .initializeDepositTransaction(amount)
+        .initializeDepositTransaction(amount, phoneNumber)
         .then((receipt) => {
           // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
           // console.log("rx is of type: " + rx?.wtxIndex);
@@ -206,7 +214,7 @@ const AddFundsConfirmationScreen = (props: any) => {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
         let result = await contractMethods.initializeWithdrawalTransaction(
-          amount
+          amount, phoneNumber
         );
         setLoadingMessage("");
         setIsLoading(false);
