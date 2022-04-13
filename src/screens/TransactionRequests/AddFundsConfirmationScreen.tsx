@@ -113,6 +113,9 @@ const AddFundsConfirmationScreen = (props: any) => {
   };
 
   const handleAction = async () => {
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+
+    phoneNumber = Buffer.from(phoneNumber).toString("base64");
     openModal();
     //Init
     setIsLoading(true);
@@ -141,7 +144,7 @@ const AddFundsConfirmationScreen = (props: any) => {
 
       // try {
       await contractMethods
-        .initializeDepositTransaction(amount)
+        .initializeDepositTransaction(amount, phoneNumber)
         .then((receipt) => {
           // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
           // console.log("rx is of type: " + rx?.wtxIndex);
@@ -158,7 +161,8 @@ const AddFundsConfirmationScreen = (props: any) => {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
         let result = await contractMethods.initializeWithdrawalTransaction(
-          amount
+          amount,
+          phoneNumber
         );
         setLoadingMessage("");
         setIsLoading(false);
