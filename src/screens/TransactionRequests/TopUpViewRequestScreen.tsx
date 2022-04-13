@@ -32,16 +32,9 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-            We shared your{" "}
-            {props.operation === "TopUp" ? "deposit" : "withdraw"} request with
-            the agent community. We will notify you once an agent has answered
-            your request. It can take up to 4 minutes. Click OK to exit this
-            page.
+          Request accepted and the user has been notified.
+          Please do not exit this page.
           </Text>
-
-          <TouchableOpacity onPress={props.handleAction}>
-            <Text style={modalStyles.button}>Okay</Text>
-          </TouchableOpacity>
         </View>
       ) : (
         <View>

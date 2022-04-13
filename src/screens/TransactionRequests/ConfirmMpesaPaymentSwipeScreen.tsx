@@ -182,7 +182,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     console.log("==============>");
     console.log(operation);
     if (operation === "TopUp") {
-      setLoadingMessage("Sending the deposit transaction...");
+      setLoadingMessage("Confirming payment receipt to the user...");
 
       // try {
       await contractMethods
@@ -267,12 +267,11 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
               source={require("../../assets/icons/subheadingicon3.png")}
               style={styles.titleIcon}
             />
-            <Text style={styles.cardTitle}>Confirm M-PESA Payment</Text>
+            <Text style={styles.cardTitle}> Confirm Payment Receipt</Text>
           </View>
 
           <Text style={styles.bodyText}>
-            The agent confirmed that he sent Ksh {transaction.amount} to your
-            number +254 706 427 718.
+          The user confirmed that he sent the amount to your M-PESA number
           </Text>
           <Text style={[styles.bodyText, { marginBottom: 341, marginTop: 30 }]}>
             Once you receive the payment, confirm the transaction below.
