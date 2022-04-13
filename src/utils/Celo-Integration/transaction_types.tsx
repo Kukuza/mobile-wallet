@@ -39,6 +39,8 @@ export enum Status {
  * @property { number } agentFee - the amount of money/crypto levied by the agent.
  * @property { boolean } agentApproval - true on agents approval.
  * @property { boolean } clientApproval - true on clients approval.
+ * @property { string } clientPhoneNumber - the client`s phone number.
+ * @property { string } agentPhoneNumber - the agent`s phone number.
  */
 export type WakalaEscrowTransaction = {
     id: number;
@@ -52,4 +54,6 @@ export type WakalaEscrowTransaction = {
     agentFee: number
     agentApproval: boolean,
     clientApproval: boolean,
+    clientPhoneNumber: string,
+    agentPhoneNumber: string,
 };

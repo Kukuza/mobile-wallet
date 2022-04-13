@@ -10,33 +10,29 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { CONNECTIVITY, THANK_YOU_IMAGE } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { connect, useDispatch } from "react-redux";
-// import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import DefaultButton from "../../components/buttons/DefaultButton";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { magic } from "../../utils/magic";
 import { EventData } from "web3-eth-contract";
 
 const CardElement = (props) => {
+  
+  const transaction: WakalaEscrowTransaction = props.transaction;
+
   return (
     <View style={cardStyles.container}>
+
       <View>
         <Text style={cardStyles.subTitle}>Send</Text>
-        <TextInputMask
-          type={"money"}
-          options={{
-            unit: "Ksh ",
-          }}
-          style={cardStyles.title}
-          value={props.value}
-          placeholder="Ksh 0,00"
-          placeholderTextColor={COLORS.primary}
-        />
+        <Text style={cardStyles.title}>
+            Ksh {transaction.amount * 115}
+        </Text>
       </View>
+      
       <View>
         <Text style={cardStyles.subTitle}>To</Text>
-        <Text style={cardStyles.title}>+254 705 124 767</Text>
+        <Text style={cardStyles.title}>{transaction.agentPhoneNumber}</Text>
         <TouchableOpacity style={cardStyles.copyContainer}>
           <Text style={cardStyles.copyText}>Copy</Text>
         </TouchableOpacity>
@@ -104,7 +100,6 @@ const ConfirmRequest = (props) => {
   const navigation = useNavigation<any>();
 
   const operation = "TopUp";
-  console.log("ConfirmRequest", route.params);
   const transaction: WakalaEscrowTransaction = route.params?.tx;
   const value = transaction.amount;
   const dispatch = useDispatch();
@@ -193,7 +188,7 @@ const ConfirmRequest = (props) => {
             </Text>
           </View>
 
-          {operation === "TopUp" && <CardElement value={value} />}
+          {operation === "TopUp" && <CardElement value={value} transaction={transaction}/>}
           <View>
             
             <DefaultButton
@@ -316,7 +311,7 @@ const cardStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     lineHeight: 34,
-    color: "#4840BB",
+    color: COLORS.primary,
     fontFamily: "Rubik_700Bold",
   },
 

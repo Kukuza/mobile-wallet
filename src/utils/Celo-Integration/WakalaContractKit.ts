@@ -165,14 +165,30 @@ export default class WakalaContractKit {
    * Fetches the transactions from the smart contract.
    */
   async fetchTransactions() {
-    let wakalaTxsArray = new Array<WakalaEscrowTransaction>()
-    let l = await this.getNextTxIndex() - 1;
-    let lastIndex = l - 15;
-    wakalaTxsArray = new Array<WakalaEscrowTransaction>();
-    for (let index = l; index >= lastIndex; index--) {
-      console.log("fetchTransactions", index)
-      let tx = await this.queryTransactionByIndex(index);
-      wakalaTxsArray.push(tx);
+
+    let wakalaTxsArray = new Array<WakalaEscrowTransaction>();
+    let l = await this.getNextTxIndex();
+
+    // tracks the starting point for the search.
+    let currentQueryTx = l - 1;
+
+    for (let index = 0; index < 16; index++) {
+      let tx = await this.queryGetNextUnpairedTransaction(currentQueryTx);
+      
+      if (tx.amount != 0) {
+        wakalaTxsArray.push(tx);
+      } else {
+        // exit loop (no next tsx)
+        return wakalaTxsArray;
+      }
+
+      // exit loop (no next tsx)
+      if (tx.id == 0) {
+        return wakalaTxsArray;
+      }
+
+      // set the next starting point for the smart contract loop.
+      currentQueryTx = tx.id - 1;
     }
 
     return wakalaTxsArray;
@@ -255,6 +271,21 @@ export default class WakalaContractKit {
   }
 
   /**
+   * Get transaction by index.
+   */
+  async queryGetNextUnpairedTransaction(
+      id: number
+    ): Promise<WakalaEscrowTransaction> {
+      
+      const tx = await this.wakalaEscrowContract?.methods
+        .getNextUnpairedTransaction(id)
+        .call();
+
+      let wakalaTx = await this.convertToWakalaTransactionObj(tx);
+      return wakalaTx;
+  }
+
+  /**
    * Convert response to wakala transaction object.
    * @param tx the response object.
    * @returns the wakala transaction object.
@@ -272,6 +303,8 @@ export default class WakalaContractKit {
       grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
       agentApproval: tx[9],
       clientApproval: tx[10],
+      agentPhoneNumber: Buffer.from(tx[11], 'base64').toString('ascii'),
+      clientPhoneNumber: Buffer.from(tx[12], 'base64').toString('ascii'),
     };
 
     return wakalaTx;
