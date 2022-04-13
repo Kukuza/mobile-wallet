@@ -3,7 +3,7 @@ import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import SwipeButton from "../../components/buttons/SwipeButton";
 // import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
@@ -20,7 +20,6 @@ import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
-
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
@@ -335,11 +334,11 @@ const AddFundsConfirmationScreen = (props: any) => {
             netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
-          <DefaultButton
-            onPress={() => handleAction()}
+          <SwipeButton
+            handleAction={() => handleAction()}
             // onPress={() => navigation.navigate("Home")}
-            style={{ minWidth: 286, marginTop: 200 }}
-            text="Continue"
+            additionalStyling={styles.swipeButton}
+            title={"Swipe To Confirm"}
           />
           <magic.Relayer />
         </View>
@@ -386,6 +385,10 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 30,
     justifyContent: "space-between",
+  },
+  swipeButton:{
+    marginTop: 200,
+    marginLeft:"3%",
   },
 
   cardContainer: {
