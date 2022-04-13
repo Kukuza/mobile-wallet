@@ -174,7 +174,7 @@ const ConfirmRequest = (props) => {
               </View>
               <Text style={mainStyles.title}>
                 {operation === "TopUp"
-                  ? "Send M-PESA now"
+                  ? "Send M-PESA to Agent"
                   : "Confirm M-PESA Payment "}
               </Text>
             </View>
@@ -188,7 +188,7 @@ const ConfirmRequest = (props) => {
             </Text>
             <Text style={mainStyles.text}>
               {operation === "TopUp"
-                ? "To receive your cUSD, send M-PESA to details below."
+                ? "To receive your cUSD, send the amount to the M-PESA number below."
                 : "Once you receive the payment, confirm the transaction below."}
             </Text>
           </View>
