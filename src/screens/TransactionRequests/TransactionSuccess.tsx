@@ -55,7 +55,10 @@ const TransactionSuccess = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
+
   const transaction: WakalaEscrowTransaction = route.params?.tx;
+  const cUSDBalance = route.params.cUSDBalance;
+
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -85,7 +88,7 @@ const TransactionSuccess = (props) => {
           <Text style={styles.subHeadingText}>
             Your cUSD has been deposited to your wallet
           </Text>
-          <SuccessCard />
+          <SuccessCard cUSDBalance={ cUSDBalance}/>
           <View style={{ marginTop: 120 }}>
             <Text style={styles.textButton} onPress={() => handleAction()}>
               Okay
@@ -113,7 +116,7 @@ const TransactionSuccess = (props) => {
   );
 };
 
-const SuccessCard = () => {
+const SuccessCard = (cUSDBalance) => {
   return (
     <LinearGradient
       colors={COLORS.cardGradient}
@@ -137,7 +140,7 @@ const SuccessCard = () => {
           <Image source={WALLET} />
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.textContainer}>cUSD 10.23</Text>
+          <Text style={styles.textContainer}>cUSD {cUSDBalance}</Text>
         </View>
       </View>
     </LinearGradient>

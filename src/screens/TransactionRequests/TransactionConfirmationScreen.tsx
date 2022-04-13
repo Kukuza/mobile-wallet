@@ -22,6 +22,7 @@ import { AbiItem } from "web3-utils";
 import COLORS from "../../styles/colors/colors";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { EventData } from "web3-eth-contract";
+import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
 
 const ModalContent = (props) => {
   return (
@@ -87,7 +88,7 @@ const TransactionConfirmationScreen = (props) => {
   //   todo remove
   const value = 2;
   const operation = "TopUp";
-  const transaction = route.params?.tx;
+  const transaction: WakalaEscrowTransaction = route.params?.tx;
   console.log(transaction.id);
 
   const wakalaContractKit = WakalaContractKit.getInstance();
@@ -95,49 +96,35 @@ const TransactionConfirmationScreen = (props) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ConfirmationCompletedEvent",
     async (error: Error, event: EventData) => {
-      console.log("ConfirmationCompletedEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = await wakalaContractKit?.queryTransactionByIndex(index);
-      props.navigation.navigate("TransactionSuccess", { tx: tx });
-      console.log("The transaction id is : " + index);
+      await walletBalance(tx);
     }
   );
+
+  const walletBalance = async (wakalaTx: WakalaEscrowTransaction) => {
+    const kit = WakalaContractKit?.getInstance()?.kit;
+    const publicAddress = WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
+    let totalBalance = await kit.getTotalBalance(publicAddress);
+    let money = totalBalance.cUSD;
+    let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+    const toNum = Number(amount);
+    const visibleAmount = toNum.toFixed(2);
+    console.log("===>", visibleAmount)
+    navigation.navigate("TransactionSuccess", { tx: wakalaTx, cUSDBalance: visibleAmount });
+  };
+
   const dispatch = useDispatch();
 
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
-  // const publicAddress =
-  //   WakalaContractKit.getInstance().userMetadata.publicAddress;
-  const publicAddress = "";
+
+
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
-  const contract = new kit.web3.eth.Contract(
-    WakalaEscrowAbi as AbiItem[],
-    WAKALA_CONTRACT_ADDRESS
-  );
-  // const handleAction = async () => {
-  //   openModal();
-  //   setIsLoading(true);
-  //   setLoadingMessage("Confirming Payment...");
-  //   console.log("==============>");
-  //   console.log("The transaction has started");
-  //   await contract.methods
-  //     .clientConfirmPayment(transaction)
-  //     .send({ from: publicAddress })
-  //     .then(() => {
-  //       console.log("reached 2nd then");
-  //       setLoadingMessage("");
-  //       setIsLoading(false);
-  //     })
-  //     .catch((error: any) => {
-  //       setLoadingMessage(error.toString());
-  //       console.log(error.toString() + " \n Amount: " + transaction.toString());
-  //       setIsActionSuccess(false);
-  //       setIsLoading(false);
-  //     });
-  //   console.log("The transaction has gone through");
-  //   setIsLoading(false);
+
+
   // };
   const handleAction = async () => {
     openModal();
@@ -212,7 +199,7 @@ const TransactionConfirmationScreen = (props) => {
       <ScreenComponent>
         <NavHeader />
         <View style={styles.container}>
-          <TransactionConfirmationCard />
+          <TransactionConfirmationCard transaction={transaction}/>
           <View style={{ marginTop: 40 }}>
             <SwipeButton
               title="Swipe to Confirm"
