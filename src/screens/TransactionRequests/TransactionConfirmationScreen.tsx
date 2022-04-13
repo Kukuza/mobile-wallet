@@ -157,7 +157,7 @@ const TransactionConfirmationScreen = (props) => {
     }
 
     if (operation === "TopUp") {
-      setLoadingMessage(`Accepting deposit request.... ${transaction.id}`);
+      setLoadingMessage(`Confirming that you made the M-PESA payment...`);
       try {
         let result = await contractMethods.clientConfirmPayment(transaction.id);
         setLoadingMessage("");
