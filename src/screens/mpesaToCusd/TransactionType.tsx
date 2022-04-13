@@ -77,9 +77,6 @@ const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
     <ScreenComponent>
       <NavHeader />
       <View style={styles.container}>
-        <Text style={styles.subTitle}>Current balance</Text>
-        <Text style={styles.title}>cUSD {balance}</Text>
-
         <View style={styles.buttonContainer}>
           <OperationButton
             title="Top Up"
