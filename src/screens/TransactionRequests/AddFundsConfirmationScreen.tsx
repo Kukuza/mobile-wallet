@@ -3,7 +3,6 @@ import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-import DefaultButton from "../../components/buttons/DefaultButton";
 // import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
@@ -305,6 +304,10 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 30,
     justifyContent: "space-between",
+  },
+  swipeButton: {
+    marginTop: 200,
+    marginLeft: "3%",
   },
 
   cardContainer: {
