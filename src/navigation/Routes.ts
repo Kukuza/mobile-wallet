@@ -15,6 +15,7 @@ import TransactionSuccess from "../screens/TransactionRequests/TransactionSucces
 import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
 import AccountAddress from "../screens/Settings/AccountAddress";
+import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -80,6 +81,10 @@ const routes: IRouteProps[] = [
     name: "AccountAddress",
     component: AccountAddress,
   },
+  {
+    name:"EnterPin",
+    component: EnterPin,
+  }
 ];
 
 export default routes;

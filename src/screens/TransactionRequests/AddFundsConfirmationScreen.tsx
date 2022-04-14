@@ -135,7 +135,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     // console.log("The BN amount is: " + amount);
     console.log(operation);
     if (operation === "TopUp") {
-<<<<<<< Updated upstream
       setLoadingMessage("Posting your request to the Celo Blockchain...");
 
       // try {
@@ -153,19 +152,6 @@ const AddFundsConfirmationScreen = (props: any) => {
           setIsActionSuccess(false);
           setIsLoading(false);
         });
-=======
-      setLoadingMessage("Confirming payment receipt to the user...");
-      try {
-        let result = await contractMethods.initializeDepositTransaction(amount);
-        setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        console.log(error.toString() + " \n Amount: " + amount.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
->>>>>>> Stashed changes
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");

@@ -247,7 +247,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   };
 
   return (
-<<<<<<< Updated upstream
     <Fragment>
       <ScreenComponent>
         <View style={styles.container}>
@@ -267,20 +266,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
 
           <Text style={styles.bodyText}>
           The user confirmed that he sent the amount to your M-PESA number
-=======
-    <ScreenComponent>
-      <View style={styles.container}>
-          <View style={{ flexDirection: 'row', width: SIZES.width * 0.7, alignSelf: 'center' }}>
-                <Image 
-                  source={require("../../assets/icons/subheadingicon3.png")}
-                  style={styles.titleIcon}
-                />
-                <Text style={styles.cardTitle}>Confirm M-PESA Reciept</Text>
-          </View>
-
-          <Text style={styles.bodyText}>
-            The user confirmed that he sent the amount to your M-PESA number.
->>>>>>> Stashed changes
           </Text>
           <Text style={[styles.bodyText, { marginBottom: 341, marginTop: 30 }]}>
             Once you receive the payment, confirm the transaction below.

@@ -7,15 +7,12 @@ import { FONTS } from "../../../styles/fonts/fonts";
 import COLORS from '../../../styles/colors/colors';
 import ScreenComponent from '../../../containers/ScreenComponent';
 export default function EnterPin() {
-
+   let pinText=["1","2","3","4"]
    const [pin, setPin] = useState('');
+
    function handleChange(valPin) {
     setPin(valPin);
   }
-  if(pin.length > 3){
-    console.warn(pin)
-  }
-
   return (
     <ScreenComponent>
     <View style={styles.navIcon}>
@@ -25,30 +22,12 @@ export default function EnterPin() {
      <Text style={styles.pinText}>Enter Pin</Text>
     </View>
      <View style={styles.pinIcons}>
-         <View style={styles.PinContainer}>
-            <Image
-            source={require("../../../assets/images/settings/PinSuccess.png")}
-            style={styles.iconImage}
-            />
-         </View>
-         <View style={styles.PinContainer}>
-            <Image
-            source={require("../../../assets/images/settings/PinSuccess.png")}
-            style={styles.iconImage}
-            />
-         </View>
-         <View style={styles.PinContainer}>
-            <Image
-            source={require("../../../assets/images/settings/PinSuccess.png")}
-            style={styles.iconImage}
-            />
-         </View>
-         <View style={styles.PinContainer}>
-            <Image
-            source={require("../../../assets/images/settings/PinSuccess.png")}
-            style={styles.iconImage}
-            />
-         </View>
+       {pinText.map((text, index)=>
+        <View key={index} style={styles.PinContainer}>
+          {pinText[index] != "" ?<Text style={styles.starText}>*</Text>:null}
+        </View> 
+        )}
+       
     </View>
     <View style={styles.keyPad}>
     <KeyPad value={pin} onChange={handleChange} />
@@ -60,7 +39,8 @@ export default function EnterPin() {
 
 const styles = StyleSheet.create({
 navIcon:{
-margin: '3%',
+marginTop: "7%",
+marginLeft: '8%',
 },
 enterPin:{
 marginTop:'30%',
@@ -82,7 +62,7 @@ flexDirection: 'row',
 },
 keyPad:{
     marginBottom:'5%',
-    marginTop:"10%",
+    marginTop:"15%",
     marginHorizontal:'10%',
 },
 PinContainer:{
@@ -101,5 +81,13 @@ iconImage:{
   height:20,
   resizeMode:'contain',
   
+},
+starText:{
+  ...FONTS.displayBold,
+    color: COLORS.textColor4,
+    fontWeight:'bold',
+    alignSelf:"center",
+    fontSize:RFPercentage(6),
+    marginTop:12,
 }
 })
