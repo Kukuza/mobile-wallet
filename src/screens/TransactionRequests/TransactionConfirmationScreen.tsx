@@ -22,44 +22,81 @@ import { AbiItem } from "web3-utils";
 import COLORS from "../../styles/colors/colors";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { EventData } from "web3-eth-contract";
-import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 
+// const ModalContent = (props) => {
+//   return (
+//     <View style={modalStyles.container}>
+//       {props.isActionSuccess ? (
+//         props.operation === "TopUp" ? (
+//           <View>
+//             <Image source={THANK_YOU_IMAGE} style={modalStyles.image} />
+//             <Text style={modalStyles.title}>Thank you!</Text>
+//             <Text style={modalStyles.text}>
+//               After your agents confirms of M-PESA payment receipt. Your cUSD
+//               will be deposited to your wallet.
+//             </Text>
+
+//             <TouchableOpacity onPress={() => props.handleAction()}>
+//               <Text style={modalStyles.button}>Got it!</Text>
+//             </TouchableOpacity>
+//           </View>
+//         ) : (
+//           <View>
+//             <Ionicons
+//               name="checkmark-circle"
+//               size={36}
+//               color="#4840BB"
+//               style={{ textAlign: "center", marginBottom: 12 }}
+//             />
+//             <Text style={[mainStyles.title, { color: "#4840BB" }]}>
+//               Transaction Successful!
+//             </Text>
+//             <TouchableOpacity onPress={() => props.handleAction()}>
+//               <Text style={modalStyles.button}>Got it!</Text>
+//             </TouchableOpacity>
+//           </View>
+//         )
+//       ) : (
+//         <View>
+//           <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+//           <Text style={modalStyles.title}>Oh Snap!</Text>
+//           <Text style={modalStyles.text}>
+//             Something just happened. Please try again.
+//           </Text>
+//           <Text style={{ ...FONTS.body5, textAlign: "center", marginTop: 5 }}>
+//             {props.errorMessage}
+//           </Text>
+//           <TouchableOpacity onPress={() => props.handleAction()}>
+//             <Text style={modalStyles.button}>Try again</Text>
+//           </TouchableOpacity>
+//         </View>
+//       )}
+//     </View>
+//   );
+// };
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
       {props.isActionSuccess ? (
-        props.operation === "TopUp" ? (
-          <View>
+        <View>
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
             <Image source={THANK_YOU_IMAGE} style={modalStyles.image} />
-            <Text style={modalStyles.title}>Thank you!</Text>
-            <Text style={modalStyles.text}>
-              After your agents confirms of M-PESA payment receipt. Your cUSD
-              will be deposited to your wallet.
-            </Text>
-
-            <TouchableOpacity onPress={() => props.handleAction()}>
-              <Text style={modalStyles.button}>Got it!</Text>
-            </TouchableOpacity>
           </View>
-        ) : (
-          <View>
-            <Ionicons
-              name="checkmark-circle"
-              size={36}
-              color="#4840BB"
-              style={{ textAlign: "center", marginBottom: 12 }}
-            />
-            <Text style={[mainStyles.title, { color: "#4840BB" }]}>
-              Transaction Successful!
-            </Text>
-            <TouchableOpacity onPress={() => props.handleAction()}>
-              <Text style={modalStyles.button}>Got it!</Text>
-            </TouchableOpacity>
-          </View>
-        )
+          <Text style={modalStyles.title}>Thank you!</Text>
+          <Text style={modalStyles.text}>
+            After your agents confirms of M-PESA payment receipt. Your cUSD will
+            be deposited to your wallet. Do not close this page.
+          </Text>
+          <TouchableOpacity onPress={() => props.handleAction()}>
+            <Text style={modalStyles.button}>Got it!</Text>
+          </TouchableOpacity>
+        </View>
       ) : (
         <View>
-          <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
             Something just happened. Please try again.
@@ -75,18 +112,17 @@ const ModalContent = (props) => {
     </View>
   );
 };
-
 const TransactionConfirmationScreen = (props) => {
   const route = useRoute<any>();
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
+  const { tx, cUSDBalance } = route.params;
 
   //   const value = route.params.value;
   //   const operation = route.params.operation;
   //   const transaction = route.params.transaction;
 
   //   todo remove
-  const value = 2;
   const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
   console.log(transaction.id);
@@ -105,10 +141,8 @@ const TransactionConfirmationScreen = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
-
 
   // };
   const handleAction = async () => {
@@ -184,7 +218,7 @@ const TransactionConfirmationScreen = (props) => {
       <ScreenComponent>
         <NavHeader />
         <View style={styles.container}>
-          <TransactionConfirmationCard transaction={transaction}/>
+          <TransactionConfirmationCard transaction={transaction} />
           <View style={{ marginTop: 40 }}>
             <SwipeButton
               title="Swipe to Confirm"
