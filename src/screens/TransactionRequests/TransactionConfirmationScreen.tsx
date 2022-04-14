@@ -115,7 +115,8 @@ const ModalContent = (props) => {
 const TransactionConfirmationScreen = (props) => {
   const route = useRoute<any>();
   const modalRef = useRef<any>();
-  const navigation = useNavigation<any>();
+  // const navigation = useNavigation<any>();
+  const { tx, cUSDBalance } = route.params;
 
   //   const value = route.params.value;
   //   const operation = route.params.operation;
@@ -220,7 +221,7 @@ const TransactionConfirmationScreen = (props) => {
 
     modalRef.current?.closeModal();
 
-    navigation.navigate("MyDrawer");
+    // navigation.navigate("MyDrawer");
 
     // if (operation === "TopUp") {
     //   navigation.navigate("Success", {
