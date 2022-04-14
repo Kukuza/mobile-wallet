@@ -115,7 +115,7 @@ const ModalContent = (props) => {
 const TransactionConfirmationScreen = (props) => {
   const route = useRoute<any>();
   const modalRef = useRef<any>();
-  // const navigation = useNavigation<any>();
+  const navigation = useNavigation<any>();
   const { tx, cUSDBalance } = route.params;
 
   //   const value = route.params.value;
@@ -123,7 +123,6 @@ const TransactionConfirmationScreen = (props) => {
   //   const transaction = route.params.transaction;
 
   //   todo remove
-  const value = 2;
   const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
   console.log(transaction.id);
@@ -150,7 +149,7 @@ const TransactionConfirmationScreen = (props) => {
     const visibleAmount = toNum.toFixed(2);
     console.log("===>", visibleAmount);
     navigation.navigate("TransactionSuccess", {
-      tx: wakalaTx,
+      // tx: wakalaTx,
       cUSDBalance: visibleAmount,
     });
   };
