@@ -132,30 +132,11 @@ const TransactionConfirmationScreen = (props) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ConfirmationCompletedEvent",
     async (error: Error, event: EventData) => {
-      const index: number = event.returnValues.wtx[0];
-      const tx = await wakalaContractKit?.queryTransactionByIndex(index);
-      await walletBalance(tx);
+      navigation.navigate("MyDrawer");
     }
   );
 
-  const walletBalance = async (wakalaTx: WakalaEscrowTransaction) => {
-    const kit = WakalaContractKit?.getInstance()?.kit;
-    const publicAddress =
-      WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
-    let totalBalance = await kit.getTotalBalance(publicAddress);
-    let money = totalBalance.cUSD;
-    let amount = kit.web3.utils.fromWei(money.toString(), "ether");
-    const toNum = Number(amount);
-    const visibleAmount = toNum.toFixed(2);
-    console.log("===>", visibleAmount);
-    navigation.navigate("TransactionSuccess", {
-      // tx: wakalaTx,
-      cUSDBalance: visibleAmount,
-    });
-  };
-
   const dispatch = useDispatch();
-
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
