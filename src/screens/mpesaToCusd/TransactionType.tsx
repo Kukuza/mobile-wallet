@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 import { EvilIcons } from "@expo/vector-icons";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";
@@ -9,6 +8,7 @@ import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 
 const OperationButton = (props) => {
   return (
@@ -54,14 +54,29 @@ const OperationButton = (props) => {
 
 const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
   const navigation = useNavigation<any>();
+  const publicAddress =
+    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+
+  const [balance, setBalance] = useState("...");
+
+  useEffect(() => {
+    walletBalance(publicAddress);
+  }, []);
+
+  const walletBalance = async (publicAddress) => {
+    const kit = WakalaContractKit?.getInstance()?.kit;
+    let totalBalance = await kit.getTotalBalance(publicAddress);
+    let money = totalBalance.cUSD;
+    let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+    const toNum = Number(amount);
+    const visibleAmount = toNum.toFixed(2);
+    setBalance(visibleAmount);
+  };
 
   return (
     <ScreenComponent>
       <NavHeader />
       <View style={styles.container}>
-        <Text style={styles.subTitle}>Current balance</Text>
-        <Text style={styles.title}>Ksh 10,000</Text>
-
         <View style={styles.buttonContainer}>
           <OperationButton
             title="Top Up"

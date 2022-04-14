@@ -1,15 +1,10 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
-  Button,
-  Dimensions,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -19,52 +14,54 @@ import { COLORS } from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
 import HeaderTitle from "../../components/HeaderTitle";
-import { Magic } from "@magic-sdk/react-native";
 import { connect, useDispatch } from "react-redux";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
-
-const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+import { magic } from "../../utils/magic";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});
-  const { navigation, route, magic } = props;
+  // const { navigation, route, magic } = props;
+  // const magic = props.magic;
+  const navigation = props.navigation;
 
   //todo Remove this
-  const clearOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem("@viewedOnboarding");
-    } catch (error) {
-      console.log("Error @clearOnboarding: ", error);
-    }
-  };
+  // const clearOnboarding = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem("@viewedOnboarding");
+  //   } catch (error) {
+  //     console.log("Error @clearOnboarding: ", error);
+  //   }
+  // };
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
 
-  const phoneInput = useRef<PhoneInput>(null);
-  // magic
-  const magicClient = new Magic("pk_live_5B2A9951805695BB", {
-    network: {
-      rpcUrl: "https://alfajores-forno.celo-testnet.org",
-    },
-  });
+  if (!WakalaContractKit?.getInstance()) {
+    WakalaContractKit?.createInstance(magic);
+  }
 
+  const wakalaContractKit = WakalaContractKit.getInstance();
+
+  const phoneInput = useRef<PhoneInput>(null);
   const login = async () => {
     try {
       const isValid = phoneInput.current?.isValidNumber(value);
       setValid(isValid);
       SetSubmitted(!submitted);
-
+      console.log("Load data ====>");
       if (isValid) {
         Keyboard.dismiss();
-        let DID = await magicClient.auth.loginWithSMS({
+        let DID = await magic.auth.loginWithSMS({
           phoneNumber: value, //pass the phone input value to get otp sms
         });
 
         // Consume decentralized identity (DID)
         if (DID !== null) {
-          magicClient.user.getMetadata().then((userMetadata) => {
+          magic.user.getMetadata().then((userMetadata) => {
+            wakalaContractKit?.setUserMetadata(userMetadata);
             setUser(userMetadata);
+            wakalaContractKit?.setUserMetadata(userMetadata);
             dispatch({
               type: "LOGIN",
               payload: { phoneNumber: value, userMetadata: userMetadata },
@@ -72,7 +69,11 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           });
         }
 
-        console.log("works");
+        let x = await magic.user.getMetadata();
+        if (x) {
+          wakalaContractKit?.setUserMetadata(x);
+        }
+        await wakalaContractKit?.init();
         navigation.navigate("MyDrawer");
       } else {
         setTimeout(() => {
@@ -80,17 +81,20 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         }, 2000);
       }
 
-      //   magicClient.user.getMetadata().then(setUser);
+      console.log("works");
+      // navigation.navigate("MyDrawer");
     } catch (err) {
-      console.log("doesn't Work");
+      console.log("AuthScreen", err);
+      console.error(err);
 
       alert(err);
     }
   };
   // Logout of Magic session
   const logout = async () => {
-    await magicClient.user.logout();
+    await magic.user.logout();
     // setUser("");
+    WakalaContractKit.destroyInstance();
     console.log("logged out");
   };
   const title = "Join Wakala";
@@ -142,12 +146,26 @@ const AuthScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <magicClient.Relayer />
+          <magic.Relayer />
         </View>
       </ScreenComponent>
     </KeyboardAvoidingView>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -223,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+// export default AuthScreen;

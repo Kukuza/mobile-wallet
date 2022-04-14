@@ -1,5 +1,5 @@
-import wakalaEscrowAbi from "../ContractABIs/WakalaEscrow.abi.json";
 import ERC20Abi from "../ContractABIs/ERC20.abi.json";
+import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
 import {
   WAKALA_CONTRACT_ADDRESS,
   ERC20_ADDRESS,
@@ -8,13 +8,12 @@ import {
 import { CeloContract, newKitFromWeb3 } from "@celo/contractkit";
 import Web3 from "web3";
 import karmaAbi from "../ContractABIs/karma.abi.json";
-
 function ContractMethods(magic) {
   const root = this;
   let web3 = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
   let contract = new kit.web3.eth.Contract(
-    wakalaEscrowAbi,
+    WakalaEscrowAbi,
     WAKALA_CONTRACT_ADDRESS
   );
   // Karma Protocol integration => karma contract link: https://github.com/karma-reputation-protocol/karma/tree/main
@@ -66,7 +65,7 @@ function ContractMethods(magic) {
         feeCurrency: stableToken.address,
       });
       let receipt = await tx.waitReceipt();
-      console.log("From Approve", receipt);
+      // console.log("From Approve", receipt);
       return receipt;
     } catch (e) {
       console.log(e, "approveTransaction catch");
@@ -77,10 +76,11 @@ function ContractMethods(magic) {
     return kit.web3.utils.toWei(sendAmount, "ether");
   }
 
-  this.initializeDepositTransaction = async (amount) => {
+  this.initializeDepositTransaction = async (amount, phoneNumber) => {
     await approveTransaction(getAmountInGolds(amount + 1));
     let txObject = await contract.methods.initializeDepositTransaction(
-      getAmountInGolds(amount)
+      getAmountInGolds(amount),
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -91,10 +91,11 @@ function ContractMethods(magic) {
     return receipt;
   };
 
-  this.initializeWithdrawalTransaction = async (amount) => {
+  this.initializeWithdrawalTransaction = async (amount, phoneNumber) => {
     await approveTransaction(getAmountInGolds(amount + 1));
     let txObject = await contract.methods.initializeWithdrawalTransaction(
-      getAmountInGolds(amount)
+      getAmountInGolds(amount),
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -105,9 +106,17 @@ function ContractMethods(magic) {
     return receipt;
   };
 
-  this.agentAcceptDepositTransaction = async (transactionId) => {
+  this.agentAcceptDepositTransaction = async (
+    transactionId,
+    phoneNumber,
+    amount
+  ) => {
+    let amount1 = amount + 1;
+    amount1;
+    await approveTransaction(getAmountInGolds("100"));
     let txObject = await contract.methods.agentAcceptDepositTransaction(
-      transactionId
+      transactionId,
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -118,9 +127,13 @@ function ContractMethods(magic) {
     return receipt;
   };
 
-  this.agentAcceptWithdrawalTransaction = async (transactionId) => {
+  this.agentAcceptWithdrawalTransaction = async (
+    transactionId,
+    phoneNumber
+  ) => {
     let txObject = await contract.methods.agentAcceptWithdrawalTransaction(
-      transactionId
+      transactionId,
+      phoneNumber
     );
     let tx = await kit.sendTransactionObject(txObject, {
       from: kit.defaultAccount,
@@ -141,6 +154,17 @@ function ContractMethods(magic) {
     console.log("From clientConfirmPayment", receipt);
     return receipt;
   };
+
+  // this.finalizeTransaction = async (transactionId) => {
+  //   let txObject = await contract.methods.finalizeTransaction(transactionId);
+  //   let tx = await kit.sendTransactionObject(txObject, {
+  //     from: kit.defaultAccount,
+  //     feeCurrency: stableToken.address,
+  //   });
+  //   let receipt = await tx.waitReceipt();
+  //   console.log("From finalizeTransaction", receipt);
+  //   return receipt;
+  // };
 
   /**
     * @dev Function to update a user's karma value for a specified application

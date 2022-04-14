@@ -2,39 +2,45 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
-import HeaderTitle from "../../components/HeaderTitle";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-import DefaultButton from "../../components/buttons/DefaultButton";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+// import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
+import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
+import { magic, web3 } from "../../utils/magic";
+import { AbiItem } from "web3-utils";
+import Web3 from "web3";
+import { newKitFromWeb3 } from "@celo/contractkit";
+import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
+import ContractMethods from "../../utils/Celo-Integration/contractMethods";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import NavHeader from "../../containers/NavHeader";
+import { EventData } from "web3-eth-contract";
+import SwipeButton from "../../components/buttons/SwipeButton";
 
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
       {props.isActionSuccess ? (
         <View>
-          <Image source={SHARED} style={modalStyles.image} />
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={SHARED} style={modalStyles.image} />
+          </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-            We shared your{" "}
-            {props.operation === "TopUp" ? "deposit" : "withdraw"} request with
-            the agent community. We will notify you once an agent has answered
-            your request. It can take up to 4 minutes. Click OK to exit this
-            page.
+            We shared your deposit request with the agent community. We will
+            notify you once an agent has answered the request. It can take up to
+            4 minutes. Do not exit this page.
           </Text>
-
-          <TouchableOpacity onPress={props.handleAction}>
-            <Text style={modalStyles.button}>Okay</Text>
-          </TouchableOpacity>
         </View>
       ) : (
         <View>
-          <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
             Something just happened. Please try again.
@@ -59,13 +65,14 @@ const ModalContent = (props) => {
  * }
  * @returns
  */
-const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
-  props: any
-) => {
-  const { navigation, route } = props;
-  const operation = route.params.operation;
+const AddFundsConfirmationScreen = (props: any) => {
+  // const { navigation, route } = props;
+  const operation = props.route.params.operation;
   const modalRef = useRef<any>();
-
+  console.log(props.route.params.operation);
+  const publicAddress =
+    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  // console.log(WakalaContractKit.getInstance().userMetadata);
   // console.log(props.route.params?.param);
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
@@ -74,7 +81,36 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
+  const wakalaContractKit = WakalaContractKit.getInstance();
+
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "AgentPairingEvent",
+    async (error: Error, event: EventData) => {
+      console.log("AgentPairingEvent", event.returnValues.wtx[0]);
+      const index: number = event.returnValues.wtx[0];
+      const tx = await wakalaContractKit?.queryTransactionByIndex(index);
+      props.navigation.navigate("Confirm Request", { tx: tx });
+      console.log("The transaction id is : " + index);
+    }
+  );
+
+  let web3: any = new Web3(magic.rpcProvider);
+  let kit = newKitFromWeb3(web3);
+
+  const contract = new kit.web3.eth.Contract(
+    WakalaEscrowAbi as AbiItem[],
+    WAKALA_CONTRACT_ADDRESS
+  );
+
+  const openModal = () => {
+    modalRef.current?.openModal();
+  };
+
   const handleAction = async () => {
+
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+    phoneNumber = Buffer.from(phoneNumber).toString("base64");
+    
     openModal();
     //Init
     setIsLoading(true);
@@ -85,31 +121,43 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
       contractMethods = props.contractMethods;
     } else {
       setLoadingMessage("Initializing the Blockchain connection...");
-      await contractMethods.init();
-      dispatch({
-        type: "INIT_CONTRACT_METHODS",
-        value: contractMethods,
+      console.log("reached here");
+      await contractMethods.init().then((result) => {
+        dispatch({
+          type: "INIT_CONTRACT_METHODS",
+          value: contractMethods,
+        });
       });
     }
-    let amount = contractMethods.web3.utils.toBN(value);
-    console.log("Teh" + amount);
+    console.log("==============>");
+    let amount = value;
+    // let amount = contractMethods.web3.utils.toBN(2);
+    // console.log("The BN amount is: " + amount);
+    console.log(operation);
     if (operation === "TopUp") {
-      setLoadingMessage("Sending the deposit transaction...");
-      try {
-        let result = await contractMethods.initializeDepositTransaction(amount);
-        setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        console.log(error.toString() + " \n Amount: " + amount.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+
+      // try {
+      await contractMethods
+        .initializeDepositTransaction(amount, phoneNumber)
+        .then((receipt) => {
+          // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
+          // console.log("rx is of type: " + rx?.wtxIndex);
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + amount.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
         let result = await contractMethods.initializeWithdrawalTransaction(
-          amount
+          amount,
+          phoneNumber
         );
         setLoadingMessage("");
         setIsLoading(false);
@@ -124,21 +172,24 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
     }
     setIsLoading(false);
   };
-  const openModal = () => {
-    modalRef.current?.openModal();
-  };
 
   const closeModal = () => {
     if (!isActionSuccess) {
       modalRef.current?.closeModal();
       return;
     }
+    let emmited: any = null;
+    console.log(emmited);
+    if (emmited == null) {
+      try {
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("no event found staying here");
+    }
+
     modalRef.current?.closeModal();
-    navigation.navigate("Home Screen");
-    /*navigation.navigate("Confirm Request", {
-      value: value,
-      operation: operation,
-    });*/
   };
 
   const useViewSize = () => {
@@ -175,22 +226,40 @@ const AddFundsConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (
   return (
     <Fragment>
       <ScreenComponent>
-        <View style={styles.wrapper}>
-          <HeaderTitle
+        <View>
+          {/* <HeaderTitle
             additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={() => navigation.navigate("Add Funds")}
+            backButtonHandler={() =>
+              props.navigation.navigate("Add Funds", { operation: operation })
+            }
+
+          /> */}
+          <NavHeader
+            showTitle={true}
+            newTitle={operation === "TopUp" ? "Top Up Request" : "Withdraw"}
           />
+        </View>
+
+        <View style={styles.wrapper}>
           <RequestTxInformationCard
+            cardSubtitle={
+              operation === "TopUp" ? "Top up Amount" : "Withdraw Amount"
+            }
+            cardSubtitle2="Fee"
+            totalLabel="Total you receive"
             grossAmount={props.route.params?.param}
-            netValue={"Ksh " + props.route.params?.param * 114}
+            // netValue={"Ksh " + props.route.params?.param}
             additionalStyling={styles.requestTsxInfoCard}
           ></RequestTxInformationCard>
-          <DefaultButton
-            onPress={handleAction}
-            // onPress={() => navigation.navigate("Home")}
-            style={{ minWidth: 286, marginTop: 40 }}
-            text="Continue"
-          />
+          <View style={{ marginTop: 200 }}>
+            <SwipeButton
+              title="Swipe to Confirm"
+              handleAction={() => handleAction()}
+              // onPress={() => navigation.navigate("Home")}
+              style={{ minWidth: 286, marginTop: 200 }}
+            />
+          </View>
+          <magic.Relayer />
         </View>
       </ScreenComponent>
       <Modal
@@ -224,17 +293,21 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   headerTitleAdditionalStyling: {
-      paddingLeft: 24
+    paddingLeft: 24,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingLeft: 24,
   },
   container: {
     flex: 1,
     margin: 30,
     justifyContent: "space-between",
+  },
+  swipeButton: {
+    marginTop: 200,
+    marginLeft: "3%",
   },
 
   cardContainer: {
@@ -303,6 +376,7 @@ const modalStyles = StyleSheet.create({
   image: {
     height: 150,
     maxWidth: SIZES.width * 0.8,
+    alignContent: "center",
     resizeMode: "contain",
     marginBottom: 20,
   },
