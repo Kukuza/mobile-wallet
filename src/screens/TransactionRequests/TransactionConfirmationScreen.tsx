@@ -167,7 +167,7 @@ const TransactionConfirmationScreen = (props) => {
 
     modalRef.current?.closeModal();
 
-    navigation.navigate("MyDrawer");
+    // navigation.navigate("MyDrawer");
 
     // if (operation === "TopUp") {
     //   navigation.navigate("Success", {
