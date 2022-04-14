@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 import KeyPad from '../../../components/buttons/KeyPad';
 import { Feather } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View,TouchableOpacity } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../../styles/fonts/fonts";
 import COLORS from '../../../styles/colors/colors';
 import ScreenComponent from '../../../containers/ScreenComponent';
-export default function EnterPin() {
+export default function EnterPin({navigation}) {
    let pinText=["1","2","3","4"]
    const [pin, setPin] = useState('');
 
@@ -15,9 +15,11 @@ export default function EnterPin() {
   }
   return (
     <ScreenComponent>
-    <View style={styles.navIcon}>
+    <TouchableOpacity style={styles.navIcon}
+    onPress={() => navigation.goBack()}
+    >
     <Feather name="chevron-left" size={32} color={COLORS.primary} />
-    </View>
+    </TouchableOpacity>
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Enter Pin</Text>
     </View>
@@ -84,7 +86,7 @@ iconImage:{
 },
 starText:{
   ...FONTS.displayBold,
-    color: COLORS.textColor4,
+    color: COLORS.error,
     fontWeight:'bold',
     alignSelf:"center",
     fontSize:RFPercentage(6),
