@@ -13,16 +13,11 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { COLORS } from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import PhoneInput from "react-native-phone-number-input";
-import HeaderTitle from "../../components/HeaderTitle";
-import { connect, useDispatch } from "react-redux";
 import { magic } from "../../utils/magic";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 const AuthScreen = (props) => {
-  const dispatch = useDispatch();
-
   const navigation = props.navigation;
-
   //todo Remove this
   // const clearOnboarding = async () => {
   //   try {
@@ -33,7 +28,6 @@ const AuthScreen = (props) => {
   // };
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
-  const [formattedValue, setFormattedValue] = useState("");
   const [submitted, SetSubmitted] = useState(false);
 
   if (!WakalaContractKit?.getInstance()) {
@@ -59,10 +53,6 @@ const AuthScreen = (props) => {
         if (DID !== null) {
           magic.user.getMetadata().then((userMetadata) => {
             wakalaContractKit?.setUserMetadata(userMetadata);
-            dispatch({
-              type: "LOGIN",
-              payload: { phoneNumber: value, userMetadata: userMetadata },
-            });
           });
         }
 
