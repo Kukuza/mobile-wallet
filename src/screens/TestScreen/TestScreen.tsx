@@ -1,11 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-import { LinearGradient } from "react-native-svg";
-import COLORS from "../../styles/colors/colors";
-import { web3 } from "../../utils/magic";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-// import wakalaEscrowAbi from "../../utils/ContractABIs/wakalaEscrow.abi.json";
-import { AbiItem } from "web3-utils";
 import { connect, useDispatch } from "react-redux";
 
 const TestScreen = (props) => {

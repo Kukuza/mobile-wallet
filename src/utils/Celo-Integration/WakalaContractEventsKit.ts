@@ -46,7 +46,6 @@ export class WakalaContractEventsKit {
    * Class constructor.
    */
   constructor(contractAddresses: Array<string>) {
-    console.log(this.TAG + "constructor start");
     contractAddresses.forEach((address: string) => {
       this.watchedAddresses.push(address);
     });

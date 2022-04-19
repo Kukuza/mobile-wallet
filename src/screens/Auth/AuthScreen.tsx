@@ -17,6 +17,7 @@ import HeaderTitle from "../../components/HeaderTitle";
 import { connect, useDispatch } from "react-redux";
 import { magic } from "../../utils/magic";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+
 const AuthScreen = (props) => {
   const dispatch = useDispatch();
   const [user, setUser] = React.useState({});

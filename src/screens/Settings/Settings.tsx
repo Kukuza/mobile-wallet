@@ -1,6 +1,6 @@
 import React , {useState} from 'react';
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Switch } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";

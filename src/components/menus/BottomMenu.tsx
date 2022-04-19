@@ -4,7 +4,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import SendButton from "../buttons/SendButton";
 import WithdrawButton from "../buttons/WithdrawButton";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import COLORS from "../../styles/colors/colors";
 
 const BottomMenu = ({ navigation }) => {

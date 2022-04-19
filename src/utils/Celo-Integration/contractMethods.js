@@ -65,7 +65,6 @@ function ContractMethods(magic) {
         feeCurrency: stableToken.address,
       });
       let receipt = await tx.waitReceipt();
-      // console.log("From Approve", receipt);
       return receipt;
     } catch (e) {
       console.log(e, "approveTransaction catch");
@@ -87,7 +86,7 @@ function ContractMethods(magic) {
       feeCurrency: stableToken.address,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From initializeDepositTransaction", receipt);
+    console.log("From initializeDepositTransaction");
     return receipt;
   };
 
@@ -102,7 +101,7 @@ function ContractMethods(magic) {
       feeCurrency: stableToken.address,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From initializeWithdrawalTransaction", receipt);
+    console.log("From initializeWithdrawalTransaction");
     return receipt;
   };
 
@@ -123,7 +122,7 @@ function ContractMethods(magic) {
       feeCurrency: stableToken.address,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From agentAcceptDepositTransaction", receipt);
+    console.log("From agentAcceptDepositTransaction");
     return receipt;
   };
 
@@ -140,7 +139,7 @@ function ContractMethods(magic) {
       feeCurrency: stableToken.address,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From agentAcceptWithdrawalTransaction", receipt);
+    console.log("From agentAcceptWithdrawalTransaction");
     return receipt;
   };
 
@@ -151,7 +150,7 @@ function ContractMethods(magic) {
       feeCurrency: stableToken.address,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From clientConfirmPayment", receipt);
+    console.log("From clientConfirmPayment");
     return receipt;
   };
 
@@ -189,7 +188,7 @@ function ContractMethods(magic) {
       from: kit.defaultAccount,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From updateKarma", receipt);
+    console.log("From updateKarma");
     return receipt;
   };
 
@@ -204,7 +203,7 @@ function ContractMethods(magic) {
       from: kit.defaultAccount,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From getKarma", receipt);
+    console.log("From getKarma");
     return receipt;
   };
 
@@ -215,7 +214,7 @@ function ContractMethods(magic) {
       feeCurrency: stableToken.address,
     });
     let receipt = await tx.waitReceipt();
-    console.log("From agentConfirmPayment", receipt);
+    console.log("From agentConfirmPayment");
     return receipt;
   };
 
