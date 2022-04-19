@@ -10,7 +10,7 @@ import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { magic, web3 } from "../../utils/magic";
+import { magic } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";

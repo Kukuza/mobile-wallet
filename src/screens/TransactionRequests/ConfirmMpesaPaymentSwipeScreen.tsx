@@ -3,8 +3,6 @@ import {
   Text,
   View,
   Image,
-  Alert,
-  Pressable,
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useRef, useCallback, Fragment } from "react";
@@ -12,11 +10,8 @@ import Modal from "../../components/modals/Modal";
 
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import SwipeButton from "../../components/buttons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
-import LargeModal from "../../components/modals/LargeModals";
-import SuccessModal from "../../components/modals/SuccessModal";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";

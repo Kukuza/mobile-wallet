@@ -4,12 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ViewStyle,
-  ImageStyle,
-  TextStyle,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/core";
-import { TextInputMask } from "react-native-masked-text";
 import { LinearGradient } from "expo-linear-gradient";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";

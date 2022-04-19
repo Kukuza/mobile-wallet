@@ -1,7 +1,6 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import {
-  Alert,
   Pressable,
   Text,
   View,

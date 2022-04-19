@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import KeyPad from '../../../components/buttons/KeyPad';
 import { Feather } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Switch } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../../styles/fonts/fonts";
 import COLORS from '../../../styles/colors/colors';

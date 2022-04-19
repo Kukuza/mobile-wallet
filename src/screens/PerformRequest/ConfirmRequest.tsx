@@ -2,7 +2,6 @@ import React, { Fragment, useRef, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import { TextInputMask } from "react-native-masked-text";
 import ScreenComponent from "../../containers/ScreenComponent";
 import Modal from "../../components/modals/Modal";
 import COLORS from "../../styles/colors/colors";
