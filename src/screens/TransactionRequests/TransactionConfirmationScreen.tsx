@@ -120,7 +120,6 @@ const TransactionConfirmationScreen = (props) => {
   //   todo remove
   const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
-  console.log(transaction.id);
 
   const wakalaContractKit = WakalaContractKit.getInstance();
 

@@ -112,13 +112,11 @@ const ConfirmRequest = (props) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "AgentConfirmationEvent",
     async (error: Error, event: EventData) => {
-      console.log("AgentConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = wakalaContractKit?.queryTransactionByIndex(index);
       navigation.navigate("Transaction Confirmation Screen", {
         tx: transaction,
       });
-      console.log("The transaction id is : " + transaction);
     }
   );
 

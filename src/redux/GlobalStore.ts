@@ -56,7 +56,6 @@ export default function globalStore(state = initialState, action) {
       } else {
         // We just update the transaction
         let elements = state.transactions;
-        console.log(elements[index]);
         elements.splice(index, 1);
         nextState = { ...state, transactions: [action.value, ...elements] };
       }

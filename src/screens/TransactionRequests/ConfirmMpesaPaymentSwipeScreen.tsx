@@ -116,7 +116,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
-      console.log("TransactionCompletionEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       navigation.navigate("MyDrawer");
       console.log("The transaction id is : " + index);
@@ -131,7 +130,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
       .agentConfirmPayment(transaction.id)
       .send({ from: publicAddress })
       .then((receipt) => {
-        console.log("reached 2nd then", receipt);
         setModalTitle("Transaction Successful!");
         setModalMessage("");
         setModalVisible(true);
@@ -168,8 +166,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
         });
       });
     }
-    console.log("==============>");
-    console.log(operation);
+
     if (operation === "TopUp") {
       setLoadingMessage("Confirming payment receipt to the user...");
 

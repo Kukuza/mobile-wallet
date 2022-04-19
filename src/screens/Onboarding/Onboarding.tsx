@@ -28,7 +28,6 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
     } else {
       try {
         await AsyncStorage.setItem("@viewedOnboarding", "true");
-        console.log(currentIndex);
       } catch (error) {
         console.log("Error @setItem", error);
       }
