@@ -120,6 +120,7 @@ const App = () => {
               <Stack.Screen key={i} name={r.name} component={r.component} />
             ))}
           </Stack.Navigator>
+          <magic.Relayer />
         </NavigationContainer>
       </Provider>
     );
