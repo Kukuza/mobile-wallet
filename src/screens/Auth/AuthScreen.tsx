@@ -136,7 +136,6 @@ const AuthScreen = (props) => {
             </TouchableOpacity>
           </View> */}
 
-          <magic.Relayer />
         </View>
       </ScreenComponent>
     </KeyboardAvoidingView>

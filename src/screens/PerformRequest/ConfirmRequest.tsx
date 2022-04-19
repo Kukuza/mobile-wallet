@@ -86,7 +86,6 @@ const ModalContent = (props) => {
           <TouchableOpacity onPress={() => props.handleAction()}>
             <Text style={modalStyles.button}>Try again</Text>
           </TouchableOpacity>
-          <magic.Relayer />
         </View>
       )}
     </View>

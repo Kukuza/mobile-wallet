@@ -251,7 +251,6 @@ const AddFundsConfirmationScreen = (props: any) => {
               style={{ minWidth: 286, marginTop: 200 }}
             />
           </View>
-          <magic.Relayer />
         </View>
       </ScreenComponent>
       <Modal

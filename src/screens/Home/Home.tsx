@@ -102,7 +102,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
             progressViewOffset={250}
             ListEmptyComponent={<EmptyList />}
           />
-          <magic.Relayer />
+
         </View>
         <View style={{ marginBottom: 100 }}>
           <BottomMenu navigation={navigation}></BottomMenu>
