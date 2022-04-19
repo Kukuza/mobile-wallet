@@ -18,14 +18,7 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 const AuthScreen = (props) => {
   const navigation = props.navigation;
-  //todo Remove this
-  // const clearOnboarding = async () => {
-  //   try {
-  //     await AsyncStorage.removeItem("@viewedOnboarding");
-  //   } catch (error) {
-  //     console.log("Error @clearOnboarding: ", error);
-  //   }
-  // };
+  
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [submitted, SetSubmitted] = useState(false);
