@@ -112,23 +112,6 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     magic: state.magic,
-//     // transactions: state.transactions,
-//     // contractMethods: state.contractMethods,
-//   };
-// };
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     dispatch: async (action) => {
-//       await dispatch(action);
-//     },
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
-
 export default HomeScreen;
 
 const styles = StyleSheet.create({
