@@ -7,7 +7,6 @@ import {
   useWindowDimensions,
   ImageSourcePropType,
 } from "react-native";
-// import { COLORS, FONTS, SIZES } from "../../styles/theme";
 import { COLORS } from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 interface Props {

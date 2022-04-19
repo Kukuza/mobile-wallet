@@ -17,9 +17,7 @@ import {
   Rubik_900Black_Italic,
 } from "@expo-google-fonts/rubik";
 import { useFonts } from "expo-font";
-import HeaderTitle from "./src/components/HeaderTitle";
 import "react-native-gesture-handler";
-import { FONTS } from "./src/styles/fonts/fonts";
 import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -29,7 +27,6 @@ import globalStore from "./src/redux/GlobalStore";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { LogBox } from "react-native";
-import Screens from "./src/screens";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
@@ -49,11 +46,10 @@ const loadAppSession = async () => {
     let data = JSON.parse(user!);
     console.log(data);
     let action = { type: "INIT", value: { ...data, magic: magic } };
-    //console.log(data)
     store.dispatch(action);
     // return true;
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     // return true;
   }
 };

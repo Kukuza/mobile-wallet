@@ -2,7 +2,6 @@ import React, { Fragment, useRef, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
-import { TextInputMask } from "react-native-masked-text";
 import ScreenComponent from "../../containers/ScreenComponent";
 import Modal from "../../components/modals/Modal";
 import COLORS from "../../styles/colors/colors";
@@ -113,13 +112,11 @@ const ConfirmRequest = (props) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "AgentConfirmationEvent",
     async (error: Error, event: EventData) => {
-      console.log("AgentConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       const tx = wakalaContractKit?.queryTransactionByIndex(index);
       navigation.navigate("Transaction Confirmation Screen", {
         tx: transaction,
       });
-      console.log("The transaction id is : " + transaction);
     }
   );
 

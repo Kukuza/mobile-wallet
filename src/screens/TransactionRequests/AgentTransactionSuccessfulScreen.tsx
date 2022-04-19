@@ -7,11 +7,9 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { LinearGradient } from "expo-linear-gradient";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
-import { isLoading } from "expo-font";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 
 const ModalContent = (props) => {
   return (

@@ -9,16 +9,11 @@ import { connect, useDispatch } from "react-redux";
 import Modal from "../../components/modals/Modal";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { Ionicons } from "@expo/vector-icons";
 import { THANK_YOU_IMAGE, CONNECTIVITY } from "../../assets/images";
-import { mainStyles } from "../../components/componentTheme";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import { magic } from "../../utils/magic";
-import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-import { AbiItem } from "web3-utils";
 import COLORS from "../../styles/colors/colors";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { EventData } from "web3-eth-contract";
@@ -125,7 +120,6 @@ const TransactionConfirmationScreen = (props) => {
   //   todo remove
   const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
-  console.log(transaction.id);
 
   const wakalaContractKit = WakalaContractKit.getInstance();
 

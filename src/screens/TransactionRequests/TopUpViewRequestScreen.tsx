@@ -69,15 +69,12 @@ const TopUpViewRequestScreen = (props) => {
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
 
-  console.log("The transction id: " + wakalaEscrowTx?.id);
-
   const wakalaContractKit = WakalaContractKit.getInstance();
   let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
   phoneNumber = Buffer.from(phoneNumber).toString("base64");
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
-      console.log("ClientConfirmationEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       props.navigation.navigate("Confirm Mpesa Payment Swipe Screen", {
         transaction: wakalaEscrowTx,
@@ -119,53 +116,6 @@ const TopUpViewRequestScreen = (props) => {
     // props.navigation.navigate("MyDrawer");
   };
 
-  // const handleAction = async () => {
-  //   openModal();
-  //   setIsLoading(true);
-  //   console.log("something is cooking");
-  //   setLoadingMessage("Initializing the transaction...");
-  //   console.log("==============>");
-  //   console.log(operation);
-  //   if (operation === "DEPOSIT") {
-  //     setLoadingMessage("Accepting the deposit transaction...");
-  //     console.log("The transaction has started");
-  //     await contract.methods
-  //       .agentAcceptDepositTransaction(wakalaEscrowTx?.id)
-  //       .send({ from: publicAddress })
-  //       .then(() => {
-  //         console.log("reached 2nd then");
-  //         setLoadingMessage("");
-  //         setIsLoading(false);
-  //       })
-  //       .catch((error: any) => {
-  //         setLoadingMessage(error.toString());
-  //         setIsActionSuccess(false);
-  //         setIsLoading(false);
-  //       });
-  //     console.log("The transaction has gone through");
-  //     setIsLoading(false);
-  //   } else {
-  //     setLoadingMessage("Accepting the withdrawal transaction...");
-  //     console.log("The transaction has started");
-  //     await contract.methods
-  //       .agentAcceptWithdrawalTransaction(wakalaEscrowTx?.id)
-  //       .send({ from: publicAddress })
-  //       .then(() => {
-  //         console.log("reached 2nd then");
-  //         setLoadingMessage("");
-  //         setIsLoading(false);
-  //       })
-  //       .catch((error: any) => {
-  //         setLoadingMessage(error.toString());
-  //         setIsActionSuccess(false);
-  //         setIsLoading(false);
-  //       });
-  //     console.log("The transaction has gone through");
-  //     setIsLoading(false);
-  //     // todo navigation
-  //   }
-  // };
-
   const handleAction = async () => {
     openModal();
     //Init
@@ -200,7 +150,7 @@ const TopUpViewRequestScreen = (props) => {
         })
         .catch((error: any) => {
           setLoadingMessage(error.toString());
-          console.log(error.toString());
+          console.log(error);
           setIsActionSuccess(false);
           setIsLoading(false);
         });
@@ -214,7 +164,7 @@ const TopUpViewRequestScreen = (props) => {
         setIsLoading(false);
       } catch (error: any) {
         setLoadingMessage(error.toString());
-        console.log(error.toString());
+        console.log(error);
         setIsActionSuccess(false);
         setIsLoading(false);
       }
