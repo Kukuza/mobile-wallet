@@ -16,7 +16,7 @@ import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import { magic } from "../../utils/magic";
 import { connect } from "react-redux";
@@ -63,6 +63,13 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
     }
   };
 
+  useEffect(() => {
+    onRefresh()
+    return () => {
+      // onRefresh()
+    }
+  }, []);
+  
   // Rerender on new transaction event.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
