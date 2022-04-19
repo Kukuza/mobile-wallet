@@ -19,6 +19,7 @@ import { EventData } from "web3-eth-contract";
 import { useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import { magic } from "../../utils/magic";
+import { connect } from "react-redux";
 
 const EmptyList = (props) => {
   return (
@@ -111,7 +112,24 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   );
 };
 
-export default HomeScreen;
+const mapStateToProps = (state) => {
+  return {
+    magic: state.magic,
+    // transactions: state.transactions,
+    // contractMethods: state.contractMethods,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: async (action) => {
+      await dispatch(action);
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+
+// export default HomeScreen;
 
 const styles = StyleSheet.create({
   menu: {
