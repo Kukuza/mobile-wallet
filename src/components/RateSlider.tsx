@@ -3,7 +3,6 @@ import React from "react";
 import {
   PixelRatio,
   StyleSheet,
-  Text,
   View,
   PanResponder,
   Animated,

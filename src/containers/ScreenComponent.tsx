@@ -1,7 +1,6 @@
-import { SafeAreaView, StatusBar, StyleSheet, View, Text } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import React, { Fragment } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { Magic } from "@magic-sdk/react-native";
 import { magic } from "../utils/magic";
 
 function ScreenComponent({ children }) {

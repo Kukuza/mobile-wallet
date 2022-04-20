@@ -8,8 +8,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
-
 import Modal from "../../components/modals/Modal";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
@@ -20,8 +21,9 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-            Request accepted and the user has been notified.Do not exit this
-            page.
+            We shared your deposit request with the agent community. We will
+            notify you once an agent has answered the request. It can take up to
+            4 minutes. Do not exit this page.
           </Text>
         </View>
       ) : (
@@ -51,8 +53,10 @@ const TransactionSuccess = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
-  const cUSDBalance = route.params?.cUSDBalance;
-  // const transaction: WakalaEscrowTransaction = route.params?.tx;
+
+  const transaction: WakalaEscrowTransaction = route.params?.tx;
+  const cUSDBalance = route.params.cUSDBalance;
+
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -82,7 +86,7 @@ const TransactionSuccess = (props) => {
           <Text style={styles.subHeadingText}>
             Your cUSD has been deposited to your wallet
           </Text>
-          <SuccessCard balance={cUSDBalance} />
+          <SuccessCard cUSDBalance={cUSDBalance} />
           <View style={{ marginTop: 120 }}>
             <Text style={styles.textButton} onPress={() => handleAction()}>
               Okay
@@ -110,7 +114,7 @@ const TransactionSuccess = (props) => {
   );
 };
 
-const SuccessCard = (props: any) => {
+const SuccessCard = (cUSDBalance) => {
   return (
     <LinearGradient
       colors={COLORS.cardGradient}
@@ -134,7 +138,7 @@ const SuccessCard = (props: any) => {
           <Image source={WALLET} />
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.textContainer}>cUSD {props.balance}</Text>
+          <Text style={styles.textContainer}>cUSD {cUSDBalance}</Text>
         </View>
       </View>
     </LinearGradient>

@@ -10,7 +10,7 @@ import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { magic, web3 } from "../../utils/magic";
+import { magic } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
@@ -69,11 +69,8 @@ const AddFundsConfirmationScreen = (props: any) => {
   // const { navigation, route } = props;
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
-  console.log(props.route.params.operation);
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
-  // console.log(WakalaContractKit.getInstance().userMetadata);
-  // console.log(props.route.params?.param);
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -121,7 +118,7 @@ const AddFundsConfirmationScreen = (props: any) => {
       contractMethods = props.contractMethods;
     } else {
       setLoadingMessage("Initializing the Blockchain connection...");
-      console.log("reached here");
+
       await contractMethods.init().then((result) => {
         dispatch({
           type: "INIT_CONTRACT_METHODS",
@@ -129,11 +126,8 @@ const AddFundsConfirmationScreen = (props: any) => {
         });
       });
     }
-    console.log("==============>");
     let amount = value;
-    // let amount = contractMethods.web3.utils.toBN(2);
-    // console.log("The BN amount is: " + amount);
-    console.log(operation);
+
     if (operation === "TopUp") {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
 
@@ -141,8 +135,6 @@ const AddFundsConfirmationScreen = (props: any) => {
       await contractMethods
         .initializeDepositTransaction(amount, phoneNumber)
         .then((receipt) => {
-          // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
-          // console.log("rx is of type: " + rx?.wtxIndex);
           setLoadingMessage("");
           setIsLoading(false);
         })
@@ -179,7 +171,7 @@ const AddFundsConfirmationScreen = (props: any) => {
       return;
     }
     let emmited: any = null;
-    console.log(emmited);
+
     if (emmited == null) {
       try {
       } catch (error) {

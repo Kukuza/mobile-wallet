@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, FlatList, Animated } from "react-native";
 import React, { useState, useRef } from "react";
 import slides from "../Onboarding/slides";
 import OnboardingItem from "../Onboarding/OnboardingItem";
-import Paginator from "./Paginator";
 import NextButton from "./NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandardBtn from "../../components/buttons/StandardBtn";
@@ -29,7 +28,6 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
     } else {
       try {
         await AsyncStorage.setItem("@viewedOnboarding", "true");
-        console.log(currentIndex);
       } catch (error) {
         console.log("Error @setItem", error);
       }

@@ -1,6 +1,5 @@
 import IRouteProps from "../navigation/RouteProps";
 import AuthScreen from "../screens/Auth/AuthScreen";
-import HomeScreen from "../screens/Home/Home";
 import AddFunds from "../screens/mpesaToCusd/AddFunds";
 import SelectPaymentMethod from "../screens/mpesaToCusd/SelectPaymentMethodScreen";
 import TransactionType from "../screens/mpesaToCusd/TransactionType";

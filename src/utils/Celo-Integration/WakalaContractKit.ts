@@ -222,18 +222,13 @@ export default class WakalaContractKit {
         //data – Will fire each time an event of the type you are listening for has been emitted
         console.log(`[ ${this.TAG} ] [ ${tag} ] data`);
         console.debug(eventData);
-
         // Act on the event data.
         callback(eventData);
       })
       .on("changed", (changed) => {
         //  changed – Will fire for each event of the type you are
         //  listening for that has been removed from the blockchain.
-        console.log(
-          console.log(
-            `[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`
-          )
-        );
+        console.log(`[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`);
       })
       .on("error", (err) => {
         //error – Will fire if an error in the event subscription occurs.
