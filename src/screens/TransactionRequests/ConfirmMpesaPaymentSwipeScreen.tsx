@@ -3,8 +3,6 @@ import {
   Text,
   View,
   Image,
-  Alert,
-  Pressable,
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useRef, useCallback, Fragment } from "react";
@@ -12,11 +10,8 @@ import Modal from "../../components/modals/Modal";
 
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import SwipeButton from "../../components/buttons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
-import LargeModal from "../../components/modals/LargeModals";
-import SuccessModal from "../../components/modals/SuccessModal";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
@@ -121,7 +116,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
-      console.log("TransactionCompletionEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
       navigation.navigate("MyDrawer");
       console.log("The transaction id is : " + index);
@@ -136,7 +130,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
       .agentConfirmPayment(transaction.id)
       .send({ from: publicAddress })
       .then((receipt) => {
-        console.log("reached 2nd then", receipt);
         setModalTitle("Transaction Successful!");
         setModalMessage("");
         setModalVisible(true);
@@ -173,8 +166,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
         });
       });
     }
-    console.log("==============>");
-    console.log(operation);
+
     if (operation === "TopUp") {
       setLoadingMessage("Confirming payment receipt to the user...");
 

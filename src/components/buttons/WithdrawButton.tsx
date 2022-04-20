@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, Alert, NativeSyntheticEvent, NativeTouchEvent, Pressable } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
