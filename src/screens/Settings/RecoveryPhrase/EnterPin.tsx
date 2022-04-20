@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import KeyPad from '../../../components/buttons/KeyPad';
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View,TouchableOpacity } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../../styles/fonts/fonts";
 import COLORS from '../../../styles/colors/colors';
 import ScreenComponent from '../../../containers/ScreenComponent';
+import KeyPad from '../../../components/buttons/KeyPad'
 export default function EnterPin({navigation}) {
    let pinText=["1","2","3","4"]
    const [pin, setPin] = useState('');
@@ -34,7 +34,6 @@ export default function EnterPin({navigation}) {
     <View style={styles.keyPad}>
     <KeyPad value={pin} onChange={handleChange} />
     </View>
-      
     </ScreenComponent>
   )
 }
