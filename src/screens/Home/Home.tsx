@@ -85,15 +85,16 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   return (
     <ScreenComponent>
       <View
-        style={{
-          justifyContent: "center",
-        }}
+        style={styles.container}
       >
         <View style={styles.menu}>
+
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <MaterialIcons name="menu" size={24} color={COLORS.primary} />
           </TouchableOpacity>
+          
         </View>
+
         <View style={{ alignItems: "center", height: SIZES.height * 0.82 }}>
           <FlatList
             data={data}
@@ -111,7 +112,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
           />
 
         </View>
-        <View style={{ marginBottom: 100 }}>
+        <View>
           <BottomMenu navigation={navigation}></BottomMenu>
         </View>
       </View>
@@ -122,11 +123,17 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+    flexGrow: 1,
+    justifyContent: 'space-between'
+  },
   menu: {
     width: "100%",
     height: 50,
     flexDirection: "row",
-    alignItems: "center",
+    flex: 1,
+    alignContent: "stretch",
     marginLeft: 30,
     marginTop: 20,
   },

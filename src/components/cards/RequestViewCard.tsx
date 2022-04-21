@@ -1,5 +1,5 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import {
   Pressable,
   Text,
@@ -18,10 +18,10 @@ import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transactio
 const swipeLeftContent = () => {
   return (
     <Animated.View style={[styles.swipeActionContent, , { marginLeft: 20 }]}>
-      <MaterialIcons name="preview" size={24} color={COLORS.accent1} />
+      <MaterialIcons name="preview" size={24} color={COLORS.secondary} />
       <Text
         style={{
-          color: COLORS.accent1,
+          color: COLORS.secondary,
           ...FONTS.body5,
         }}
       >
@@ -34,10 +34,10 @@ const swipeLeftContent = () => {
 const swipeRightContent = () => {
   return (
     <View style={[styles.swipeActionContent, { marginRight: 20 }]}>
-      <MaterialIcons name="block-flipped" size={24} color={COLORS.accent1} />
+      <MaterialIcons name="block-flipped" size={24} color={COLORS.warning} />
       <Text
         style={{
-          color: COLORS.warn,
+          color: COLORS.warning,
           ...FONTS.body5,
         }}
       >
@@ -54,7 +54,7 @@ const RequestCardComponent = (props) => {
   // const [amount, setAmount] = useState();
   // const [starsRate, setStarsRate] = useState();
   // const [ratingsNumber, setRatingsNumber] = useState();
-  // const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(true);
   // const [type, setType] = useState();
 
   function handleDeleteItem() {
@@ -66,11 +66,13 @@ const RequestCardComponent = (props) => {
       <Swipeable
         renderLeftActions={swipeLeftContent}
         overshootLeft={false}
-        onSwipeableLeftOpen={() => console.log("Swipe Left")}
+        onSwipeableLeftOpen={() => navigation.navigate("Top Up View Request", {
+          transaction: wakalaTransaction,
+        })}
         overshootRight={false}
         renderRightActions={swipeRightContent}
         onSwipeableRightOpen={handleDeleteItem}
-        // onSwipeableRightWillOpen={() => setVisible(!visible)}
+        onSwipeableRightWillOpen={() => setVisible(!visible)}
       >
         <LinearGradient
           colors={COLORS.cardGradient}
@@ -106,7 +108,8 @@ const RequestCardComponent = (props) => {
                     <Ionicons
                       style={styles.ratingIcon}
                       name="star"
-                      color={COLORS.accent1}
+                      color={COLORS.textDarkBlue}
+                      size={10}
                     />
                     <Text style={styles.rating}>5.0</Text>
                   </View>
@@ -158,13 +161,20 @@ const styles = StyleSheet.create({
     marginLeft: 18.5,
   },
   cardStyling: {
-    borderRadius: 10,
+    borderRadius:12,
     width: SIZES.width * 0.9,
     marginTop: 6,
     marginBottom: 6,
     paddingBottom: 15,
     paddingLeft: 13,
-    paddingTop: 20,
+    paddingTop: 15,
+    borderColor: COLORS.white,
+    borderWidth: 0.4,
+    borderBottomEndRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomStartRadius: 10,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
   },
   container: {
     alignItems: "center",
@@ -197,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: 3,
+    paddingTop: 4,
     marginRight: 13,
     backgroundColor: COLORS.white,
   },

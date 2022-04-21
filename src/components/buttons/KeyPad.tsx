@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 import { SIZES } from "../../styles/fonts/fonts";
 
 const KeyPad = (props) => {
+  const route = useRoute();
   const [value, setValue] = useState("");
 
   const handleChange = (text) => {
@@ -111,7 +113,7 @@ const KeyPad = (props) => {
           style={styles.key}
         >
           {/* Dummy key to make keypad first line position consistent */}
-          <Text style={styles.number}> . </Text>
+          <Text style={styles.number}>{route.name.includes("EnterPin") ? "":"."}</Text>
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => handleChange("0")}

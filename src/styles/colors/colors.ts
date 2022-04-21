@@ -31,6 +31,7 @@ export const COLORS = {
   
 
   switchThumb:"#A2A3A2",
+  radioButton:"#133FDB",
 
   realBlack: "#000000",
   black: "#181725",
