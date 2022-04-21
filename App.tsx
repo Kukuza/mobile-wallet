@@ -113,7 +113,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName="Rating"
+            initialRouteName="Onboarding"
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (

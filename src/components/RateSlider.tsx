@@ -23,6 +23,7 @@ import {
 import { SIZES } from "../styles/fonts/fonts";
 import { FONTS } from "../styles/fonts/fonts";
 import { COLORS } from "../styles/colors/colors";
+import Rating from "../screens/KarmaRating/Rating";
 
 const REACTIONS = [
   {
@@ -55,7 +56,7 @@ const WIDTH = SIZES.width - 60;
 const DISTANCE = WIDTH / REACTIONS.length;
 const END = WIDTH - DISTANCE;
 
-export default class Rate extends React.Component<any, any> {
+export default class Rate extends React.Component<any> {
   _pan: any;
   // rate: string;
   _panResponder: any;
@@ -100,8 +101,10 @@ export default class Rate extends React.Component<any, any> {
       useNativeDriver: false,
     }).start();
     const rating = toValue / 66 + 1;
-    // console.log(typeof rating);
     console.log("the updated rating is " + rating);
+    this.props.rateToParent(rating);
+    // pass this data to the  rating screen
+
     // todo add rating param
     // this.props.onChange(toValue);
   }

@@ -91,23 +91,22 @@ const AddFundsConfirmationScreen = (props: any) => {
     }
   );
 
-  let web3: any = new Web3(magic.rpcProvider);
-  let kit = newKitFromWeb3(web3);
+  // let web3: any = new Web3(magic.rpcProvider);
+  // let kit = newKitFromWeb3(web3);
 
-  const contract = new kit.web3.eth.Contract(
-    WakalaEscrowAbi as AbiItem[],
-    WAKALA_CONTRACT_ADDRESS
-  );
+  // const contract = new kit.web3.eth.Contract(
+  //   WakalaEscrowAbi as AbiItem[],
+  //   WAKALA_CONTRACT_ADDRESS
+  // );
 
   const openModal = () => {
     modalRef.current?.openModal();
   };
 
   const handleAction = async () => {
-
     let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
     phoneNumber = Buffer.from(phoneNumber).toString("base64");
-    
+
     openModal();
     //Init
     setIsLoading(true);
@@ -170,17 +169,6 @@ const AddFundsConfirmationScreen = (props: any) => {
       modalRef.current?.closeModal();
       return;
     }
-    let emmited: any = null;
-
-    if (emmited == null) {
-      try {
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      console.log("no event found staying here");
-    }
-
     modalRef.current?.closeModal();
   };
 
@@ -219,13 +207,6 @@ const AddFundsConfirmationScreen = (props: any) => {
     <Fragment>
       <ScreenComponent>
         <View>
-          {/* <HeaderTitle
-            additionalStyling={styles.headerTitleAdditionalStyling}
-            backButtonHandler={() =>
-              props.navigation.navigate("Add Funds", { operation: operation })
-            }
-
-          /> */}
           <NavHeader
             showTitle={true}
             newTitle={operation === "TopUp" ? "Top Up Request" : "Withdraw"}
@@ -247,7 +228,6 @@ const AddFundsConfirmationScreen = (props: any) => {
             <SwipeButton
               title="Swipe to Confirm"
               handleAction={() => handleAction()}
-              // onPress={() => navigation.navigate("Home")}
               style={{ minWidth: 286, marginTop: 200 }}
             />
           </View>

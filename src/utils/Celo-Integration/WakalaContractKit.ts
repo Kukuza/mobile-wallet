@@ -2,10 +2,12 @@ import { Magic, MagicUserMetadata } from "@magic-sdk/react-native";
 import Web3 from "web3";
 import { Contract, EventData } from "web3-eth-contract";
 import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
+import { KARMA_ABI } from "../ContractABIs/KarmaAbi";
 import ERC20Abi from "../ContractABIs/ERC20.abi.json";
 import {
   WAKALA_CONTRACT_ADDRESS,
   ERC20_ADDRESS,
+  KARMA_CONTRACT_ADDRESS,
 } from "../ContractAdresses/contract";
 import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
@@ -49,6 +51,11 @@ export default class WakalaContractKit {
    * Instance of wakala escrow smart contract.
    */
   wakalaEscrowContract?: Contract;
+
+  /**
+   * Instance of karma protocol smart contract.
+   */
+  karmaContract?: Contract | any;
 
   /**
    * Magic user metadata.
@@ -110,6 +117,11 @@ export default class WakalaContractKit {
       WakalaEscrowAbi as AbiItem[],
       WAKALA_CONTRACT_ADDRESS
     );
+
+    this.karmaContract = new this.web3.eth.Contract(
+      KARMA_ABI as AbiItem[],
+      KARMA_CONTRACT_ADDRESS
+    );
     this.cUSDContract = new this.web3.eth.Contract(ERC20Abi, ERC20_ADDRESS);
     this.kit = newKitFromWeb3(this.web3);
 
@@ -123,9 +135,12 @@ export default class WakalaContractKit {
    */
   async init() {
     if (!this.isInitialize) {
-      this.wakalaContractEvents = new WakalaContractEventsKit([WAKALA_CONTRACT_ADDRESS]);
+      this.wakalaContractEvents = new WakalaContractEventsKit([
+        WAKALA_CONTRACT_ADDRESS,
+      ]);
       try {
-        const accounts = await this.web3?.eth.getAccounts();
+        const accounts = await this?.kit?.web3?.eth.getAccounts();
+        this.kit.defaultAccount = accounts[0];
         if (typeof accounts !== undefined) {
           this.web3.eth.defaultAccount = accounts[0];
         }
@@ -162,10 +177,52 @@ export default class WakalaContractKit {
   }
 
   /**
+    * @dev Function to update a user's karma value for a specified application
+    * @param address The address of the user whose karma is being updated
+    * @param amount The amount used to calculate how much should be added or removed from
+                    a user's karma value. If the amount is positive, it will increase the 
+                    user's karma. If it is negative, it will decrease it. 
+    * @param updateFunctionKey An integer specifying which function should be used to update
+                               the user's karma. Setting the value to 1 will lead to a weighted 
+                               sum updated and setting it to 2 will lead to an averaged sum. 
+                               See README for details. => pass 2 for our case 
+                               karma contract link: https://github.com/karma-reputation-protocol/karma/tree/main
+
+    **/
+  updateKarma = async (address, amount, updateFunctionKey) => {
+    let txObject: any = await this?.karmaContract.methods.updateKarma(
+      address,
+      amount,
+      updateFunctionKey
+    );
+    let tx: any = await this?.kit.sendTransactionObject(txObject, {
+      from: this?.kit.defaultAccount,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From updateKarma", receipt);
+    return receipt;
+  };
+
+  /**
+   * @dev Function to retireve the karma value for a user.
+   * @param address The address of the user whose karma is being accessed
+   **/
+
+  getKarma = async (address) => {
+    let txObject = await this?.karmaContract?.methods.getKarma(address);
+    console.log(this?.kit.defaultAccount);
+    let tx = await this?.kit.sendTransactionObject(txObject, {
+      from: this?.kit.defaultAccount,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From getKarma", receipt);
+    return receipt;
+  };
+
+  /**
    * Fetches the transactions from the smart contract.
    */
   async fetchTransactions() {
-
     let wakalaTxsArray = new Array<WakalaEscrowTransaction>();
     let l = await this.getNextTxIndex();
 
@@ -174,7 +231,7 @@ export default class WakalaContractKit {
 
     for (let index = 0; index < 16; index++) {
       let tx = await this.queryGetNextUnpairedTransaction(currentQueryTx);
-      
+
       if (tx.amount != 0) {
         wakalaTxsArray.push(tx);
       } else {
@@ -228,7 +285,9 @@ export default class WakalaContractKit {
       .on("changed", (changed) => {
         //  changed – Will fire for each event of the type you are
         //  listening for that has been removed from the blockchain.
-        console.log(`[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`);
+        console.log(
+          `[ ${this.TAG} ] [ ${tag} ] ${event} changed { ${changed} }`
+        );
       })
       .on("error", (err) => {
         //error – Will fire if an error in the event subscription occurs.
@@ -269,15 +328,14 @@ export default class WakalaContractKit {
    * Get transaction by index.
    */
   async queryGetNextUnpairedTransaction(
-      id: number
-    ): Promise<WakalaEscrowTransaction> {
-      
-      const tx = await this.wakalaEscrowContract?.methods
-        .getNextUnpairedTransaction(id)
-        .call();
+    id: number
+  ): Promise<WakalaEscrowTransaction> {
+    const tx = await this.wakalaEscrowContract?.methods
+      .getNextUnpairedTransaction(id)
+      .call();
 
-      let wakalaTx = await this.convertToWakalaTransactionObj(tx);
-      return wakalaTx;
+    let wakalaTx = await this.convertToWakalaTransactionObj(tx);
+    return wakalaTx;
   }
 
   /**
@@ -298,8 +356,8 @@ export default class WakalaContractKit {
       grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
       agentApproval: tx[9],
       clientApproval: tx[10],
-      agentPhoneNumber: Buffer.from(tx[11], 'base64').toString('ascii'),
-      clientPhoneNumber: Buffer.from(tx[12], 'base64').toString('ascii'),
+      agentPhoneNumber: Buffer.from(tx[11], "base64").toString("ascii"),
+      clientPhoneNumber: Buffer.from(tx[12], "base64").toString("ascii"),
     };
 
     return wakalaTx;

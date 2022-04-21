@@ -9,6 +9,13 @@ import NavHeader from "../../components/NavHeader";
 import { CONNECTIVITY } from "../../assets/images";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
+import { web3 } from "../../utils/magic";
+import { KARMA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
+import { KARMA_ABI } from "../../utils/ContractABIs/KarmaAbi";
+import { AbiItem } from "web3-utils";
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import { magic } from "../../utils/magic";
+import ModalLoading from "../../components/modals/ModalLoading";
 
 const ModalContent = (props) => {
   return (
@@ -29,7 +36,9 @@ const ModalContent = (props) => {
         </View>
       ) : (
         <View>
-          <Image source={CONNECTIVITY} style={modalStyles.image} />
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Image source={CONNECTIVITY} style={modalStyles.image} />
+          </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
             Something just happened. Please try again.
@@ -56,6 +65,25 @@ const Rating = () => {
   const [numberOfTransactions, setNumberOfTransactions] = useState(180);
   const [isRatingSubmissionSuccess, setIsRatingSubmissionSuccess] =
     useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("");
+
+  const [data, setData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const contract = new web3.eth.Contract(
+    KARMA_ABI as AbiItem[],
+    KARMA_CONTRACT_ADDRESS
+  );
+
+  const contractMethods = WakalaContractKit.getInstance();
+
+  const publicAddress =
+    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  // const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
+  // fetch and set data from the child component to the parent component
+  const childToParent = (childData) => {
+    setData(childData);
+  };
 
   useEffect(() => {
     if (operation == "TopUp") {
@@ -64,27 +92,39 @@ const Rating = () => {
       setNewTitle("Support community");
     }
   }, []);
-  function handleChange(newValue) {
-    setRatingValue(newValue);
-  }
-
-  const handleRatingSubmition = async () => {
-    // Call function to perform rating submition
-    // If rating return success response set
-    // isRatingSubmissionSuccess to true and open modal
-    // performRating(rating).then(
-    //   response => {
-    //     setIsRatingSubmissionSuccess(true)
-    //   },
-    //   error => {
-    //     setIsRatingSubmissionSuccess(false)
-    //   },
-    // )
-    openModal();
-  };
 
   const openModal = () => {
     modalRef.current?.openModal();
+  };
+
+  const handleRatingSubmition = async () => {
+    openModal();
+    setIsLoading(true);
+    console.log("something is cooking");
+    setLoadingMessage("Initializing the Blockchain connection...");
+    await contractMethods?.init().then((result) => {
+      console.log("contract methods are initialised ");
+    });
+
+    setLoadingMessage("Submitting rating...");
+    // let { transactionHash } = await contract.methods
+    //   .updateKarma(publicAddress, data, 2)
+    //   .send({ from: publicAddress });
+    // console.log(transactionHash);
+    await contractMethods
+      ?.updateKarma(publicAddress, data, 2)
+      .then((receipt) => {
+        // console.log("The avg karma Rating is: " + JSON.stringify(receipt));
+        setLoadingMessage("");
+        setIsLoading(false);
+        setIsRatingSubmissionSuccess(true);
+      })
+      .catch((error: any) => {
+        setLoadingMessage(error.toString());
+        setIsRatingSubmissionSuccess(false);
+        setIsLoading(false);
+        console.log(error.toString());
+      });
   };
 
   const closeModal = () => {
@@ -116,10 +156,9 @@ const Rating = () => {
             <Text style={styles.text}>
               How was your experience with the community member?
             </Text>
-            <RateSlider
-            // rating={ratingValue}
-            // onChange={() => handleChange(ratingValue)}
-            />
+            {/* <Text style={styles.text}>{data}</Text> */}
+
+            <RateSlider rateToParent={childToParent} />
             <TouchableOpacity
               style={styles.button}
               onPress={handleRatingSubmition}
@@ -133,10 +172,14 @@ const Rating = () => {
         ref={modalRef}
         style={isRatingSubmissionSuccess ? { height: 340 } : { height: 490 }}
         content={
-          <ModalContent
-            handleAction={closeModal}
-            isRatingSubmissionSuccess={isRatingSubmissionSuccess}
-          />
+          isLoading ? (
+            <ModalLoading loadingMessage={loadingMessage} />
+          ) : (
+            <ModalContent
+              handleAction={closeModal}
+              isRatingSubmissionSuccess={isRatingSubmissionSuccess}
+            />
+          )
         }
       />
     </Fragment>

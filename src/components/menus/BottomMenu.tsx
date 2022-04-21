@@ -12,7 +12,7 @@ const BottomMenu = ({ navigation }) => {
       <View style={[styles.container]}>
         <SendButton
           title={"Send"}
-          onPressHandler={() => Alert.alert("Wakala Btn 1.")}
+          onPressHandler={() => navigation.navigate("Rating")}
         ></SendButton>
 
         <Pressable

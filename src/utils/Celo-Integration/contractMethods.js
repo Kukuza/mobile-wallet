@@ -7,7 +7,7 @@ import {
 } from "../ContractAdresses/contract";
 import { CeloContract, newKitFromWeb3 } from "@celo/contractkit";
 import Web3 from "web3";
-import karmaAbi from "../ContractABIs/karma.abi.json";
+import karmaAbi from "../ContractABIs/KarmaAbi";
 function ContractMethods(magic) {
   const root = this;
   let web3 = new Web3(magic.rpcProvider);
