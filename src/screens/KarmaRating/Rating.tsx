@@ -107,14 +107,9 @@ const Rating = () => {
     });
 
     setLoadingMessage("Submitting rating...");
-    // let { transactionHash } = await contract.methods
-    //   .updateKarma(publicAddress, data, 2)
-    //   .send({ from: publicAddress });
-    // console.log(transactionHash);
     await contractMethods
       ?.updateKarma(publicAddress, data, 2)
       .then((receipt) => {
-        // console.log("The avg karma Rating is: " + JSON.stringify(receipt));
         setLoadingMessage("");
         setIsLoading(false);
         setIsRatingSubmissionSuccess(true);
