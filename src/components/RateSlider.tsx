@@ -23,6 +23,7 @@ import {
 import { SIZES } from "../styles/fonts/fonts";
 import { FONTS } from "../styles/fonts/fonts";
 import { COLORS } from "../styles/colors/colors";
+
 const REACTIONS = [
   {
     label: "Terrible",
@@ -56,16 +57,16 @@ const END = WIDTH - DISTANCE;
 
 export default class Rate extends React.Component<any, any> {
   _pan: any;
-  rate: string;
+  // rate: string;
   _panResponder: any;
   constructor(props: any) {
     super(props);
     this._pan = new Animated.Value(2 * DISTANCE);
-    this.rate = "";
+    // this.rate = "";
   }
   UNSAFE_componentWillMount() {
     this._panResponder = PanResponder.create({
-      //   onMoveShouldSetResponderCapture: () => true,
+      // onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: (e, gestureState) => {
         this._pan.setOffset(this._pan._value);
@@ -92,14 +93,17 @@ export default class Rate extends React.Component<any, any> {
     });
   }
 
-  updatePan(toValue, rating?) {
+  updatePan(toValue) {
     Animated.spring(this._pan, {
       toValue,
       friction: 7,
       useNativeDriver: false,
     }).start();
+    const rating = toValue / 66 + 1;
+    // console.log(typeof rating);
+    console.log("the updated rating is " + rating);
     // todo add rating param
-    this.props.onChange(rating);
+    // this.props.onChange(toValue);
   }
 
   render() {

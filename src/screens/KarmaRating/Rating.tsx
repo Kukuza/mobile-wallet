@@ -117,8 +117,8 @@ const Rating = () => {
               How was your experience with the community member?
             </Text>
             <RateSlider
-              // rating={ratingValue}
-              onChange={() => handleChange(ratingValue)}
+            // rating={ratingValue}
+            // onChange={() => handleChange(ratingValue)}
             />
             <TouchableOpacity
               style={styles.button}

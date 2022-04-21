@@ -18,7 +18,7 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 const AuthScreen = (props) => {
   const navigation = props.navigation;
-  
+
   const [value, setValue] = useState("");
   const [valid, setValid] = useState<boolean | any>(true);
   const [submitted, SetSubmitted] = useState(false);
@@ -128,9 +128,9 @@ const AuthScreen = (props) => {
               </LinearGradient>
             </TouchableOpacity>
           </View> */}
-
         </View>
       </ScreenComponent>
+      <magic.Relayer />
     </KeyboardAvoidingView>
   );
 };
