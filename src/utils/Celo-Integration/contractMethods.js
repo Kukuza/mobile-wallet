@@ -165,48 +165,6 @@ function ContractMethods(magic) {
   //   return receipt;
   // };
 
-  /**
-    * @dev Function to update a user's karma value for a specified application
-    * @param address The address of the user whose karma is being updated
-    * @param amount The amount used to calculate how much should be added or removed from
-                    a user's karma value. If the amount is positive, it will increase the 
-                    user's karma. If it is negative, it will decrease it. 
-    * @param updateFunctionKey An integer specifying which function should be used to update
-                               the user's karma. Setting the value to 1 will lead to a weighted 
-                               sum updated and setting it to 2 will lead to an averaged sum. 
-                               See README for details. => pass 2 for our case 
-                               karma contract link: https://github.com/karma-reputation-protocol/karma/tree/main
-
-    **/
-  this.updateKarma = async (address, amount, updateFunctionKey) => {
-    let txObject = await karmaContract.methods.updateKarma(
-      address,
-      amount,
-      updateFunctionKey
-    );
-    let tx = await kit.sendTransactionObject(txObject, {
-      from: kit.defaultAccount,
-    });
-    let receipt = await tx.waitReceipt();
-    console.log("From updateKarma");
-    return receipt;
-  };
-
-  /**
-   * @dev Function to retireve the karma value for a user.
-   * @param address The address of the user whose karma is being accessed
-   **/
-
-  this.getKarma = async (address) => {
-    let txObject = await karmaContract.methods.getKarma(address);
-    let tx = await kit.sendTransactionObject(txObject, {
-      from: kit.defaultAccount,
-    });
-    let receipt = await tx.waitReceipt();
-    console.log("From getKarma");
-    return receipt;
-  };
-
   this.agentConfirmPayment = async (transactionId) => {
     let txObject = await contract.methods.agentConfirmPayment(transactionId);
     let tx = await kit.sendTransactionObject(txObject, {

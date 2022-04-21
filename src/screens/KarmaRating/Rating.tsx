@@ -16,6 +16,7 @@ import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { magic } from "../../utils/magic";
 import ModalLoading from "../../components/modals/ModalLoading";
+import { consoleLogger } from "@celo/base";
 
 const ModalContent = (props) => {
   return (
@@ -96,6 +97,18 @@ const Rating = () => {
   const openModal = () => {
     modalRef.current?.openModal();
   };
+  const getKarmaRating = async () => {
+    console.log("something is cooking");
+    await contractMethods?.init().then((result) => {
+      console.log("contract methods are initialised ");
+    });
+    await contractMethods
+      ?.getKarma(publicAddress)
+      .then((receipt) => {})
+      .catch((error: any) => {
+        console.log(error.toString());
+      });
+  };
 
   const handleRatingSubmition = async () => {
     openModal();
@@ -107,19 +120,37 @@ const Rating = () => {
     });
 
     setLoadingMessage("Submitting rating...");
-    await contractMethods
-      ?.updateKarma(publicAddress, data, 2)
-      .then((receipt) => {
-        setLoadingMessage("");
-        setIsLoading(false);
-        setIsRatingSubmissionSuccess(true);
-      })
-      .catch((error: any) => {
-        setLoadingMessage(error.toString());
-        setIsRatingSubmissionSuccess(false);
-        setIsLoading(false);
-        console.log(error.toString());
-      });
+    if (data !== "") {
+      await contractMethods
+        ?.updateKarma(publicAddress, data, 2)
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+          setIsRatingSubmissionSuccess(true);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          setIsRatingSubmissionSuccess(false);
+          setIsLoading(false);
+          console.log(error.toString());
+        });
+    } else {
+      const defaultRating: number = 3;
+      console.log("defaultRating is of " + typeof defaultRating);
+      await contractMethods
+        ?.updateKarma(publicAddress, defaultRating, 2)
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+          setIsRatingSubmissionSuccess(true);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          setIsRatingSubmissionSuccess(false);
+          setIsLoading(false);
+          console.log(error.toString());
+        });
+    }
   };
 
   const closeModal = () => {
