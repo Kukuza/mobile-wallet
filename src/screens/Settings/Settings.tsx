@@ -37,7 +37,9 @@ export default function SettingsScreen({navigation}) {
                         <Text style={styles.button}>Account Address</Text>
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />    
-                    <TouchableOpacity activeOpacity={0.6}>
+                    <TouchableOpacity activeOpacity={0.6}
+                     onPress={() => navigation.navigate("EnterPin")}
+                    >
                        <Text style={styles.button}> Recovery Phrase </Text>
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />
