@@ -61,7 +61,7 @@ const Rating = () => {
   // const operation = route.params.operation;
 
   const [newTitle, setNewTitle] = useState("");
-  const [userStars, setUserStars] = useState(5);
+  const [userStars, setUserStars] = useState<number>();
   const [ratingValue, setRatingValue] = useState("");
   const [numberOfTransactions, setNumberOfTransactions] = useState(180);
   const [isRatingSubmissionSuccess, setIsRatingSubmissionSuccess] =
@@ -87,6 +87,7 @@ const Rating = () => {
   };
 
   useEffect(() => {
+    getKarmaRating(publicAddress);
     if (operation == "TopUp") {
       setNewTitle("Rate your community");
     } else {
@@ -97,14 +98,17 @@ const Rating = () => {
   const openModal = () => {
     modalRef.current?.openModal();
   };
-  const getKarmaRating = async () => {
-    console.log("something is cooking");
+
+  const getKarmaRating = async (publicAddress) => {
+    console.log("====>fetching rating");
     await contractMethods?.init().then((result) => {
-      console.log("contract methods are initialised ");
+      console.log("rating contract methods are initialised");
     });
     await contractMethods
       ?.getKarma(publicAddress)
-      .then((receipt) => {})
+      .then((karma) => {
+        setUserStars(karma);
+      })
       .catch((error: any) => {
         console.log(error.toString());
       });
@@ -113,7 +117,7 @@ const Rating = () => {
   const handleRatingSubmition = async () => {
     openModal();
     setIsLoading(true);
-    console.log("something is cooking");
+    console.log("handle rating contract methods are initialised");
     setLoadingMessage("Initializing the Blockchain connection...");
     await contractMethods?.init().then((result) => {
       console.log("contract methods are initialised ");
@@ -136,7 +140,6 @@ const Rating = () => {
         });
     } else {
       const defaultRating: number = 3;
-      console.log("defaultRating is of " + typeof defaultRating);
       await contractMethods
         ?.updateKarma(publicAddress, defaultRating, 2)
         .then((receipt) => {

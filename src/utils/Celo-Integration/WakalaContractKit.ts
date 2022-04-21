@@ -145,6 +145,7 @@ export default class WakalaContractKit {
           this.web3.eth.defaultAccount = accounts[0];
         }
         await this.kit.setFeeCurrency(CeloContract.StableToken); // To use cUSD
+        const stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
       } catch (error) {
         console.log(this.TAG, error);
         alert(error);
@@ -209,14 +210,9 @@ export default class WakalaContractKit {
    **/
 
   getKarma = async (address) => {
-    let txObject = await this?.karmaContract?.methods.getKarma(address);
-    console.log(this?.kit.defaultAccount);
-    let tx = await this?.kit.sendTransactionObject(txObject, {
-      from: this?.kit.defaultAccount,
-    });
-    let receipt = await tx.waitReceipt();
-    console.log("From getKarma", receipt);
-    return receipt;
+    let karma = await this?.karmaContract?.methods.getKarma(address).call();
+    console.log("From getKarma", karma);
+    return karma;
   };
 
   /**
