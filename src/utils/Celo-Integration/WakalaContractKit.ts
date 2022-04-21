@@ -35,6 +35,8 @@ export default class WakalaContractKit {
 
   wakalaContractEvents?: WakalaContractEventsKit;
 
+  stableToken: any;
+
   private isInitialize = false;
 
   /**
@@ -55,7 +57,7 @@ export default class WakalaContractKit {
   /**
    * Instance of karma protocol smart contract.
    */
-  karmaContract?: Contract | any;
+  karmaContract?: Contract;
 
   /**
    * Magic user metadata.
@@ -145,7 +147,7 @@ export default class WakalaContractKit {
           this.web3.eth.defaultAccount = accounts[0];
         }
         await this.kit.setFeeCurrency(CeloContract.StableToken); // To use cUSD
-        const stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
+        this.stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
       } catch (error) {
         console.log(this.TAG, error);
         alert(error);
@@ -191,13 +193,14 @@ export default class WakalaContractKit {
 
     **/
   updateKarma = async (address, amount, updateFunctionKey) => {
-    let txObject: any = await this?.karmaContract.methods.updateKarma(
+    let txObject: any = await this?.karmaContract?.methods.updateKarma(
       address,
       amount,
       updateFunctionKey
     );
     let tx: any = await this?.kit.sendTransactionObject(txObject, {
       from: this?.kit.defaultAccount,
+      feeCurrency: this.stableToken.address,
     });
     let receipt = await tx.waitReceipt();
     console.log("From updateKarma", receipt);

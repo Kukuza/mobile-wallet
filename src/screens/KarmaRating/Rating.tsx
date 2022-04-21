@@ -14,9 +14,7 @@ import { KARMA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import { KARMA_ABI } from "../../utils/ContractABIs/KarmaAbi";
 import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-import { magic } from "../../utils/magic";
 import ModalLoading from "../../components/modals/ModalLoading";
-import { consoleLogger } from "@celo/base";
 
 const ModalContent = (props) => {
   return (
@@ -71,16 +69,15 @@ const Rating = () => {
   const [data, setData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const contract = new web3.eth.Contract(
-    KARMA_ABI as AbiItem[],
-    KARMA_CONTRACT_ADDRESS
-  );
+  // const contract = new web3.eth.Contract(
+  //   KARMA_ABI as AbiItem[],
+  //   KARMA_CONTRACT_ADDRESS
+  // );
 
   const contractMethods = WakalaContractKit.getInstance();
 
   const publicAddress =
     WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
-  // const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
   // fetch and set data from the child component to the parent component
   const childToParent = (childData) => {
     setData(childData);
