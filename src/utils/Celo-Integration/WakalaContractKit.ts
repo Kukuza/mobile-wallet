@@ -31,6 +31,9 @@ export default class WakalaContractKit {
    */
   private static wakalaContractKitInstance?: WakalaContractKit;
 
+  /**
+   * Wakala contract events.
+   */
   wakalaContractEvents?: WakalaContractEventsKit;
 
   private isInitialize = false;

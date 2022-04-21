@@ -27,7 +27,7 @@ const BottomMenu = ({ navigation }) => {
         </Pressable>
 
         <WithdrawButton
-          title={"Add/Withdraw"}
+          title={"Top up/Withdraw"}
           onPressHandler={() => navigation.navigate("TransactionType")}
         ></WithdrawButton>
       </View>
