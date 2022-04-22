@@ -21,7 +21,7 @@ import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
 import SwipeButton from "../../components/buttons/SwipeButton";
 
-const ModalContent = (props) => {
+const ModalContent = (props: any) => {
   return (
     <View style={modalStyles.container}>
       {props.isActionSuccess ? (
@@ -30,11 +30,19 @@ const ModalContent = (props) => {
             <Image source={SHARED} style={modalStyles.image} />
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
-          <Text style={modalStyles.text}>
-            We shared your deposit request with the agent community. We will
-            notify you once an agent has answered the request. It can take up to
-            4 minutes. Do not exit this page.
-          </Text>
+          {props.operation === "TopUp" ? (
+            <Text style={modalStyles.text}>
+              We shared your deposit request with the agent community. We will
+              notify you once an agent has answered the request. It can take up
+              to 4 minutes. Do not exit this page.
+            </Text>
+          ) : (
+            <Text style={modalStyles.text}>
+              We shared your withdraw request with the agent community. We will
+              notify you once an agent has answered the request. It can take up
+              to 4 minutes. Do not exit this page.
+            </Text>
+          )}
         </View>
       ) : (
         <View>
@@ -66,17 +74,16 @@ const ModalContent = (props) => {
  * @returns
  */
 const AddFundsConfirmationScreen = (props: any) => {
-  // const { navigation, route } = props;
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
-  const publicAddress =
-    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const contractMethods = WakalaContractKit.getInstance();
 
   const wakalaContractKit = WakalaContractKit.getInstance();
 
@@ -91,16 +98,50 @@ const AddFundsConfirmationScreen = (props: any) => {
     }
   );
 
-  // let web3: any = new Web3(magic.rpcProvider);
-  // let kit = newKitFromWeb3(web3);
-
-  // const contract = new kit.web3.eth.Contract(
-  //   WakalaEscrowAbi as AbiItem[],
-  //   WAKALA_CONTRACT_ADDRESS
-  // );
-
   const openModal = () => {
     modalRef.current?.openModal();
+  };
+
+  const handleTransaction = async () => {
+    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+    phoneNumber = Buffer.from(phoneNumber).toString("base64");
+    openModal();
+
+    setIsLoading(true);
+    console.log("something is cooking");
+    setLoadingMessage("Initializing the transaction...");
+    await contractMethods?.init().then((result) => {
+      console.log("contract methods are initialised ");
+    });
+    if (operation === "TopUp") {
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+      await contractMethods
+        ?.initializeDepositTransaction(value, phoneNumber)
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + value.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+    } else {
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+      await contractMethods
+        ?.initializeWithdrawalTransaction(value, phoneNumber)
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString() + " \n Amount: " + value.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+    }
   };
 
   const handleAction = async () => {
@@ -227,7 +268,7 @@ const AddFundsConfirmationScreen = (props: any) => {
           <View style={{ marginTop: 200 }}>
             <SwipeButton
               title="Swipe to Confirm"
-              handleAction={() => handleAction()}
+              handleAction={() => handleTransaction()}
               style={{ minWidth: 286, marginTop: 200 }}
             />
           </View>

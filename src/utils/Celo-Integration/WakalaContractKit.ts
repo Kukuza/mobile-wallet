@@ -170,6 +170,7 @@ export default class WakalaContractKit {
     let txObject = await this?.cUSDContract?.methods
       .approve(WAKALA_CONTRACT_ADDRESS, amount)
       .call();
+
     //   let tx = await this.kit.sendTransactionObject(txObject, {
     //     from: this.kit.defaultAccount,
     //     feeCurrency: ERC20_ADDRESS,
@@ -219,6 +220,57 @@ export default class WakalaContractKit {
     let karma = await this?.karmaContract?.methods.getKarma(address).call();
     console.log("From getKarma", karma);
     return karma;
+  };
+
+  /**
+   *  @param sendAmount The amount being converted into wei
+   *  @returns The amount in wei
+   *
+   **/
+  getAmountInWei(sendAmount) {
+    return this.kit.web3.utils.toWei(sendAmount, "ether");
+  }
+
+  /**
+   * @param amount The amount in integer format
+   * @param phoneNumber The encoded phone number
+   * @returns transaction receipt
+   **/
+  initializeDepositTransaction = async (amount, phoneNumber) => {
+    await this.cUSDApproveAmount(this.getAmountInWei(amount));
+    let txObject =
+      await this?.wakalaEscrowContract?.methods.initializeDepositTransaction(
+        this.getAmountInWei(amount),
+        phoneNumber
+      );
+    let tx = await this.kit.sendTransactionObject(txObject, {
+      from: this.kit.defaultAccount,
+      feeCurrency: this.stableToken.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From initializeDepositTransaction", receipt);
+    return receipt;
+  };
+
+  /**
+   * @param amount The amount in integer format
+   * @param phoneNumber The encoded phone number
+   * @returns transaction receipt
+   **/
+  initializeWithdrawalTransaction = async (amount, phoneNumber) => {
+    await this.cUSDApproveAmount(this.getAmountInWei(amount));
+    let txObject =
+      await this?.wakalaEscrowContract?.methods.initializeWithdrawalTransaction(
+        this.getAmountInWei(amount),
+        phoneNumber
+      );
+    let tx = await this.kit.sendTransactionObject(txObject, {
+      from: this.kit.defaultAccount,
+      feeCurrency: this.stableToken.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From initializeWithdrawalTransaction", receipt);
+    return receipt;
   };
 
   /**
