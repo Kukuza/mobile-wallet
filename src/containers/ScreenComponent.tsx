@@ -26,7 +26,7 @@ function ScreenComponent({ children }) {
           {children}
         </LinearGradient>
       </SafeAreaView>
-      <magic.Relayer />
+
     </Fragment>
   );
 }

@@ -23,6 +23,8 @@ import {
 import { SIZES } from "../styles/fonts/fonts";
 import { FONTS } from "../styles/fonts/fonts";
 import { COLORS } from "../styles/colors/colors";
+import Rating from "../screens/KarmaRating/Rating";
+
 const REACTIONS = [
   {
     label: "Terrible",
@@ -54,18 +56,18 @@ const WIDTH = SIZES.width - 60;
 const DISTANCE = WIDTH / REACTIONS.length;
 const END = WIDTH - DISTANCE;
 
-export default class Rate extends React.Component<any, any> {
+export default class Rate extends React.Component<any> {
   _pan: any;
-  rate: string;
+  // rate: string;
   _panResponder: any;
   constructor(props: any) {
     super(props);
     this._pan = new Animated.Value(2 * DISTANCE);
-    this.rate = "";
+    // this.rate = "";
   }
   UNSAFE_componentWillMount() {
     this._panResponder = PanResponder.create({
-      //   onMoveShouldSetResponderCapture: () => true,
+      // onMoveShouldSetResponderCapture: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: (e, gestureState) => {
         this._pan.setOffset(this._pan._value);
@@ -92,14 +94,19 @@ export default class Rate extends React.Component<any, any> {
     });
   }
 
-  updatePan(toValue, rating?) {
+  updatePan(toValue) {
     Animated.spring(this._pan, {
       toValue,
       friction: 7,
       useNativeDriver: false,
     }).start();
+    const rating = toValue / 66 + 1;
+    console.log("the updated rating is " + rating);
+    this.props.rateToParent(rating);
+    // pass this data to the  rating screen
+
     // todo add rating param
-    this.props.onChange(rating);
+    // this.props.onChange(toValue);
   }
 
   render() {

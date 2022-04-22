@@ -218,10 +218,8 @@ const TransactionConfirmationScreen = (props) => {
               title="Swipe to Confirm"
               handleAction={() => handleAction()}
             />
-            <magic.Relayer />
           </View>
         </View>
-        <magic.Relayer />
       </ScreenComponent>
       <Modal
         ref={modalRef}

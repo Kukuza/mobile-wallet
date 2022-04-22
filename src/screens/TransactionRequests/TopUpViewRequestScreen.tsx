@@ -204,7 +204,6 @@ const TopUpViewRequestScreen = (props) => {
             handleAction={() => handleAction()}
             additionalStyling={styles.slidingButtonCustomStyling}
           />
-          <magic.Relayer />
         </View>
 
         {/* <Modal

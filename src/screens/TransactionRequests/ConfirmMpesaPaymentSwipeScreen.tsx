@@ -268,7 +268,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
             handleAction={() => handleAction()}
             additionalStyling={styles.slidingButtonCustomStyling}
           />
-          <magic.Relayer />
           {/* 
         <Pressable onPress={() => setModalVisible(true)}>
           <Text style={styles.pressableTxt}>Didn’t receive payments?</Text>
