@@ -8,7 +8,6 @@ import Onboarding from "../screens/Onboarding/Onboarding";
 import ConfirmMpesaPaymentSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentSwipeScreen";
 import ConfirmRequest from "../screens/PerformRequest/ConfirmRequest";
 import TransactionConfirmationScreen from "../screens/TransactionRequests/TransactionConfirmationScreen";
-import TestScreen from "../screens/TestScreen/TestScreen";
 import Rating from "../screens/KarmaRating/Rating";
 import TransactionSuccess from "../screens/TransactionRequests/TransactionSuccess";
 import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
@@ -16,10 +15,6 @@ import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsC
 import AccountAddress from "../screens/Settings/AccountAddress";
 import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
 const routes: IRouteProps[] = [
-  {
-    name: "Test",
-    component: TestScreen,
-  },
   {
     name: "Onboarding",
     component: Onboarding,
@@ -81,9 +76,9 @@ const routes: IRouteProps[] = [
     component: AccountAddress,
   },
   {
-    name:"EnterPin",
+    name: "EnterPin",
     component: EnterPin,
-  }
+  },
 ];
 
 export default routes;

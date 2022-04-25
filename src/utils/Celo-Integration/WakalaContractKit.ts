@@ -165,22 +165,21 @@ export default class WakalaContractKit {
    */
   async cUSDApproveAmount(amount) {
     amount = amount + 100000000000000000000;
-
-    // try {
-    let txObject = await this?.cUSDContract?.methods
-      .approve(WAKALA_CONTRACT_ADDRESS, amount)
-      .call();
-
-    //   let tx = await this.kit.sendTransactionObject(txObject, {
-    //     from: this.kit.defaultAccount,
-    //     feeCurrency: ERC20_ADDRESS,
-    //   });
-    //   let receipt = await tx.waitReceipt();
-    //   console.log("From Approve", receipt);
-    //   return receipt;
-    // } catch (e) {
-    //   console.log(e, "approveTransaction catch");
-    // }
+    try {
+      let txObject = await this?.cUSDContract?.methods.approve(
+        WAKALA_CONTRACT_ADDRESS,
+        amount
+      );
+      let tx = await this.kit.sendTransactionObject(txObject, {
+        from: this.kit.defaultAccount,
+        feeCurrency: ERC20_ADDRESS,
+      });
+      let receipt = await tx.waitReceipt();
+      console.log("From Approve", receipt);
+      return receipt;
+    } catch (e) {
+      console.log(e, "approveTransaction catch");
+    }
   }
 
   /**
