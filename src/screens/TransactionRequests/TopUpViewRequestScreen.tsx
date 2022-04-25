@@ -146,7 +146,7 @@ const TopUpViewRequestScreen = (props) => {
     } else {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
       await contractMethods
-        ?.agentAcceptDepositTransaction(
+        ?.agentAcceptWithdrawalTransaction(
           wakalaEscrowTx?.id,
           phoneNumber,
           wakalaEscrowTx.amount
