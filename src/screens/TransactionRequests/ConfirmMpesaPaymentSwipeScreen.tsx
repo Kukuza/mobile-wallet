@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState, useRef, useCallback, Fragment } from "react";
 import Modal from "../../components/modals/Modal";
 
@@ -37,9 +31,9 @@ const ModalContent = (props) => {
           </View>
           <Text style={modalStyles.title}>Request Shared</Text>
           <Text style={modalStyles.text}>
-          We shared your deposit request with the agent community.
-          We will notify you once an agent has answered the request.
-          It can take up to 4 minutes. Do not exit this page.
+            We shared your deposit request with the agent community. We will
+            notify you once an agent has answered the request. It can take up to
+            4 minutes. Do not exit this page.
           </Text>
         </View>
       ) : (
@@ -86,8 +80,9 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   const [loadingMessage, setLoadingMessage] = useState("");
   const [isActionSuccess, setIsActionSuccess] = useState(true);
 
-  const operation = "TopUp";
+  const operation = transaction.txType;
   const dispatch = useDispatch();
+  const contractMethods = WakalaContractKit.getInstance();
 
   const [isLoading, setIsLoading] = useState(true);
   const modalRef = useRef<any>();
@@ -122,27 +117,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     }
   );
 
-  const contractCall = async () => {
-    // setModalTitle("Calling the blockchain")
-    setModalMessage("Calling the blockchain");
-    setModalVisible(true);
-    await contract.methods
-      .agentConfirmPayment(transaction.id)
-      .send({ from: publicAddress })
-      .then((receipt) => {
-        setModalTitle("Transaction Successful!");
-        setModalMessage("");
-        setModalVisible(true);
-      })
-      .catch((error: any) => {
-        // console.log(error.toString() + " \n Amount: " + value.toString());
-        setModalTitle("Oh Snap! ");
-        setModalMessage(error.toString());
-        setModalVisible(true);
-        setProcessIsError(true);
-      });
-  };
-
   const openModal = () => {
     modalRef.current?.openModal();
   };
@@ -167,7 +141,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
       });
     }
 
-    if (operation === "TopUp") {
+    if (operation === "DEPOSIT") {
       setLoadingMessage("Confirming payment receipt to the user...");
 
       // try {
@@ -205,6 +179,45 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
       }
     }
     setIsLoading(false);
+  };
+
+  const handleTransaction = async () => {
+    openModal();
+    setIsLoading(true);
+    console.log("something is cooking");
+    setLoadingMessage("Initializing the transaction...");
+    await contractMethods?.init().then((result) => {
+      console.log("contract methods are initialised ");
+    });
+    if (operation === "DEPOSIT") {
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+      await contractMethods
+        ?.agentConfirmPayment(transaction.id)
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+    } else {
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+      await contractMethods
+        ?.agentConfirmPayment(transaction.id)
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+    }
   };
 
   const useViewSize = () => {
@@ -257,7 +270,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
           </View>
 
           <Text style={styles.bodyText}>
-          The user confirmed that he sent the amount to your M-PESA number
+            The user confirmed that he sent the amount to your M-PESA number
           </Text>
           <Text style={[styles.bodyText, { marginBottom: 341, marginTop: 30 }]}>
             Once you receive the payment, confirm the transaction below.

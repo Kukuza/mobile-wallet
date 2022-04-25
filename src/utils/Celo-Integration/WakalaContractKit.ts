@@ -327,6 +327,44 @@ export default class WakalaContractKit {
   };
 
   /**
+   * @param transactionId The transaction id of the transaction object
+   * @returns transaction receipt
+   *
+   **/
+  clientConfirmPayment = async (transactionId) => {
+    let txObject =
+      await this?.wakalaEscrowContract?.methods.clientConfirmPayment(
+        transactionId
+      );
+    let tx = await this?.kit.sendTransactionObject(txObject, {
+      from: this?.kit.defaultAccount,
+      feeCurrency: this?.stableToken.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From clientConfirmPayment", receipt);
+    return receipt;
+  };
+
+  /**
+   * @param transactionId The transaction id of the transaction object
+   * @returns transaction receipt
+   *
+   **/
+  agentConfirmPayment = async (transactionId) => {
+    let txObject =
+      await this?.wakalaEscrowContract?.methods.agentConfirmPayment(
+        transactionId
+      );
+    let tx = await this?.kit.sendTransactionObject(txObject, {
+      from: this?.kit.defaultAccount,
+      feeCurrency: this?.stableToken.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From agentConfirmPayment", receipt);
+    return receipt;
+  };
+
+  /**
    * Fetches the transactions from the smart contract.
    */
   async fetchTransactions() {

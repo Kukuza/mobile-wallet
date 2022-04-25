@@ -66,9 +66,11 @@ const RequestCardComponent = (props) => {
       <Swipeable
         renderLeftActions={swipeLeftContent}
         overshootLeft={false}
-        onSwipeableLeftOpen={() => navigation.navigate("Top Up View Request", {
-          transaction: wakalaTransaction,
-        })}
+        onSwipeableLeftOpen={() =>
+          navigation.navigate("Top Up View Request", {
+            transaction: wakalaTransaction,
+          })
+        }
         overshootRight={false}
         renderRightActions={swipeRightContent}
         onSwipeableRightOpen={handleDeleteItem}
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
     marginLeft: 18.5,
   },
   cardStyling: {
-    borderRadius:12,
+    borderRadius: 12,
     width: SIZES.width * 0.9,
     marginTop: 6,
     marginBottom: 6,

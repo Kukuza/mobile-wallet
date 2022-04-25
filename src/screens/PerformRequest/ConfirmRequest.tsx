@@ -16,19 +16,15 @@ import { magic } from "../../utils/magic";
 import { EventData } from "web3-eth-contract";
 
 const CardElement = (props) => {
-  
   const transaction: WakalaEscrowTransaction = props.transaction;
 
   return (
     <View style={cardStyles.container}>
-
       <View>
         <Text style={cardStyles.subTitle}>Send</Text>
-        <Text style={cardStyles.title}>
-            Ksh {transaction.amount * 115}
-        </Text>
+        <Text style={cardStyles.title}>Ksh {transaction.amount * 115}</Text>
       </View>
-      
+
       <View>
         <Text style={cardStyles.subTitle}>To</Text>
         <Text style={cardStyles.title}>{transaction.agentPhoneNumber}</Text>
@@ -59,14 +55,15 @@ const ModalContent = (props) => {
           </View>
         ) : (
           <View>
-         <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={THANK_YOU_IMAGE} style={modalStyles.errorImage} />
-          </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Image source={THANK_YOU_IMAGE} style={modalStyles.errorImage} />
+            </View>
             <Text style={[mainStyles.title, { color: "#4840BB" }]}>
-                Thank You!
+              Thank You!
             </Text>
             <Text style={mainStyles.thankyouText}>
-              After your agents confirms of M-PESA payment receipt. Your cUSD will be deposited to your wallet. Do not close this page.
+              After your agents confirms of M-PESA payment receipt. Your cUSD
+              will be deposited to your wallet. Do not close this page.
             </Text>
             <TouchableOpacity onPress={() => props.handleAction()}>
               <Text style={modalStyles.button}>Got it!</Text>
@@ -97,8 +94,9 @@ const ConfirmRequest = (props) => {
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
 
-  const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
+  const operation = transaction.txType;
+
   const value = transaction.amount;
   const dispatch = useDispatch();
 
@@ -153,7 +151,7 @@ const ConfirmRequest = (props) => {
           <View>
             <View style={mainStyles.titleContainer}>
               <View style={mainStyles.iconContainer}>
-                {operation === "TopUp" ? (
+                {operation === "DEPOSIT" ? (
                   <Ionicons
                     name="md-paper-plane-sharp"
                     size={20}
@@ -164,7 +162,7 @@ const ConfirmRequest = (props) => {
                 )}
               </View>
               <Text style={mainStyles.title}>
-                {operation === "TopUp"
+                {operation === "DEPOSIT"
                   ? "Send M-PESA to Agent"
                   : "Confirm M-PESA Payment "}
               </Text>
@@ -173,20 +171,21 @@ const ConfirmRequest = (props) => {
             <Text
               style={[mainStyles.text, { marginBottom: 30, marginTop: 15 }]}
             >
-              {operation === "TopUp"
+              {operation === "DEPOSIT"
                 ? "Your cUSD is ready and has been deposited to the Wakala escrow account!"
                 : "The agent confirmed that he sent Ksh 1,000 to your number +254 706 427 718"}
             </Text>
             <Text style={mainStyles.text}>
-              {operation === "TopUp"
+              {operation === "DEPOSIT"
                 ? "To receive your cUSD, send the amount to the M-PESA number below."
                 : "Once you receive the payment, confirm the transaction below."}
             </Text>
           </View>
 
-          {operation === "TopUp" && <CardElement value={value} transaction={transaction}/>}
+          {operation === "DEPOSIT" && (
+            <CardElement value={value} transaction={transaction} />
+          )}
           <View>
-            
             <DefaultButton
               // onPress={contractCall}
               onPress={() => handleAction()}
@@ -198,11 +197,12 @@ const ConfirmRequest = (props) => {
               style={mainStyles.button}
               onPress={() => navigation.goBack()}
             >
-
-            <Text
+              <Text
                 style={[mainStyles.secondaryButtonText, { color: "#133FDB" }]}
               >
-                {operation === "TopUp" ? "Cancel" : "Didn’t receive payments?"}
+                {operation === "DEPOSIT"
+                  ? "Cancel"
+                  : "Didn’t receive payments?"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -213,7 +213,7 @@ const ConfirmRequest = (props) => {
         style={
           !isActionSuccess
             ? { height: 490 }
-            : operation === "TopUp"
+            : operation === "DEPOSIT"
             ? { height: 420 }
             : { height: 300 }
         }
@@ -285,14 +285,14 @@ const mainStyles = StyleSheet.create({
     marginTop: 60,
     justifyContent: "center",
   },
-  thankyouText:{
+  thankyouText: {
     fontSize: 14,
     lineHeight: 21,
     color: "#333333",
     textAlign: "center",
     fontFamily: "Rubik_400Regular",
     marginTop: 20,
-  }
+  },
 });
 
 const cardStyles = StyleSheet.create({
@@ -335,7 +335,6 @@ const cardStyles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "Rubik_500Medium",
   },
-  
 });
 
 const modalStyles = StyleSheet.create({
@@ -385,7 +384,6 @@ const modalStyles = StyleSheet.create({
     fontFamily: "Rubik_500Medium",
     marginTop: 40,
   },
-
 });
 
 const mapStateToProps = (state) => {
