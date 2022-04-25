@@ -14,6 +14,7 @@ import ScreenModal from "./ScreenModal";
  * @returns 
  */
 const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+  
   const { navigation, route } = props;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,23 +34,14 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
   }
 
 
-  /**
-   * Back button handler.
-   */
-     const continueHandler = () => {
-      console.log("continue btn handler")
-    }
+  const continueHandler = () => {
+    console.log("continue btn handler")
+  }
 
-  /**
-   * 
-   */
   const closeModal = () => {
     setModalVisible(false)
   }
 
-  /**
-   * Open the modal.
-   */
   const openModal = () => {
     setModalVisible(true)
   };
