@@ -82,7 +82,6 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       > 
