@@ -70,7 +70,7 @@ const AuthScreen = (props) => {
     WakalaContractKit.destroyInstance();
     console.log("logged out");
   };
-  const title = "Join Wakala";
+  const title = "Join Kukuza";
   const subTitle = "Enter your phone number to join or log in.";
 
   return (

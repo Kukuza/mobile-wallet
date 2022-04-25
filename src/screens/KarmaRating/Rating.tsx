@@ -123,7 +123,7 @@ const Rating = () => {
     setLoadingMessage("Submitting rating...");
     if (data !== "") {
       await contractMethods
-        ?.updateKarma(publicAddress, data, 2)
+        ?.updateKarma("0x1B342C833224d73d3fD65837Fd7abAA4094De3C6", data, 2)
         .then((receipt) => {
           setLoadingMessage("");
           setIsLoading(false);

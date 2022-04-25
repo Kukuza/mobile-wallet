@@ -87,10 +87,11 @@ const TopUpViewRequestScreen = (props) => {
   const operation = wakalaEscrowTx?.txType;
   const modalRef = useRef<any>();
   const [loadingMessage, setLoadingMessage] = useState("");
-  // const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
   const publicAddress =
     WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
+  const contractMethods = WakalaContractKit.getInstance();
+
   const [isLoading, setIsLoading] = useState(true);
   let web3: any = new Web3(magic.rpcProvider);
   let kit = newKitFromWeb3(web3);
@@ -114,6 +115,53 @@ const TopUpViewRequestScreen = (props) => {
     }
     modalRef.current?.closeModal();
     // props.navigation.navigate("MyDrawer");
+  };
+
+  const handleTransaction = async () => {
+    openModal();
+    setIsLoading(true);
+    console.log("something is cooking");
+    setLoadingMessage("Initializing the transaction...");
+    await contractMethods?.init().then((result) => {
+      console.log("contract methods are initialised ");
+    });
+    if (operation === "TopUp") {
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+      await contractMethods
+        ?.agentAcceptDepositTransaction(
+          wakalaEscrowTx?.id,
+          phoneNumber,
+          wakalaEscrowTx.amount
+        )
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+    } else {
+      setLoadingMessage("Posting your request to the Celo Blockchain...");
+      await contractMethods
+        ?.agentAcceptDepositTransaction(
+          wakalaEscrowTx?.id,
+          phoneNumber,
+          wakalaEscrowTx.amount
+        )
+        .then((receipt) => {
+          setLoadingMessage("");
+          setIsLoading(false);
+        })
+        .catch((error: any) => {
+          setLoadingMessage(error.toString());
+          console.log(error.toString());
+          setIsActionSuccess(false);
+          setIsLoading(false);
+        });
+    }
   };
 
   const handleAction = async () => {
@@ -198,10 +246,7 @@ const TopUpViewRequestScreen = (props) => {
 
           <SwipeButton
             title={"Swipe to Accept"}
-            // handleAction={() => {
-            //   setModalVisible(true);
-            // }}
-            handleAction={() => handleAction()}
+            handleAction={() => handleTransaction()}
             additionalStyling={styles.slidingButtonCustomStyling}
           />
         </View>

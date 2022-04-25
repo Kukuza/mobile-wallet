@@ -274,6 +274,33 @@ export default class WakalaContractKit {
   };
 
   /**
+   * @param transactionId The transaction id of the transaction
+   * @param phoneNumber The phone number of the person accepting the deposit
+   * @param amount The amount being transacted
+   * @returns transaction receipt
+  
+   **/
+  agentAcceptDepositTransaction = async (
+    transactionId,
+    phoneNumber,
+    amount
+  ) => {
+    await this.cUSDApproveAmount(this.getAmountInWei(amount));
+    let txObject =
+      await this?.wakalaEscrowContract?.methods.agentAcceptDepositTransaction(
+        transactionId,
+        phoneNumber
+      );
+    let tx = await this?.kit.sendTransactionObject(txObject, {
+      from: this?.kit.defaultAccount,
+      feeCurrency: this?.stableToken.address,
+    });
+    let receipt = await tx.waitReceipt();
+    console.log("From agentAcceptDepositTransaction", receipt);
+    return receipt;
+  };
+
+  /**
    * Fetches the transactions from the smart contract.
    */
   async fetchTransactions() {
