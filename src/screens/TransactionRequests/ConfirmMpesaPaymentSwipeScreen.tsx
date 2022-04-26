@@ -206,7 +206,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     } else {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
       await contractMethods
-        ?.agentConfirmPayment(transaction.id)
+        ?.clientConfirmPayment(transaction.id)
         .then((receipt) => {
           setLoadingMessage("");
           setIsLoading(false);

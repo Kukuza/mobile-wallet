@@ -23,26 +23,11 @@ const RequestTxInformationCard = (props: any) => {
       end={[1, 0]}
       style={[styles.container, props.additionalStyling]}
     >
-      {/* <Text style={styles.cardTitle}>M-PESA to cUSD Deposit Request</Text> */}
-
       <View>
         <Text style={styles.cardSubTitle}>{props.cardSubtitle}</Text>
 
         <View style={{ flexDirection: "column" }}>
           <Text style={styles.grossAmount}>Ksh {props.grossAmount * 115}</Text>
-          {/* <TextInputMask
-            type={"only-numbers"}
-            // options={{
-            //   unit: "cUSD ",
-            //   // zeroCents: true,
-            //   // separator: ",",
-            //   // precision: 0,
-            // }}
-            value={props.grossAmount}
-            style={styles.grossAmount}
-            placeholder="cUSD 10 "
-            placeholderTextColor={COLORS.textPrimary}
-          /> */}
 
           <View style={{ justifyContent: "space-between", marginTop: 15 }}>
             <Text style={styles.earningsLabel}>{props.cardSubtitle2} </Text>
@@ -50,20 +35,6 @@ const RequestTxInformationCard = (props: any) => {
             <Text style={styles.earningsValue}>
               cUSD {props.earnings ? props.earnings : "0.05"}
             </Text>
-
-            {/* <TextInputMask
-              type={"only-numbers"}
-              // options={{
-              //   unit: "cUSD ",
-              //   // zeroCents: true,
-              //   // separator: ",",
-              //   // precision: 0,
-              // }}
-              value={props.earnings}
-              style={styles.earningsValue}
-              placeholder="cUSD 0.01"
-              placeholderTextColor={COLORS.textPrimary}
-            /> */}
           </View>
         </View>
       </View>
@@ -74,19 +45,6 @@ const RequestTxInformationCard = (props: any) => {
         <Text style={styles.totalValue}>
           cUSD {(props.grossAmount - 0.05).toFixed(2)}
         </Text>
-        {/* <TextInputMask
-          type={"only-numbers"}
-          // options={{
-          //   unit: "cUSD ",
-          //   // zeroCents: true,
-          //   // separator: ",",
-          //   // precision: 0,
-          // }}
-          value={props.netValue}
-          style={styles.totalValue}
-          placeholder="Ksh 1,000"
-          placeholderTextColor={COLORS.primary}
-        /> */}
       </View>
 
       <Text style={styles.cardFooter}>

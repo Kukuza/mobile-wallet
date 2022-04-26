@@ -72,11 +72,23 @@ const TopUpViewRequestScreen = (props) => {
   const wakalaContractKit = WakalaContractKit.getInstance();
   let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
   phoneNumber = Buffer.from(phoneNumber).toString("base64");
+
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
       const index: number = event.returnValues.wtx[0];
       props.navigation.navigate("Confirm Mpesa Payment Swipe Screen", {
+        transaction: wakalaEscrowTx,
+      });
+      console.log("The transaction id is : " + index);
+    }
+  );
+
+  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+    "AgentConfirmationEvent",
+    async (error: Error, event: EventData) => {
+      const index: number = event.returnValues.wtx[0];
+      props.navigation.navigate("Confirm Request", {
         transaction: wakalaEscrowTx,
       });
       console.log("The transaction id is : " + index);
@@ -125,7 +137,7 @@ const TopUpViewRequestScreen = (props) => {
     await contractMethods?.init().then((result) => {
       console.log("contract methods are initialised ");
     });
-    if (operation === "TopUp") {
+    if (operation === "DEPOSIT") {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
       await contractMethods
         ?.agentAcceptDepositTransaction(

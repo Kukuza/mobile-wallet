@@ -14,6 +14,11 @@ import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequ
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
 import AccountAddress from "../screens/Settings/AccountAddress";
 import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
+import ConfirmMpesaPaymentCard from "../components/cards/ConfirmMpesaPayment";
+import ConfirmMpesa from "../screens/TransactionRequests/ConfirmMpesaScreen";
+import ConfirmMpesaScreen from "../screens/TransactionRequests/ConfirmMpesaScreen";
+import ConfirmMpesaPaymentScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentScreen";
+import ConfirmMpesaSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentScreen";
 const routes: IRouteProps[] = [
   {
     name: "Onboarding",
@@ -78,6 +83,14 @@ const routes: IRouteProps[] = [
   {
     name: "EnterPin",
     component: EnterPin,
+  },
+  {
+    name: "ConfirmMpesa",
+    component: ConfirmMpesaScreen,
+  },
+  {
+    name: "ConfirmMpesaSwipeScreen",
+    component: ConfirmMpesaSwipeScreen,
   },
 ];
 

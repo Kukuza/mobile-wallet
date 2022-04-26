@@ -64,12 +64,12 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   };
 
   useEffect(() => {
-    onRefresh()
+    onRefresh();
     return () => {
       // onRefresh()
-    }
+    };
   }, []);
-  
+
   // Rerender on new transaction event.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
@@ -84,15 +84,11 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   // startRender();
   return (
     <ScreenComponent>
-      <View
-        style={styles.container}
-      >
+      <View style={styles.container}>
         <View style={styles.menu}>
-
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <MaterialIcons name="menu" size={24} color={COLORS.primary} />
           </TouchableOpacity>
-          
         </View>
 
         <View style={{ alignItems: "center", height: SIZES.height * 0.82 }}>
@@ -110,7 +106,6 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
             progressViewOffset={250}
             ListEmptyComponent={<EmptyList />}
           />
-
         </View>
         <View>
           <BottomMenu navigation={navigation}></BottomMenu>
@@ -124,9 +119,9 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flexDirection: "column",
     flexGrow: 1,
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
   menu: {
     width: "100%",
