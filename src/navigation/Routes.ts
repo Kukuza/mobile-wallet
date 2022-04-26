@@ -14,16 +14,12 @@ import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequ
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
 import AccountAddress from "../screens/Settings/AccountAddress";
 import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
-<<<<<<< HEAD
 import ConfirmMpesaPaymentCard from "../components/cards/ConfirmMpesaPayment";
 import ConfirmMpesa from "../screens/TransactionRequests/ConfirmMpesaScreen";
 import ConfirmMpesaScreen from "../screens/TransactionRequests/ConfirmMpesaScreen";
 import ConfirmMpesaPaymentScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentScreen";
 import ConfirmMpesaSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentScreen";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
-=======
-import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
->>>>>>> 47c71e3b8df4263f4f45e3c2ae61280db4396cfd
 const routes: IRouteProps[] = [
   {
     name: "Onboarding",
@@ -99,8 +95,8 @@ const routes: IRouteProps[] = [
   },
   {
     name: "ConnectYourPhoneNumberScreen",
-    component: ConnectYourPhoneNumberScreen
-  }
+    component: ConnectYourPhoneNumberScreen,
+  },
 ];
 
 export default routes;
