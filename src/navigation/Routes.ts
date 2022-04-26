@@ -16,6 +16,7 @@ import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsC
 import AccountAddress from "../screens/Settings/AccountAddress";
 import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
+import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -88,6 +89,10 @@ const routes: IRouteProps[] = [
   {
     name: "ConnectYourPhoneNumberScreen",
     component: ConnectYourPhoneNumberScreen
+  },
+  {
+    name: "AttestationLoaderScreen",
+    component: AttestationLoaderScreen
   }
 ];
 
