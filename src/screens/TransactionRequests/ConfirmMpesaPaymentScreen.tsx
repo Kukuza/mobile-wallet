@@ -6,6 +6,10 @@ import SwipeButton from "../../components/buttons/SwipeButton";
 import NavHeader from "../../containers/NavHeader";
 
 const ConfirmMpesaSwipeScreen = () => {
+  const handleTransaction = () => {
+    // todo make contract call
+    console.log("contract call");
+  };
   return (
     <ScreenComponent>
       <NavHeader />
@@ -14,7 +18,10 @@ const ConfirmMpesaSwipeScreen = () => {
           <PaymentConfirmationCard />
         </View>
         <View style={{ marginTop: 250, justifyContent: "center" }}>
-          <SwipeButton />
+          <SwipeButton
+            title="Swipe to Confirm"
+            handleAction={() => handleTransaction()}
+          />
         </View>
       </View>
     </ScreenComponent>
