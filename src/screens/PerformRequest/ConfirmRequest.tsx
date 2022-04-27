@@ -14,9 +14,14 @@ import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transactio
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { magic } from "../../utils/magic";
 import { EventData } from "web3-eth-contract";
+import * as Clipboard from "expo-clipboard";
 
 const CardElement = (props) => {
   const transaction: WakalaEscrowTransaction = props.transaction;
+
+  const copyToClipboard = () => {
+    Clipboard.setString(transaction.agentPhoneNumber);
+  };
 
   return (
     <View style={cardStyles.container}>
@@ -28,7 +33,10 @@ const CardElement = (props) => {
       <View>
         <Text style={cardStyles.subTitle}>To</Text>
         <Text style={cardStyles.title}>{transaction.agentPhoneNumber}</Text>
-        <TouchableOpacity style={cardStyles.copyContainer}>
+        <TouchableOpacity
+          onPress={() => copyToClipboard()}
+          style={cardStyles.copyContainer}
+        >
           <Text style={cardStyles.copyText}>Copy</Text>
         </TouchableOpacity>
       </View>
