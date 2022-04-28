@@ -6,7 +6,8 @@ import { FONTS } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import { Ionicons } from "@expo/vector-icons";
 import CopyButton from "../buttons/Copy";
-import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transaction_types';
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import * as Clipboard from "expo-clipboard";
 
 /**
  *
@@ -19,14 +20,14 @@ import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/transactio
  * @returns
  */
 const TransactionConfirmationCard = (props: any) => {
-
   let transaction: WakalaEscrowTransaction = props.transaction;
 
-  let amount = Math.trunc(transaction.amount * 115)
+  let amount = Math.trunc(transaction.amount * 115);
 
   const copyToClipboard = () => {
     // todo
     console.log("copy button works");
+    Clipboard.setString(transaction.agentPhoneNumber);
   };
   return (
     <LinearGradient
@@ -44,9 +45,11 @@ const TransactionConfirmationCard = (props: any) => {
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text style={[styles.header, FONTS.h5]}>
             Did you send{" "}
-            <Text style={{ color: COLORS.primary }}>Ksh {amount}</Text> to M-Pesa
-            number{" "}
-            <Text style={{ color: COLORS.primary }}>{transaction.agentPhoneNumber}?</Text>
+            <Text style={{ color: COLORS.primary }}>Ksh {amount}</Text> to
+            M-Pesa number{" "}
+            <Text style={{ color: COLORS.primary }}>
+              {transaction.agentPhoneNumber}?
+            </Text>
           </Text>
         </View>
       </View>
@@ -66,7 +69,9 @@ const TransactionConfirmationCard = (props: any) => {
         <Text style={styles.totalLabel}>To</Text>
         <View style={{ flexDirection: "row" }}>
           <View style={{ flex: 4 }}>
-          <Text style={styles.totalValue}>{transaction.agentPhoneNumber}</Text>
+            <Text style={styles.totalValue}>
+              {transaction.agentPhoneNumber}
+            </Text>
           </View>
           <View style={{ flex: 2, justifyContent: "center" }}>
             <CopyButton text="Copy" onPress={copyToClipboard} />

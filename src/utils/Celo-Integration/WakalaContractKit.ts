@@ -277,7 +277,6 @@ export default class WakalaContractKit {
    * @param phoneNumber The phone number of the person accepting the deposit
    * @param amount The amount being transacted
    * @returns transaction receipt
-  
    **/
   agentAcceptDepositTransaction = async (
     transactionId,
