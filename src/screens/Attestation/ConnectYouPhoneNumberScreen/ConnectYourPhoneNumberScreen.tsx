@@ -35,7 +35,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
 
 
   const continueHandler = () => {
-    console.log("continue btn handler")
+    navigation.navigate("AttestationLoaderScreen");
   }
 
   const closeModal = () => {
