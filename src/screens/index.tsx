@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import * as React from "react";
 import { connect } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import Onboarding from "./Onboarding/Onboarding";
-// import AuthScreen from "./Auth/AuthScreen";
 import MyDrawer from "./Drawer/MyDrawer";
 
 const RootStack = createStackNavigator();
