@@ -18,6 +18,7 @@ import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
 import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfirmationScreen/CodeConfirmationScreen";
+import YouAreAllSetScreen from "../screens/Attestation/YouAreAllSetScreen";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -98,6 +99,10 @@ const routes: IRouteProps[] = [
   {
     name: "AttestationCodeConfirmationScreen",
     component: CodeConfirmationScreen
+  },
+  {
+    name: "YouAreAllSetScreen",
+    component: YouAreAllSetScreen
   }
 ];
 
