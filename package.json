@@ -44,6 +44,7 @@
     "react-native": "0.64.3",
     "react-native-animated-pagination-dots": "^0.1.72",
     "react-native-circular-progress-indicator": "^4.1.1",
+    "react-native-contacts": "^7.0.4",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-masked-text": "^1.13.0",
@@ -64,7 +65,8 @@
     "redux": "^4.1.2",
     "rn-nodeify": "^10.3.0",
     "vm-browserify": "^1.1.2",
-    "web3": "^1.7.1"
+    "web3": "^1.7.1",
+    "expo-contacts": "~10.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
