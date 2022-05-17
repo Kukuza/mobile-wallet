@@ -18,6 +18,7 @@ import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
 import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfirmationScreen/CodeConfirmationScreen";
+import EnterAmount from "../screens/Send/EnterAmount";
 import Send from "../screens/Send/Send";
 const routes: IRouteProps[] = [
   {
@@ -103,6 +104,10 @@ const routes: IRouteProps[] = [
   {
     name:"Send",
     component:Send
+  },
+  {
+    name:"EnterAmount",
+    component:EnterAmount
   }
 ];
 
