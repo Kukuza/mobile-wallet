@@ -18,8 +18,9 @@ import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
 import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfirmationScreen/CodeConfirmationScreen";
-import EnterAmount from "../screens/Send/EnterAmount";
 import Send from "../screens/Send/Send";
+import YouAreAllSetScreen from "../screens/Attestation/YouAreAllSetScreen";
+import TermsAndConditionsScreen from "../screens/TermsAndConditions/TermsAndConditionsScreen";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -106,8 +107,13 @@ const routes: IRouteProps[] = [
     component:Send
   },
   {
-    name:"EnterAmount",
-    component:EnterAmount
+    name: "YouAreAllSetScreen",
+    component: YouAreAllSetScreen
+  },
+  {
+    name: "TermsAndConditionsScreen",
+    component: TermsAndConditionsScreen
+
   }
 ];
 
