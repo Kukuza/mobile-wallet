@@ -21,6 +21,7 @@ import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfir
 import Send from "../screens/Send/Send";
 import YouAreAllSetScreen from "../screens/Attestation/YouAreAllSetScreen";
 import TermsAndConditionsScreen from "../screens/TermsAndConditions/TermsAndConditionsScreen";
+import EnterAmount from "../screens/Send/EnterAmount";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -114,6 +115,10 @@ const routes: IRouteProps[] = [
     name: "TermsAndConditionsScreen",
     component: TermsAndConditionsScreen
 
+  },
+  {
+    name:"EnterAmount",
+    component: EnterAmount
   }
 ];
 
