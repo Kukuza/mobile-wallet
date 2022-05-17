@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Pressable, Alert, TextInput,FlatList, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Alert, TextInput,FlatList, Image, } from 'react-native'
 import React, { useState,useEffect } from 'react'
 import ScreenComponent from '../../containers/ScreenComponent';
 import { Feather } from "@expo/vector-icons";
