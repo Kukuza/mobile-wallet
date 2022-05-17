@@ -19,6 +19,7 @@ import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhone
 import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfirmationScreen/CodeConfirmationScreen";
 import YouAreAllSetScreen from "../screens/Attestation/YouAreAllSetScreen";
+import TermsAndConditionsScreen from "../screens/TermsAndConditions/TermsAndConditionsScreen";
 const routes: IRouteProps[] = [
   {
     name: "Test",
@@ -103,6 +104,10 @@ const routes: IRouteProps[] = [
   {
     name: "YouAreAllSetScreen",
     component: YouAreAllSetScreen
+  },
+  {
+    name: "TermsAndConditionsScreen",
+    component: TermsAndConditionsScreen
   }
 ];
 
