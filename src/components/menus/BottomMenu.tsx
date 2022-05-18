@@ -5,14 +5,14 @@ import { Pressable } from "react-native";
 import SendButton from "../buttons/SendButton";
 import WithdrawButton from "../buttons/WithdrawButton";
 import COLORS from "../../styles/colors/colors";
-
 const BottomMenu = ({ navigation }) => {
+
   return (
     <View style={{ flexDirection: "column" }}>
       <View style={[styles.container]}>
         <SendButton
           title={"Send"}
-          onPressHandler={() => navigation.navigate("Rating")}
+          onPressHandler={() => navigation.navigate("Send")}
         ></SendButton>
 
         <Pressable
