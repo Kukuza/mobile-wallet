@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Pressable, Alert, TextInput,FlatList, Image, } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Alert, TextInput,FlatList, Image, TouchableHighlight, } from 'react-native'
 import React, { useState,useEffect } from 'react'
 import ScreenComponent from '../../containers/ScreenComponent';
 import { Feather } from "@expo/vector-icons";
@@ -11,8 +11,8 @@ import * as Contacts from 'expo-contacts';
 export default function ContactList({navigation,}) {
 const [recent, setRecent] = useState(false)
 const [clicked, setCLicked] = useState(false)
-const [searchPhrase, setSearchPhrase] = useState("");
-const [contacts, setContacts] = useState([])
+const [filterdList, setFilteredList] = useState<any[]>([])
+const [contacts, setContacts] = useState<any[]>([])
 
 useEffect(() => {
     (async () => {
@@ -22,7 +22,8 @@ useEffect(() => {
 
         if (data.length > 0) {
           const contact: any  = data;
-          setContacts(contact)
+          setContacts(contact);
+          setFilteredList(contact);
         }
       }
     })();
@@ -31,7 +32,11 @@ useEffect(() => {
       return item?.recordID?.toString() || idx.toString()
   }
   const renderItem = ({item, index}) => {
-        return <Contact contact={item}/>
+        return ( <Pressable onPress={() => navigation.navigate('EnterAmount', {
+            recieversName: item?.name,
+            recieversPhoneNumber:item?.phoneNumbers[0]?.number
+        })}><Contact contact={item}/>
+        </Pressable>)
   }
 
 const Contact = ({contact}) => {
@@ -47,6 +52,17 @@ const Contact = ({contact}) => {
         <View style={styles.textDivider}/>
         </View>
     )
+}
+const searchContacts = (value) => {
+    const newContacts = filterdList.filter(
+        contact => {
+            let contactLowerCase = (contact?.name).toLowerCase();
+            let searchTermLowercase = value.toLowerCase();
+
+            return contactLowerCase.indexOf(searchTermLowercase) > -1
+        }
+    )
+    setContacts(newContacts)
 }
   return (
     <ScreenComponent>
@@ -75,8 +91,7 @@ const Contact = ({contact}) => {
         <TextInput
           style={styles.input}
           placeholder="Search"
-          value={searchPhrase}
-          onChangeText={setSearchPhrase}
+          onChangeText={(value) => searchContacts(value)}
           onFocus={() => {
             setCLicked(true);
           }}
