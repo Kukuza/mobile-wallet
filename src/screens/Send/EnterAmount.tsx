@@ -1,24 +1,37 @@
 import { View, TouchableOpacity, Pressable, Alert, StyleSheet, Text } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState, useRef} from 'react'
 import ScreenComponent from '../../containers/ScreenComponent'
 import { Feather, Entypo } from "@expo/vector-icons";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-import { RFPercentage } from "react-native-responsive-fontsize";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TextInput } from "react-native-gesture-handler";
 import KeyPad from '../../components/buttons/KeyPad';
 import { LinearGradient } from "expo-linear-gradient";
+import { PortalProvider } from "@gorhom/portal";
+import BottomSheet from './BottomSheet';
 
 const EnterAmount = ({navigation}) => {
+    const modalRef = useRef<any>();
 
     const [value, setValue] = useState("");
+    const [coinChoice, setCoinChoice] = useState("cUSD")
+    const openModal = () => {
+        modalRef.current?.open();
+      };
+    
+      const closeModal = () => {
+        modalRef.current?.close();
+        }
+    
+        
 
     function handleChange(newValue) {
         setValue(newValue);
       }
     
   return (
+    < PortalProvider>                        
     <ScreenComponent>
       <View>
       <View style={styles.topContainer}>
@@ -30,11 +43,11 @@ const EnterAmount = ({navigation}) => {
         <Text style={styles.subTutle}>cUSD 13 available</Text>
         </View>
         <Pressable
-          onPress={() => Alert.alert("Select the Coin")}
+          onPress={() => openModal()}
         >
             <View style={styles.dropDown}>
-                <Text>cUSD</Text>
-                <Entypo name="chevron-small-down" size={24} color={COLORS.grayDark} />
+                <Text style={{...FONTS.body8, color:COLORS.primary}}>{coinChoice}</Text>
+                <Entypo name="chevron-small-down" size={24} color={COLORS.primary} />
             </View>
         </Pressable>
         </View>
@@ -71,10 +84,20 @@ const EnterAmount = ({navigation}) => {
         </TouchableOpacity>
       </View>
     </ScreenComponent>
+    <BottomSheet modalRef={modalRef} onClose={closeModal}  setCoinChoice={ setCoinChoice}/>
+       </PortalProvider>
   )
 }
 
 export default EnterAmount
+const modalStyles = StyleSheet.create({
+    container:{
+        height: "auto",
+        paddingVertical: 20,
+        alignItems: "center",
+        justifyContent: "center",
+    }
+})
 const styles = StyleSheet.create({
     topContainer:{
         display:"flex",
