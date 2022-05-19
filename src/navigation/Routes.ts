@@ -22,10 +22,17 @@ import Send from "../screens/Send/Send";
 import YouAreAllSetScreen from "../screens/Attestation/YouAreAllSetScreen";
 import TermsAndConditionsScreen from "../screens/TermsAndConditions/TermsAndConditionsScreen";
 import EnterAmount from "../screens/Send/EnterAmount";
+import Description from "../screens/Send/Description";
+import SwipeToSend from "../screens/Send/SwipeToSend";
+import HomeScreen from "../screens/Home/Home";
 
 
 
 const routes: IRouteProps[] = [
+  {
+    name: "Home",
+    component: HomeScreen,
+  },
   {
     name: "Test",
     component: TestScreen,
@@ -122,6 +129,14 @@ const routes: IRouteProps[] = [
   {
     name:"EnterAmount",
     component: EnterAmount
+  },
+  {
+    name:"Description",
+    component: Description
+  },
+  {
+    name:"SwipeToSend",
+    component: SwipeToSend
   }
 ];
 
