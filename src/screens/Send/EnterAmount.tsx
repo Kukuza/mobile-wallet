@@ -1,17 +1,17 @@
 import { View, TouchableOpacity, Pressable, Alert, StyleSheet, Text } from 'react-native'
 import React,{useState, useRef} from 'react'
 import ScreenComponent from '../../containers/ScreenComponent'
-import { Feather, Entypo } from "@expo/vector-icons";
+import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TextInput } from "react-native-gesture-handler";
 import KeyPad from '../../components/buttons/KeyPad';
 import { LinearGradient } from "expo-linear-gradient";
 import { PortalProvider } from "@gorhom/portal";
 import BottomSheet from './BottomSheet';
 
-const EnterAmount = ({navigation}) => {
+const EnterAmount = ({route, navigation}) => {
+    const {recieversName, recieversPhoneNumber} = route.params;
     const modalRef = useRef<any>();
 
     const [value, setValue] = useState("");
@@ -71,7 +71,11 @@ const EnterAmount = ({navigation}) => {
         <KeyPad value={value} onChange={handleChange} />
         </View>
         <TouchableOpacity
-          onPress={() => null}
+          onPress={() => navigation.navigate("Description", {
+              Name: recieversName,
+              Phone:recieversPhoneNumber,
+              Amount:value
+          })}
         >
           <LinearGradient
             colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
