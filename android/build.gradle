@@ -31,7 +31,10 @@ allprojects {
             // Android JSC is installed from npm
             url(new File(["node", "--print", "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), "../dist"))
         }
-
+        maven { 
+            // Provide ramp support
+            url 'https://button.passbase.com/__android' 
+        }
         google()
         mavenCentral()
         jcenter()
