@@ -33,6 +33,7 @@ export default class CurrencyLayerAPI {
                             'amount': amount.toString()
                         },
                         headers: {
+                            // TODO: Hide API key.
                             apikey: "YtOZXS1BqTeTZ00KOqlqaIHF1GaZEdgH"
                         }
                     });
