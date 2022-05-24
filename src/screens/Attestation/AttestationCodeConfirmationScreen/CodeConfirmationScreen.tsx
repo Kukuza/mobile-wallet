@@ -4,7 +4,7 @@ import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
 import React, { useState } from "react";
 import HeaderTitle from "../../../components/HeaderTitle";
-import DefaultButton from "../../../components/buttons/DefaultButton";
+import { DefaultButton  } from "../../../components/buttons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
 import CodeInputComponent from "./CodeInputComponent";
 

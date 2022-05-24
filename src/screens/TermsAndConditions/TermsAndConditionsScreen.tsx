@@ -20,6 +20,7 @@ const TermsAndConditionsScreen: React.FunctionComponent<IStackScreenProps> = (pr
 
   const accept = () => {
     console.log("Accept T & C")
+    navigation.navigate("EnterPin")
   };
 
 
