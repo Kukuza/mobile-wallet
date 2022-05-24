@@ -6,13 +6,43 @@ import { FONTS } from "../../../styles/fonts/fonts";
 import COLORS from '../../../styles/colors/colors';
 import ScreenComponent from '../../../containers/ScreenComponent';
 import KeyPad from '../../../components/buttons/KeyPad'
-export default function EnterPin({navigation}) {
-   let pinText=["1","2","3","4"]
-   const [pin, setPin] = useState('');
+import { IStackScreenProps } from '../../../navigation/StackScreenProps';
 
-   function handleChange(valPin) {
-    setPin(valPin);
+const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
+
+  // navigation object.
+   const navigation = props.navigation;
+
+   //Contains the pin number text as an array.
+   const [pinCharArray, setPinTextArray] = useState(["", "", "", ""]);
+
+  // The current index of the pin number entry.
+   const [currentIndex, setCurrentIndex] = useState(0);
+
+  //  Handles the change on the pin number input form the custom keypad.
+  const handleChange = (valPin) => {
+    if (currentIndex < 4) {
+      pinCharArray[currentIndex] = valPin;
+      setCurrentIndex(currentIndex + 1);
+
+      if (currentIndex == 3) {
+        // Perform account creation and encryption.
+        navigation.navigate("ConnectYourPhoneNumberScreen");
+      }
+    } else {
+      // unlikely path.
+      navigation.navigate("ConnectYourPhoneNumberScreen");
+    }
   }
+
+  // Handles deletion on the custom keypad.
+  const onDelete = () => {
+    if (currentIndex > 0) {
+      pinCharArray[currentIndex - 1] = "";
+      setCurrentIndex(currentIndex - 1);
+    }
+  }
+
   return (
     <ScreenComponent>
     <TouchableOpacity style={styles.navIcon}
@@ -24,54 +54,56 @@ export default function EnterPin({navigation}) {
      <Text style={styles.pinText}>Enter Pin</Text>
     </View>
      <View style={styles.pinIcons}>
-       {pinText.map((text, index)=>
-        <View key={index} style={styles.PinContainer}>
-          {pinText[index] != "" ?<Text style={styles.starText}>*</Text>:null}
+       {pinCharArray.map((text, index)=>
+        <View key={index} style={styles.pinContainer}>
+          {pinCharArray[index] == "" ?<Text style={styles.starText}>*</Text>: <Text style={styles.starText}>{pinCharArray[index]}</Text>}
         </View> 
         )}
        
     </View>
     <View style={styles.keyPad}>
-    <KeyPad value={pin} onChange={handleChange} />
+    <KeyPad onChange={handleChange} onDelete={onDelete} />
     </View>
     </ScreenComponent>
   )
 }
 
+export default EnterPin;
+
 const styles = StyleSheet.create({
 navIcon:{
-marginTop: "7%",
-marginLeft: '8%',
+  marginTop: "7%",
+  marginLeft: '8%',
 },
 enterPin:{
-marginTop:'30%',
-alignItems:'center',
-justifyContent:'center',
+  marginTop:'30%',
+  alignItems:'center',
+  justifyContent:'center',
 },
 pinText:{
-    ...FONTS.body2,
-    color: COLORS.textColor4,
-    fontSize: RFPercentage(3.2),
-    fontWeight:'bold' 
+  ...FONTS.body2,
+  color: COLORS.textColor4,
+  fontSize: RFPercentage(3.2),
+  fontWeight:'bold' 
 },
 pinIcons:{
-marginTop:'15%',
-alignItems:'center',
-justifyContent:'center',
-display:'flex',
-flexDirection: 'row',
+  marginTop:'15%',
+  alignItems:'center',
+  justifyContent:'center',
+  display:'flex',
+  flexDirection: 'row',
 },
 keyPad:{
-    marginBottom:'5%',
-    marginTop:"15%",
-    marginHorizontal:'10%',
+  marginBottom:'5%',
+  marginTop:"15%",
+  marginHorizontal:'10%',
 },
-PinContainer:{
+pinContainer:{
   display:'flex',
   flexDirection: 'row',
   width:40,
   height:40,
-  backgroundColor:COLORS.white,
+  backgroundColor:COLORS.keyPadTextBackGround,
   justifyContent:'center',
   alignItems:'center',
   borderRadius:10,
@@ -84,11 +116,10 @@ iconImage:{
   
 },
 starText:{
-  ...FONTS.displayBold,
-    color: COLORS.error,
-    fontWeight:'bold',
-    alignSelf:"center",
-    fontSize:RFPercentage(6),
-    marginTop:12,
+  ...FONTS.h5,
+  fontSize: 24,
+  color: COLORS.primary,
+  fontWeight:'bold',
+  alignSelf:"center",
 }
 })

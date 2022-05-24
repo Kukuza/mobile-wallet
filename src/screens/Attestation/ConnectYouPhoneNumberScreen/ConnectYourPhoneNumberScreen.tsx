@@ -30,7 +30,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
    * Back button handler.
    */
   const backButtonHandler = () => {
-    console.log("back handler")
+    navigation.goBack()
   }
 
 

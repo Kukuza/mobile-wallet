@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
@@ -6,22 +6,14 @@ import { SIZES } from "../../styles/fonts/fonts";
 
 const KeyPad = (props) => {
   const route = useRoute();
-  const [value, setValue] = useState("");
 
   const handleChange = (text) => {
-    if (value == "" && text == "0") {
-      return null;
-    }
-    setValue(value + text);
+    props.onChange(text);
   };
 
   const handleDelete = () => {
-    setValue(value.slice(0, -1));
+    props.onDelete();
   };
-
-  useEffect(() => {
-    props.onChange(value);
-  }, [value]);
 
   return (
     <View>

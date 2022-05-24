@@ -5,6 +5,7 @@ export const COLORS = {
   accent1: "#133FDB",
   secondary: "#DB86C7",
   shadowColor: "#7a5dba",
+  keyPadTextBackGround: '#F1F1F1',
 
   // Alerts
   success: "#4840BB",
