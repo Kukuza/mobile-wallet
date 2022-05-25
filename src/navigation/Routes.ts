@@ -4,7 +4,6 @@ import AddFunds from "../screens/mpesaToCusd/AddFunds";
 import SelectPaymentMethod from "../screens/mpesaToCusd/SelectPaymentMethodScreen";
 import TransactionType from "../screens/mpesaToCusd/TransactionType";
 import MyDrawer from "../screens/Drawer/MyDrawer";
-import Onboarding from "../screens/Onboarding/Onboarding";
 import ConfirmMpesaPaymentSwipeScreen from "../screens/TransactionRequests/ConfirmMpesaPaymentSwipeScreen";
 import ConfirmRequest from "../screens/PerformRequest/ConfirmRequest";
 import TransactionConfirmationScreen from "../screens/TransactionRequests/TransactionConfirmationScreen";
@@ -25,6 +24,7 @@ import EnterAmount from "../screens/Send/EnterAmount";
 import Description from "../screens/Send/Description";
 import SwipeToSend from "../screens/Send/SwipeToSend";
 import HomeScreen from "../screens/Home/Home";
+import Onboarding from "../screens/Onboarding/Onboarding";
 
 
 

@@ -1,163 +1,92 @@
-import React, { useState, useRef } from "react";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View, Image } from "react-native";
+import React from "react";
+import DefaultButton from "../../components/buttons/DefaultButton";
 import ScreenComponent from "../../containers/ScreenComponent";
-import { COLORS } from "../../styles/colors/colors";
+import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import PhoneInput from "react-native-phone-number-input";
-import { magic } from "../../utils/magic";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
-const AuthScreen = (props) => {
-  const navigation = props.navigation;
+import COLORS from "../../styles/colors/colors";
 
-  const [value, setValue] = useState("");
-  const [valid, setValid] = useState<boolean | any>(true);
-  const [submitted, SetSubmitted] = useState(false);
+const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
-  if (!WakalaContractKit?.getInstance()) {
-    WakalaContractKit?.createInstance(magic);
-  }
-
-  const wakalaContractKit = WakalaContractKit.getInstance();
-  const phoneInput = useRef<PhoneInput>(null);
-
-  const login = async () => {
-    try {
-      const isValid = phoneInput.current?.isValidNumber(value);
-      setValid(isValid);
-      SetSubmitted(!submitted);
-      console.log("Load data ====>");
-      if (isValid) {
-        Keyboard.dismiss();
-        let DID = await magic.auth.loginWithSMS({
-          phoneNumber: value, //pass the phone input value to get otp sms
-        });
-
-        // Consume decentralized identity (DID)
-        if (DID !== null) {
-          magic.user.getMetadata().then((userMetadata) => {
-            wakalaContractKit?.setUserMetadata(userMetadata);
-          });
-        }
-
-        let x = await magic.user.getMetadata();
-        if (x) {
-          wakalaContractKit?.setUserMetadata(x);
-        }
-        await wakalaContractKit?.init();
-        navigation.navigate("MyDrawer");
-      } else {
-        setTimeout(() => {
-          setValid(true);
-        }, 2000);
-      }
-    } catch (err) {
-      alert(err);
-    }
+  const createAccount = () => {
+    console.log("createAccount()====>");
+    props.navigation.navigate("TermsAndConditionsScreen");
   };
+
   // Logout of Magic session
-  const logout = async () => {
-    await magic.user.logout();
-    WakalaContractKit.destroyInstance();
-    console.log("logged out");
+  const restoreAccount = async () => {
+    console.log("restoreAccount()====>");
+    props.navigation.navigate("TermsAndConditionsScreen")
   };
-  const title = "Join Wakala";
-  const subTitle = "Enter your phone number to join or log in.";
 
+ 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <ScreenComponent>
+    
+    <ScreenComponent>
         <NavHeader />
-        <View style={styles.container}>
-          <View style={{ marginHorizontal: 30 }}>
-            <Text style={styles.headerTitle}>{title}</Text>
-          </View>
-          <Text style={{ ...FONTS.body3, marginHorizontal: 30, marginTop: 80 }}>
-            {subTitle}
-          </Text>
-          <View style={{ marginHorizontal: 30, marginTop: 20 }}>
-            <PhoneInput
-              ref={phoneInput}
-              defaultValue={value}
-              defaultCode="KE"
-              onChangeFormattedText={(text) => {
-                setValue(text);
-              }}
-              withDarkTheme
-              withShadow
-              autoFocus
-            />
-          </View>
-          <View style={{ marginTop: 150, alignItems: "center" }}>
-            <TouchableOpacity onPress={() => login()}>
-              <LinearGradient
-                colors={COLORS.gradientBackground}
-                start={[1, 0]}
-                end={[0, 1]}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>
-                  {submitted ? "Logging in..." : "Verify"}
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
 
-          {/* todo Remove logout
-          <View style={{ marginTop: 20, alignItems: "center" }}>
-            <TouchableOpacity onPress={() => logout()}>
-              <LinearGradient
-                colors={COLORS.gradientBackground}
-                start={[1, 0]}
-                end={[0, 1]}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Logout</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View> */}
+        <View style={styles.titleSection}>
+            <Image
+                source={require("../../assets/icons/icon.png")}
+                style={styles.icon}
+              />
+            <Text style={styles.headerTitle}>
+              Welcome to Wakala
+              {`\n`}
+              lorem ipsum 
+            </Text>
+
+            <Text style={styles.titleDescription}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in ligula tellus. Morbi at velit tincidunt, facilisis nunc at, consectetur leo.
+            </Text>
+          </View>
+        
+
+        <View style = {{ flex: 0.5, justifyContent: 'flex-end',  }}>
+          <DefaultButton onPress={createAccount} style={styles.createAccountBtn} text={"Create new account"}/>
+
+          <DefaultButton onPress={restoreAccount} style={styles.createAccountBtn} text={"Restore my account"}/>
         </View>
-      </ScreenComponent>
-      <magic.Relayer />
-    </KeyboardAvoidingView>
+
+    </ScreenComponent>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    height: SIZES.height,
+  },
   headerTitle: {
     ...FONTS.displayBold,
     color: COLORS.primary,
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
+    titleDescription: {
+      ...FONTS.body4,
+      color: COLORS.textDarkBlue,
+      marginVertical: 20
   },
-
-  button: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 30,
-    height: 56,
-    width: 286,
+  restoreAccountBtn: {
+    width: SIZES.width * 0.7,
+    marginTop: SIZES.height * 0.2
   },
-
-  buttonText: {
-    textAlign: "center",
-    color: COLORS.white,
-    ...FONTS.h4,
+  titleSection: {
+      // marginVertical: SIZES.height * 0.05,
+      flex: 0.4,
+      marginTop: SIZES.height * 0.05,
+      marginHorizontal: 0.08 * SIZES.width,
+      justifyContent: 'flex-end'
   },
+  icon: {
+    width: 40,
+    height: 40,
+    marginVertical: 20
+  },
+  createAccountBtn: {
+    width: SIZES.width * 0.7,
+},
 });
 
-export default AuthScreen;
+export default SignUpScreen;
