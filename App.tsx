@@ -1,7 +1,7 @@
 import "./global";
 import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -122,7 +122,7 @@ const App = () => {
           </Stack.Navigator>
         </NavigationContainer>
         <View>
-          <magic.Relayer />
+          <magic.Relayer/>
         </View>
       </Provider>
     );
