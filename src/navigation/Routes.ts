@@ -13,7 +13,7 @@ import TransactionSuccess from "../screens/TransactionRequests/TransactionSucces
 import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
 import AccountAddress from "../screens/Settings/AccountAddress";
-import EnterPin from "../screens/Settings/RecoveryPhrase/EnterPin";
+import EnterPin from "../screens/Auth/EnterPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
 import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfirmationScreen/CodeConfirmationScreen";
