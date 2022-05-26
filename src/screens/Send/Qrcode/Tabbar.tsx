@@ -36,26 +36,21 @@ Animated.spring(translateX,{
             : options.title !== undefined
             ? options.title
             : route.name;
-
-            const handleSlide =(toPosition: number) => {
-                if(isFocused && index < 1){
-                    Animated.spring(translateX,{
-                        toValue: 0,
-                        useNativeDriver: false, 
-                        damping:15,
-                    }).start()
-                } else {
-                    Animated.spring(translateX,{
-                        toValue: toPosition,
-                        useNativeDriver: false, 
-                        damping:15,
-                    }).start()
-                }
-
-                
-                    }
-                    
+  
         const isFocused = state.index === index;
+        if(isFocused && index < 1){
+            Animated.spring(translateX,{
+                toValue: 0,
+                useNativeDriver: false, 
+                damping:15,
+            }).start()
+        } else {
+            Animated.spring(translateX,{
+                toValue: 94,
+                useNativeDriver: false, 
+                damping:15,
+            }).start()
+        }
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
