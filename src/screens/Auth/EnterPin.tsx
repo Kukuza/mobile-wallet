@@ -2,16 +2,20 @@ import React, {useState} from 'react'
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View,TouchableOpacity } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import { FONTS } from "../../../styles/fonts/fonts";
-import COLORS from '../../../styles/colors/colors';
-import ScreenComponent from '../../../containers/ScreenComponent';
-import KeyPad from '../../../components/buttons/KeyPad'
-import { IStackScreenProps } from '../../../navigation/StackScreenProps';
+import { FONTS } from "../../styles/fonts/fonts";
+import COLORS from '../../styles/colors/colors';
+import ScreenComponent from '../../containers/ScreenComponent';
+import KeyPad from '../../components/buttons/KeyPad'
+import { IStackScreenProps } from '../../navigation/StackScreenProps';
+import { useDispatch } from 'react-redux';
+import { createKeystore } from '../../redux/auth/authSlice';
 
 const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
   // navigation object.
    const navigation = props.navigation;
+
+   const dispatch = useDispatch();
 
    //Contains the pin number text as an array.
    const [pinCharArray, setPinTextArray] = useState(["", "", "", ""]);
@@ -27,7 +31,10 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
       if (currentIndex == 3) {
         // Perform account creation and encryption.
+        const pin = pinCharArray.join()
+        dispatch(createKeystore(pin))
         navigation.navigate("ConnectYourPhoneNumberScreen");
+        
       }
     } else {
       // unlikely path.

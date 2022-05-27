@@ -27,13 +27,14 @@ import globalStore from "./src/redux/GlobalStore";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { LogBox } from "react-native";
+import customStore from "./src/redux/redux.store";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
 ]);
 
 const Stack = createStackNavigator();
-const store = createStore(globalStore);
+// const store = createStore(globalStore);
 const magic = new Magic("pk_live_5B2A9951805695BB", {
   network: {
     rpcUrl: "https://alfajores-forno.celo-testnet.org",
@@ -109,7 +110,7 @@ const App = () => {
     );
   } else {
     return (
-      <Provider store={store}>
+      <Provider store={customStore}>
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
