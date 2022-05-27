@@ -1,4 +1,3 @@
-import { Magic, MagicUserMetadata } from "@magic-sdk/react-native";
 import Web3 from "web3";
 import { Contract, EventData } from "web3-eth-contract";
 import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
@@ -9,7 +8,7 @@ import {
   ERC20_ADDRESS,
   KARMA_CONTRACT_ADDRESS,
 } from "../ContractAdresses/contract";
-import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
+import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
 import { WakalaContractEventsKit } from "./WakalaContractEventsKit";
 import {
@@ -18,6 +17,7 @@ import {
   WakalaEscrowTransaction,
 } from "./transaction_types";
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
+import HDWalletProvider, {  } from "@truffle/hdwallet-provider";
 
 /**
  * Wakala contract kit.
@@ -48,11 +48,6 @@ export default class WakalaContractKit {
   web3?: Web3 | any;
 
   /**
-   * Magic provider instance.
-   */
-  magic?: Magic | any;
-
-  /**
    * Instance of wakala escrow smart contract.
    */
   wakalaEscrowContract?: Contract;
@@ -61,11 +56,6 @@ export default class WakalaContractKit {
    * Instance of karma protocol smart contract.
    */
   karmaContract?: Contract;
-
-  /**
-   * Magic user metadata.
-   */
-  userMetadata?: MagicUserMetadata;
 
   /**
    * Instance of the cUSD smart contract.
@@ -86,11 +76,11 @@ export default class WakalaContractKit {
    * Creates a singleton instance of wakala contract kit.
    * @param magic instance of magic provider.
    */
-  static createInstance(magic: Magic) {
+  static createInstance(privateKey: string) {
     if (WakalaContractKit.wakalaContractKitInstance) {
       console.log(" instance already created!!");
     } else {
-      let instance: WakalaContractKit = new WakalaContractKit(magic);
+      let instance: WakalaContractKit = new WakalaContractKit(privateKey);
       WakalaContractKit.wakalaContractKitInstance = instance;
     }
   }
@@ -103,20 +93,14 @@ export default class WakalaContractKit {
   }
 
   /**
-   * Set the currents users metadata.
-   * @param userMetadata the current users metadata.
+   * The users private key.
+   * @param privateKey magic provider instance.
    */
-  setUserMetadata(userMetadata?: MagicUserMetadata) {
-    this.userMetadata = userMetadata;
-  }
+  private constructor(privateKey: string) {
 
-  /**
-   *
-   * @param magic magic provider instance.
-   */
-  private constructor(magic: Magic) {
-    this.web3 = new Web3(magic.rpcProvider);
-    this.magic = magic;
+    const provider = new HDWalletProvider(privateKey, "https://alfajores-forno.celo-testnet.org");
+
+    this.web3 = new Web3(provider);
 
     this.wakalaEscrowContract = new this.web3.eth.Contract(
       WakalaEscrowAbi as AbiItem[],
@@ -133,29 +117,39 @@ export default class WakalaContractKit {
     this.wakalaContractEvents = new WakalaContractEventsKit([
       WAKALA_CONTRACT_ADDRESS,
     ]);
+    this.init()
   }
 
   /**
    * Initialize the contract kit.
    */
   async init() {
-    if (!this.isInitialize) {
-      this.wakalaContractEvents = new WakalaContractEventsKit([
-        WAKALA_CONTRACT_ADDRESS,
-      ]);
-      try {
-        const accounts = await this?.kit?.web3?.eth.getAccounts();
-        this.kit.defaultAccount = accounts[0];
-        if (typeof accounts !== undefined) {
-          this.web3.eth.defaultAccount = accounts[0];
-        }
-        await this.kit.setFeeCurrency(CeloContract.StableToken); // To use cUSD
-        this.stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
-      } catch (error) {
-        console.log(this.TAG, error);
-        alert(error);
-      }
-    }
+
+    this.wakalaEscrowContract?.methods.initializeDepositTransaction(10000000000000, "phoneNumber")
+        .then((receipt) => {
+          console.log("==============>", receipt)
+        })
+        .catch((error: any) => {
+          console.log("=====================>", error)
+        });
+
+    // if (!this.isInitialize) {
+    //   this.wakalaContractEvents = new WakalaContractEventsKit([
+    //     WAKALA_CONTRACT_ADDRESS,
+    //   ]);
+    //   try {
+    //     const accounts = await this?.kit?.web3?.eth.getAccounts();
+    //     this.kit.defaultAccount = accounts[0];
+    //     if (typeof accounts !== undefined) {
+    //       this.web3.eth.defaultAccount = accounts[0];
+    //     }
+    //     await this.kit.setFeeCurrency(CeloContract.StableToken); // To use cUSD
+    //     this.stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
+    //   } catch (error) {
+    //     console.log(this.TAG, error);
+    //     alert(error);
+    //   }
+    // }
   }
 
   /**

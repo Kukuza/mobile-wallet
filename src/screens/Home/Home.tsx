@@ -18,7 +18,6 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
-import { magic } from "../../utils/magic";
 import { connect } from "react-redux";
 
 const EmptyList = (props) => {

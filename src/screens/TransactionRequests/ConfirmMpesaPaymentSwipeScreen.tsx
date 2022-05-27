@@ -19,10 +19,8 @@ import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
 import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import Web3 from "web3";
-import { magic } from "../../utils/magic";
 import { AbiItem } from "web3-utils";
 import { connect, useDispatch } from "react-redux";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { SHARED, CONNECTIVITY } from "../../assets/images";
 import { modalStyles } from "../../components/componentTheme";
@@ -76,8 +74,8 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
 
   const transaction: WakalaEscrowTransaction = route.params?.transaction;
 
-  const publicAddress =
-    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  const publicAddress = ""
+    // WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
 
   // used to change the visibility state of the modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -95,13 +93,13 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   // used to change the message of the modal.
   const [processIsError, setProcessIsError] = useState(false);
 
-  let web3: any = new Web3(magic.rpcProvider);
-  let kit = newKitFromWeb3(web3);
+  // let web3: any = new Web3(magic.rpcProvider);
+  // let kit = newKitFromWeb3(web3);
 
-  const contract = new kit.web3.eth.Contract(
-    WakalaEscrowAbi as AbiItem[],
-    WAKALA_CONTRACT_ADDRESS
-  );
+  // const contract = new kit.web3.eth.Contract(
+  //   WakalaEscrowAbi as AbiItem[],
+  //   WAKALA_CONTRACT_ADDRESS
+  // );
 
   const wakalaContractKit = WakalaContractKit.getInstance();
   // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
@@ -126,21 +124,21 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     // setModalTitle("Calling the blockchain")
     setModalMessage("Calling the blockchain");
     setModalVisible(true);
-    await contract.methods
-      .agentConfirmPayment(transaction.id)
-      .send({ from: publicAddress })
-      .then((receipt) => {
-        setModalTitle("Transaction Successful!");
-        setModalMessage("");
-        setModalVisible(true);
-      })
-      .catch((error: any) => {
-        // console.log(error.toString() + " \n Amount: " + value.toString());
-        setModalTitle("Oh Snap! ");
-        setModalMessage(error.toString());
-        setModalVisible(true);
-        setProcessIsError(true);
-      });
+    // await contract.methods
+    //   .agentConfirmPayment(transaction.id)
+    //   .send({ from: publicAddress })
+    //   .then((receipt) => {
+    //     setModalTitle("Transaction Successful!");
+    //     setModalMessage("");
+    //     setModalVisible(true);
+    //   })
+    //   .catch((error: any) => {
+    //     // console.log(error.toString() + " \n Amount: " + value.toString());
+    //     setModalTitle("Oh Snap! ");
+    //     setModalMessage(error.toString());
+    //     setModalVisible(true);
+    //     setProcessIsError(true);
+    //   });
   };
 
   const openModal = () => {
@@ -153,38 +151,39 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     setIsLoading(true);
     console.log("something is cooking");
     setLoadingMessage("Initializing the transaction...");
-    let contractMethods: any = new ContractMethods(props.magic);
-    if (props.contractMethods instanceof ContractMethods) {
-      contractMethods = props.contractMethods;
-    } else {
-      setLoadingMessage("Initializing the Blockchain connection...");
-      console.log("reached here");
-      await contractMethods.init().then((result) => {
-        dispatch({
-          type: "INIT_CONTRACT_METHODS",
-          value: contractMethods,
-        });
-      });
-    }
+
+    // let contractMethods: any = new ContractMethods(props.magic);
+    // if (props.contractMethods instanceof ContractMethods) {
+    //   contractMethods = props.contractMethods;
+    // } else {
+    //   setLoadingMessage("Initializing the Blockchain connection...");
+    //   console.log("reached here");
+    //   await contractMethods.init().then((result) => {
+    //     dispatch({
+    //       type: "INIT_CONTRACT_METHODS",
+    //       value: contractMethods,
+    //     });
+    //   });
+    // }
 
     if (operation === "TopUp") {
       setLoadingMessage("Confirming payment receipt to the user...");
 
       // try {
-      await contractMethods
-        .agentConfirmPayment(transaction.id)
-        .then((receipt) => {
-          // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
-          // console.log("rx is of type: " + rx?.wtxIndex);
-          setLoadingMessage("");
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
+      // await contractMethods
+      //   .agentConfirmPayment(transaction.id)
+      //   .then((receipt) => {
+      //     // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
+      //     // console.log("rx is of type: " + rx?.wtxIndex);
+      //     setLoadingMessage("");
+      //     setIsLoading(false);
+      //   })
+      //   .catch((error: any) => {
+      //     setLoadingMessage(error.toString());
+      //     console.log(error.toString());
+      //     setIsActionSuccess(false);
+      //     setIsLoading(false);
+      //   });
 
       // } catch (error: any) {
 

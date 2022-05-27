@@ -29,6 +29,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/stack": "^6.1.1",
     "@reduxjs/toolkit": "^1.8.2",
+    "@truffle/hdwallet-provider": "^2.0.8",
     "@types/jest-in-case": "^1.0.5",
     "axios": "^0.27.2",
     "expo": "~44.0.0",
