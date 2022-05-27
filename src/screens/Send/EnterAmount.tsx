@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Pressable, Alert, StyleSheet, Text } from 'react-native'
-import React,{useState, useRef, Fragment} from 'react'
+import React,{useState, useRef, Fragment, useEffect} from 'react'
 import ScreenComponent from '../../containers/ScreenComponent'
 import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import COLORS from "../../styles/colors/colors";
@@ -11,9 +11,13 @@ import { PortalProvider } from "@gorhom/portal";
 import BottomSheet from './BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 
 const EnterAmount = ({route, navigation}) => {
     const {recieversName, recieversPhoneNumber} = route.params;
+    const [balance, setBalance] = useState("");
+    const wakalaContractKit = WakalaContractKit.getInstance();
+
     const modalRef = useRef<any>();
     const bannerRef = useRef<any>();
     const popupRef = useRef<any>();
@@ -21,6 +25,26 @@ const EnterAmount = ({route, navigation}) => {
     const [value, setValue] = useState("");
     const [coinChoice, setCoinChoice] = useState("cUSD");
 
+    const publicAddress = WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
+    const walletBalance = async () => {
+      console.log("Started");
+      console.log(publicAddress)
+      const kit = WakalaContractKit?.getInstance()?.kit;
+      console.log("Initiated the kit");
+      let totalBalance = await kit.getTotalBalance(publicAddress);
+      console.log(totalBalance);
+      let money = totalBalance.cUSD;
+      console.log(money);
+      let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+      console.log(amount);
+      const toNum = Number(amount);
+      const visibleAmount = toNum.toFixed(2);
+      setBalance(visibleAmount);
+    };
+    useEffect(() => {
+      walletBalance();
+    }, [])
+    
     const BannerContent = (props: any) => {
       return (
         <View style={modalStyles.container}>
@@ -99,7 +123,7 @@ const EnterAmount = ({route, navigation}) => {
         </TouchableOpacity>  
         <View>
         <Text style={styles.title}>Send Funds</Text>
-        <Text style={styles.subTutle}>cUSD 13 available</Text>
+        <Text style={styles.subTutle}>cUSD {balance} available</Text>
         </View>
         <Pressable
           onPress={() => openModal()}

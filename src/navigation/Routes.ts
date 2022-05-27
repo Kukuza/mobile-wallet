@@ -24,9 +24,8 @@ import EnterAmount from "../screens/Send/EnterAmount";
 import Description from "../screens/Send/Description";
 import SwipeToSend from "../screens/Send/SwipeToSend";
 import HomeScreen from "../screens/Home/Home";
+import Qrcode from "../screens/Send/Qrcode";
 import Onboarding from "../screens/Onboarding/Onboarding";
-
-
 
 const routes: IRouteProps[] = [
   {
@@ -137,6 +136,10 @@ const routes: IRouteProps[] = [
   {
     name:"SwipeToSend",
     component: SwipeToSend
+  },
+  {
+    name:"Qr",
+    component: Qrcode
   }
 ];
 
