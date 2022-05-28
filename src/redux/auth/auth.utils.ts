@@ -180,17 +180,3 @@ export function getAccountFromMnemonic(mnemonic: string) {
   const keys = generateKeys(mnemonic, undefined,  undefined, undefined, bip39);
   return keys;
 }
-
-
-
-export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: string) {
-  const tokenContract = await getTokenContract(token)
-  // Retry needed here because it's typically the app's first tx and seems to fail on occasion
-  // TODO consider having retry logic for ALL contract calls and txs. ContractKit should have this logic.
-  const balanceInWei = await retryAsync(tokenContract.balanceOf, 3, [account])
-  Logger.debug(
-    TAG + '@fetchTokenBalanceInWeiWithRetry',
-    `Account ${account} ${token} balance: ${balanceInWei.toString()}`
-  )
-  return balanceInWei
-}

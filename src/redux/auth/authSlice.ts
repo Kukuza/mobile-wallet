@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
-import { createNewAccountWithMnemonic, encryptPasswordWithNewMnemonic, getStoredMnemonic } from "./auth.utils";
+import { getAccountFromMnemonic, getStoredMnemonic } from "./auth.utils";
 
 // export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
 
@@ -12,13 +12,14 @@ const privateKeySlice = createSlice({
   initialState: { keystore: "" },
   reducers: {
     createKeystore: function (state, action) {
-      console.log("action", action)
-      encryptPasswordWithNewMnemonic(action.payload).then((storageResult) => {
-        getStoredMnemonic(action.payload).then((mnemonic) => {
-          console.log("updated mnemonic =====> ", mnemonic)
-        })
+      console.log("action", action);
+      getStoredMnemonic("2022").then((mnemonic) => {
+        console.log("updated mnemonic =====> ", mnemonic)
+        getAccountFromMnemonic(mnemonic ?? "").then(keys => {
+          console.log(keys.address);
+          WakalaContractKit.createInstance(keys.privateKey);
+        });
       })
-      
     },
     resetKeyStore: function(state, action) {
         state.keystore= ""

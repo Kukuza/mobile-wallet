@@ -17,7 +17,8 @@ import {
   WakalaEscrowTransaction,
 } from "./transaction_types";
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
-import HDWalletProvider, {  } from "@truffle/hdwallet-provider";
+import BigNumber from 'bignumber.js'
+
 
 /**
  * Wakala contract kit.
@@ -62,7 +63,7 @@ export default class WakalaContractKit {
    */
   cUSDContract?: Contract;
 
-  kit?: ContractKit | any;
+  kit?: ContractKit;
 
   /**
    * Gets a running instance of wakala contract kit utils.
@@ -98,9 +99,12 @@ export default class WakalaContractKit {
    */
   private constructor(privateKey: string) {
 
-    const provider = new HDWalletProvider(privateKey, "https://alfajores-forno.celo-testnet.org");
+    // const provider = new HDWalletProvider(privateKey, "https://alfajores-forno.celo-testnet.org");
 
-    this.web3 = new Web3(provider);
+    this.web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+
+    const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
+    this.web3.eth.accounts.wallet.add(account);
 
     this.wakalaEscrowContract = new this.web3.eth.Contract(
       WakalaEscrowAbi as AbiItem[],
@@ -113,43 +117,50 @@ export default class WakalaContractKit {
     );
     this.cUSDContract = new this.web3.eth.Contract(ERC20Abi, ERC20_ADDRESS);
     this.kit = newKitFromWeb3(this.web3);
+    this.kit.addAccount(privateKey);
+    this.kit.defaultAccount = account.address;
 
     this.wakalaContractEvents = new WakalaContractEventsKit([
       WAKALA_CONTRACT_ADDRESS,
     ]);
-    this.init()
+    this.init();
   }
 
   /**
    * Initialize the contract kit.
    */
   async init() {
+    console.log("=================> init <====================", await this.kit?.getTotalBalance(ERC20_ADDRESS))
+    const txObject = this.wakalaEscrowContract?.methods.initializeDepositTransaction(10000000000000, "phoneNumber");
+    const gasPrice = await this.fetchGasPrice(ERC20_ADDRESS);
 
-    this.wakalaEscrowContract?.methods.initializeDepositTransaction(10000000000000, "phoneNumber")
-        .then((receipt) => {
-          console.log("==============>", receipt)
-        })
-        .catch((error: any) => {
-          console.log("=====================>", error)
-        });
+    let tx = await this.kit?.sendTransactionObject(txObject, {
+      from: this.kit.defaultAccount,
+      feeCurrency: ERC20_ADDRESS,
+      gasPrice: gasPrice.toString()
+    });
 
-    // if (!this.isInitialize) {
-    //   this.wakalaContractEvents = new WakalaContractEventsKit([
-    //     WAKALA_CONTRACT_ADDRESS,
-    //   ]);
-    //   try {
-    //     const accounts = await this?.kit?.web3?.eth.getAccounts();
-    //     this.kit.defaultAccount = accounts[0];
-    //     if (typeof accounts !== undefined) {
-    //       this.web3.eth.defaultAccount = accounts[0];
-    //     }
-    //     await this.kit.setFeeCurrency(CeloContract.StableToken); // To use cUSD
-    //     this.stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
-    //   } catch (error) {
-    //     console.log(this.TAG, error);
-    //     alert(error);
-    //   }
-    // }
+    let receipt = await tx?.waitReceipt();
+    await this.cUSDApproveAmount(new BigNumber(100000000000000000000));
+    await this.updateKarma(WAKALA_CONTRACT_ADDRESS, 10, 2);
+    console.log("From initializeDepositTransaction", receipt, this.kit?.defaultAccount);
+  }
+
+  /**
+   * Sends the composed transaction object.
+   * @param txObject the transaction object.
+   * @returns receipt.
+   */
+  async sendTransactionObject(txObject) {
+    const gasPrice = await this.fetchGasPrice(ERC20_ADDRESS);
+    let tx = await this.kit?.sendTransactionObject(txObject, {
+      from: this.kit.defaultAccount,
+      feeCurrency: ERC20_ADDRESS,
+      gasPrice: gasPrice.toString()
+    });
+
+    let receipt = await tx?.waitReceipt();
+    return receipt;
   }
 
   /**
@@ -159,21 +170,12 @@ export default class WakalaContractKit {
    */
   async cUSDApproveAmount(amount) {
     amount = amount + 100000000000000000000;
-
-    // try {
     let txObject = await this?.cUSDContract?.methods
       .approve(WAKALA_CONTRACT_ADDRESS, amount)
-      .call();
-    //   let tx = await this.kit.sendTransactionObject(txObject, {
-    //     from: this.kit.defaultAccount,
-    //     feeCurrency: ERC20_ADDRESS,
-    //   });
-    //   let receipt = await tx.waitReceipt();
-    //   console.log("From Approve", receipt);
-    //   return receipt;
-    // } catch (e) {
-    //   console.log(e, "approveTransaction catch");
-    // }
+    
+    const receipt = await this.sendTransactionObject(txObject);
+    console.log("cUSDApproveAmount() ====> ", receipt)
+    return receipt;
   }
 
   /**
@@ -195,11 +197,7 @@ export default class WakalaContractKit {
       amount,
       updateFunctionKey
     );
-    let tx: any = await this?.kit.sendTransactionObject(txObject, {
-      from: this?.kit.defaultAccount,
-      feeCurrency: this.stableToken.address,
-    });
-    let receipt = await tx.waitReceipt();
+    let receipt: any = await this?.sendTransactionObject(txObject);
     console.log("From updateKarma", receipt);
     return receipt;
   };
@@ -346,10 +344,10 @@ export default class WakalaContractKit {
       clientAddress: tx[2],
       agentAddress: tx[3],
       status: Status[parseInt(tx[4])],
-      amount: this.kit.web3.utils.fromWei(tx[5], "ether"),
-      agentFee: this.kit.web3.utils.fromWei(tx[6], "ether"),
-      wakalaFee: this.kit.web3.utils.fromWei(tx[7], "ether"),
-      grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
+      amount: this.kit?.web3.utils.fromWei(tx[5], "ether"),
+      agentFee: this.kit?.web3.utils.fromWei(tx[6], "ether"),
+      wakalaFee: this.kit?.web3.utils.fromWei(tx[7], "ether"),
+      grossAmount: this.kit?.web3.utils.fromWei(tx[8], "ether"),
       agentApproval: tx[9],
       clientApproval: tx[10],
       agentPhoneNumber: Buffer.from(tx[11], "base64").toString("ascii"),
@@ -357,5 +355,17 @@ export default class WakalaContractKit {
     };
 
     return wakalaTx;
+  }
+
+  /**
+   * Fetch gas fees estimate.
+   * @param tokenAddress token used as gas fees (at this point still using CELO).
+   * @returns the gas price estimate.
+   */
+  async fetchGasPrice(tokenAddress: string): Promise<BigNumber> {
+    const gasPriceMinimum = await this.kit?.contracts.getGasPriceMinimum()
+    const latestGasPrice = await gasPriceMinimum?.getGasPriceMinimum(tokenAddress)
+    const inflatedGasPrice = latestGasPrice?.times(5) ?? new BigNumber(0)
+    return inflatedGasPrice;
   }
 }
