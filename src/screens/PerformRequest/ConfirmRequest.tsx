@@ -12,7 +12,6 @@ import { connect, useDispatch } from "react-redux";
 import DefaultButton from "../../components/buttons/DefaultButton";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-import { magic } from "../../utils/magic";
 import { EventData } from "web3-eth-contract";
 
 const CardElement = (props) => {

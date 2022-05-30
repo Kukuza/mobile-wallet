@@ -12,7 +12,6 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { THANK_YOU_IMAGE, CONNECTIVITY } from "../../assets/images";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
-import { magic } from "../../utils/magic";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
 import ContractMethods from "../../utils/Celo-Integration/contractMethods";
@@ -135,31 +134,28 @@ const TransactionConfirmationScreen = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  let web3: any = new Web3(magic.rpcProvider);
-  let kit = newKitFromWeb3(web3);
-
   // };
   const handleAction = async () => {
     openModal();
     //Init
     setIsLoading(true);
     setLoadingMessage("Initializing the transaction...");
-    let contractMethods = new ContractMethods(props.magic);
-    if (props.contractMethods.initialized) {
-      contractMethods = props.contractMethods;
-    } else {
-      setLoadingMessage("Initializing the Blockchain connection...");
-      await contractMethods.init();
-      dispatch({
-        type: "INIT_CONTRACT_METHODS",
-        value: contractMethods,
-      });
-    }
+    // let contractMethods = new ContractMethods(props.magic);
+    // if (props.contractMethods.initialized) {
+    //   contractMethods = props.contractMethods;
+    // } else {
+    //   setLoadingMessage("Initializing the Blockchain connection...");
+    //   await contractMethods.init();
+    //   dispatch({
+    //     type: "INIT_CONTRACT_METHODS",
+    //     value: contractMethods,
+    //   });
+    // }
 
     if (operation === "TopUp") {
       setLoadingMessage(`Confirming that you made the M-PESA payment...`);
       try {
-        let result = await contractMethods.clientConfirmPayment(transaction.id);
+        // let result = await contractMethods.clientConfirmPayment(transaction.id);
         setLoadingMessage("");
         setIsLoading(false);
       } catch (error: any) {
@@ -170,9 +166,9 @@ const TransactionConfirmationScreen = (props) => {
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
-        let result = await contractMethods.agentAcceptWithdrawalTransaction(
-          transaction.id
-        );
+        // let result = await contractMethods.agentAcceptWithdrawalTransaction(
+        //   transaction.id
+        // );
         setLoadingMessage("");
         setIsLoading(false);
       } catch (error: any) {

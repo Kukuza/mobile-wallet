@@ -31,7 +31,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
       if (currentIndex == 3) {
         // Perform account creation and encryption.
-        const pin = pinCharArray.join()
+        const pin = pinCharArray.join("")
         dispatch(createKeystore(pin))
         navigation.navigate("ConnectYourPhoneNumberScreen");
         
