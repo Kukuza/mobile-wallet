@@ -14,7 +14,7 @@ const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     props.navigation.navigate("TermsAndConditionsScreen");
   };
 
-  // Logout of Magic session
+  // Logout of session
   const restoreAccount = async () => {
     console.log("restoreAccount()====>");
     props.navigation.navigate("TermsAndConditionsScreen")
@@ -25,7 +25,6 @@ const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     
     <ScreenComponent>
         <NavHeader />
-
         <View style={styles.titleSection}>
             <Image
                 source={require("../../assets/icons/icon.png")}
@@ -42,7 +41,6 @@ const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             </Text>
           </View>
         
-
         <View style = {{ flex: 0.5, justifyContent: 'flex-end',  }}>
           <DefaultButton onPress={createAccount} style={styles.createAccountBtn} text={"Create new account"}/>
 

@@ -23,7 +23,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
    * Skip button handler.
    */
   const skipHandler = () => {
-    console.log("skip handler")
+    navigation.navigate("MyDrawer");
   }
 
   /**
@@ -35,8 +35,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
 
 
   const continueHandler = () => {
-    // navigation.navigate("AttestationLoaderScreen");
-    navigation.navigate("MyDrawer");
+    navigation.navigate("AttestationLoaderScreen");
   }
 
   const closeModal = () => {

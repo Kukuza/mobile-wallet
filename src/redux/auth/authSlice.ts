@@ -14,7 +14,7 @@ const privateKeySlice = createSlice({
     createKeystore: function (state, action) {
       console.log("action", action);
       getStoredMnemonic("2022").then((mnemonic) => {
-        console.log("updated mnemonic =====> ", mnemonic)
+        // console.log("updated mnemonic =====> ", mnemonic);
         getAccountFromMnemonic(mnemonic ?? "").then(keys => {
           console.log(keys.address);
           WakalaContractKit.createInstance(keys.privateKey);
@@ -22,8 +22,7 @@ const privateKeySlice = createSlice({
       })
     },
     resetKeyStore: function(state, action) {
-        state.keystore= ""
-        
+        state.keystore= "" 
     },
     initiateSession: function (state, action) {
       
