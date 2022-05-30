@@ -45,11 +45,13 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           const mnemonic = await getStoredMnemonic(pin);
           const keys = await getAccountFromMnemonic(mnemonic ?? "");
           WakalaContractKit.createInstance(keys.privateKey);
+          console.log("Your public address is: ", keys.address);
         } else {
           await encryptPasswordWithNewMnemonic(pin);
           const mnemonic = await getStoredMnemonic(pin);
           const keys = await getAccountFromMnemonic(mnemonic ?? "");
           WakalaContractKit.createInstance(keys.privateKey);
+          console.log("Your public address is: ", keys.address);
         }
 
         navigation.navigate("ConnectYourPhoneNumberScreen");
