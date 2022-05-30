@@ -9,14 +9,9 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import Web3 from "web3";
-import { newKitFromWeb3 } from "@celo/contractkit";
-import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import { connect, useDispatch } from "react-redux";
 import { EventData } from "web3-eth-contract";
 

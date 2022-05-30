@@ -19,33 +19,35 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
+import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
   const wakalaContractKit = WakalaContractKit.getInstance();
   const [balance, setBalance] = useState("Loading...");
+  const [kshBalance, setKshBalance] = useState("Loading...");
 
   const loading = false;
-  const kshBalance = (Number(balance) * 115).toFixed(2);
-  const cUSDBalance = 5.67;
   const loadingMessage = "Loading...";
-
-  const publicAddress =
-    WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
 
   useEffect(() => {
     walletBalance();
   }, []);
 
   const walletBalance = async () => {
-    const kit = WakalaContractKit?.getInstance()?.kit;
-    let totalBalance = await kit.getTotalBalance(publicAddress);
-    let money = totalBalance.cUSD;
-    let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+    const wakalaKit = WakalaContractKit?.getInstance();
+    const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
+    let money = balances?.cUSD;
+    console.log("get balance",  balances)
+    let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
     const toNum = Number(amount);
     const visibleAmount = toNum.toFixed(2);
     setBalance(visibleAmount);
+    const currencyConverter = new CurrencyLayerAPI();
+    const ksh = await currencyConverter.usdToKsh(toNum);
+
+    setKshBalance(ksh.toFixed(2))
   };
 
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(

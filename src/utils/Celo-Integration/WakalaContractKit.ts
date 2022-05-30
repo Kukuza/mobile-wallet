@@ -15,9 +15,10 @@ import {
   Status,
   TransactionType,
   WakalaEscrowTransaction,
-} from "./transaction_types";
+} from "./wakala_types";
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
 import BigNumber from 'bignumber.js'
+import { UserMetadata } from './wakala_types';
 
 
 /**
@@ -42,6 +43,8 @@ export default class WakalaContractKit {
   stableToken: any;
 
   private isInitialize = false;
+
+  userMetadata: UserMetadata
 
   /**
    * Web3 instance.
@@ -104,6 +107,10 @@ export default class WakalaContractKit {
     this.web3 = new Web3("https://alfajores-forno.celo-testnet.org");
 
     const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
+    this.userMetadata = { 
+      
+    };
+    this.userMetadata.publicAddress = account.address;
     this.web3.eth.accounts.wallet.add(account);
 
     this.wakalaEscrowContract = new this.web3.eth.Contract(
@@ -127,23 +134,30 @@ export default class WakalaContractKit {
   }
 
   /**
+   * Gets the current account balance.
+   * @returns the current account`s balance.
+   */
+  async getCurrentAccountBalance() {
+    return await this.kit?.getTotalBalance(this.userMetadata?.publicAddress ?? "");
+  }
+
+  /**
    * Initialize the contract kit.
    */
   async init() {
-    console.log("=================> init <====================", await this.kit?.getTotalBalance(ERC20_ADDRESS))
-    const txObject = this.wakalaEscrowContract?.methods.initializeDepositTransaction(10000000000000, "phoneNumber");
-    const gasPrice = await this.fetchGasPrice(ERC20_ADDRESS);
+    // const txObject = this.wakalaEscrowContract?.methods.initializeDepositTransaction(10000000000000, "phoneNumber");
+    // const gasPrice = await this.fetchGasPrice(ERC20_ADDRESS);
 
-    let tx = await this.kit?.sendTransactionObject(txObject, {
-      from: this.kit.defaultAccount,
-      feeCurrency: ERC20_ADDRESS,
-      gasPrice: gasPrice.toString()
-    });
+    // let tx = await this.kit?.sendTransactionObject(txObject, {
+    //   from: this.kit.defaultAccount,
+    //   feeCurrency: ERC20_ADDRESS,
+    //   gasPrice: gasPrice.toString()
+    // });
 
-    let receipt = await tx?.waitReceipt();
-    await this.cUSDApproveAmount(new BigNumber(100000000000000000000));
-    await this.updateKarma(WAKALA_CONTRACT_ADDRESS, 10, 2);
-    console.log("From initializeDepositTransaction", receipt, this.kit?.defaultAccount);
+    // let receipt = await tx?.waitReceipt();
+    // await this.cUSDApproveAmount(new BigNumber(100000000000000000000));
+    // await this.updateKarma(WAKALA_CONTRACT_ADDRESS, 10, 2);
+
   }
 
   /**
@@ -174,7 +188,6 @@ export default class WakalaContractKit {
       .approve(WAKALA_CONTRACT_ADDRESS, amount)
     
     const receipt = await this.sendTransactionObject(txObject);
-    console.log("cUSDApproveAmount() ====> ", receipt)
     return receipt;
   }
 

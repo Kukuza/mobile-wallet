@@ -14,9 +14,8 @@ import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { EventData } from "web3-eth-contract";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 
 // const ModalContent = (props) => {
 //   return (

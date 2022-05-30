@@ -57,3 +57,13 @@ export type WakalaEscrowTransaction = {
     clientPhoneNumber: string,
     agentPhoneNumber: string,
 };
+
+/**
+ * @typedef {Object} UserMetadata Summary of user information.
+ * @property { string } phoneNumber - the users phone number.
+ * @property { string } publicAddress - the users public address.
+ */
+export type UserMetadata = {
+    phoneNumber?: string;
+    publicAddress?: string;
+}

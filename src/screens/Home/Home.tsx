@@ -17,8 +17,7 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
-import { connect } from "react-redux";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 
 const EmptyList = (props) => {
   return (

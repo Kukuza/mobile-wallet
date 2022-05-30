@@ -9,7 +9,7 @@ import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 
 const ModalContent = (props) => {
   return (

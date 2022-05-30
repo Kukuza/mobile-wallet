@@ -13,7 +13,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 
 const swipeLeftContent = () => {
   return (
