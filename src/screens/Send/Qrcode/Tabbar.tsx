@@ -5,9 +5,7 @@ import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { Feather,FontAwesome } from '@expo/vector-icons';
 const Tabheight = SIZES.height * 0.1
 export default function Tabbar({state, descriptors, navigation, position}) {
-    const [active, setActive] = useState(false);
     const [xTabOne, setXTabOne] = useState(0);
-    const [xTabTwo, setXTabTwo] = useState(0);
     const translateX = new Animated.Value(0);
 
 
