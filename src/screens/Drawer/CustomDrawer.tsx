@@ -35,21 +35,26 @@ export default function CustomDrawerContent(
     walletBalance();
   }, []);
 
+  //get balances and convert them to local currency.
   const walletBalance = async () => {
+
     const wakalaKit = WakalaContractKit?.getInstance();
     const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
     let money = balances?.cUSD;
-    console.log("get balance",  balances)
+
+    // change balance to cUSD.
     let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
     const toNum = Number(amount);
     const visibleAmount = toNum.toFixed(2);
     setBalance(visibleAmount);
+
+    // change balance to ksh/local currency.
     const currencyConverter = new CurrencyLayerAPI();
     const ksh = await currencyConverter.usdToKsh(toNum);
-
     setKshBalance(ksh.toFixed(2))
   };
 
+  // listen for transaction completion event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
@@ -57,6 +62,7 @@ export default function CustomDrawerContent(
     }
   );
 
+  // listen for transaction initialization event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     async (error: Error, event: EventData) => {
