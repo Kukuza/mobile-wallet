@@ -9,12 +9,6 @@ import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-
-import { AbiItem } from "web3-utils";
-import Web3 from "web3";
-import { newKitFromWeb3 } from "@celo/contractkit";
-import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
@@ -78,6 +72,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   const dispatch = useDispatch();
 
   const wakalaContractKit = WakalaContractKit.getInstance();
+  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
 
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "AgentPairingEvent",
@@ -110,55 +105,34 @@ const AddFundsConfirmationScreen = (props: any) => {
     //Init
     setIsLoading(true);
     console.log("something is cooking");
-    setLoadingMessage("Initializing the transaction...");
 
-    // if (props.contractMethods instanceof ContractMethods) {
-    //   contractMethods = props.contractMethods;
-    // } else {
-    //   setLoadingMessage("Initializing the Blockchain connection...");
+    let amount = wakalaContractKit?.kit?.web3?.utils.toWei(value);
 
-    //   await contractMethods.init().then((result) => {
-    //     dispatch({
-    //       type: "INIT_CONTRACT_METHODS",
-    //       value: contractMethods,
-    //     });
-    //   });
-    // }
-    let amount = value;
-
-    if (operation === "TopUp") {
-      setLoadingMessage("Posting your request to the Celo Blockchain...");
-
-      // try {
-      // await contractMethods
-      //   .initializeDepositTransaction(amount, phoneNumber)
-      //   .then((receipt) => {
-      //     setLoadingMessage("");
-      //     setIsLoading(false);
-      //   })
-      //   .catch((error: any) => {
-      //     setLoadingMessage(error.toString());
-      //     console.log(error.toString() + " \n Amount: " + amount.toString());
-      //     setIsActionSuccess(false);
-      //     setIsLoading(false);
-      //   });
-    } else {
-      try {
+    try {
+      if (operation === "TopUp") {
+        setLoadingMessage("Sending the top up/deposit transaction...");
+        
+        const txObject = wakalaSmartContract?.methods.initializeDepositTransaction(amount, "phoneNumber");
+        const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+        console.log(receipt);
+        
+      } else {
+        setLoadingMessage("Approve fund transfer form account...");
+        wakalaContractKit?.cUSDApproveAmount(amount)
         setLoadingMessage("Sending the withdrawal transaction...");
-        // let result = await contractMethods.initializeWithdrawalTransaction(
-        //   amount,
-        //   phoneNumber
-        // );
-        // setLoadingMessage("");
-        // setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        console.log(
-          error.toString() + " \n Amount to withdraw: " + amount.toString()
-        );
-        setIsActionSuccess(false);
-        setIsLoading(false);
+        const txObject = wakalaSmartContract?.methods.initializeWithdrawalTransaction(amount, "phoneNumber");
+        const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+        console.log(receipt);
       }
+      setLoadingMessage("");
+      setIsLoading(false);
+    } catch (error: any) {
+      setLoadingMessage(error.toString());
+      console.log(
+        error.toString() + " \n Amount to withdraw: " + value.toString()
+      );
+      setIsActionSuccess(false);
+      setIsLoading(false);
     }
     setIsLoading(false);
   };
