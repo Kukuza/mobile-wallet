@@ -17,8 +17,7 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
-import { connect } from "react-redux";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 
 const EmptyList = (props) => {
   return (
@@ -29,7 +28,7 @@ const EmptyList = (props) => {
         style={styles.image}
       />
       <Text style={styles.text}>
-        All requests have been fullfilled. Take a break, get some air, check
+        All requests have been fulfilled. Take a break, get some air, check
         back in later
       </Text>
     </View>

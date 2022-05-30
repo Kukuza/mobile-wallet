@@ -1,5 +1,5 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Pressable,
   Text,
@@ -13,7 +13,8 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
+import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
 
 const swipeLeftContent = () => {
   return (
@@ -51,7 +52,7 @@ const RequestCardComponent = (props) => {
   const wakalaTransaction: WakalaEscrowTransaction = props.wakalaTransaction;
   const navigation = props.navigation;
 
-  // const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("-");
   // const [starsRate, setStarsRate] = useState();
   // const [ratingsNumber, setRatingsNumber] = useState();
   const [visible, setVisible] = useState(true);
@@ -61,6 +62,19 @@ const RequestCardComponent = (props) => {
     console.log("Delete item");
   }
 
+  useEffect(() => {
+    convertCurrencies();
+  }, []);
+
+  /**
+   * Convert funds from cUSD to ksh before display.
+   */
+  const convertCurrencies = async () => {
+    const currencyConverter = new CurrencyLayerAPI();
+    const ksh = await currencyConverter.usdToKsh(wakalaTransaction.amount);
+    setAmount(ksh.toFixed(2))
+  }
+  
   return (
     <GestureHandlerRootView>
       <Swipeable
@@ -129,7 +143,7 @@ const RequestCardComponent = (props) => {
                 }}
               >
                 <Text style={styles.amountKsh}>
-                  Ksh {wakalaTransaction.amount * 115}
+                  Ksh {amount}
                 </Text>
 
                 <Pressable
@@ -227,3 +241,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+

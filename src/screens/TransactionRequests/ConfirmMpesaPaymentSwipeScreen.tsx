@@ -12,7 +12,7 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import SwipeButton from "../../components/buttons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";

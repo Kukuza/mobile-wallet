@@ -10,7 +10,7 @@ import { CONNECTIVITY, THANK_YOU_IMAGE } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { connect, useDispatch } from "react-redux";
 import DefaultButton from "../../components/buttons/DefaultButton";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 
