@@ -7,7 +7,7 @@ import {
 import RampScreen from "../Ramp/Ramp";
 import SettingsScreen from "../Settings/Settings";
 import HelpScreen from "../Help/Help";
-import { GovernanceScreen } from "../Govenance/Governace";
+import GovernanceScreen from "../Govenance/Governace";
 import OpenRequestsScreen from "../TransactionRequests/OpenRequestsScreen";
 import PendingRequestsScreen from "../TransactionRequests/PendingRequestsScreen";
 import TransactionHistoryScreen from "../TransactionRequests/TransactionHistoryScreen";

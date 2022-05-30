@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Pressable, Alert, StyleSheet, Text } from 'react-native'
-import React,{useState, useRef} from 'react'
+import React,{useState, useRef, Fragment, useEffect} from 'react'
 import ScreenComponent from '../../containers/ScreenComponent'
 import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import COLORS from "../../styles/colors/colors";
@@ -9,13 +9,78 @@ import KeyPad from '../../components/buttons/KeyPad';
 import { LinearGradient } from "expo-linear-gradient";
 import { PortalProvider } from "@gorhom/portal";
 import BottomSheet from './BottomSheet';
+import Banner from '../../components/cards/Banner';
+import Popup from '../../components/cards/Popup';
+import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 
 const EnterAmount = ({route, navigation}) => {
     const {recieversName, recieversPhoneNumber} = route.params;
+    const [balance, setBalance] = useState("");
+    const wakalaContractKit = WakalaContractKit.getInstance();
+
     const modalRef = useRef<any>();
+    const bannerRef = useRef<any>();
+    const popupRef = useRef<any>();
 
     const [value, setValue] = useState("");
-    const [coinChoice, setCoinChoice] = useState("cUSD")
+    const [coinChoice, setCoinChoice] = useState("cUSD");
+
+    const publicAddress = WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
+    const walletBalance = async () => {
+      console.log("Started");
+      console.log(publicAddress)
+      const kit = WakalaContractKit?.getInstance()?.kit;
+      console.log("Initiated the kit");
+      let totalBalance = await kit.getTotalBalance(publicAddress);
+      console.log(totalBalance);
+      let money = totalBalance.cUSD;
+      console.log(money);
+      let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+      console.log(amount);
+      const toNum = Number(amount);
+      const visibleAmount = toNum.toFixed(2);
+      setBalance(visibleAmount);
+    };
+    useEffect(() => {
+      walletBalance();
+    }, [])
+    
+    const BannerContent = (props: any) => {
+      return (
+        <View style={modalStyles.container}>
+          <Text style={modalStyles.title}>cUSD 1,000 Limit</Text>
+          <Text style={modalStyles.Text}>
+          You are about to send more than your send daily limit of cUSD 1,000. Please contact <Text style={modalStyles.support}>wakala@support.com </Text>if you want to raise your daily send limit.
+          </Text>
+          <View style={modalStyles.buttons}>
+          <TouchableOpacity
+          style={modalStyles.button}
+            onPress={() => props.bannerRef.current?.closeBanner()}
+          >
+            <Text style={modalStyles.contact}>Contact</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+          style={modalStyles.button}
+            onPress={() => props.bannerRef.current?.closeBanner()}
+          >
+            <Text style={modalStyles.okay}>Okay</Text>
+          </TouchableOpacity>
+          </View>
+
+        </View>
+      );
+    };
+    const PopupContent = (props: any) => {
+      const amount = props.value
+      return (
+        <View>
+          <Text style={{...FONTS.headline, color:COLORS.error}}>
+          {amount < 1 ? "Please enter the amount to send":"You should have a minimum of Ksh 2.70 to make this transaction. Please add funds or try sending less"}
+          
+          </Text>
+        </View>
+      );
+    };
     const openModal = () => {
         modalRef.current?.open();
       };
@@ -29,9 +94,27 @@ const EnterAmount = ({route, navigation}) => {
     function handleChange(newValue) {
         setValue(newValue);
       }
+    function validateInput(value: any) {
+      if(value.length < 1){
+        popupRef.current?.openBanner()
+        setTimeout(() => {
+        popupRef.current?.closeBanner();
+        }, 2000);
+      } else if(value >= 100000){
+        bannerRef.current?.openBanner()
+      } else {
+        navigation.navigate("Description", {
+          Name: recieversName,
+          Phone:recieversPhoneNumber,
+          Amount:value
+      })
+      }
+
+    }
     
   return (
-    < PortalProvider>                        
+    < PortalProvider>
+    <Fragment>                       
     <ScreenComponent>
       <View>
       <View style={styles.topContainer}>
@@ -40,7 +123,7 @@ const EnterAmount = ({route, navigation}) => {
         </TouchableOpacity>  
         <View>
         <Text style={styles.title}>Send Funds</Text>
-        <Text style={styles.subTutle}>cUSD 13 available</Text>
+        <Text style={styles.subTutle}>cUSD {balance} available</Text>
         </View>
         <Pressable
           onPress={() => openModal()}
@@ -71,11 +154,7 @@ const EnterAmount = ({route, navigation}) => {
         <KeyPad value={value} onChange={handleChange} />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Description", {
-              Name: recieversName,
-              Phone:recieversPhoneNumber,
-              Amount:value
-          })}
+          onPress={() => validateInput(value) }
         >
           <LinearGradient
             colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
@@ -88,8 +167,19 @@ const EnterAmount = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
     </ScreenComponent>
+    <Banner
+        ref={bannerRef}
+        style={{ height: 250 }}
+        content={<BannerContent bannerRef={bannerRef} />}
+      />
+      <Popup
+        ref={popupRef}
+        style={{ height: 90}}
+        content={<PopupContent popupRef={popupRef} value={value} />}
+      />
+    </Fragment>
     <BottomSheet modalRef={modalRef} onClose={closeModal}  setCoinChoice={ setCoinChoice}/>
-       </PortalProvider>
+  </PortalProvider>
   )
 }
 
@@ -100,6 +190,41 @@ const modalStyles = StyleSheet.create({
         paddingVertical: 20,
         alignItems: "center",
         justifyContent: "center",
+    },
+    buttons:{
+      width:"85%",
+      padding:10,
+      display:"flex",
+      flexDirection:"row",
+      justifyContent:"space-around",
+      marginTop:"20%",
+
+    },
+    Text:{
+      marginTop:"10%",
+      ...FONTS.headline,
+      color:COLORS.textDarkBlue
+    },
+    button:{
+  
+
+    },
+    contact:{
+      ...FONTS.sh1,
+      color:COLORS.textPrimary
+    },
+    okay:{
+      ...FONTS.sh1,
+      color:COLORS.primary
+    },
+    title:{
+      marginTop:"10%",
+      ...FONTS.sh2,
+      color:COLORS.textDarkBlue
+    },
+    support:{
+      ...FONTS.headline,
+      color:COLORS.accent1
     }
 })
 const styles = StyleSheet.create({

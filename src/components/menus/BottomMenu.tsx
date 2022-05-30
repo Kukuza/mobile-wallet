@@ -17,7 +17,7 @@ const BottomMenu = ({ navigation }) => {
 
         <Pressable
           style={styles.scanQRCodeBtn}
-          onPress={() => Alert.alert("Scan QR code.")}
+          onPress={() => navigation.navigate("Qr", {initialRoute:"MyCode"})}
         >
           <MaterialCommunityIcons
             name="qrcode-scan"

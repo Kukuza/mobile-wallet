@@ -71,7 +71,7 @@ const searchContacts = (value) => {
           <Feather name="chevron-left" size={32} color={COLORS.primary} />
         </TouchableOpacity>  
         <Pressable
-          onPress={() => Alert.alert("Scan QR code.")}
+          onPress={() =>navigation.navigate("Qr", {initialRoute:"Scan"})}
         >
           <MaterialCommunityIcons
             name="qrcode-scan"
