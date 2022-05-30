@@ -25,17 +25,13 @@ const EnterAmount = ({route, navigation}) => {
     const [value, setValue] = useState("");
     const [coinChoice, setCoinChoice] = useState("cUSD");
 
-    const publicAddress = WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
+    const publicAddress= WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
     const walletBalance = async () => {
-      console.log("Started");
       console.log(publicAddress)
       const kit = WakalaContractKit?.getInstance()?.kit;
-      console.log("Initiated the kit");
-      let totalBalance = await kit.getTotalBalance(publicAddress);
-      console.log(totalBalance);
-      let money = totalBalance.cUSD;
-      console.log(money);
-      let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+      let totalBalance = await kit?.getTotalBalance(publicAddress);
+      let money = totalBalance?.cUSD;
+      let amount = kit?.web3.utils.fromWei(money.toString(), "ether");
       console.log(amount);
       const toNum = Number(amount);
       const visibleAmount = toNum.toFixed(2);
@@ -91,8 +87,9 @@ const EnterAmount = ({route, navigation}) => {
     
         
 
-    function handleChange(newValue) {
+    function handleChange(newValue: any) {
         setValue(newValue);
+        console.log(value)
       }
     function validateInput(value: any) {
       if(value.length < 1){
@@ -151,7 +148,7 @@ const EnterAmount = ({route, navigation}) => {
 
         </View>
         <View style={{margin:20, padding:20}}>
-        <KeyPad value={value} onChange={handleChange} />
+        <KeyPad onChange={handleChange} />
         </View>
         <TouchableOpacity
           onPress={() => validateInput(value) }

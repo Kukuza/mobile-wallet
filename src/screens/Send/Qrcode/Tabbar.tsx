@@ -21,11 +21,10 @@ Animated.spring(translateX,{
   return (
     <View style={styles.wrapper} >
         <View style={styles.container}>
-        <Pressable>
+        <Pressable onPress={() => navigation.goBack()}>
         <Feather name="x" size={24} color={COLORS.black} />
         </Pressable>
      <View style={styles.midContainer}>
-     <Animated.View style={[styles.overLay, {transform:[{translateX}]}]}/>
      {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -68,13 +67,12 @@ Animated.spring(translateX,{
           });
         };
         return (
-         <Pressable style={styles.buttonRight}
+         <Pressable style={[styles.buttonLeft, isFocused && styles.buttonRight]}
          key={route.key}
          accessibilityRole="button"
          accessibilityState={isFocused ? {selected: true}:{}}
          accessibilityLabel={options.tabBarAccessibilityLabel}
          testID={options.tabBarTestID}
-         onPressIn={() => {handleSlide(xTabOne)}}
          onLayout={event => setXTabOne(event.nativeEvent.layout.x)}
          onPress = {onPress}
         onLongPress={onLongPress}
@@ -140,6 +138,7 @@ buttonRight:{
     borderRightWidth:0,
     borderColor:COLORS.primary,
     height:"100%",
+    backgroundColor:COLORS.primary
 },
 buttonLeft:{
     padding:0,
@@ -149,6 +148,7 @@ buttonLeft:{
     borderWidth:0.4,
     borderColor:COLORS.primary,
     height:"100%",
+   
 },
 textRight:{
     ...FONTS.body7,
