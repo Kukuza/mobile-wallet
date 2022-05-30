@@ -10,7 +10,7 @@ import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch } from 'react-redux';
 import { createKeystore } from '../../redux/auth/authSlice';
 
-const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
+const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
   // navigation object.
    const navigation = props.navigation;
@@ -29,16 +29,17 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
 
+      //TODO: validate PIN
       if (currentIndex == 5) {
         // Perform account creation and encryption.
         const pin = pinCharArray.join()
         dispatch(createKeystore(pin))
-        navigation.navigate("ConfirmPin");
+        navigation.navigate("ConnectYourPhoneNumberScreen");
         
       }
     } else {
       // unlikely path.
-      navigation.navigate("ConfirmPin");
+      navigation.navigate("ConnectYourPhoneNumberScreen");
     }
   }
 
@@ -58,7 +59,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     <Feather name="chevron-left" size={32} color={COLORS.primary} />
     </TouchableOpacity>
      <View style={styles.enterPin}>
-     <Text style={styles.pinText}>Create a PIN</Text>
+     <Text style={styles.pinText}>Confirm PIN</Text>
     </View>
      <View style={styles.pinIcons}>
        {pinCharArray.map((text, index)=>
@@ -75,7 +76,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
   )
 }
 
-export default EnterPin;
+export default ConfirmPin;
 
 const styles = StyleSheet.create({
 navIcon:{
