@@ -9,17 +9,10 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import Web3 from "web3";
-import { magic } from "../../utils/magic";
-import { newKitFromWeb3 } from "@celo/contractkit";
-import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/transaction_types";
+import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import { connect, useDispatch } from "react-redux";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import { EventData } from "web3-eth-contract";
 
 const ModalContent = (props) => {
@@ -70,7 +63,7 @@ const TopUpViewRequestScreen = (props) => {
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
 
   const wakalaContractKit = WakalaContractKit.getInstance();
-  let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+  let phoneNumber =  ""; //wakalaContractKit?.userMetadata?.phoneNumber ??
   phoneNumber = Buffer.from(phoneNumber).toString("base64");
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
@@ -88,18 +81,18 @@ const TopUpViewRequestScreen = (props) => {
   const modalRef = useRef<any>();
   const [loadingMessage, setLoadingMessage] = useState("");
   // const publicAddress = "0x9FDf3F87CbEE162DC4a9BC9673E5Bb6716186757";
-  const publicAddress =
-    WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
+  const publicAddress = ""
+    // WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  let web3: any = new Web3(magic.rpcProvider);
-  let kit = newKitFromWeb3(web3);
+  // let web3: any = new Web3(magic.rpcProvider);
+  // let kit = newKitFromWeb3(web3);
   const dispatch = useDispatch();
 
-  const contract = new kit.web3.eth.Contract(
-    WakalaEscrowAbi as AbiItem[],
-    WAKALA_CONTRACT_ADDRESS
-  );
+  // const contract = new kit.web3.eth.Contract(
+  //   WakalaEscrowAbi as AbiItem[],
+  //   WAKALA_CONTRACT_ADDRESS
+  // );
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -121,45 +114,45 @@ const TopUpViewRequestScreen = (props) => {
     //Init
     setIsLoading(true);
     setLoadingMessage("Initializing the transaction...");
-    let contractMethods: any = new ContractMethods(props.magic);
-    if (props.contractMethods instanceof ContractMethods) {
-      contractMethods = props.contractMethods;
-    } else {
-      setLoadingMessage("Initializing the Blockchain connection...");
-      await contractMethods.init().then((result) => {
-        dispatch({
-          type: "INIT_CONTRACT_METHODS",
-          value: contractMethods,
-        });
-      });
-    }
+    // let contractMethods: any = new ContractMethods(props.magic);
+    // if (props.contractMethods instanceof ContractMethods) {
+    //   contractMethods = props.contractMethods;
+    // } else {
+    //   setLoadingMessage("Initializing the Blockchain connection...");
+    //   await contractMethods.init().then((result) => {
+    //     dispatch({
+    //       type: "INIT_CONTRACT_METHODS",
+    //       value: contractMethods,
+    //     });
+    //   });
+    // }
     if (operation === "DEPOSIT") {
       setLoadingMessage("Accepting  transaction...");
       console.log("modal opened");
       // try {
-      await contractMethods
-        .agentAcceptDepositTransaction(
-          wakalaEscrowTx?.id,
-          phoneNumber,
-          wakalaEscrowTx.amount
-        )
-        .then(() => {
-          console.log("reached 2nd then");
-          setLoadingMessage("");
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error);
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
+      // await contractMethods
+      //   .agentAcceptDepositTransaction(
+      //     wakalaEscrowTx?.id,
+      //     phoneNumber,
+      //     wakalaEscrowTx.amount
+      //   )
+      //   .then(() => {
+      //     console.log("reached 2nd then");
+      //     setLoadingMessage("");
+      //     setIsLoading(false);
+      //   })
+      //   .catch((error: any) => {
+      //     setLoadingMessage(error.toString());
+      //     console.log(error);
+      //     setIsActionSuccess(false);
+      //     setIsLoading(false);
+      //   });
     } else {
       try {
         setLoadingMessage("Accepting the withdrawal transaction...");
-        let result = await contractMethods.agentAcceptWithdrawalTransaction(
-          wakalaEscrowTx?.id
-        );
+        // let result = await contractMethods.agentAcceptWithdrawalTransaction(
+        //   wakalaEscrowTx?.id
+        // );
         setLoadingMessage("");
         setIsLoading(false);
       } catch (error: any) {

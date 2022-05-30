@@ -9,6 +9,9 @@ import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch } from 'react-redux';
 import { createKeystore } from '../../redux/auth/authSlice';
+import { retrieveStoredItem } from '../../redux/auth/session.key.storage.utils';
+import { encryptPasswordWithNewMnemonic, getAccountFromMnemonic, getStoredMnemonic } from '../../redux/auth/auth.utils';
+import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
 
 const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
@@ -24,17 +27,31 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
    const [currentIndex, setCurrentIndex] = useState(0);
 
   //  Handles the change on the pin number input form the custom keypad.
-  const handleChange = (valPin) => {
+  const handleChange = async (valPin) => {
     if (currentIndex < 7) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
 
       if (currentIndex == 5) {
         // Perform account creation and encryption.
-        const pin = pinCharArray.join()
-        dispatch(createKeystore(pin))
-        navigation.navigate("ConfirmPin");
-        
+        const pin = pinCharArray.join("")
+        // dispatch(createKeystore(pin));
+        const encryptedMnemonic = await retrieveStoredItem("mnemonic");
+
+        // Instantiate wakala contract kit.
+        if (encryptedMnemonic) {
+          const mnemonic = await getStoredMnemonic(pin);
+          const keys = await getAccountFromMnemonic(mnemonic ?? "");
+          WakalaContractKit.createInstance(keys.privateKey);
+        } else {
+          await encryptPasswordWithNewMnemonic(pin);
+          const mnemonic = await getStoredMnemonic(pin);
+          const keys = await getAccountFromMnemonic(mnemonic ?? "");
+          WakalaContractKit.createInstance(keys.privateKey);
+        }
+
+        navigation.navigate("ConnectYourPhoneNumberScreen");
+        //navigation.navigate("ConfirmPin");
       }
     } else {
       // unlikely path.

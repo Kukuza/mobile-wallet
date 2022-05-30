@@ -10,12 +10,11 @@ import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { magic } from "../../utils/magic";
+
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
-import ContractMethods from "../../utils/Celo-Integration/contractMethods";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
@@ -69,8 +68,8 @@ const AddFundsConfirmationScreen = (props: any) => {
   // const { navigation, route } = props;
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
-  const publicAddress =
-    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  const publicAddress = ""
+    // WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -104,7 +103,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   };
 
   const handleAction = async () => {
-    let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+    let phoneNumber =  ""; // wakalaContractKit?.userMetadata?.phoneNumber ??
     phoneNumber = Buffer.from(phoneNumber).toString("base64");
 
     openModal();
@@ -112,46 +111,46 @@ const AddFundsConfirmationScreen = (props: any) => {
     setIsLoading(true);
     console.log("something is cooking");
     setLoadingMessage("Initializing the transaction...");
-    let contractMethods: any = new ContractMethods(props.magic);
-    if (props.contractMethods instanceof ContractMethods) {
-      contractMethods = props.contractMethods;
-    } else {
-      setLoadingMessage("Initializing the Blockchain connection...");
 
-      await contractMethods.init().then((result) => {
-        dispatch({
-          type: "INIT_CONTRACT_METHODS",
-          value: contractMethods,
-        });
-      });
-    }
+    // if (props.contractMethods instanceof ContractMethods) {
+    //   contractMethods = props.contractMethods;
+    // } else {
+    //   setLoadingMessage("Initializing the Blockchain connection...");
+
+    //   await contractMethods.init().then((result) => {
+    //     dispatch({
+    //       type: "INIT_CONTRACT_METHODS",
+    //       value: contractMethods,
+    //     });
+    //   });
+    // }
     let amount = value;
 
     if (operation === "TopUp") {
       setLoadingMessage("Posting your request to the Celo Blockchain...");
 
       // try {
-      await contractMethods
-        .initializeDepositTransaction(amount, phoneNumber)
-        .then((receipt) => {
-          setLoadingMessage("");
-          setIsLoading(false);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          console.log(error.toString() + " \n Amount: " + amount.toString());
-          setIsActionSuccess(false);
-          setIsLoading(false);
-        });
+      // await contractMethods
+      //   .initializeDepositTransaction(amount, phoneNumber)
+      //   .then((receipt) => {
+      //     setLoadingMessage("");
+      //     setIsLoading(false);
+      //   })
+      //   .catch((error: any) => {
+      //     setLoadingMessage(error.toString());
+      //     console.log(error.toString() + " \n Amount: " + amount.toString());
+      //     setIsActionSuccess(false);
+      //     setIsLoading(false);
+      //   });
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
-        let result = await contractMethods.initializeWithdrawalTransaction(
-          amount,
-          phoneNumber
-        );
-        setLoadingMessage("");
-        setIsLoading(false);
+        // let result = await contractMethods.initializeWithdrawalTransaction(
+        //   amount,
+        //   phoneNumber
+        // );
+        // setLoadingMessage("");
+        // setIsLoading(false);
       } catch (error: any) {
         setLoadingMessage(error.toString());
         console.log(

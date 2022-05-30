@@ -19,35 +19,42 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
+import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
   const wakalaContractKit = WakalaContractKit.getInstance();
   const [balance, setBalance] = useState("Loading...");
+  const [kshBalance, setKshBalance] = useState("Loading...");
 
   const loading = false;
-  const kshBalance = (Number(balance) * 115).toFixed(2);
-  const cUSDBalance = 5.67;
   const loadingMessage = "Loading...";
-
-  const publicAddress =
-    WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
 
   useEffect(() => {
     walletBalance();
   }, []);
 
+  //get balances and convert them to local currency.
   const walletBalance = async () => {
-    const kit = WakalaContractKit?.getInstance()?.kit;
-    let totalBalance = await kit.getTotalBalance(publicAddress);
-    let money = totalBalance.cUSD;
-    let amount = kit.web3.utils.fromWei(money.toString(), "ether");
+
+    const wakalaKit = WakalaContractKit?.getInstance();
+    const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
+    let money = balances?.cUSD;
+
+    // change balance to cUSD.
+    let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
     const toNum = Number(amount);
     const visibleAmount = toNum.toFixed(2);
     setBalance(visibleAmount);
+
+    // change balance to ksh/local currency.
+    const currencyConverter = new CurrencyLayerAPI();
+    const ksh = await currencyConverter.usdToKsh(toNum);
+    setKshBalance(ksh.toFixed(2))
   };
 
+  // listen for transaction completion event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
@@ -55,6 +62,7 @@ export default function CustomDrawerContent(
     }
   );
 
+  // listen for transaction initialization event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     async (error: Error, event: EventData) => {

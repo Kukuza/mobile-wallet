@@ -23,7 +23,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
    * Skip button handler.
    */
   const skipHandler = () => {
-    console.log("skip handler")
+    navigation.navigate("MyDrawer");
   }
 
   /**

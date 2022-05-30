@@ -9,10 +9,6 @@ import NavHeader from "../../components/NavHeader";
 import { CONNECTIVITY } from "../../assets/images";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-import { web3 } from "../../utils/magic";
-import { KARMA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { KARMA_ABI } from "../../utils/ContractABIs/KarmaAbi";
-import { AbiItem } from "web3-utils";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import ModalLoading from "../../components/modals/ModalLoading";
 

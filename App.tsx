@@ -22,7 +22,6 @@ import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
-import { Magic } from "@magic-sdk/react-native";
 import globalStore from "./src/redux/GlobalStore";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -34,19 +33,14 @@ LogBox.ignoreLogs([
 ]);
 
 const Stack = createStackNavigator();
-// const store = createStore(globalStore);
-const magic = new Magic("pk_live_5B2A9951805695BB", {
-  network: {
-    rpcUrl: "https://alfajores-forno.celo-testnet.org",
-  },
-});
+
 
 const loadAppSession = async () => {
   try {
     let user = await AsyncStorage.getItem("user");
     let data = JSON.parse(user!);
     console.log(data);
-    let action = { type: "INIT", value: { ...data, magic: magic } };
+    let action = { type: "INIT", value: { ...data, } };
     store.dispatch(action);
     // return true;
   } catch (err) {
@@ -123,7 +117,6 @@ const App = () => {
           </Stack.Navigator>
         </NavigationContainer>
         <View>
-          <magic.Relayer/>
         </View>
       </Provider>
     );

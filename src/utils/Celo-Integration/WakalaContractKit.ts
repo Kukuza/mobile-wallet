@@ -1,4 +1,3 @@
-import { Magic, MagicUserMetadata } from "@magic-sdk/react-native";
 import Web3 from "web3";
 import { Contract, EventData } from "web3-eth-contract";
 import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
@@ -9,15 +8,18 @@ import {
   ERC20_ADDRESS,
   KARMA_CONTRACT_ADDRESS,
 } from "../ContractAdresses/contract";
-import { CeloContract, ContractKit, newKitFromWeb3 } from "@celo/contractkit";
+import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
 import { WakalaContractEventsKit } from "./WakalaContractEventsKit";
 import {
   Status,
   TransactionType,
   WakalaEscrowTransaction,
-} from "./transaction_types";
+} from "./wakala_types";
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
+import BigNumber from 'bignumber.js'
+import { UserMetadata } from './wakala_types';
+
 
 /**
  * Wakala contract kit.
@@ -42,15 +44,12 @@ export default class WakalaContractKit {
 
   private isInitialize = false;
 
+  userMetadata: UserMetadata
+
   /**
    * Web3 instance.
    */
   web3?: Web3 | any;
-
-  /**
-   * Magic provider instance.
-   */
-  magic?: Magic | any;
 
   /**
    * Instance of wakala escrow smart contract.
@@ -63,16 +62,11 @@ export default class WakalaContractKit {
   karmaContract?: Contract;
 
   /**
-   * Magic user metadata.
-   */
-  userMetadata?: MagicUserMetadata;
-
-  /**
    * Instance of the cUSD smart contract.
    */
   cUSDContract?: Contract;
 
-  kit?: ContractKit | any;
+  kit?: ContractKit;
 
   /**
    * Gets a running instance of wakala contract kit utils.
@@ -86,11 +80,11 @@ export default class WakalaContractKit {
    * Creates a singleton instance of wakala contract kit.
    * @param magic instance of magic provider.
    */
-  static createInstance(magic: Magic) {
+  static createInstance(privateKey: string) {
     if (WakalaContractKit.wakalaContractKitInstance) {
       console.log(" instance already created!!");
     } else {
-      let instance: WakalaContractKit = new WakalaContractKit(magic);
+      let instance: WakalaContractKit = new WakalaContractKit(privateKey);
       WakalaContractKit.wakalaContractKitInstance = instance;
     }
   }
@@ -103,20 +97,21 @@ export default class WakalaContractKit {
   }
 
   /**
-   * Set the currents users metadata.
-   * @param userMetadata the current users metadata.
+   * The users private key.
+   * @param privateKey magic provider instance.
    */
-  setUserMetadata(userMetadata?: MagicUserMetadata) {
-    this.userMetadata = userMetadata;
-  }
+  private constructor(privateKey: string) {
 
-  /**
-   *
-   * @param magic magic provider instance.
-   */
-  private constructor(magic: Magic) {
-    this.web3 = new Web3(magic.rpcProvider);
-    this.magic = magic;
+    // const provider = new HDWalletProvider(privateKey, "https://alfajores-forno.celo-testnet.org");
+
+    this.web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+
+    const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
+    this.userMetadata = { 
+      
+    };
+    this.userMetadata.publicAddress = account.address;
+    this.web3.eth.accounts.wallet.add(account);
 
     this.wakalaEscrowContract = new this.web3.eth.Contract(
       WakalaEscrowAbi as AbiItem[],
@@ -129,33 +124,57 @@ export default class WakalaContractKit {
     );
     this.cUSDContract = new this.web3.eth.Contract(ERC20Abi, ERC20_ADDRESS);
     this.kit = newKitFromWeb3(this.web3);
+    this.kit.addAccount(privateKey);
+    this.kit.defaultAccount = account.address;
 
     this.wakalaContractEvents = new WakalaContractEventsKit([
       WAKALA_CONTRACT_ADDRESS,
     ]);
+    this.init();
+  }
+
+  /**
+   * Gets the current account balance.
+   * @returns the current account`s balance.
+   */
+  async getCurrentAccountBalance() {
+    return await this.kit?.getTotalBalance(this.userMetadata?.publicAddress ?? "");
   }
 
   /**
    * Initialize the contract kit.
    */
   async init() {
-    if (!this.isInitialize) {
-      this.wakalaContractEvents = new WakalaContractEventsKit([
-        WAKALA_CONTRACT_ADDRESS,
-      ]);
-      try {
-        const accounts = await this?.kit?.web3?.eth.getAccounts();
-        this.kit.defaultAccount = accounts[0];
-        if (typeof accounts !== undefined) {
-          this.web3.eth.defaultAccount = accounts[0];
-        }
-        await this.kit.setFeeCurrency(CeloContract.StableToken); // To use cUSD
-        this.stableToken = await this.kit.contracts.getStableToken(); // To use cUSD
-      } catch (error) {
-        console.log(this.TAG, error);
-        alert(error);
-      }
-    }
+    // const txObject = this.wakalaEscrowContract?.methods.initializeDepositTransaction(10000000000000, "phoneNumber");
+    // const gasPrice = await this.fetchGasPrice(ERC20_ADDRESS);
+
+    // let tx = await this.kit?.sendTransactionObject(txObject, {
+    //   from: this.kit.defaultAccount,
+    //   feeCurrency: ERC20_ADDRESS,
+    //   gasPrice: gasPrice.toString()
+    // });
+
+    // let receipt = await tx?.waitReceipt();
+    // await this.cUSDApproveAmount(new BigNumber(100000000000000000000));
+    // await this.updateKarma(WAKALA_CONTRACT_ADDRESS, 10, 2);
+
+  }
+
+  /**
+   * Sends the composed transaction object.
+   * @param txObject the transaction object.
+   * @returns receipt.
+   */
+  async sendTransactionObject(txObject) {
+    const gasPrice = await this.fetchGasPrice(ERC20_ADDRESS);
+    let tx = await this.kit?.sendTransactionObject(txObject, {
+      from: this.kit.defaultAccount,
+      feeCurrency: ERC20_ADDRESS,
+      gasPrice: gasPrice.toString()
+    });
+
+    let receipt = await tx?.waitReceipt();
+    return receipt;
   }
 
   /**
@@ -165,21 +184,11 @@ export default class WakalaContractKit {
    */
   async cUSDApproveAmount(amount) {
     amount = amount + 100000000000000000000;
-
-    // try {
     let txObject = await this?.cUSDContract?.methods
       .approve(WAKALA_CONTRACT_ADDRESS, amount)
-      .call();
-    //   let tx = await this.kit.sendTransactionObject(txObject, {
-    //     from: this.kit.defaultAccount,
-    //     feeCurrency: ERC20_ADDRESS,
-    //   });
-    //   let receipt = await tx.waitReceipt();
-    //   console.log("From Approve", receipt);
-    //   return receipt;
-    // } catch (e) {
-    //   console.log(e, "approveTransaction catch");
-    // }
+    
+    const receipt = await this.sendTransactionObject(txObject);
+    return receipt;
   }
 
   /**
@@ -201,11 +210,7 @@ export default class WakalaContractKit {
       amount,
       updateFunctionKey
     );
-    let tx: any = await this?.kit.sendTransactionObject(txObject, {
-      from: this?.kit.defaultAccount,
-      feeCurrency: this.stableToken.address,
-    });
-    let receipt = await tx.waitReceipt();
+    let receipt: any = await this?.sendTransactionObject(txObject);
     console.log("From updateKarma", receipt);
     return receipt;
   };
@@ -352,10 +357,10 @@ export default class WakalaContractKit {
       clientAddress: tx[2],
       agentAddress: tx[3],
       status: Status[parseInt(tx[4])],
-      amount: this.kit.web3.utils.fromWei(tx[5], "ether"),
-      agentFee: this.kit.web3.utils.fromWei(tx[6], "ether"),
-      wakalaFee: this.kit.web3.utils.fromWei(tx[7], "ether"),
-      grossAmount: this.kit.web3.utils.fromWei(tx[8], "ether"),
+      amount: this.kit?.web3.utils.fromWei(tx[5], "ether"),
+      agentFee: this.kit?.web3.utils.fromWei(tx[6], "ether"),
+      wakalaFee: this.kit?.web3.utils.fromWei(tx[7], "ether"),
+      grossAmount: this.kit?.web3.utils.fromWei(tx[8], "ether"),
       agentApproval: tx[9],
       clientApproval: tx[10],
       agentPhoneNumber: Buffer.from(tx[11], "base64").toString("ascii"),
@@ -363,5 +368,17 @@ export default class WakalaContractKit {
     };
 
     return wakalaTx;
+  }
+
+  /**
+   * Fetch gas fees estimate.
+   * @param tokenAddress token used as gas fees (at this point still using CELO).
+   * @returns the gas price estimate.
+   */
+  async fetchGasPrice(tokenAddress: string): Promise<BigNumber> {
+    const gasPriceMinimum = await this.kit?.contracts.getGasPriceMinimum()
+    const latestGasPrice = await gasPriceMinimum?.getGasPriceMinimum(tokenAddress)
+    const inflatedGasPrice = latestGasPrice?.times(5) ?? new BigNumber(0)
+    return inflatedGasPrice;
   }
 }
