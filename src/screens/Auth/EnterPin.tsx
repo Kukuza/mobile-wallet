@@ -50,6 +50,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           WakalaContractKit.createInstance(keys.privateKey);
         }
 
+        //TODO: confirm pin screen should follow
         navigation.navigate("ConnectYourPhoneNumberScreen");
         //navigation.navigate("ConfirmPin");
       }
