@@ -28,7 +28,7 @@ const EmptyList = (props) => {
         style={styles.image}
       />
       <Text style={styles.text}>
-        All requests have been fullfilled. Take a break, get some air, check
+        All requests have been fulfilled. Take a break, get some air, check
         back in later
       </Text>
     </View>
