@@ -20,9 +20,8 @@ const TermsAndConditionsScreen: React.FunctionComponent<IStackScreenProps> = (pr
 
   const accept = () => {
     console.log("Accept T & C")
-    navigation.navigate("EnterPin")
+    navigation.navigate("UserDetails");
   };
-
 
   return (
     <ScreenComponent>
@@ -61,7 +60,7 @@ const TermsAndConditionsScreen: React.FunctionComponent<IStackScreenProps> = (pr
 
 const styles = StyleSheet.create({
   textContainer: {
-    flex: 0.6,
+    flex: 0.8,
     marginHorizontal: SIZES.width * 0.09,
     marginVertical: SIZES.height * 0.1
   },
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
   bodyTxt: {
     ...FONTS.s3,
     width: SIZES.width * 0.8,
+    marginTop: 10,
     marginBottom: 20,
     color: COLORS.textColor2
   },

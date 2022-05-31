@@ -14,6 +14,7 @@ import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequ
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
 import AccountAddress from "../screens/Settings/AccountAddress";
 import EnterPin from "../screens/Auth/EnterPin";
+import ConfirmPin from "../screens/Auth/ConfirmPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
 import AttestationLoaderScreen from "../screens/Attestation/LoaderScreen/AttestationLoaderScreen";
 import CodeConfirmationScreen from "../screens/Attestation/AttestationCodeConfirmationScreen/CodeConfirmationScreen";
@@ -26,6 +27,8 @@ import SwipeToSend from "../screens/Send/SwipeToSend";
 import HomeScreen from "../screens/Home/Home";
 import Qrcode from "../screens/Send/Qrcode";
 import Onboarding from "../screens/Onboarding/Onboarding";
+import LanguagesList from "../screens/Languages/LanguagesList";
+import UserDetails from "../screens/Onboarding/UserDetails"; 
 
 const routes: IRouteProps[] = [
   {
@@ -101,6 +104,10 @@ const routes: IRouteProps[] = [
     component: EnterPin,
   },
   {
+    name:"ConfirmPin",
+    component: ConfirmPin,
+  },
+  {
     name: "ConnectYourPhoneNumberScreen",
     component: ConnectYourPhoneNumberScreen
   },
@@ -140,7 +147,16 @@ const routes: IRouteProps[] = [
   {
     name:"Qr",
     component: Qrcode
+  },
+  {
+    name: "LanguagesList",
+    component: LanguagesList
+  },
+  {
+    name: "UserDetails",
+    component: UserDetails
   }
+
 ];
 
 export default routes;
