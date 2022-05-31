@@ -1,10 +1,11 @@
 import { StyleSheet, Text,View, TouchableOpacity, Pressable, Alert, TextInput,FlatList, Image } from 'react-native';
 import React,{useEffect, useState} from 'react';
+import Tooltip from 'rn-tooltip';
 import ScreenComponent from '../../containers/ScreenComponent';
 import { Feather } from "@expo/vector-icons";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -12,7 +13,8 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function Description({route,navigation}) {
     const [description, setDescription] = useState("");
 
-    const {Name, Phone,Amount} = route.params
+    const {Name, Phone,Amount} = route.params;
+
   return (
     <ScreenComponent>
     <View style={styles.topContainer}>
@@ -34,7 +36,14 @@ export default function Description({route,navigation}) {
                          Ksh {Amount}
             </TextInput>
             <View style={styles.estiMated}>
-                <Text style={{...FONTS.s3, color:COLORS.black}} >Estimated Fees</Text>
+              <View style={{flexDirection:"row", alignItems:"center"}}>
+              <Text style={{...FONTS.s3, color:COLORS.black}} >Estimated Fees</Text>
+              <Tooltip actionType='press' popover={<Text>Info here</Text>}>
+              <Pressable>
+              <MaterialIcons name="info-outline" size={15} color={COLORS.grayLighter} />
+              </Pressable>
+              </Tooltip>
+              </View>
                 <Text style={{...FONTS.s3, color:COLORS.black}}>Ksh 10</Text>
             </View>
             <View style={styles.estiMated}>

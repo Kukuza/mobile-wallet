@@ -9,14 +9,14 @@ import { FONTS } from "../../styles/fonts/fonts";
 const { height } = Dimensions.get("screen");
 const modalHeight = height * 0.4;
 
-const BottomSheet = ({ modalRef, onClose, setCoinChoice}) => {
+const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal}) => {
   const Coins = [{
     name:"cUSD",
-    balance: 10.11
+    balance: bal
   },
 {
   name:"CELO",
-  balance:114.24
+  balance:celo
 },
 {
   name:"KUZA",
