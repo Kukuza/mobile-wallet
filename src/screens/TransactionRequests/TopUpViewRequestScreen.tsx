@@ -63,8 +63,11 @@ const TopUpViewRequestScreen = (props) => {
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
 
   const wakalaContractKit = WakalaContractKit.getInstance();
+  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
+
   let phoneNumber =  ""; //wakalaContractKit?.userMetadata?.phoneNumber ??
   phoneNumber = Buffer.from(phoneNumber).toString("base64");
+
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
@@ -85,8 +88,6 @@ const TopUpViewRequestScreen = (props) => {
     // WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  // let web3: any = new Web3(magic.rpcProvider);
-  // let kit = newKitFromWeb3(web3);
   const dispatch = useDispatch();
 
   // const contract = new kit.web3.eth.Contract(
@@ -113,55 +114,39 @@ const TopUpViewRequestScreen = (props) => {
     openModal();
     //Init
     setIsLoading(true);
-    setLoadingMessage("Initializing the transaction...");
-    // let contractMethods: any = new ContractMethods(props.magic);
-    // if (props.contractMethods instanceof ContractMethods) {
-    //   contractMethods = props.contractMethods;
-    // } else {
-    //   setLoadingMessage("Initializing the Blockchain connection...");
-    //   await contractMethods.init().then((result) => {
-    //     dispatch({
-    //       type: "INIT_CONTRACT_METHODS",
-    //       value: contractMethods,
-    //     });
-    //   });
-    // }
-    if (operation === "DEPOSIT") {
-      setLoadingMessage("Accepting  transaction...");
-      console.log("modal opened");
-      // try {
-      // await contractMethods
-      //   .agentAcceptDepositTransaction(
-      //     wakalaEscrowTx?.id,
-      //     phoneNumber,
-      //     wakalaEscrowTx.amount
-      //   )
-      //   .then(() => {
-      //     console.log("reached 2nd then");
-      //     setLoadingMessage("");
-      //     setIsLoading(false);
-      //   })
-      //   .catch((error: any) => {
-      //     setLoadingMessage(error.toString());
-      //     console.log(error);
-      //     setIsActionSuccess(false);
-      //     setIsLoading(false);
-      //   });
-    } else {
-      try {
-        setLoadingMessage("Accepting the withdrawal transaction...");
-        // let result = await contractMethods.agentAcceptWithdrawalTransaction(
-        //   wakalaEscrowTx?.id
-        // );
+    try {
+      if (operation === "DEPOSIT") {
+        // handle deposit transaction contract calls.
+
+        // Approve amount to be transferred from account to smart contract.
+        setLoadingMessage("Approving fund transfer from account...");
+        let weiAmount = wakalaContractKit?.kit?.web3?.utils.toWei(wakalaEscrowTx.amount);
+        const approvalReceipt = await wakalaContractKit?.cUSDApproveAmount(weiAmount);
+        // console.log("approval receipt", approvalReceipt);
+
+        // Agent accept transaction
+        setLoadingMessage("Accepting deposit transaction...");
+        const tsxObj = wakalaSmartContract?.methods
+                .agentAcceptDepositTransaction(wakalaEscrowTx?.id, phoneNumber);
+        const receipt = wakalaContractKit?.sendTransactionObject(tsxObj);   
+        console.log(receipt);
         setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        console.log(error);
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
+
+      } else {
+        // handle deposit transaction contract calls.
+        setLoadingMessage("Accepting the withdrawal transaction...");
+        const tsxObj = wakalaSmartContract?.methods
+                  .agentAcceptWithdrawalTransaction(wakalaEscrowTx?.id, phoneNumber);
+        const receipt = wakalaContractKit?.sendTransactionObject(tsxObj);   
+        // console.log("approval receipt", receipt);
+        setLoadingMessage("");
+      } 
+    } catch (error: any) {
+      setLoadingMessage(error.toString());
+      console.log(error);
+      setIsActionSuccess(false);
     }
+
     setIsLoading(false);
   };
   return (
