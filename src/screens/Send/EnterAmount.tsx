@@ -16,26 +16,31 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 const EnterAmount = ({route, navigation}) => {
     const {recieversName, recieversPhoneNumber} = route.params;
     const [balance, setBalance] = useState("");
-    const wakalaContractKit = WakalaContractKit.getInstance();
-
+    const [celo, setCelo] = useState("")
     const modalRef = useRef<any>();
     const bannerRef = useRef<any>();
     const popupRef = useRef<any>();
 
     const [value, setValue] = useState("");
     const [coinChoice, setCoinChoice] = useState("cUSD");
-
-    const publicAddress= WakalaContractKit?.getInstance()?.userMetadata?.publicAddress;
     const walletBalance = async () => {
-      console.log(publicAddress)
-      const kit = WakalaContractKit?.getInstance()?.kit;
-      let totalBalance = await kit?.getTotalBalance(publicAddress);
-      let money = totalBalance?.cUSD;
-      let amount = kit?.web3.utils.fromWei(money.toString(), "ether");
-      console.log(amount);
+      const wakalaKit = WakalaContractKit?.getInstance();
+      const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
+      let money = balances?.cUSD;
+      let celoMoney = balances?.CELO
+  
+      // change balance to cUSD.
+      let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
       const toNum = Number(amount);
       const visibleAmount = toNum.toFixed(2);
       setBalance(visibleAmount);
+
+      //Get CELO Balances.
+      let celoamount = wakalaKit?.web3.utils.fromWei(celoMoney?.toString(), "ether");
+      const celotoNum = Number(celoamount);
+      const celovisibleAmount = celotoNum.toFixed(2);
+      setCelo(celovisibleAmount);
+
     };
     useEffect(() => {
       walletBalance();
@@ -88,8 +93,10 @@ const EnterAmount = ({route, navigation}) => {
         
 
     function handleChange(newValue: any) {
-        setValue(newValue);
-        console.log(value)
+      if (value == "" && newValue == "0") {
+        return null;
+      }
+      setValue(value + newValue);
       }
     function validateInput(value: any) {
       if(value.length < 1){
@@ -103,10 +110,14 @@ const EnterAmount = ({route, navigation}) => {
         navigation.navigate("Description", {
           Name: recieversName,
           Phone:recieversPhoneNumber,
-          Amount:value
+          Amount:value,
+          Coin:coinChoice
       })
       }
 
+    }
+    function handleDelete () {
+      setValue(value.slice(0, -1));
     }
     
   return (
@@ -120,7 +131,7 @@ const EnterAmount = ({route, navigation}) => {
         </TouchableOpacity>  
         <View>
         <Text style={styles.title}>Send Funds</Text>
-        <Text style={styles.subTutle}>cUSD {balance} available</Text>
+        <Text style={styles.subTutle}>{coinChoice} {coinChoice === "CELO" ? `${celo}`:`${balance}`} available</Text>
         </View>
         <Pressable
           onPress={() => openModal()}
@@ -139,7 +150,7 @@ const EnterAmount = ({route, navigation}) => {
             <TextInput style={styles.Texttitle} placeholder="Ksh 200">
           Ksh {value}
         </TextInput>
-                <Text style={styles.subTutle}>cUSD 30</Text>
+                <Text style={styles.subTutle}>{coinChoice} 30</Text>
 
             </View>
             <Pressable  style={styles.minmax}>
@@ -148,7 +159,7 @@ const EnterAmount = ({route, navigation}) => {
 
         </View>
         <View style={{margin:20, padding:20}}>
-        <KeyPad onChange={handleChange} />
+        <KeyPad  value={value} onChange={handleChange} onDelete={handleDelete} />
         </View>
         <TouchableOpacity
           onPress={() => validateInput(value) }
@@ -172,10 +183,10 @@ const EnterAmount = ({route, navigation}) => {
       <Popup
         ref={popupRef}
         style={{ height: 90}}
-        content={<PopupContent popupRef={popupRef} value={value} />}
+        content={<PopupContent popupRef={popupRef} value={value}  />}
       />
     </Fragment>
-    <BottomSheet modalRef={modalRef} onClose={closeModal}  setCoinChoice={ setCoinChoice}/>
+    <BottomSheet modalRef={modalRef} onClose={closeModal} bal={balance} celo={celo}  setCoinChoice={ setCoinChoice}/>
   </PortalProvider>
   )
 }

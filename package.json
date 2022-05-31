@@ -79,6 +79,7 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "rn-nodeify": "^10.3.0",
+    "rn-tooltip": "^3.0.1",
     "vm-browserify": "^1.1.2",
     "web3": "^1.7.1"
   },
