@@ -9,11 +9,8 @@ import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch } from 'react-redux';
 import { createKeystore } from '../../redux/auth/authSlice';
-import { retrieveStoredItem } from '../../redux/auth/session.key.storage.utils';
-import { encryptPasswordWithNewMnemonic, getAccountFromMnemonic, getStoredMnemonic } from '../../redux/auth/auth.utils';
-import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
 
-const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
+const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
   // navigation object.
    const navigation = props.navigation;
@@ -27,38 +24,22 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
    const [currentIndex, setCurrentIndex] = useState(0);
 
   //  Handles the change on the pin number input form the custom keypad.
-  const handleChange = async (valPin) => {
+  const handleChange = (valPin) => {
     if (currentIndex < 7) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
 
+      //TODO: validate PIN
       if (currentIndex == 5) {
         // Perform account creation and encryption.
-        const pin = pinCharArray.join("")
-        // dispatch(createKeystore(pin));
-        const encryptedMnemonic = await retrieveStoredItem("mnemonic");
-
-        // Instantiate wakala contract kit.
-        if (encryptedMnemonic) {
-          const mnemonic = await getStoredMnemonic(pin);
-          const keys = await getAccountFromMnemonic(mnemonic ?? "");
-          WakalaContractKit.createInstance(keys.privateKey);
-          console.log("Your public address is: ", keys.address);
-        } else {
-          await encryptPasswordWithNewMnemonic(pin);
-          const mnemonic = await getStoredMnemonic(pin);
-          const keys = await getAccountFromMnemonic(mnemonic ?? "");
-          WakalaContractKit.createInstance(keys.privateKey);
-          console.log("Your public address is: ", keys.address);
-        }
-
-        //TODO: confirm pin screen should follow
+        const pin = pinCharArray.join()
+        dispatch(createKeystore(pin))
         navigation.navigate("ConnectYourPhoneNumberScreen");
-        //navigation.navigate("ConfirmPin");
+        
       }
     } else {
       // unlikely path.
-      navigation.navigate("ConfirmPin");
+      navigation.navigate("ConnectYourPhoneNumberScreen");
     }
   }
 
@@ -78,7 +59,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     <Feather name="chevron-left" size={32} color={COLORS.primary} />
     </TouchableOpacity>
      <View style={styles.enterPin}>
-     <Text style={styles.pinText}>Create a PIN</Text>
+     <Text style={styles.pinText}>Confirm PIN</Text>
     </View>
      <View style={styles.pinIcons}>
        {pinCharArray.map((text, index)=>
@@ -95,7 +76,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
   )
 }
 
-export default EnterPin;
+export default ConfirmPin;
 
 const styles = StyleSheet.create({
 navIcon:{

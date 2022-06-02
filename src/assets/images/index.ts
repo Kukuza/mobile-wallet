@@ -4,3 +4,5 @@ export const COMING_SOON = require("../images/MpesaToCusd/coming_soon.png");
 export const SHARED = require("../images/modals/Shared_image.png");
 export const CONNECTIVITY = require("../images/modals/Connectivity.png");
 export const THANK_YOU_IMAGE = require("../images/modals/Thank_you_image.png");
+export const FLAG_US = require('../icons/flags/us.png');
+export const FLAG_SPAIN = require('../icons/flags/es.png');

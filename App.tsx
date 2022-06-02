@@ -108,7 +108,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName="Onboarding"
+            initialRouteName="LanguagesList"
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (
