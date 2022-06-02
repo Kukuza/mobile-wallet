@@ -137,6 +137,13 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
+        configurations.all {
+            resolutionStrategy { 
+                force 'androidx.sqlite:sqlite-framework:2.1.0'
+                force 'androidx.sqlite:sqlite:2.1.0'
+                force 'androidx.room:room-runtime:2.1.0' 
+                }
+        }
     }
     splits {
         abi {
