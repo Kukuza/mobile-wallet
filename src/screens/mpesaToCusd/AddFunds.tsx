@@ -25,10 +25,15 @@ const AddFunds: React.FunctionComponent = () => {
   const usdEquivalentString = usdEquivalent.toString();
   const operation = route.params.operation;
 
-  function handleChange(newValue) {
-    setValue(newValue);
-  }
-
+  function handleChange(newValue: any) {
+    if (value == "" && newValue == "0") {
+      return null;
+    }
+    setValue(value + newValue);
+    }
+    function handleDelete () {
+      setValue(value.slice(0, -1));
+    }
   return (
     <ScreenComponent>
       <NavHeader
@@ -49,7 +54,7 @@ const AddFunds: React.FunctionComponent = () => {
           placeholder="Ksh 0,00"
           placeholderTextColor={COLORS.primary}
         /> */}
-        <KeyPad value={value} onChange={handleChange} />
+        <KeyPad value={value} onChange={handleChange} onDelete={handleDelete} />
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("Add Funds Confirmation", {
