@@ -26,12 +26,9 @@ export default class CurrencyLayerAPI {
                 return 0;
             } else {
                 try {
-                    let resp = await axios.get("https://api.apilayer.com/exchangerates_data/convert", {
-                        params: {
-                            'to': to,
-                            'from': from, 
-                            'amount': amount.toString()
-                        },
+
+                    const rqstStr = `https://api.apilayer.com/currency_data/convert?to=${to}&from=${from}&amount=${amount.toString()}`
+                    let resp = await axios.get(rqstStr, {
                         headers: {
                             // TODO: Hide API key.
                             apikey: "YtOZXS1BqTeTZ00KOqlqaIHF1GaZEdgH"
@@ -42,7 +39,7 @@ export default class CurrencyLayerAPI {
                     if (responseData.success) {
                         return responseData.result;
                     } else {
-                        console.error(this.TAG, resp);
+                        console.error(this.TAG, rqstStr, responseData);
                         return 0;
                     }
             } catch(error) {
