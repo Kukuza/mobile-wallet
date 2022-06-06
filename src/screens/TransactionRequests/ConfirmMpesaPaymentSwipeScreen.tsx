@@ -103,7 +103,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     async (error: Error, event: EventData) => {
       const index: number = event.returnValues.wtx[0];
       navigation.navigate("MyDrawer");
-      console.log("The transaction id is : " + index);
     }
   );
 
