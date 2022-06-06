@@ -106,6 +106,10 @@ const ModalContent = (props) => {
   );
 };
 const TransactionConfirmationScreen = (props) => {
+
+  const wakalaContractKit = WakalaContractKit.getInstance();
+  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
+
   const route = useRoute<any>();
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
@@ -118,8 +122,6 @@ const TransactionConfirmationScreen = (props) => {
   //   todo remove
   const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
-
-  const wakalaContractKit = WakalaContractKit.getInstance();
 
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "ConfirmationCompletedEvent",
@@ -139,42 +141,35 @@ const TransactionConfirmationScreen = (props) => {
     //Init
     setIsLoading(true);
     setLoadingMessage("Initializing the transaction...");
-    // let contractMethods = new ContractMethods(props.magic);
-    // if (props.contractMethods.initialized) {
-    //   contractMethods = props.contractMethods;
-    // } else {
-    //   setLoadingMessage("Initializing the Blockchain connection...");
-    //   await contractMethods.init();
-    //   dispatch({
-    //     type: "INIT_CONTRACT_METHODS",
-    //     value: contractMethods,
-    //   });
-    // }
 
-    if (operation === "TopUp") {
-      setLoadingMessage(`Confirming that you made the M-PESA payment...`);
-      try {
-        // let result = await contractMethods.clientConfirmPayment(transaction.id);
-        setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
-    } else {
-      try {
-        setLoadingMessage("Sending the withdrawal transaction...");
-        // let result = await contractMethods.agentAcceptWithdrawalTransaction(
-        //   transaction.id
-        // );
-        setLoadingMessage("");
-        setIsLoading(false);
-      } catch (error: any) {
-        setLoadingMessage(error.toString());
-        setIsActionSuccess(false);
-        setIsLoading(false);
-      }
+    try {
+
+        if (operation === "TopUp") {
+          setLoadingMessage(`Confirming that you made the M-PESA payment...`);
+          const txObject = wakalaSmartContract?.methods.clientConfirmPayment(transaction.id);
+          const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+          console.log(receipt);
+          setLoadingMessage("");
+          setIsLoading(false);
+
+        } else {
+          try {
+            setLoadingMessage("Sending the withdrawal transaction...");
+            // let result = await contractMethods.agentAcceptWithdrawalTransaction(
+            //   transaction.id
+            // );
+            setLoadingMessage("");
+            setIsLoading(false);
+          } catch (error: any) {
+            setLoadingMessage(error.toString());
+            setIsActionSuccess(false);
+            setIsLoading(false);
+          }
+        }
+    } catch (error: any) {
+      setLoadingMessage(error.toString());
+      setIsActionSuccess(false);
+      setIsLoading(false);
     }
     setIsLoading(false);
   };
