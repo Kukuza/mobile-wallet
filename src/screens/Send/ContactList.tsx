@@ -24,6 +24,8 @@ useEffect(() => {
           const contact: any  = data;
           setContacts(contact);
           setFilteredList(contact);
+        } else {
+          return <Text style={{...FONTS.headline, color:COLORS.error, alignSelf:"center"}}>No contacts found</Text>
         }
       }
     })();
@@ -54,15 +56,24 @@ const Contact = ({contact}) => {
     )
 }
 const searchContacts = (value) => {
-    const newContacts = filterdList.filter(
-        contact => {
-            let contactLowerCase = (contact?.name).toLowerCase();
-            let searchTermLowercase = value.toLowerCase();
+  if(value.includes("0x") && value.length === 42) {
+    navigation.navigate('EnterAmount', {
+      recieversName:"Undefined",
+      recieversPhoneNumber:value?.slice(0, 9)
+  })
 
-            return contactLowerCase.indexOf(searchTermLowercase) > -1
-        }
-    )
-    setContacts(newContacts)
+  } else {
+    const newContacts = filterdList.filter(
+      contact => {
+          let contactLowerCase = (contact?.name).toLowerCase();
+          let searchTermLowercase = value.toLowerCase();
+
+          return contactLowerCase.indexOf(searchTermLowercase) > -1
+      }
+  )
+  setContacts(newContacts)
+  }
+    
 }
   return (
     <ScreenComponent>
@@ -90,7 +101,7 @@ const searchContacts = (value) => {
       >
         <TextInput
           style={styles.input}
-          placeholder="Search"
+          placeholder="Search or paste the address..."
           onChangeText={(value) => searchContacts(value)}
           onFocus={() => {
             setCLicked(true);
@@ -104,6 +115,7 @@ const searchContacts = (value) => {
             data={contacts}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            
             />
         </View> : null
         
@@ -114,6 +126,7 @@ const searchContacts = (value) => {
             data={contacts}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            progressViewOffset={250}
             />
         </View>
     </ScreenComponent>
