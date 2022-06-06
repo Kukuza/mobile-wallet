@@ -26,7 +26,7 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
               style={styles.input}
               onChangeText={onChangeName}
               placeholder="Name"
-              keyboardType="numeric"
+              keyboardType="name-phone-pad"
               placeholderTextColor={COLORS.grayLightest1}/>
           </View>
       </View>

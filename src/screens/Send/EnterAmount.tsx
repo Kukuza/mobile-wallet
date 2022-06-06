@@ -12,6 +12,7 @@ import BottomSheet from './BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
 
 const EnterAmount = ({route, navigation}) => {
     const {recieversName, recieversPhoneNumber} = route.params;
@@ -20,9 +21,17 @@ const EnterAmount = ({route, navigation}) => {
     const modalRef = useRef<any>();
     const bannerRef = useRef<any>();
     const popupRef = useRef<any>();
+    const [amount, setAmount] = useState("-");
+    const [visible, setVisible] = useState(true);
 
     const [value, setValue] = useState("");
     const [coinChoice, setCoinChoice] = useState("cUSD");
+
+    const convertCurrencies = async () => {
+      const currencyConverter = new CurrencyLayerAPI();
+      const ksh = await currencyConverter.usdToKsh(wakalaTransaction.amount);
+      setAmount(ksh.toFixed(2))
+    }
     const walletBalance = async () => {
       const wakalaKit = WakalaContractKit?.getInstance();
       const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
