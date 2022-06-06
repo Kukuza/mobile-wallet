@@ -18,6 +18,7 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
+import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
 
 const EmptyList = (props) => {
   return (
@@ -39,6 +40,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   const { navigation } = props;
 
   let wakalaContractKit = WakalaContractKit.getInstance();
+  const [kesRate, setKesRate] = useState({});
 
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState(new Array<WakalaEscrowTransaction>());
@@ -63,10 +65,17 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 
   useEffect(() => {
     onRefresh()
+    convertCurrencies();
     return () => {
       // onRefresh()
     }
   }, []);
+  const convertCurrencies = async () => {
+    const currencyConverter = new CurrencyLayerAPI();
+    const ksh = await currencyConverter.usdToKsh(1);
+    setKesRate(ksh);
+  }
+  
   
   // Rerender on new transaction event.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
@@ -98,6 +107,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
             data={data}
             renderItem={({ item }) => (
               <RequestCardComponent
+                kesRate={kesRate}
                 navigation={navigation}
                 wakalaTransaction={item}
               />

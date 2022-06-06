@@ -5,8 +5,8 @@ import COLORS from '../../../styles/colors/colors';
 import { FONTS, SIZES } from '../../../styles/fonts/fonts';
 import { BarCodeScanner, BarCodeScannerResult } from 'expo-barcode-scanner';
 
-const finderWidth: number = 280;
-const finderHeight: number = 230;
+const finderWidth: number = 380;
+const finderHeight: number = 380;
 const width = SIZES.width;
 const height = SIZES.height;
 const viewMinX = (width - finderWidth) / 2;
@@ -24,21 +24,18 @@ export default function QrScanner({navigation}) {
   }, []);
 
   const handleBarCodeScanned = (scanningResult: BarCodeScannerResult) => {
-    if (!scanned) {
-                  const {type, data, bounds: {origin} = {}} = scanningResult;
-                  // @ts-ignore
-                  const {x, y} = origin;
-                  if (x >= viewMinX && y >= viewMinY && x <= (viewMinX + finderWidth / 2) && y <= (viewMinY + finderHeight / 2)) {
+                  const  {data} = scanningResult;
                      if(data === ""){
                       return
                      } else {
-                      navigation.navigate('EnterAmount', {
-                        recieversName: "Kiokokioko",
-                        recieversPhoneNumber:"0715278283"
-                      }) 
-                     }
-                  }
-              }
+                       console.log(data)
+                      if(data.includes("0x") && data.length === 42) {
+                        navigation.navigate('EnterAmount', {
+                          recieversName:"Undefined",
+                          recieversPhoneNumber:data?.slice(0, 9)
+                      })
+                      } 
+                     }        
   };
 
   if (hasPermission === null) {
@@ -54,7 +51,7 @@ export default function QrScanner({navigation}) {
         <BarCodeScanner
         type={BarCodeScanner.Constants.Type.back}
         barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned={handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       >
         <View style={styles.layerTop} />

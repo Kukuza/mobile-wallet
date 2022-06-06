@@ -14,7 +14,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
-import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
+
 
 const swipeLeftContent = () => {
   return (
@@ -50,7 +50,8 @@ const swipeRightContent = () => {
 
 const RequestCardComponent = (props) => {
   const wakalaTransaction: WakalaEscrowTransaction = props.wakalaTransaction;
-  const navigation = props.navigation;
+  const {navigation,kesRate} = props;
+
 
   const [amount, setAmount] = useState("-");
   // const [starsRate, setStarsRate] = useState();
@@ -70,8 +71,7 @@ const RequestCardComponent = (props) => {
    * Convert funds from cUSD to ksh before display.
    */
   const convertCurrencies = async () => {
-    const currencyConverter = new CurrencyLayerAPI();
-    const ksh = await currencyConverter.usdToKsh(wakalaTransaction.amount);
+    const ksh = wakalaTransaction.amount * Number(kesRate)
     setAmount(ksh.toFixed(2))
   }
   
@@ -143,7 +143,8 @@ const RequestCardComponent = (props) => {
                 }}
               >
                 <Text style={styles.amountKsh}>
-                  Ksh {amount}
+                  {/*Revert this to previous Ksh>Amount, this is a temporary fi */}
+                 {Number(kesRate) ? `Ksh ${amount}`:`cUSD ${Number(wakalaTransaction.amount).toFixed(4)}`}
                 </Text>
 
                 <Pressable
