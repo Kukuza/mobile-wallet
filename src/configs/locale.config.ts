@@ -7,8 +7,9 @@ export default [
         "language": {
             "code": "en",
             "name": "English",
-            "image": FLAG_KE,
-          }, 
+            
+        }, 
+        "image": FLAG_KE,
         "encoding": "utf-8", 
         "currency": "kes",
         "providers": [{"provider": "mpesa"}]
@@ -19,8 +20,8 @@ export default [
         "language": {
             "code": "es",
             "name": "Español", 
-            "image": FLAG_SPAIN,
-          }, 
+        }, 
+        "image": FLAG_SPAIN,
         "encoding": "utf-8", 
         "currency": "euro",
         "providers": []
@@ -31,8 +32,8 @@ export default [
         "language": {
             "code": "en",
             "name": "English",
-            "image": FLAG_US,
-          }, 
+        },
+        "image": FLAG_US,
         "encoding": "utf-8", 
         "currency": "usd",
         "providers": []
