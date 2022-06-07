@@ -1,9 +1,10 @@
 import { ContractKit } from "@celo/contractkit";
+import { configs} from '../../configs';
 
 let web3;
 
 export default init = () => {
-  web3 = ContractKit.newKit("wss://alfajores-forno.celo-testnet.org/ws").web3;
+  web3 = ContractKit.newKit(configs.CONTRACT_KIT_LISTENER).web3;
 };
 
 const listenToEvent = (eventId, callback) => {
