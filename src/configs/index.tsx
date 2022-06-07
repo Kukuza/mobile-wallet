@@ -10,11 +10,7 @@ export default {
     CONTRACT_KIT_LISTENER: process.env.CONTRACT_KIT_LISTENER, 
     CURRENCY_LAYER_BASE_URI: process.env.CURRENCY_LAYER_BASE_URI,
     CURRENCY_LAYER_API_KEY: process.env.CURRENCY_LAYER_API_KEY,
-    PLATFORM: Platform.select({
-            android: 'ANDROID',
-            ios: 'IOS'
-        }
-    ),
+    PLATFORM: Platform.select({android: 'ANDROID', ios: 'IOS'}),
     ENV: __DEV__ ? "DEV" : "PROD",
     LOCALES: locales,
 }
