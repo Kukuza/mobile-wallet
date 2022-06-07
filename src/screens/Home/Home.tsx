@@ -70,6 +70,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
       // onRefresh()
     }
   }, []);
+  
   const convertCurrencies = async () => {
     const currencyConverter = new CurrencyLayerAPI();
     const ksh = await currencyConverter.usdToKsh(1);

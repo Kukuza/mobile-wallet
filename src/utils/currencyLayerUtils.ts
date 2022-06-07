@@ -39,7 +39,7 @@ export default class CurrencyLayerAPI {
                     if (responseData.success) {
                         return responseData.result;
                     } else {
-                        console.error(this.TAG, rqstStr, responseData);
+                        console.error(this.TAG, responseData);
                         return 0;
                     }
             } catch(error) {
