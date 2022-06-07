@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import locales from './locale.config.json';
+import locales from './locale.config';
 
 export default {
     DEFAULT_CURRENCY: process.env.DEFAULT_CURRENCY,
