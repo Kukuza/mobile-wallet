@@ -7,7 +7,6 @@ export default [
         "language": {
             "code": "en",
             "name": "English",
-            
         }, 
         "image": FLAG_KE,
         "encoding": "utf-8", 
@@ -16,7 +15,7 @@ export default [
     },
     {
         "code": "es", 
-        "name": "Kenya",
+        "name": "Español",
         "language": {
             "code": "es",
             "name": "Español", 
