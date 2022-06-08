@@ -27,6 +27,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { LogBox } from "react-native";
 import customStore from "./src/redux/redux.store";
+import configs from "./src/configs";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
