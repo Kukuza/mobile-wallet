@@ -105,6 +105,7 @@ export default class WakalaContractKit {
 
     // const provider = new HDWalletProvider(privateKey, configs.CONTRACT_KIT_URI);
 
+    console.log("configs.CONTRACT_KIT_URI!", configs.CONTRACT_KIT_URI!);
     this.web3 = new Web3(configs.CONTRACT_KIT_URI!);
 
     const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
