@@ -1,6 +1,6 @@
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 export const SIZES = {
   // global sizes
   base: 8,
@@ -18,135 +18,135 @@ export const FONTS = {
   // Main Title
   displayBold: {
     fontFamily: "Rubik_700Bold",
-    fontSize: 28,
-    lineHeight: 42,
+    fontSize: hp("3.448%"),
+    lineHeight: hp("5.0%"),
   },
   // Headers
   h1: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 28,
-    lineHeight: 42,
+    fontSize:hp("3.448%"),
+    lineHeight:hp("5.0%"),
   },
   h2: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 24,
-    lineHeight: 36,
+    fontSize: hp("2.955%"),
+    lineHeight: hp("4.4%"),
   },
   h3: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 24,
-    lineHeight: 36,
+    fontSize: hp("2.955%"),
+    lineHeight:hp("4.4%"),
   },
   h4: {
     fontFamily: "Rubik_700Bold",
-    fontSize: 20,
-    lineHeight: 30,
+    fontSize: hp("2.46%"),
+    lineHeight: hp("3.6%"),
   },
   h5: {
     fontFamily: "Rubik_700Bold",
-    fontSize: 18,
-    lineHeight: 27,
+    fontSize: hp("2.216%"),
+    lineHeight: hp("3.325%"),
   },
 
   //  Subheaders
   sh1: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 20,
-    lineHeight: 30,
+    fontSize: hp("2.46%"),
+    lineHeight:hp("3.694%"),
   },
 
   sh2: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 20,
-    lineHeight: 30,
+    fontSize:hp("2.463%"),
+    lineHeight:hp("3.694%"),
   },
 
   // Body
   body1: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 18,
-    lineHeight: 27,
+    fontSize:hp("2.216%"),
+    lineHeight:hp("3.325%"),
   },
   body2: {
     fontFamily: "Rubik_700Bold",
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize:hp("1.970%"),
+    lineHeight:hp("2.955%"),
   },
 
   body3: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize:hp("1,97%"),
+    lineHeight: hp("2.955%"),
   },
 
   body4: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize:hp("1.97%"),
+    lineHeight: hp("2.9556%"),
   },
 
   body5: {
     fontFamily: "Rubik_700Bold",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize:hp("1.724%"),
+    lineHeight: hp("2.586%"),
   },
 
   body6: {
     fontFamily: "Rubik_700Bold",
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize:hp("1.477%"),
+    lineHeight: hp("2.2167%"),
   },
 
   body7: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize:hp("1.724%"),
+    lineHeight: hp("2.586%"),
   },
 
   body8: {
     fontFamily: "Rubik_500Medium",
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize:hp("1.477%"),
+    lineHeight: hp("2.2167%"),
   },
 
   body9: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize:hp("1.477%"),
+    lineHeight: hp("2.2167%"),
   },
 
   // Headline
   headline: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize:hp("1.724%"),
+    lineHeight: hp("2.586%"),
   },
 
   // Small Text
   s1: {
     fontFamily: "Rubik_300Light",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize:hp("1.724%"),
+    lineHeight: hp("2.586%"),
   },
   s2: {
     fontFamily: "Rubik_300Light",
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize:hp("1.477%"),
+    lineHeight: hp("2.2167%"),
   },
   s3: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 11,
-    lineHeight: 16.5,
+    fontSize:hp("1.354%"),
+    lineHeight: hp("2.032%"),
   },
   s4: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 10,
-    lineHeight: 15,
+    fontSize:hp("1.231%"),
+    lineHeight: hp("1.847%"),
   },
   s5: {
     fontFamily: "Rubik_400Regular",
-    fontSize: 8,
-    lineHeight: 12,
+    fontSize:hp("0.985%"),
+    lineHeight: hp("1.4778%"),
   },
 };
 

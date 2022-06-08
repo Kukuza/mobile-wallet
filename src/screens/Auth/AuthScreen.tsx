@@ -40,7 +40,7 @@ const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             </Text>
           </View>
         
-        <View style = {{ flex: 0.5, justifyContent: 'flex-end', }}>
+        <View style = {{ flex: 0.5, justifyContent: 'center'}}>
           <DefaultButton onPress={createAccount} style={styles.createAccountBtn} text={"Create new account"}/>
           <DefaultButton onPress={restoreAccount} style={styles.createAccountBtn} text={"Restore my account"}/>
         </View>
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
     marginVertical:hp("1%")
   },
   createAccountBtn: {
-    width:wp("76%"),
+    width:wp("76%%"),
     height:hp("6%"),
+    marginVertical:hp("1%")
 },
 });
 

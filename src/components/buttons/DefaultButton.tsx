@@ -11,8 +11,7 @@ const DefaultButton = ({ onPress, style, text, }) => {
         <LinearGradient
           colors={["rgba(19, 63, 219, 1)", "rgba(183, 0, 76, 0.3)"]}
           start={{ x: 0.1, y: 0 }}
-          end={{ x: 0.99, y: 0 }}
-          locations={[-2.5, 1.5]}
+          end={{ x: 1, y: 0 }}
           style={[styles.grandient, style]}
         >
           <Text style={{ ...FONTS.h4, color: COLORS.white }}>{text}</Text>
@@ -26,7 +25,6 @@ export default DefaultButton;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.2,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -37,8 +35,8 @@ const styles = StyleSheet.create({
   grandient: {
     justifyContent: "center",
     alignItems: "center",
-    height:hp("6%"),
     borderRadius: wp("50%"),
     flexDirection: "row",
+    height:hp("6.89%"),
   },
 });

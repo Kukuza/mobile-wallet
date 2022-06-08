@@ -77,7 +77,7 @@ navIcon:{
   marginLeft: '8%',
 },
 enterPin:{
-  marginTop:'30%',
+  marginTop:'10%',
   alignItems:'center',
   justifyContent:'center',
 },
@@ -95,9 +95,8 @@ pinIcons:{
   flexDirection: 'row',
 },
 keyPad:{
-  marginBottom:'5%',
-  marginTop:"15%",
-  marginHorizontal:'10%',
+  margin:"5%",
+  marginHorizontal:'15%',
 },
 pinContainer:{
   display:'flex',
@@ -110,15 +109,8 @@ pinContainer:{
   borderRadius:10,
   marginHorizontal:RFPercentage(0.5)
 },
-iconImage:{
-  width:20,
-  height:20,
-  resizeMode:'contain',
-  
-},
 starText:{
   ...FONTS.h5,
-  fontSize: 24,
   color: COLORS.primary,
   fontWeight:'bold',
   alignSelf:"center",
