@@ -19,6 +19,7 @@ import {
 import { EventOptions } from "@celo/contractkit/lib/generated/types";
 import BigNumber from 'bignumber.js'
 import { UserMetadata } from './wakala_types';
+import configs from "../../configs";
 
 
 /**
@@ -102,9 +103,9 @@ export default class WakalaContractKit {
    */
   private constructor(privateKey: string) {
 
-    // const provider = new HDWalletProvider(privateKey, "https://alfajores-forno.celo-testnet.org");
+    // const provider = new HDWalletProvider(privateKey, configs.CONTRACT_KIT_URI);
 
-    this.web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+    this.web3 = new Web3(configs.CONTRACT_KIT_URI!);
 
     const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
     this.userMetadata = { 
