@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import React, { useState, useRef, useCallback, Fragment } from "react";
 import Modal from "../../components/modals/Modal";
-
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import SwipeButton from "../../components/buttons/SwipeButton";
@@ -15,11 +14,6 @@ import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
-import { WAKALA_CONTRACT_ADDRESS } from "../../utils/ContractAdresses/contract";
-import { WakalaEscrowAbi } from "../../utils/ContractABIs/WakalaEscrowAbi";
-import { newKitFromWeb3 } from "@celo/contractkit";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
 import { connect, useDispatch } from "react-redux";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { SHARED, CONNECTIVITY } from "../../assets/images";
