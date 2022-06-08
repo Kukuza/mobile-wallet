@@ -44,16 +44,6 @@ const AddFunds: React.FunctionComponent = () => {
         <TextInput style={styles.title} placeholder="Ksh 200">
           Ksh {value}
         </TextInput>
-        {/* <TextInputMask
-          type={"only-numbers"}
-          options={{
-            unit: "Ksh ",
-          }}
-          value={value}
-          style={styles.title}
-          placeholder="Ksh 0,00"
-          placeholderTextColor={COLORS.primary}
-        /> */}
         <KeyPad value={value} onChange={handleChange} onDelete={handleDelete} />
         <TouchableOpacity
           onPress={() =>

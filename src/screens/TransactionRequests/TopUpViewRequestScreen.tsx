@@ -75,7 +75,6 @@ const TopUpViewRequestScreen = (props) => {
       props.navigation.navigate("Confirm Mpesa Payment Swipe Screen", {
         transaction: wakalaEscrowTx,
       });
-      console.log("The transaction id is : " + index);
     }
   );
 

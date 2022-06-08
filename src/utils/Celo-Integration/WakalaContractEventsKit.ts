@@ -5,6 +5,7 @@ import { Log } from "web3-core";
 import { AbiItem } from "web3-utils";
 import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
 import { WAKALA_CONTRACT_ADDRESS } from "../ContractAdresses/contract";
+import configs from "../../configs";
 
 /**
  * Contains wakala events logic.
@@ -33,9 +34,8 @@ export class WakalaContractEventsKit {
   /**
    * Instance of websocket provider.
    */
-  public provider = new Web3.providers.WebsocketProvider(
-    "wss://alfajores-forno.celo-testnet.org/ws"
-  );
+  public provider = new Web3.providers
+    .WebsocketProvider(configs.CONTRACT_KIT_LISTENER!);
 
   /**
    * Instance of web 3.
@@ -65,10 +65,9 @@ export class WakalaContractEventsKit {
     // and subs without a successful header
     let sequentialRetryCount = 0;
 
-    // TODO: Centralize the urls.
-    this.provider = new Web3.providers.WebsocketProvider(
-      "wss://alfajores-forno.celo-testnet.org/ws"
-    );
+    this.provider = new Web3
+      .providers
+      .WebsocketProvider(configs.CONTRACT_KIT_LISTENER!);
 
     this.web3 = new Web3(this.provider);
 

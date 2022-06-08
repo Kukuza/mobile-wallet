@@ -82,7 +82,7 @@ const TransactionSuccess = (props) => {
         <View style={styles.container}>
           <Image source={SUCCESS} />
 
-          <Text style={styles.headingText}>Transaction Successfull</Text>
+          <Text style={styles.headingText}>Transaction Successful</Text>
           <Text style={styles.subHeadingText}>
             Your cUSD has been deposited to your wallet
           </Text>

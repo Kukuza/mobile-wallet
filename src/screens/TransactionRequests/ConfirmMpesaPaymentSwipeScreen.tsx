@@ -93,53 +93,18 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   // used to change the message of the modal.
   const [processIsError, setProcessIsError] = useState(false);
 
-  // let web3: any = new Web3(magic.rpcProvider);
-  // let kit = newKitFromWeb3(web3);
-
-  // const contract = new kit.web3.eth.Contract(
-  //   WakalaEscrowAbi as AbiItem[],
-  //   WAKALA_CONTRACT_ADDRESS
-  // );
 
   const wakalaContractKit = WakalaContractKit.getInstance();
-  // wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
-  //   "TransactionCompletionEvent",
-  //   async (error: Error, event: EventData) => {
-  //     console.log("TransactionCompletionEvent", event.returnValues.wtx[0]);
-  //     const index: number = event.returnValues.wtx[0];
-  //     console.log("The transaction id is : " + index);
-  //   }
-  // );
+  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
+
 
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
       const index: number = event.returnValues.wtx[0];
       navigation.navigate("MyDrawer");
-      console.log("The transaction id is : " + index);
     }
   );
-
-  const contractCall = async () => {
-    // setModalTitle("Calling the blockchain")
-    setModalMessage("Calling the blockchain");
-    setModalVisible(true);
-    // await contract.methods
-    //   .agentConfirmPayment(transaction.id)
-    //   .send({ from: publicAddress })
-    //   .then((receipt) => {
-    //     setModalTitle("Transaction Successful!");
-    //     setModalMessage("");
-    //     setModalVisible(true);
-    //   })
-    //   .catch((error: any) => {
-    //     // console.log(error.toString() + " \n Amount: " + value.toString());
-    //     setModalTitle("Oh Snap! ");
-    //     setModalMessage(error.toString());
-    //     setModalVisible(true);
-    //     setProcessIsError(true);
-    //   });
-  };
 
   const openModal = () => {
     modalRef.current?.openModal();
@@ -152,42 +117,20 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     console.log("something is cooking");
     setLoadingMessage("Initializing the transaction...");
 
-    // let contractMethods: any = new ContractMethods(props.magic);
-    // if (props.contractMethods instanceof ContractMethods) {
-    //   contractMethods = props.contractMethods;
-    // } else {
-    //   setLoadingMessage("Initializing the Blockchain connection...");
-    //   console.log("reached here");
-    //   await contractMethods.init().then((result) => {
-    //     dispatch({
-    //       type: "INIT_CONTRACT_METHODS",
-    //       value: contractMethods,
-    //     });
-    //   });
-    // }
-
     if (operation === "TopUp") {
-      setLoadingMessage("Confirming payment receipt to the user...");
-
-      // try {
-      // await contractMethods
-      //   .agentConfirmPayment(transaction.id)
-      //   .then((receipt) => {
-      //     // const rx = receipt?.events?.TransactionInitEvent?.returnValues;
-      //     // console.log("rx is of type: " + rx?.wtxIndex);
-      //     setLoadingMessage("");
-      //     setIsLoading(false);
-      //   })
-      //   .catch((error: any) => {
-      //     setLoadingMessage(error.toString());
-      //     console.log(error.toString());
-      //     setIsActionSuccess(false);
-      //     setIsLoading(false);
-      //   });
-
-      // } catch (error: any) {
-
-      // }
+      try {
+        setLoadingMessage("Confirming payment receipt to the user...");
+        const txObject = wakalaSmartContract?.methods.agentConfirmPayment(transaction.id);
+        const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+        console.log(receipt);
+        setLoadingMessage("");
+        setIsLoading(false);
+      } catch (error: any) {
+        setLoadingMessage(error.toString());
+        console.log(error.toString() + " \n Amount to withdraw: ");
+        setIsActionSuccess(false);
+        setIsLoading(false);
+      }
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
