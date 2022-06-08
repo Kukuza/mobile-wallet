@@ -40,8 +40,11 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
         // Instantiate wakala contract kit.
         if (encryptedMnemonic) {
+          console.log("Started")
           const mnemonic = await getStoredMnemonic(pin);
+          console.log("got mnemonic")
           const keys = await getAccountFromMnemonic(mnemonic ?? "");
+          console.log("Got keys")
           WakalaContractKit.createInstance(keys.privateKey);
           console.log("Your public address is: ", keys.address);
         } else {

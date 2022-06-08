@@ -103,9 +103,8 @@ export default class WakalaContractKit {
   private constructor(privateKey: string) {
 
     // const provider = new HDWalletProvider(privateKey, "https://alfajores-forno.celo-testnet.org");
-
     this.web3 = new Web3("https://alfajores-forno.celo-testnet.org");
-
+    
     const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
     this.userMetadata = { 
       
