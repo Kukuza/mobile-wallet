@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image,TouchableOpacity } from "react-native";
 import React from "react";
 import DefaultButton from "../../components/buttons/DefaultButton";
 import ScreenComponent from "../../containers/ScreenComponent";
@@ -6,17 +6,16 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import NavHeader from "../../containers/NavHeader";
 import COLORS from "../../styles/colors/colors";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   const createAccount = () => {
-    console.log("createAccount()====>");
     props.navigation.navigate("TermsAndConditionsScreen");
   };
 
   // Logout of session
   const restoreAccount = async () => {
-    console.log("restoreAccount()====>");
     props.navigation.navigate("TermsAndConditionsScreen")
   };
 
@@ -41,9 +40,8 @@ const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
             </Text>
           </View>
         
-        <View style = {{ flex: 0.5, justifyContent: 'flex-end',  }}>
+        <View style = {{ flex: 0.5, justifyContent: 'flex-end', }}>
           <DefaultButton onPress={createAccount} style={styles.createAccountBtn} text={"Create new account"}/>
-
           <DefaultButton onPress={restoreAccount} style={styles.createAccountBtn} text={"Restore my account"}/>
         </View>
 
@@ -64,26 +62,22 @@ const styles = StyleSheet.create({
     titleDescription: {
       ...FONTS.body4,
       color: COLORS.textDarkBlue,
-      marginVertical: 20
-  },
-  restoreAccountBtn: {
-    width: SIZES.width * 0.7,
-    marginTop: SIZES.height * 0.2
+      marginVertical:hp("2%")
   },
   titleSection: {
-      // marginVertical: SIZES.height * 0.05,
       flex: 0.4,
-      marginTop: SIZES.height * 0.05,
-      marginHorizontal: 0.08 * SIZES.width,
+      marginTop: hp("5%"),
+      marginHorizontal: wp("8%"),
       justifyContent: 'flex-end'
   },
   icon: {
     width: 40,
     height: 40,
-    marginVertical: 20
+    marginVertical:hp("1%")
   },
   createAccountBtn: {
-    width: SIZES.width * 0.7,
+    width:wp("76%"),
+    height:hp("6%"),
 },
 });
 

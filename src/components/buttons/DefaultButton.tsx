@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FONTS } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-const DefaultButton = ({ onPress, style, text }) => {
+const DefaultButton = ({ onPress, style, text, }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onPress} style={styles.button}>
+      <TouchableOpacity onPress={onPress}  style={styles.button}>
         <LinearGradient
           colors={["rgba(19, 63, 219, 1)", "rgba(183, 0, 76, 0.3)"]}
           start={{ x: 0.1, y: 0 }}
@@ -36,8 +37,8 @@ const styles = StyleSheet.create({
   grandient: {
     justifyContent: "center",
     alignItems: "center",
-    height: 56,
-    borderRadius: 50,
+    height:hp("6%"),
+    borderRadius: wp("50%"),
     flexDirection: "row",
   },
 });

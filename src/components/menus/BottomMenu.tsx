@@ -5,6 +5,7 @@ import { Pressable } from "react-native";
 import SendButton from "../buttons/SendButton";
 import WithdrawButton from "../buttons/WithdrawButton";
 import COLORS from "../../styles/colors/colors";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const BottomMenu = ({ navigation }) => {
 
   return (

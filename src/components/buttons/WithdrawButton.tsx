@@ -3,7 +3,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const WithdrawButton = (props) => {
 
    const title: string = props.title;
