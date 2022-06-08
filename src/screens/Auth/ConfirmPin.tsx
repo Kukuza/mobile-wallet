@@ -8,9 +8,8 @@ import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch } from 'react-redux';
-import { createKeystore } from '../../redux/auth/authSlice';
 import { retrieveStoredItem } from '../../redux/auth/session.key.storage.utils';
-import { encryptPasswordWithNewMnemonic, getAccountFromMnemonic, getStoredMnemonic } from '../../redux/auth/auth.utils';
+import { encryptPasswordWithNewMnemonic, getAccountFromMnemonic, getStoredMnemonic } from '../../utils/auth.utils';
 import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
 
 const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {

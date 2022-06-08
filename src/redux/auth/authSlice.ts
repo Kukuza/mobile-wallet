@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
-import { getAccountFromMnemonic, getStoredMnemonic } from "./auth.utils";
+import { getAccountFromMnemonic, getStoredMnemonic } from "../../utils/auth.utils";
 
 // export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
 

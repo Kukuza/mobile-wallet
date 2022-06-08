@@ -7,6 +7,7 @@ import HeaderTitle from "../../../components/HeaderTitle";
 import DefaultButton from "../../../components/buttons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
 import ScreenModal from "./ScreenModal";
+import { encryptComment } from "../../../utils/commentEncryptionUtil";
 
 /**
  * 
@@ -34,8 +35,10 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
   }
 
 
-  const continueHandler = () => {
-    navigation.navigate("AttestationLoaderScreen");
+  const continueHandler = async () => {
+    // navigation.navigate("AttestationLoaderScreen");
+    const rst = await encryptComment("+254791725651", "0x2f254ceA58719E3AE7DF82E1117Ea7C1cE2Ce30d", "0x41B87470C3598740019c57f459FF4dbc36dC9311")
+    console.log(rst);
   }
 
   const closeModal = () => {

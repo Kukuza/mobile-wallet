@@ -9,8 +9,9 @@ import {
 } from '@celo/utils/lib/account';
 import * as bip39 from 'react-native-bip39';
 import CryptoJS from 'crypto-js'
-import { retrieveStoredItem, storeItem } from './session.key.storage.utils';
-import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
+import { retrieveStoredItem, storeItem } from '../redux/auth/session.key.storage.utils';
+import WakalaContractKit from './Celo-Integration/WakalaContractKit';
+import { registerAccountEncryptionKey } from './commentEncryptionUtil';
 
 /**
  * The number of words to be contained in the mnemonic.
@@ -71,6 +72,10 @@ export async function createNewAccountWithMnemonic() {
     const mnemonic = await generateNewMnemonic();
     const keys = await getAccountFromMnemonic(mnemonic);
     WakalaContractKit.createInstance(keys.privateKey);
+
+    console.log(keys, mnemonic);
+
+    registerAccountEncryptionKey(keys.publicKey, keys.address);
     return mnemonic;
 }
 
