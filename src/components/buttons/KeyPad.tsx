@@ -2,8 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
-import { SIZES } from "../../styles/fonts/fonts";
-
+import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import COLORS from "../../styles/colors/colors";
 const KeyPad = (props) => {
   const route = useRoute();
 
@@ -133,7 +134,7 @@ const KeyPad = (props) => {
   );
 };
 
-const keyWidth = SIZES.width * 0.22;
+const keyWidth = wp("22%");
 const keyHeight = keyWidth;
 
 const styles = StyleSheet.create({
@@ -149,14 +150,13 @@ const styles = StyleSheet.create({
     height: keyHeight,
     borderRadius: keyWidth / 2,
     justifyContent: "center",
+    alignItems:"center",
   },
 
   number: {
-    fontSize: 24,
-    lineHeight: 26,
-    color: "#1C1939",
-    textAlign: "center",
-    fontFamily: "Rubik_700Bold",
+    ...FONTS.h4,
+    color:COLORS.textColor3,
+    alignSelf:"center"
   },
 });
 
