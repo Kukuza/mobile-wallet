@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import COLORS from '../../styles/colors/colors';
+import { FONTS } from '../../styles/fonts/fonts';
 const CardImage = (props) => {
   return (
     <View>
@@ -16,24 +18,28 @@ const CardImage = (props) => {
 
 const styles = StyleSheet.create({
     card: {
-        marginTop: 25,
-        backgroundColor: '#fff',
-        minWidth: 240,
-        paddingTop: 16,
-        paddingRight: 16,
-        paddingBottom: 16,
-        paddingLeft: 16,
-        borderRadius: 8,
+        marginTop:hp("3%"),
+        backgroundColor:COLORS.white,
+        width:wp("82%"),
+        height:hp("10%"),
+        padding:hp("2%"),
+        borderRadius: wp("2.13%"),
         flexDirection: 'row',
         justifyContent: "space-between",
+        alignItems:"center"
     },
     cardText: {
-        color: '#4840BB',
-        fontSize: 20,
+        ...FONTS.sh1,
+        color:COLORS.primary,
+        fontSize:hp("2.2%"),
         fontWeight: 'bold'
     },
     cardImage: {
-        alignItems: 'center'
+        alignItems: 'center',
+        width:wp("8.53%"),
+        height:wp("8.533"),
+        borderRadius:wp("50%"),
+        resizeMode:"cover"
     }
 });
 

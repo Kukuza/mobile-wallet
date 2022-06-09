@@ -8,7 +8,7 @@ import StandardBtn from "../../components/buttons/StandardBtn";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
   const { navigation, route } = props;
 
@@ -67,12 +67,16 @@ const Onboarding: React.FunctionComponent<IStackScreenProps> = (props) => {
           <StandardBtn
             onPress={() => navigation.navigate("Auth")}
             style={{
-              padding: 15,
+              width:wp("76%"),
+              height:hp("6%"),
               alignItems: "center",
-              borderRadius: 22,
+              borderRadius: wp("50%"),
               flexDirection: "row",
+              alignSelf:"center",
+              justifyContent:"center",
+            
             }}
-            colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
+            colors={[ "rgba(19, 63, 219, 1)","rgba(183, 0, 76, 0.3)"]}
             text="Get Started"
           />
         ) : (

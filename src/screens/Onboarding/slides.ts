@@ -4,7 +4,7 @@ export default [
     title: "Easy",
     description:
       "Wakala makes it easy for you to top up your cUSD wallet. Both Add or withdraw cUSD",
-    image: require("../../assets/images/Onboarding/slider-001.png"),
+    image:require("../../assets/images/Onboarding/slider-001.png"),
   },
   {
     id: "2",

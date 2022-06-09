@@ -1,5 +1,6 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {
   Pressable,
   Text,
