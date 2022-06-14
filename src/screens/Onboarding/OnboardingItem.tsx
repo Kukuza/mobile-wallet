@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    ...FONTS.body3,
+    ...FONTS.body4,
     color: COLORS.textColor2,
     paddingHorizontal: RFPercentage(10),
     alignSelf:'center',

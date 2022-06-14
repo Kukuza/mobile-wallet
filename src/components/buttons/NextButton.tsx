@@ -2,7 +2,7 @@ import { View, Animated, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useRef } from "react";
 import Svg, { G, Circle } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 export default function NextButton({
   percentage,
   scrollTo,
@@ -10,7 +10,7 @@ export default function NextButton({
   backgroundColor,
   colors,
 }) {
-  const size = 80;
+  const size = wp("21.3%");
   const strokeWidth = 2;
   const center = size / 2;
   const radius = size / 2 - strokeWidth / 2;
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   button: {
     position: "absolute",
     backgroundColor: "#4840BB",
-    borderRadius: 100,
-    padding: 18,
+    borderRadius: wp("50%"),
+    padding: hp("2.2%"),
   },
 });

@@ -7,8 +7,9 @@ import COLORS from '../../styles/colors/colors';
 import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { enterPin }  from '../../store/Auth';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
@@ -54,7 +55,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     <TouchableOpacity style={styles.navIcon}
     onPress={() => navigation.goBack()}
     >
-    <Feather name="chevron-left" size={32} color={COLORS.primary} />
+    <Feather name="chevron-left" size={Number(wp("6.5%"))} color={COLORS.primary} />
     </TouchableOpacity>
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Create a PIN</Text>
@@ -80,46 +81,42 @@ export default EnterPin;
 
 const styles = StyleSheet.create({
 navIcon:{
-  marginTop: "7%",
-  marginLeft: '8%',
+  marginTop: hp("5%"),
+  marginLeft: wp("5%"),
 },
 enterPin:{
-  marginTop:'10%',
+  marginTop:hp("10%"),
   alignItems:'center',
   justifyContent:'center',
 },
 pinText:{
-  ...FONTS.body2,
+  ...FONTS.displayBold,
   color: COLORS.textColor4,
-  fontSize: RFPercentage(3.2),
-  fontWeight:'bold' 
 },
 pinIcons:{
-  marginTop:'15%',
+  marginVertical:hp("3%"),
   alignItems:'center',
   justifyContent:'center',
   display:'flex',
   flexDirection: 'row',
 },
 keyPad:{
-  margin:"5%",
-  marginHorizontal:'15%',
+  marginHorizontal:wp("10%"),
 },
 pinContainer:{
   display:'flex',
   flexDirection: 'row',
-  width:40,
-  height:40,
+  width:wp("10.667%"),
+  height:wp("10.667%"),
   backgroundColor:COLORS.keyPadTextBackGround,
   justifyContent:'center',
   alignItems:'center',
-  borderRadius:10,
+  borderRadius:wp("2.667%"),
   marginHorizontal:RFPercentage(0.5)
 },
 starText:{
-  ...FONTS.h5,
+  ...FONTS.h3,
   color: COLORS.primary,
-  fontWeight:'bold',
   alignSelf:"center",
 }
 })

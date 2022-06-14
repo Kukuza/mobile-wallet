@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   input: {
     paddingHorizontal: 2,
     paddingVertical: 10,
-    ...FONTS.body5,
+    ...FONTS.body4,
 }
 });
 

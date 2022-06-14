@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginVertical: SIZES.height * 0.1
   },
   button: {
-    marginTop:hp("5%"),
+    marginTop:hp("20%"),
     width:wp("76.2%"),
     height:hp("6.89%"),
   
