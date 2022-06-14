@@ -7,13 +7,15 @@ import COLORS from '../../styles/colors/colors';
 import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { enterPin }  from '../../store/Auth';
 
 const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
+  const dispatch = useDispatch();
+
   // navigation object.
    const navigation = props.navigation;
-   const dispatch = useDispatch();
    //Contains the pin number text as an array.
    const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
   // The current index of the pin number entry.
@@ -24,10 +26,13 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     if (currentIndex < 7) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
-
       if (currentIndex == 5) {
-        //TODO: pass pin to the confirm screen for match validation
         const pin = pinCharArray.join("");
+
+        //TODO: store current pin to auth slice to be used in confirm screen
+        dispatch(enterPin(pin))
+
+
         navigation.navigate("ConfirmPin");
       }
     } else {
@@ -57,7 +62,9 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
      <View style={styles.pinIcons}>
        {pinCharArray.map((text, index)=>
         <View key={index} style={styles.pinContainer}>
-          {pinCharArray[index] == "" ?<Text style={styles.starText}>*</Text>: <Text style={styles.starText}>{pinCharArray[index]}</Text>}
+          {pinCharArray[index] == "" ?<Text style={styles.starText}></Text>: <Text style={styles.starText}>
+            {pinCharArray[index] ? '*' : ""}
+            </Text>}
         </View> 
         )}
        

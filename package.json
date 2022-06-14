@@ -78,7 +78,7 @@
     "react-native-waveview": "^1.1.0",
     "react-native-web": "0.17.1",
     "react-native-webview": "11.15.0",
-    "react-redux": "^7.2.6",
+    "react-redux": "^8.0.2",
     "redux": "^4.1.2",
     "rn-nodeify": "^10.3.0",
     "rn-tooltip": "^3.0.1",
