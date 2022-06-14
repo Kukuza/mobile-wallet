@@ -2,11 +2,13 @@ import { StyleSheet, View, Text, Pressable, Modal, Alert } from "react-native";
 import ScreenComponent from "../../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTitle from "../../../components/HeaderTitle";
 import DefaultButton from "../../../components/buttons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
 import ScreenModal from "./ScreenModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile, saveProfile } from "../../../store/Profile";
 
 /**
  * 
@@ -16,13 +18,14 @@ import ScreenModal from "./ScreenModal";
 const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
-
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
 
   /**
    * Skip button handler.
    */
   const skipHandler = () => {
+    storePublicAddress();
     navigation.navigate("MyDrawer");
   }
 
@@ -30,11 +33,12 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
    * Back button handler.
    */
   const backButtonHandler = () => {
+    storePublicAddress();
     navigation.goBack()
   }
 
-
   const continueHandler = () => {
+    storePublicAddress();
     navigation.navigate("AttestationLoaderScreen");
   }
 
@@ -46,6 +50,26 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
     setModalVisible(true)
   };
 
+  const profile: IProfile = useSelector((state: any) => state.profile.data);
+  const keys = useSelector((state: any) => state.auth.keys);
+
+  console.log("Your public address is: ", keys.address);
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
+  const storePublicAddress = () =>  {
+    const p: IProfile = {
+      name: profile.name,
+      phoneNumber: profile.phoneNumber,
+      email: profile.email,
+      locale: profile.locale,
+      publicAddress: keys.address,
+      registered: true
+  };
+  dispatch(saveProfile(p));
+}
 
   return (
     <ScreenComponent>

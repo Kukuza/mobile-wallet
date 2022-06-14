@@ -3,7 +3,10 @@ import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
 import { View } from "react-native";
 import React, { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import store  from './src/store'
+import { Provider } from 'react-redux';
+import Storage from "./src/utils/Storage";
+
 import {
   Rubik_300Light,
   Rubik_300Light_Italic,
@@ -22,42 +25,14 @@ import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
-import globalStore from "./src/redux/GlobalStore";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
 import { LogBox } from "react-native";
-import customStore from "./src/redux/redux.store";
-import configs from "./src/configs";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
 ]);
 
+
 const Stack = createStackNavigator();
-
-
-const loadAppSession = async () => {
-  try {
-    let user = await AsyncStorage.getItem("user");
-    let data = JSON.parse(user!);
-    console.log(data);
-    let action = { type: "INIT", value: { ...data, } };
-    store.dispatch(action);
-    // return true;
-  } catch (err) {
-    console.log(err);
-    // return true;
-  }
-};
-
-// const Loading = () => {
-//   return (
-//     <View>
-//       <ActivityIndicator size="large" />
-//     </View>
-//   );
-// };
-
 const App = () => {
   let [fontsLoaded] = useFonts({
     Rubik_500Medium,
@@ -76,23 +51,40 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [viewedOnboarding, setViewedOnboarding] = useState(false);
 
+  const loadAppSession = async () => {
+    try {
+      const data: IProfile = await Storage.get("user");
+      console.log("LoadAppSession", data);
+      // return true;
+    } catch (err) {
+      console.log(err);
+      // return true;
+    }
+  };
+
   const checkOnboarding = async () => {
     try {
-      const value = await AsyncStorage.getItem("@viewedOnboarding");
+      const value: IProfile = await Storage.get("user");
+      console.log("CheckOnboarding", value);
 
-      if (value !== null) {
+      if (value.registered) 
         setViewedOnboarding(true);
-      }
     } catch (error) {
-      console.log("Error @checkOnboarding: ", error);
+      console.error("checkOnboarding: ", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // useEffect(() => {
-  //   checkOnboarding();
-  // }, []);
+  /* const Loading = () => {
+    return (
+      <View>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }; */
+
+  useEffect(() => {checkOnboarding();}, []);
 
   if (!isReady || !fontsLoaded) {
     return (
@@ -105,11 +97,11 @@ const App = () => {
     );
   } else {
     return (
-      <Provider store={customStore}>
+      <Provider store = { store }>
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName="LanguagesList"
+            initialRouteName= "LanguagesList"
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (
