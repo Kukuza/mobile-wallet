@@ -82,12 +82,12 @@ export default class WakalaContractKit {
    * @param magic instance of magic provider.
    */
   static createInstance(privateKey: string) {
-    if (WakalaContractKit.wakalaContractKitInstance) {
-      console.log(" instance already created!!");
-    } else {
+    // if (WakalaContractKit.wakalaContractKitInstance) {
+    //   console.log(" instance already created!!");
+    // } else {
       let instance: WakalaContractKit = new WakalaContractKit(privateKey);
       WakalaContractKit.wakalaContractKitInstance = instance;
-    }
+    // }
   }
 
   /**

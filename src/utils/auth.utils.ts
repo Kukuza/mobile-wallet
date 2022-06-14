@@ -57,7 +57,7 @@ export async function generateNewMnemonic(): Promise<string> {
 
     let isDuplicateInMnemonic = checkDuplicate(mnemonic);
     while (isDuplicateInMnemonic) {
-        let mnemonic = await generateMnemonic(MNEMONIC_BIT_LENGTH, mnemonicLanguage, bip39)
+        mnemonic = await generateMnemonic(MNEMONIC_BIT_LENGTH, mnemonicLanguage, bip39)
         isDuplicateInMnemonic = checkDuplicate(mnemonic)
     }
 
@@ -70,12 +70,13 @@ export async function generateNewMnemonic(): Promise<string> {
  */
 export async function createNewAccountWithMnemonic() {
     const mnemonic = await generateNewMnemonic();
-    const keys = await getAccountFromMnemonic(mnemonic);
+    const m = "swift area faculty ceiling give bounce amazing method magic worry hover genuine budget atom vicious negative today innocent symbol ignore nose author velvet inmate"
+    const keys = await getAccountFromMnemonic(m);
     WakalaContractKit.createInstance(keys.privateKey);
 
     console.log(keys, mnemonic);
 
-    registerAccountEncryptionKey(keys.publicKey, keys.address);
+    await registerAccountEncryptionKey("Muhani", keys.publicKey, keys.address);
     return mnemonic;
 }
 

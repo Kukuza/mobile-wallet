@@ -1,29 +1,55 @@
 import WakalaContractKit from "./Celo-Integration/WakalaContractKit";
 import { decryptComment as decryptCommentRaw, encryptComment as encryptCommentRaw, } from '@celo/utils/lib/commentEncryption';
+import { compressedPubKey } from '@celo/utils/lib/dataEncryptionKey'
 import { hexToBuffer } from '@celo/utils/lib/address';
+import { AccountsWrapper } from "@celo/contractkit/lib/wrappers/Accounts";
+import { ERC20_ADDRESS } from './ContractAdresses/contract';
+import BigNumber from 'bignumber.js';
+import crypto from 'crypto';
 
 /**
  * Registers the accounts public key as the data encryption key.
+ * @param name the name to be saved in the accounts smart contract.
  * @param publicKey the data encryption key.
+ * @param publicAddress the public address to paired with the public encryption key.
+ * @returns the saved data encryption key.
  */
-export async function registerAccountEncryptionKey(publicKey: string, publicAddress: string) {
+export async function registerAccountEncryptionKey(name: string, publicKey: string, publicAddress: string) {
     const wakalaContractKit = WakalaContractKit.getInstance();
     const contractKit = wakalaContractKit?.kit;
-    const accounts = await contractKit?.contracts.getAccounts();
-    const tx = accounts?.setAccountDataEncryptionKey(publicKey);
-    const receipt = await wakalaContractKit?.sendTransactionObject(tx);
 
-    const proofOfPossession: {
-        v: number
-        r: string
-        s: string
-      } =accounts?.generateProofOfKeyPossession(
-        accountAddress,
-        walletAddress
-      )
-  
-      setAccountTx = accounts?.setAccount('', publicKey, publicAddress, proofOfPossession)
-    console.log("=====================>", receipt)
+    const publicDataKey = compressedPubKey(hexToBuffer(publicKey))
+    const accounts: AccountsWrapper = await contractKit?.contracts.getAccounts();
+
+    const tsxObject = accounts.setAccount(name, publicDataKey, publicAddress, null);
+    let gasFees = new BigNumber(0);
+
+    const estimate = await wakalaContractKit?.fetchGasPrice(ERC20_ADDRESS);
+    if (estimate) {
+        gasFees = estimate
+    }
+
+    const txParams = {
+        from: contractKit?.defaultAccount,
+        feeCurrency: ERC20_ADDRESS,
+        gasPrice: gasFees.toString()
+    }
+
+    // receipt for logging if necessary when debugging
+    const r = await tsxObject.sendAndWaitForReceipt(txParams);
+    // console.log(r);
+
+    const dataEncryptionKey = await accounts?.getDataEncryptionKey(publicAddress);
+    console.log("==========>", dataEncryptionKey, await accounts?.getName(publicAddress))
+
+    console.log("===========comment encryption================>");
+
+    const encryptedPhone = await encryptComment("+254791725651", publicAddress, "0x2f254ceA58719E3AE7DF82E1117Ea7C1cE2Ce30d");
+    console.log("Encrypted comment", encryptedPhone);
+
+    const decryptedComment = await decryptComment(encryptedPhone.comment, publicAddress, true);
+    console.log("Decrypted comment", decryptedComment);
+    return dataEncryptionKey;
 }
 
 /**
@@ -62,6 +88,7 @@ export async function encryptComment(comment: string, from: string, to: string) 
  * @param dataEncryptionKey the data encryption key used to encrypt the data.
  * @param isSender true if the data encryption key belongs to the sender of the message.
  */
-export function decryptComment(encryptedComment: string, dataEncryptionKey: string, isSender: boolean) {
-    return decryptCommentRaw(encryptedComment, hexToBuffer(dataEncryptionKey), isSender);
+export async function decryptComment(encryptedComment: string, publicAddress: string, isSender: boolean) {
+    const decryptionKey = await getDataEncryptionKey(publicAddress);
+    return decryptCommentRaw(encryptedComment, decryptionKey, isSender);
 }

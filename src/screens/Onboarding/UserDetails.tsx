@@ -5,13 +5,15 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import { createNewAccountWithMnemonic } from "../../utils/auth.utils";
 
 const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
-  const moveNext = () => {
+  const moveNext = async () => {
     //TODO: validate name
-    navigation.navigate("EnterPin")
+    // navigation.navigate("EnterPin")
+    const mnemonic = await createNewAccountWithMnemonic();
   };
   const [name, onChangeName] = React.useState("");
 
