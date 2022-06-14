@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import privateKeyProducers from './auth/authSlice';
+import currencyRatesReducer from './currency/currencySlice'
 
 const customStore = configureStore({
   reducer: {
-    privateKey: privateKeyProducers
+    privateKey: privateKeyProducers,
+    kesRates:currencyRatesReducer
   }
 })
 

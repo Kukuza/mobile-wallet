@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
         borderRadius:12
     },
     title:{
-        ...FONTS.body3,
+        ...FONTS.body4,
         color:COLORS.black
 
     },

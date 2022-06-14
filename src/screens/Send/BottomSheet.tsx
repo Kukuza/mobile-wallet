@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     opacity:0.2
   },
   title:{
-...FONTS.body3,
+...FONTS.body4,
 color:COLORS.primary,
 margin:RFPercentage(2),
   },
@@ -87,11 +87,11 @@ margin:RFPercentage(2),
 
   },
   coinTitle:{
-    ...FONTS.body3,
+    ...FONTS.body4,
     color:COLORS.textPrimary,
   },
   coinAmount:{
-    ...FONTS.body3,
+    ...FONTS.body4,
     color:COLORS.textPrimary,
 
   },

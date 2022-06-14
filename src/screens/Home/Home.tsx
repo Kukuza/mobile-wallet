@@ -49,6 +49,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   const fetchData = async () => {
     if (wakalaContractKit) {
       setData(await wakalaContractKit?.fetchTransactions());
+      
     } else {
       console.log("data is null");
     }

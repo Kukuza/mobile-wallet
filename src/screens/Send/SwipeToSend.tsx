@@ -19,13 +19,13 @@ export default function SwipeToSend({route,navigation}) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Feather name="chevron-left" size={32} color={COLORS.primary} />
         </TouchableOpacity>  
-        <Text style={{...FONTS.body3, color:COLORS.textPrimary}}>Send</Text>
+        <Text style={{...FONTS.body4  , color:COLORS.textPrimary}}>Send</Text>
         </View>
         <View style={styles.userDetails}>
             <View style={styles.userImage}>
 
             </View>
-            <Text style={{...FONTS.body3, color:COLORS.textPrimary}}>{Name}</Text>
+            <Text style={{...FONTS.body4  , color:COLORS.textPrimary}}>{Name}</Text>
             <Text style={{...FONTS.headline, color:COLORS.textPrimary}}>{Phone}</Text>
         </View>
         <View style={styles.midSection}>
