@@ -5,6 +5,7 @@ import {
     getStoredMnemonic } from "../redux/auth/auth.utils";
 import WakalaContractKit from '../utils/Celo-Integration/WakalaContractKit';
 import { retrieveStoredItem } from '../redux/auth/session.key.storage.utils';
+import {MNEMONIC_STORAGE_KEY} from '../redux/auth/auth.utils'
 
  const authSlice = createSlice ({
     name: 'auth',
@@ -74,7 +75,7 @@ export const confirmPin: any = createAsyncThunk(
 
  export const retrieveItem: any = createAsyncThunk(
     'retrieveItem', async () => {
-        return await retrieveStoredItem("mnemonic");
+        return await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
  });
 
   export const getMnemonic: any = createAsyncThunk(
@@ -89,7 +90,7 @@ export const confirmPin: any = createAsyncThunk(
 
  export const createAccount: any = createAsyncThunk(
     'createAccount', async (pin: string) => {
-        const encryptedMnemonic = await retrieveStoredItem("mnemonic");
+        const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
         let keys: any;
 
         if (encryptedMnemonic) {

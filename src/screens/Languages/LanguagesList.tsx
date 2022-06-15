@@ -11,7 +11,6 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const locales = configs.LOCALES ?? [];
   const { navigation, route } = props;
-  
   const dispatch = useDispatch();
 
   useEffect(() => {
