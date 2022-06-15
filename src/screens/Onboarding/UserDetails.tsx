@@ -1,19 +1,49 @@
 import React from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput, Alert } from "react-native";
 import DefaultButton from "../../components/buttons/DefaultButton";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import Validator from "../../utils/Validator";
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfile, saveProfile }  from '../../store/Profile';
+import { useEffect } from 'react';
 
 const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
-  const moveNext = () => {
-    //TODO: validate name
-    navigation.navigate("EnterPin")
+  const [name, setName] = React.useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {dispatch(getProfile())}, []);
+
+  const profile: IProfile = useSelector((state: any) => state.profile.data);
+  const moveNext = async () => {
+    if(!Validator.isEmpty(name)) {
+      const p: IProfile = {
+        name: name,
+        phoneNumber: profile.phoneNumber,
+        email: profile.email,
+        locale: profile.locale,
+        publicAddress: profile.publicAddress,
+        registered: false
+    }
+
+      dispatch(saveProfile(p));
+      navigation.navigate("EnterPin")
+    }else {
+      //TODO: replace with Modal
+      invalidNameAlert();
+    }
   };
-  const [name, onChangeName] = React.useState("");
+  
+  const invalidNameAlert = () =>
+    Alert.alert(
+      "Name", 
+      "Please enter your name to continue", 
+      [{ text: 'Ok' }]
+    );
 
   return (
     <ScreenComponent>
@@ -24,7 +54,7 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
           <Text style={styles.inputLabel}>Full name</Text>
             <TextInput
               style={styles.input}
-              onChangeText={onChangeName}
+              onChangeText={setName}
               placeholder="Name"
               keyboardType="name-phone-pad"
               placeholderTextColor={COLORS.grayLightest1}/>
