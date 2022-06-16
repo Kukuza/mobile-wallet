@@ -5,4 +5,5 @@ interface IProfile {
     locale: string;
     publicAddress: string;
     registered: boolean;
+    mnemonic: string;
  } 

@@ -5,7 +5,7 @@ import CardImage from '../../components/cards/CardImage';
 import configs from '../../configs';
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile, saveProfile }  from '../../store/Profile';
+import Profile, { getProfile, saveProfile, INITIAL_STATE }  from '../../store/Profile';
 
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
@@ -20,14 +20,23 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   const profile: IProfile = useSelector((state: any) => state.profile.data);
 
   const handleSelect = (code: string) => {
-    const p: IProfile = {
-      name: profile.name,
-      phoneNumber: profile.phoneNumber,
-      email: profile.email,
-      locale: code,
-      publicAddress: profile.publicAddress,
-      registered: false
+    let p: any;
+
+    if(profile) {
+      p = {
+        name: profile.name,
+        phoneNumber: profile.phoneNumber,
+        email: profile.email,
+        locale: code,
+        publicAddress: profile.publicAddress,
+        registered: false,
+        mnemonic: profile.mnemonic
+      }
+    }else {
+      p = INITIAL_STATE;
+      p.locale = code;
     }
+
     dispatch(saveProfile(p));
     navigation.navigate("Onboarding");
   }
