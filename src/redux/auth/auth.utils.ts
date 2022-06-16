@@ -70,6 +70,7 @@ export async function generateNewMnemonic(): Promise<string> {
 export async function createNewAccountWithMnemonic() {
     const mnemonic = await generateNewMnemonic();
     const keys = await getAccountFromMnemonic(mnemonic);
+    console.log("keys ==========>", keys);
     WakalaContractKit.createInstance(keys.privateKey);
     return mnemonic;
 }
