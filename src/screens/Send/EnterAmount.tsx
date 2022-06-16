@@ -29,7 +29,7 @@ const EnterAmount = ({route, navigation}) => {
 
     const convertCurrencies = async () => {
       const currencyConverter = new CurrencyLayerAPI();
-      const ksh = await currencyConverter.usdToKsh(wakalaTransaction.amount);
+      const ksh = await currencyConverter.usdToKsh(Number(value));
       setAmount(ksh.toFixed(2))
     }
     const walletBalance = async () => {

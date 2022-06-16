@@ -3,7 +3,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 const SendButton = (props) => {
 
    const title: string = props.title;
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: "center",
     borderRadius: (SIZES.width * 0.14) / 2,
-    height: 38,
-    minWidth: 150,
+    height:hp("4.7%"),
+    width: 150,
   },
   buttonText: {
     ...FONTS.body8,

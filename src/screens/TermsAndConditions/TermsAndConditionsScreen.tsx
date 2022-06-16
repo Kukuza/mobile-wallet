@@ -8,7 +8,7 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import CodeInputComponent from "../Attestation/AttestationCodeConfirmationScreen/CodeInputComponent";
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 /**
  * 
  * @param props Screen properties.
@@ -65,7 +65,10 @@ const styles = StyleSheet.create({
     marginVertical: SIZES.height * 0.1
   },
   button: {
-    width: SIZES.width * 0.6
+    marginTop:hp("20%"),
+    width:wp("76.2%"),
+    height:hp("6.89%"),
+  
   },
   title: {
     ...FONTS.displayBold,

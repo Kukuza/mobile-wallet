@@ -1,17 +1,35 @@
 import { View, StyleSheet, FlatList } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ScreenComponent from '../../containers/ScreenComponent'
 import CardImage from '../../components/cards/CardImage';
 import configs from '../../configs';
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfile, saveProfile }  from '../../store/Profile';
 
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const locales = configs.LOCALES ?? [];
   const { navigation, route } = props;
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProfile())
+  }, [])
+
+  const profile: IProfile = useSelector((state: any) => state.profile.data);
+
   const handleSelect = (code: string) => {
-    //TODO: persist selected locale to storage
-    console.log(code);
+    const p: IProfile = {
+      name: profile.name,
+      phoneNumber: profile.phoneNumber,
+      email: profile.email,
+      locale: code,
+      publicAddress: profile.publicAddress,
+      registered: false
+    }
+    dispatch(saveProfile(p));
     navigation.navigate("Onboarding");
   }
 
@@ -23,7 +41,7 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
             data={locales}
             renderItem={({ item }) => (
               <CardImage 
-                  text={item.name} 
+                  text={item.name}
                   imgSrc={item.image} 
                   code={item.code}
                   handleSelect={handleSelect} /> 

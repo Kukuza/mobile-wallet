@@ -8,12 +8,15 @@ import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch } from 'react-redux';
+import { enterPin }  from '../../store/Auth';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
+  const dispatch = useDispatch();
+
   // navigation object.
    const navigation = props.navigation;
-   const dispatch = useDispatch();
    //Contains the pin number text as an array.
    const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
   // The current index of the pin number entry.
@@ -24,10 +27,13 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     if (currentIndex < 7) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
-
       if (currentIndex == 5) {
-        //TODO: pass pin to the confirm screen for match validation
         const pin = pinCharArray.join("");
+
+        //TODO: store current pin to auth slice to be used in confirm screen
+        dispatch(enterPin(pin))
+
+
         navigation.navigate("ConfirmPin");
       }
     } else {
@@ -49,7 +55,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     <TouchableOpacity style={styles.navIcon}
     onPress={() => navigation.goBack()}
     >
-    <Feather name="chevron-left" size={32} color={COLORS.primary} />
+    <Feather name="chevron-left" size={Number(wp("6.5%"))} color={COLORS.primary} />
     </TouchableOpacity>
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Create a PIN</Text>
@@ -57,7 +63,9 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
      <View style={styles.pinIcons}>
        {pinCharArray.map((text, index)=>
         <View key={index} style={styles.pinContainer}>
-          {pinCharArray[index] == "" ?<Text style={styles.starText}>*</Text>: <Text style={styles.starText}>{pinCharArray[index]}</Text>}
+          {pinCharArray[index] == "" ?<Text style={styles.starText}></Text>: <Text style={styles.starText}>
+            {pinCharArray[index] ? '*' : ""}
+            </Text>}
         </View> 
         )}
        
@@ -73,54 +81,42 @@ export default EnterPin;
 
 const styles = StyleSheet.create({
 navIcon:{
-  marginTop: "7%",
-  marginLeft: '8%',
+  marginTop: hp("5%"),
+  marginLeft: wp("5%"),
 },
 enterPin:{
-  marginTop:'30%',
+  marginTop:hp("10%"),
   alignItems:'center',
   justifyContent:'center',
 },
 pinText:{
-  ...FONTS.body2,
+  ...FONTS.displayBold,
   color: COLORS.textColor4,
-  fontSize: RFPercentage(3.2),
-  fontWeight:'bold' 
 },
 pinIcons:{
-  marginTop:'15%',
+  marginVertical:hp("3%"),
   alignItems:'center',
   justifyContent:'center',
   display:'flex',
   flexDirection: 'row',
 },
 keyPad:{
-  marginBottom:'5%',
-  marginTop:"15%",
-  marginHorizontal:'10%',
+  marginHorizontal:wp("10%"),
 },
 pinContainer:{
   display:'flex',
   flexDirection: 'row',
-  width:40,
-  height:40,
+  width:wp("10.667%"),
+  height:wp("10.667%"),
   backgroundColor:COLORS.keyPadTextBackGround,
   justifyContent:'center',
   alignItems:'center',
-  borderRadius:10,
+  borderRadius:wp("2.667%"),
   marginHorizontal:RFPercentage(0.5)
 },
-iconImage:{
-  width:20,
-  height:20,
-  resizeMode:'contain',
-  
-},
 starText:{
-  ...FONTS.h5,
-  fontSize: 24,
+  ...FONTS.h3,
   color: COLORS.primary,
-  fontWeight:'bold',
   alignSelf:"center",
 }
 })
