@@ -20,7 +20,7 @@ const MNEMONIC_BIT_LENGTH = MnemonicStrength.s256_24words
 /**
  * The key used to store the mnemonic.
  */
-const MNEMONIC_STORAGE_KEY = 'mnemonic'
+export const MNEMONIC_STORAGE_KEY = 'mnemonic'
 
 /**
  * Checks if the mnemonic has duplicate words.

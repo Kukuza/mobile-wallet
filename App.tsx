@@ -5,7 +5,6 @@ import { View } from "react-native";
 import React, { useState, useEffect } from "react";
 import store  from './src/store'
 import { Provider } from 'react-redux';
-import Storage from "./src/utils/Storage";
 
 import {
   Rubik_300Light,
@@ -23,14 +22,15 @@ import { useFonts } from "expo-font";
 import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
 import { LogBox } from "react-native";
+import { MNEMONIC_STORAGE_KEY } from './src/redux/auth/auth.utils'
+import { retrieveStoredItem } from "./src/redux/auth/session.key.storage.utils";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
 ]);
-
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -49,32 +49,31 @@ const App = () => {
   let [isReady, setReady] = React.useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [viewedOnboarding, setViewedOnboarding] = useState(false);
+  const [onboarded, setOnboarded] = useState(false);
 
   const loadAppSession = async () => {
     try {
-      const data: IProfile = await Storage.get("user");
-      console.log("LoadAppSession", data);
-      // return true;
+      //return true;
     } catch (err) {
       console.log(err);
-      // return true;
+     //return true;
     }
   };
 
-  const checkOnboarding = async () => {
+  const hasOnboarded = async () => {
     try {
-      const value: IProfile = await Storage.get("user");
-      console.log("CheckOnboarding", value);
-
-      if (value.registered) 
-        setViewedOnboarding(true);
+      const mnemonic = await retrieveStoredItem(
+        MNEMONIC_STORAGE_KEY
+        );
+      if (mnemonic) setOnboarded(true);
     } catch (error) {
       console.error("checkOnboarding: ", error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {hasOnboarded();}, []);
 
   /* const Loading = () => {
     return (
@@ -83,8 +82,6 @@ const App = () => {
       </View>
     );
   }; */
-
-  useEffect(() => {checkOnboarding();}, []);
 
   if (!isReady || !fontsLoaded) {
     return (
@@ -101,7 +98,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName= "LanguagesList"
+            initialRouteName= { onboarded ? "MyDrawer" : "LanguagesList" }
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (
