@@ -5,6 +5,10 @@ import {
     getStoredMnemonic } from "../redux/auth/auth.utils";
 import WakalaContractKit from '../utils/Celo-Integration/WakalaContractKit';
 import { retrieveStoredItem } from '../redux/auth/session.key.storage.utils';
+import {MNEMONIC_STORAGE_KEY} from '../redux/auth/auth.utils'
+import Storage from "../utils/Storage";
+import { ProfileKey} from '../enums/ProfileKey'
+import { INITIAL_STATE } from "./Profile";
 
  const authSlice = createSlice ({
     name: 'auth',
@@ -74,7 +78,7 @@ export const confirmPin: any = createAsyncThunk(
 
  export const retrieveItem: any = createAsyncThunk(
     'retrieveItem', async () => {
-        return await retrieveStoredItem("mnemonic");
+        return await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
  });
 
   export const getMnemonic: any = createAsyncThunk(
@@ -89,7 +93,7 @@ export const confirmPin: any = createAsyncThunk(
 
  export const createAccount: any = createAsyncThunk(
     'createAccount', async (pin: string) => {
-        const encryptedMnemonic = await retrieveStoredItem("mnemonic");
+        const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
         let keys: any;
 
         if (encryptedMnemonic) {
@@ -103,5 +107,34 @@ export const confirmPin: any = createAsyncThunk(
             WakalaContractKit.createInstance(keys.privateKey);
         }
 
+        storePublicAddress(keys.address)
+        //TODO: save public address to device
+
     return keys;
  });
+
+ const storePublicAddress = async (publicAddress: string) => {
+    const profile = await Storage.get(ProfileKey.PROFILE_KEY);
+    
+    let p: any;
+    if(profile) {
+        p = {
+            name: profile.name,
+            phoneNumber: profile.phoneNumber,
+            email: profile.email,
+            locale: profile.locale,
+            publicAddress: publicAddress,
+            registered: true,
+            mnemonic: ""
+        }
+      }else {
+        p = INITIAL_STATE;
+        p.publicAddress = publicAddress;
+      }
+
+    Storage.save(ProfileKey.PROFILE_KEY, JSON.stringify(p));
+    const isNew: IProfile = await Storage.get(ProfileKey.PROFILE_KEY);
+    console.log("Public address: ", isNew.publicAddress);
+
+    return await Storage.get(ProfileKey.PROFILE_KEY);
+}
