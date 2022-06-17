@@ -8,9 +8,12 @@ import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAccount }  from '../../store/Auth';
+import { createAccount, storePublicAddress }  from '../../store/Auth';
 import { getProfile } from '../../store/Profile';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { MNEMONIC_STORAGE_KEY, getStoredMnemonic, getAccountFromMnemonic, encryptPasswordWithNewMnemonic } from '../../redux/auth/auth.utils';
+import { retrieveStoredItem } from '../../redux/auth/session.key.storage.utils';
+import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
 
 const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
@@ -23,6 +26,7 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
    const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
   // The current index of the pin number entry.
    const [currentIndex, setCurrentIndex] = useState(0);
+
   const handleChange = async (valPin) => {
     if (currentIndex < 7) {
       pinCharArray[currentIndex] = valPin;
@@ -35,7 +39,8 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           pinMismatchAlert();
           navigation.navigate("EnterPin");
         }else {
-          dispatch(createAccount(pin));
+          // dispatch(createAccount(pin));
+          await createAccount(pin);
           navigation.navigate("ConnectYourPhoneNumberScreen");
         } 
       }
@@ -45,6 +50,24 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     }
   }
 
+  const createAccount = async (pin: string) =>{
+    const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
+    let keys: any;
+
+    if (encryptedMnemonic) {
+        const mnemonic = await getStoredMnemonic(pin);
+        keys = await getAccountFromMnemonic(mnemonic ?? "");
+        WakalaContractKit.createInstance(keys.privateKey);
+    }else {
+        await encryptPasswordWithNewMnemonic(pin);
+        const mnemonic = await getStoredMnemonic(pin);
+        keys = await getAccountFromMnemonic(mnemonic ?? "");
+        WakalaContractKit.createInstance(keys.privateKey);
+    }
+
+    await storePublicAddress(keys.address)
+  }
+  
   const pinMismatchAlert = () =>
     Alert.alert(
       "PIN mismatch", 

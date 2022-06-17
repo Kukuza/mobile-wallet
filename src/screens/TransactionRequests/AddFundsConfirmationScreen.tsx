@@ -3,7 +3,6 @@ import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-// import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";
@@ -111,16 +110,15 @@ const AddFundsConfirmationScreen = (props: any) => {
     try {
       if (operation === "TopUp") {
         setLoadingMessage("Sending the top up/deposit transaction...");
-        
-        const txObject = wakalaSmartContract?.methods.initializeDepositTransaction(amount, "phoneNumber");
+        const txObject = wakalaSmartContract?.methods.initializeDepositTransaction(amount, "KES", "117.41");
         const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
         
       } else {
         setLoadingMessage("Approve fund transfer form account...");
-        wakalaContractKit?.cUSDApproveAmount(amount)
+        await wakalaContractKit?.cUSDApproveAmount(amount);
         setLoadingMessage("Sending the withdrawal transaction...");
-        const txObject = wakalaSmartContract?.methods.initializeWithdrawalTransaction(amount, "phoneNumber");
+        const txObject = wakalaSmartContract?.methods.initializeWithdrawalTransaction(amount, "KES", "117.41");
         const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
       }
