@@ -7,7 +7,7 @@ import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import Validator from "../../utils/Validator";
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile, saveProfile }  from '../../store/Profile';
+import { getProfile, INITIAL_STATE, saveProfile }  from '../../store/Profile';
 import { useEffect } from 'react';
 
 const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
@@ -21,14 +21,22 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
   const profile: IProfile = useSelector((state: any) => state.profile.data);
   const moveNext = async () => {
     if(!Validator.isEmpty(name)) {
-      const p: IProfile = {
-        name: name,
-        phoneNumber: profile.phoneNumber,
-        email: profile.email,
-        locale: profile.locale,
-        publicAddress: profile.publicAddress,
-        registered: false
-    }
+      let p: any;
+      
+      if(profile) {
+        p = {
+          name: name,
+          phoneNumber: profile.phoneNumber,
+          email: profile.email,
+          locale: profile.locale,
+          publicAddress: profile.publicAddress,
+          registered: false,
+          mnemonic: profile.mnemonic
+        }
+      }else {
+        p = INITIAL_STATE;
+        p.name = name;
+      }
 
       dispatch(saveProfile(p));
       navigation.navigate("EnterPin")

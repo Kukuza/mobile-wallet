@@ -20,38 +20,47 @@ import { COLORS } from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
+import { useDispatch, useSelector } from "react-redux";
+import { getBalance }  from '../../store/Wallet';
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
   const wakalaContractKit = WakalaContractKit.getInstance();
-  const [balance, setBalance] = useState("Loading...");
-  const [kshBalance, setKshBalance] = useState("Loading...");
-
+  const [balance, setBalance] = useState("--");
+  const [kshBalance, setKshBalance] = useState("--");
   const loading = false;
   const loadingMessage = "Loading...";
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getBalance());
     walletBalance();
-  }, []);
+  }, [])
+
+  const _bal: number = useSelector((state: any) => state.wallet.balance);
+
+  console.log("Returned Balance", _bal)
 
   //get balances and convert them to local currency.
   const walletBalance = async () => {
-
-    const wakalaKit = WakalaContractKit?.getInstance();
-    const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
-    let money = balances?.cUSD;
-
-    // change balance to cUSD.
-    let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
-    const toNum = Number(amount);
-    const visibleAmount = toNum.toFixed(2);
-    setBalance(visibleAmount);
-
-    // change balance to ksh/local currency.
-    const currencyConverter = new CurrencyLayerAPI();
-    const ksh = await currencyConverter.usdToKsh(toNum);
-    setKshBalance(ksh.toFixed(2))
+      const visibleAmount = _bal.toFixed(2);
+      
+      if(_bal > 0) {
+        setBalance(visibleAmount); 
+        //TODO: use currency reducer later
+        /*TODO: 
+          factor in other local currencies eg. Naira
+          currently fixed to usd to kes
+          */
+        //change balance to local currency.
+        const currencyConverter = new CurrencyLayerAPI();
+        const ksh = await currencyConverter.usdToKsh(_bal);
+        setKshBalance(ksh.toFixed(2));
+      }else {
+        setBalance('--');
+        setKshBalance('--');
+      }    
   };
 
   // listen for transaction completion event and update balance.
