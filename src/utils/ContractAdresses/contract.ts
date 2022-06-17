@@ -1,6 +1,6 @@
 // Wakala Contract Address - Alfarojes
 export const WAKALA_CONTRACT_ADDRESS =
-  "0x46Ac9223D7390d86277AbdeeeafF29a426f017F5";
+  "0x5ad9dB46b40B086F4E4ece8545DD22B00Ac989da";
 
 // ERC20_ADDRESS - Alfarojes
 export const ERC20_ADDRESS = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1";

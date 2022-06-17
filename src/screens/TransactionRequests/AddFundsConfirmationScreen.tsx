@@ -3,7 +3,6 @@ import React, { Fragment, useCallback, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { SIZES } from "../../styles/fonts/fonts";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-// import ContractMethods from "../../utils/Celo-Integration/ContractMethods";
 import { connect, useDispatch } from "react-redux";
 import { CONNECTIVITY, SHARED } from "../../assets/images";
 import { FONTS } from "../../styles/fonts/fonts";

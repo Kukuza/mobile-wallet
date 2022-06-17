@@ -42,21 +42,23 @@ export enum Status {
  * @property { string } clientPhoneNumber - the client`s phone number.
  * @property { string } agentPhoneNumber - the agent`s phone number.
  */
-export type WakalaEscrowTransaction = {
+ export type WakalaEscrowTransaction = {
     id: number;
     txType: string;
     clientAddress: string;
-    status: string;
-    amount: any,
-    agentAddress?: string;
-    wakalaFee: number,
-    grossAmount: number,
-    agentFee: number
-    agentApproval: boolean,
-    clientApproval: boolean,
-    clientPhoneNumber: string,
-    agentPhoneNumber: string,
-};
+    agentAddress: string;
+    status: number;
+    netAmount: number;
+    cryptoFiatConversionRate: string;
+    fiatCurrencyCode: string;
+    agentFee: number;
+    wakalaFee: number;
+    grossAmount: number;
+    agentApproval: string;
+    clientApproval: string;
+    clientPhoneNumber: string;
+    agentPhoneNumber: string;
+  };
 
 /**
  * @typedef {Object} UserMetadata Summary of user information.

@@ -256,7 +256,6 @@ export default class WakalaContractKit {
       // set the next starting point for the smart contract loop.
       currentQueryTx = tx.id - 1;
     }
-
     return wakalaTxsArray;
   }
 
@@ -352,21 +351,26 @@ export default class WakalaContractKit {
    * @param tx the response object.
    * @returns the wakala transaction object.
    */
-  convertToWakalaTransactionObj(tx: Object): WakalaEscrowTransaction {
-    let wakalaTx: WakalaEscrowTransaction = {
+   convertToWakalaTransactionObj(tx: string[]): WakalaEscrowTransaction {
+
+    console.log(tx);
+
+    const wakalaTx: WakalaEscrowTransaction = {
       id: parseInt(tx[0]),
       txType: TransactionType[parseInt(tx[1])],
       clientAddress: tx[2],
       agentAddress: tx[3],
-      status: Status[parseInt(tx[4])],
-      amount: this.kit?.web3.utils.fromWei(tx[5], "ether"),
-      agentFee: this.kit?.web3.utils.fromWei(tx[6], "ether"),
-      wakalaFee: this.kit?.web3.utils.fromWei(tx[7], "ether"),
-      grossAmount: this.kit?.web3.utils.fromWei(tx[8], "ether"),
-      agentApproval: tx[9],
-      clientApproval: tx[10],
-      agentPhoneNumber: Buffer.from(tx[11], "base64").toString("ascii"),
-      clientPhoneNumber: Buffer.from(tx[12], "base64").toString("ascii"),
+      status: parseInt(tx[4]),
+      netAmount: parseInt(tx[5]),
+      cryptoFiatConversionRate: tx[6],
+      fiatCurrencyCode: tx[7],
+      agentFee: parseInt(tx[8]),
+      wakalaFee: parseInt(tx[9]),
+      grossAmount: parseInt(tx[10]),
+      agentApproval: tx[11],
+      clientApproval: tx[12],
+      agentPhoneNumber: tx[13],
+      clientPhoneNumber: tx[14],
     };
 
     return wakalaTx;
