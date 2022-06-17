@@ -1,8 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, {useEffect} from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { FONTS } from "../../styles/fonts/fonts";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrency } from '../../store/Currency';
+import { ICurrency } from '../../interfaces/ICurrency';
 import { COLORS } from "../../styles/colors/colors";
 
 /**
@@ -16,6 +18,15 @@ import { COLORS } from "../../styles/colors/colors";
  * @returns
  */
 const RequestTxInformationCard = (props: any) => {
+  const dispatch = useDispatch();
+  const convert: ICurrency = {from:"kes", to:"usd", amount:parseInt(props.grossAmount)};
+  const currency = useSelector((state: any) => state.currency);
+  const usdEquivalent = currency?.data;
+  useEffect(() => {
+    if(props.grossAmount){
+      dispatch(getCurrency(convert));
+    }
+  }, [])
   return (
     <LinearGradient
       colors={COLORS.cardGradient}
@@ -29,7 +40,7 @@ const RequestTxInformationCard = (props: any) => {
         <Text style={styles.cardSubTitle}>{props.cardSubtitle}</Text>
 
         <View style={{ flexDirection: "column" }}>
-          <Text style={styles.grossAmount}>Ksh {props.grossAmount * 115}</Text>
+          <Text style={styles.grossAmount}>Ksh {props.grossAmount}</Text>
           {/* <TextInputMask
             type={"only-numbers"}
             // options={{
@@ -72,7 +83,7 @@ const RequestTxInformationCard = (props: any) => {
       <View style={{ justifyContent: "space-between", marginTop: 15 }}>
         <Text style={styles.totalLabel}>{props.totalLabel}</Text>
         <Text style={styles.totalValue}>
-          cUSD {(props.grossAmount - 0.05).toFixed(2)}
+          cUSD {usdEquivalent && (usdEquivalent - 0.05).toFixed(2)}
         </Text>
         {/* <TextInputMask
           type={"only-numbers"}

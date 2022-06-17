@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,16 +13,11 @@ import KeyPad from "../../components/buttons/KeyPad";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
 import { TextInput } from "react-native-gesture-handler";
-
 const AddFunds: React.FunctionComponent = () => {
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
 
   const [value, setValue] = useState("");
-
-  // convert Ksh input to usd
-  const usdEquivalent = parseInt(value) / 115;
-  const usdEquivalentString = usdEquivalent.toString();
   const operation = route.params.operation;
 
   function handleChange(newValue: any) {
@@ -34,6 +29,17 @@ const AddFunds: React.FunctionComponent = () => {
     function handleDelete () {
       setValue(value.slice(0, -1));
     }
+function validateInput (value: number){
+  if(value <= 0){
+    return
+  } else {
+    navigation.navigate("Add Funds Confirmation", {
+      param: value,
+      operation: operation,
+    })
+  }
+
+}
   return (
     <ScreenComponent>
       <NavHeader
@@ -46,12 +52,7 @@ const AddFunds: React.FunctionComponent = () => {
         </TextInput>
         <KeyPad value={value} onChange={handleChange} onDelete={handleDelete} />
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("Add Funds Confirmation", {
-              param: usdEquivalentString,
-              operation: operation,
-            })
-          }
+          onPress={() => validateInput(Number(value))}
         >
           <LinearGradient
             colors={["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"]}
