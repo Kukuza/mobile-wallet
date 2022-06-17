@@ -1,14 +1,17 @@
 import Storage from "../utils/Storage";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ProfileKey} from '../enums/ProfileKey'
 
-const PROFILE_KEY = 'user';
-const INITIAL_STATE: IProfile = {
+const PROFILE_KEY = ProfileKey.PROFILE_KEY;
+
+export const INITIAL_STATE: IProfile = {
     name: "",
     phoneNumber: "",
     email: "",
     locale: "",
     publicAddress: "",
-    registered: false
+    registered: false,
+    mnemonic: ""
 }
 
  const profileSlice = createSlice ({
