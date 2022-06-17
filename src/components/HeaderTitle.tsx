@@ -42,7 +42,7 @@ const HeaderTitle = (props) => {
           >
             <Text
               style={{
-                ...FONTS.body3,
+                ...FONTS.body5,
                 fontWeight: "bold",
                 color: COLORS.primary,
               }}

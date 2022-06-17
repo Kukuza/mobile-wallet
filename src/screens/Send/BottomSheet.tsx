@@ -9,7 +9,7 @@ import { FONTS } from "../../styles/fonts/fonts";
 const { height } = Dimensions.get("screen");
 const modalHeight = height * 0.4;
 
-const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal}) => {
+const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal, ksh}) => {
   const Coins = [{
     name:"cUSD",
     balance: bal
@@ -37,7 +37,7 @@ const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal}) => {
          <Text style={styles.coinTitle}>{coin.name}</Text>
          <View style={{margin:0,bottom:0}}>
              <Text style={styles.coinAmount}>{coin.balance}</Text>
-             <Text style={styles.kesAmount}>Ksh 1160</Text>
+             <Text style={styles.kesAmount}>Ksh {ksh.toFixed(4)}</Text>
          </View>
        </Pressable>
        <View style={styles.textDivider}/>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     opacity:0.2
   },
   title:{
-...FONTS.body3,
+...FONTS.body4,
 color:COLORS.primary,
 margin:RFPercentage(2),
   },
@@ -87,11 +87,11 @@ margin:RFPercentage(2),
 
   },
   coinTitle:{
-    ...FONTS.body3,
+    ...FONTS.body4,
     color:COLORS.textPrimary,
   },
   coinAmount:{
-    ...FONTS.body3,
+    ...FONTS.body4,
     color:COLORS.textPrimary,
 
   },

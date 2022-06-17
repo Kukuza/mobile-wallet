@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
           padding:10,
       },
       ContactTitle:{
-          ...FONTS.body3,
+          ...FONTS.body4,
           marginHorizontal:10,
           marginVertical:10
       },
