@@ -31,6 +31,7 @@ export default class CurrencyLayerAPI {
                     let resp = await axios.get(rqstStr, {
                         headers: {
                             apikey: configs.CURRENCY_LAYER_API_KEY!
+                            
                         }
                     });
 

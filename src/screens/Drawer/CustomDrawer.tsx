@@ -208,7 +208,7 @@ const stylesBalance = StyleSheet.create({
   },
 
   ksh: {
-    ...FONTS.body3,
+    ...FONTS.body4,
     color: COLORS.textPrimary,
     fontWeight: "bold",
     margin: 2,

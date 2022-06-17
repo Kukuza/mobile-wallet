@@ -12,7 +12,11 @@ import BottomSheet from './BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrency } from '../../store/Currency';
+import { ICurrency } from '../../interfaces/ICurrency';
+
+
 
 const EnterAmount = ({route, navigation}) => {
     const {recieversName, recieversPhoneNumber} = route.params;
@@ -21,17 +25,16 @@ const EnterAmount = ({route, navigation}) => {
     const modalRef = useRef<any>();
     const bannerRef = useRef<any>();
     const popupRef = useRef<any>();
-    const [amount, setAmount] = useState("-");
-    const [visible, setVisible] = useState(true);
-
+    const dispatch = useDispatch()
     const [value, setValue] = useState("");
     const [coinChoice, setCoinChoice] = useState("cUSD");
+    const convert: ICurrency = {from:"usd", to:"kes", amount:Number(balance)}
+    const currency = useSelector((state: any) => state.currency);
+   // const convertToUsd: ICurrency = {from:"kes", to:"usd", amount:Number(value!)}
+    const [kshAmount, setKshAmount] = useState ("");
+   // const [cusd, setCusd] = useState("")
+   
 
-    const convertCurrencies = async () => {
-      const currencyConverter = new CurrencyLayerAPI();
-      const ksh = await currencyConverter.usdToKsh(Number(value));
-      setAmount(ksh.toFixed(2))
-    }
     const walletBalance = async () => {
       const wakalaKit = WakalaContractKit?.getInstance();
       const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
@@ -41,8 +44,14 @@ const EnterAmount = ({route, navigation}) => {
       // change balance to cUSD.
       let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
       const toNum = Number(amount);
-      const visibleAmount = toNum.toFixed(2);
-      setBalance(visibleAmount);
+      setBalance(toNum.toFixed(2));
+
+      //Convert CUSD to Ksh
+      if(Number(toNum.toFixed(2)) > 0){
+        setKshAmount(currency.data);
+      }
+
+
 
       //Get CELO Balances.
       let celoamount = wakalaKit?.web3.utils.fromWei(celoMoney?.toString(), "ether");
@@ -53,6 +62,8 @@ const EnterAmount = ({route, navigation}) => {
     };
     useEffect(() => {
       walletBalance();
+      dispatch(getCurrency(convert));
+    
     }, [])
     
     const BannerContent = (props: any) => {
@@ -106,6 +117,9 @@ const EnterAmount = ({route, navigation}) => {
         return null;
       }
       setValue(value + newValue);
+     // dispatch(getCurrency(convertToUsd));
+    //  const cusdAmt = useSelector((state: any) => state.currency);
+   //   setCusd(cusdAmt)
       }
     function validateInput(value: any) {
       if(value.length < 1){
@@ -195,7 +209,13 @@ const EnterAmount = ({route, navigation}) => {
         content={<PopupContent popupRef={popupRef} value={value}  />}
       />
     </Fragment>
-    <BottomSheet modalRef={modalRef} onClose={closeModal} bal={balance} celo={celo}  setCoinChoice={ setCoinChoice}/>
+    <BottomSheet 
+      modalRef={modalRef}
+      onClose={closeModal}
+      bal={balance} 
+      celo={celo} 
+      ksh={kshAmount} 
+      setCoinChoice={ setCoinChoice}/>
   </PortalProvider>
   )
 }
@@ -264,7 +284,7 @@ const styles = StyleSheet.create({
         borderRadius:12
     },
     title:{
-        ...FONTS.body3,
+        ...FONTS.body4,
         color:COLORS.black
 
     },
