@@ -1,31 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dimensions, View, StyleSheet,Text, Pressable } from "react-native";
 import { Portal } from "@gorhom/portal";
 import { Modalize } from "react-native-modalize";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrency } from '../../store/Currency';
+import { ICurrency } from '../../interfaces/ICurrency';
 const { height } = Dimensions.get("screen");
 const modalHeight = height * 0.4;
 
-const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal, ksh}) => {
+const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal}) => {
+  const dispatch = useDispatch();
+  const convert: ICurrency = {from:"usd", to:"kes", amount:Number(bal)}
+  const currency = useSelector((state: any) => state.currency);
   const Coins = [{
     name:"cUSD",
-    balance: bal
+    balance: bal,
+    inKsh:currency?.data
   },
 {
   name:"CELO",
-  balance:celo
+  balance:celo,
+  inKsh:currency?.data
 },
 {
   name:"KUZA",
-  balance:20.67
+  balance:20.67,
+  inKsh:currency?.data
 }]
   function handleClose (index: any){
   setCoinChoice(Coins[index].name);
   onClose();
   }
+useEffect(() => {
+  dispatch(getCurrency(convert));
+}, [])
+
   return (
     <Portal>
       <Modalize ref={modalRef} modalHeight={modalHeight}>
@@ -37,7 +49,7 @@ const BottomSheet = ({ modalRef, onClose, setCoinChoice, celo, bal, ksh}) => {
          <Text style={styles.coinTitle}>{coin.name}</Text>
          <View style={{margin:0,bottom:0}}>
              <Text style={styles.coinAmount}>{coin.balance}</Text>
-             <Text style={styles.kesAmount}>Ksh {ksh.toFixed(4)}</Text>
+             <Text style={styles.kesAmount}>Ksh {coin?.inKsh?.toFixed(2)}</Text>
          </View>
        </Pressable>
        <View style={styles.textDivider}/>

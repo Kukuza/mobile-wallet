@@ -12,9 +12,7 @@ import BottomSheet from './BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
-import { useDispatch, useSelector } from 'react-redux';
-import { getCurrency } from '../../store/Currency';
-import { ICurrency } from '../../interfaces/ICurrency';
+
 
 
 
@@ -25,13 +23,10 @@ const EnterAmount = ({route, navigation}) => {
     const modalRef = useRef<any>();
     const bannerRef = useRef<any>();
     const popupRef = useRef<any>();
-    const dispatch = useDispatch()
+
     const [value, setValue] = useState("");
     const [coinChoice, setCoinChoice] = useState("cUSD");
-    const convert: ICurrency = {from:"usd", to:"kes", amount:Number(balance)}
-    const currency = useSelector((state: any) => state.currency);
    // const convertToUsd: ICurrency = {from:"kes", to:"usd", amount:Number(value!)}
-    const [kshAmount, setKshAmount] = useState ("");
    // const [cusd, setCusd] = useState("")
    
 
@@ -46,13 +41,6 @@ const EnterAmount = ({route, navigation}) => {
       const toNum = Number(amount);
       setBalance(toNum.toFixed(2));
 
-      //Convert CUSD to Ksh
-      if(Number(toNum.toFixed(2)) > 0){
-        setKshAmount(currency.data);
-      }
-
-
-
       //Get CELO Balances.
       let celoamount = wakalaKit?.web3.utils.fromWei(celoMoney?.toString(), "ether");
       const celotoNum = Number(celoamount);
@@ -62,8 +50,6 @@ const EnterAmount = ({route, navigation}) => {
     };
     useEffect(() => {
       walletBalance();
-      dispatch(getCurrency(convert));
-    
     }, [])
     
     const BannerContent = (props: any) => {
@@ -214,7 +200,6 @@ const EnterAmount = ({route, navigation}) => {
       onClose={closeModal}
       bal={balance} 
       celo={celo} 
-      ksh={kshAmount} 
       setCoinChoice={ setCoinChoice}/>
   </PortalProvider>
   )
