@@ -14,6 +14,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { MNEMONIC_STORAGE_KEY, getStoredMnemonic, getAccountFromMnemonic, encryptPasswordWithNewMnemonic } from '../../redux/auth/auth.utils';
 import { retrieveStoredItem } from '../../redux/auth/session.key.storage.utils';
 import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
+import { AttestationUtils } from '../../utils/attestation.utils';
 
 const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
@@ -41,7 +42,7 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
         }else {
           // dispatch(createAccount(pin));
           await createAccount(pin);
-          navigation.navigate("ConnectYourPhoneNumberScreen");
+          // navigation.navigate("ConnectYourPhoneNumberScreen");
         } 
       }
     } else {
@@ -65,7 +66,10 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
         WakalaContractKit.createInstance(keys.privateKey);
     }
 
-    await storePublicAddress(keys.address)
+    await storePublicAddress(keys.address);
+    const attestationUtil = new AttestationUtils(keys.privateKey);
+    // await attestationUtil.init();
+
   }
   
   const pinMismatchAlert = () =>

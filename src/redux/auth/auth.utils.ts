@@ -6,7 +6,7 @@ import {
   generateMnemonic,
   MnemonicStrength, 
   generateKeys 
-} from '@celo/utils/lib/account';
+} from '@celo/cryptographic-utils';
 import * as bip39 from 'react-native-bip39';
 import CryptoJS from 'crypto-js'
 import { retrieveStoredItem, storeItem } from './session.key.storage.utils';
