@@ -39,6 +39,7 @@ export const COLORS = {
 
   //
   buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  nextButtonGradient:["#FF93E1", "#133FDB"],
 
   cardGradient: [
     "rgba(255, 140, 161, 0.08)",

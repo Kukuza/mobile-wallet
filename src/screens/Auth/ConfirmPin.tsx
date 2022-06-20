@@ -17,12 +17,14 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
    const navigation = props.navigation;
    const dispatch = useDispatch();
    const prevPin = useSelector((state: any) => state.auth.pin);
+   const accountCreated = useSelector((state: any) => state.auth);
 
    useEffect(() => {dispatch(getProfile())}, []);
 
    const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
   // The current index of the pin number entry.
    const [currentIndex, setCurrentIndex] = useState(0);
+
   const handleChange = async (valPin) => {
     if (currentIndex < 7) {
       pinCharArray[currentIndex] = valPin;
@@ -35,9 +37,15 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           pinMismatchAlert();
           navigation.navigate("EnterPin");
         }else {
-
-          //TODO: listen to the pending state and redirect when fullfilled
           dispatch(createAccount(pin));
+          
+          //TODO: listen to the pending state and redirect when fullfilled
+          
+
+          console.log(accountCreated.pending);
+          console.log(accountCreated);
+          console.log(accountCreated.rejected);
+
           navigation.navigate("ConnectYourPhoneNumberScreen");
         } 
       }

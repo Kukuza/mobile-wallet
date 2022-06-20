@@ -127,6 +127,7 @@ const searchContacts = (value) => {
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             progressViewOffset={250}
+            maxToRenderPerBatch={30}
             />
         </View>
     </ScreenComponent>

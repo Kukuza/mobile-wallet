@@ -113,7 +113,7 @@ export const confirmPin: any = createAsyncThunk(
     return keys;
  });
 
- const storePublicAddress = async (publicAddress: string) => {
+export async function storePublicAddress(publicAddress: string) {
     const profile = await Storage.get(ProfileKey.PROFILE_KEY);
     
     let p: any;

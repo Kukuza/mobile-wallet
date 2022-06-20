@@ -6,7 +6,7 @@ import configs from "../configs";
 import { ProfileKey } from "../enums/ProfileKey";
 import Storage from "../utils/Storage";
 
- const walletSlice = createSlice ({
+const walletSlice = createSlice ({
     name: 'wallet',
     initialState: {
         balance: 0,
