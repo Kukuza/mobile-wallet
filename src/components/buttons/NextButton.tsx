@@ -1,8 +1,10 @@
-import { View, Animated, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Animated, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 import React, { useEffect, useRef } from "react";
-import Svg, { G, Circle } from "react-native-svg";
-import { AntDesign } from "@expo/vector-icons";
+import Svg, { G, Circle,} from "react-native-svg";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {NextArrow} from "../../assets/icons/Arrows";
+import { LinearGradient } from "expo-linear-gradient";
+import COLORS from "../../styles/colors/colors";
 export default function NextButton({
   percentage,
   scrollTo,
@@ -11,10 +13,10 @@ export default function NextButton({
   colors,
 }) {
   const size = wp("21.3%");
-  const strokeWidth = 2;
+  const strokeWidth = 2.5;
   const center = size / 2;
-  const radius = size / 2 - strokeWidth / 2;
-  const circumfrence = 2 * Math.PI * radius;
+  const radius = size / 2.5 - strokeWidth / 2;
+  const circumfrence = 2.2 * Math.PI * radius;
 
   const progressAnimation = useRef(new Animated.Value(0)).current;
   const progressRef = React.useRef<any>(null);
@@ -58,7 +60,6 @@ export default function NextButton({
             r={radius}
             strokeWidth={strokeWidth}
           />
-
           <Circle
             ref={progressRef}
             stroke="#4840BB"
@@ -71,15 +72,20 @@ export default function NextButton({
           />
         </G>
       </Svg>
-      {/* <LinearGradient colors={colors} style={style}> */}
       <TouchableOpacity
         onPress={scrollTo}
-        style={styles.button}
         activeOpacity={0.6}
+        style={styles.button}
       >
-        <AntDesign name="arrowright" size={20} color="#fff" />
+      <LinearGradient
+          colors={COLORS.nextButtonGradient}
+          start={{ x: 0.8, y: 0}}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradient}
+        >
+      <NextArrow color={COLORS.white}/>
+      </LinearGradient>
       </TouchableOpacity>
-      {/* </LinearGradient> */}
     </View>
   );
 }
@@ -92,8 +98,11 @@ const styles = StyleSheet.create({
   },
   button: {
     position: "absolute",
-    backgroundColor: "#4840BB",
     borderRadius: wp("50%"),
     padding: hp("2.2%"),
   },
+  gradient:{
+    borderRadius: wp("50%"),
+    padding: hp("2.2%"), 
+  }
 });
