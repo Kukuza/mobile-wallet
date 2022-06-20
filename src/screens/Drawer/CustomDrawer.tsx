@@ -22,6 +22,8 @@ import { EventData } from "web3-eth-contract";
 import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { getBalance }  from '../../store/Wallet';
+import { getCurrency } from "../../store/Currency";
+import { ICurrency } from "../../interfaces/ICurrency";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
@@ -32,35 +34,40 @@ export default function CustomDrawerContent(
   const loading = false;
   const loadingMessage = "Loading...";
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getBalance());
-    walletBalance();
-  }, [])
-
   const _bal: number = useSelector((state: any) => state.wallet.balance);
+  const convert: ICurrency = {
+    from: "usd", 
+    to: "kes", 
+    amount: _bal
+  }
+
+  const _local: number = useSelector((state: any) => state.currency.data);
+  
+  useEffect(() => {
+    walletBalance();
+  }, []);
 
   console.log("Returned Balance", _bal)
+  console.log("Converted Balance", _local)
 
-  //get balances and convert them to local currency.
   const walletBalance = async () => {
-      const visibleAmount = _bal.toFixed(2);
+    //Get balance
+    dispatch(getBalance());
+    //Convert to local currency
+    dispatch(getCurrency(convert))
+    const visibleAmount = _bal.toFixed(2);
       
-      if(_bal > 0) {
-        setBalance(visibleAmount); 
-        //TODO: use currency reducer later
-        /*TODO: 
-          factor in other local currencies eg. Naira
-          currently fixed to usd to kes
-          */
-        //change balance to local currency.
-        const currencyConverter = new CurrencyLayerAPI();
-        const ksh = await currencyConverter.usdToKsh(_bal);
-        setKshBalance(ksh.toFixed(2));
-      }else {
-        setBalance('--');
-        setKshBalance('--');
-      }    
+    if(_bal > 0) {
+      setBalance(visibleAmount); 
+      /*TODO: 
+        factor in other local currencies eg. Naira
+        currently fixed to usd to kes
+        */
+      setKshBalance(_local.toFixed(2));
+    }else {
+      setBalance('--');
+      setKshBalance('--');
+    }    
   };
 
   // listen for transaction completion event and update balance.

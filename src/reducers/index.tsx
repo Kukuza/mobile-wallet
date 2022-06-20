@@ -7,7 +7,7 @@ import walletReducer from "../store/Wallet"
 const rootReducer = combineReducers ({
     profile: profileReducer,
     auth: authReducer,
-    currency:currencyReducer
+    currency:currencyReducer,
     wallet: walletReducer
 });
 

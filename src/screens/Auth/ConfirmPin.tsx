@@ -35,6 +35,8 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           pinMismatchAlert();
           navigation.navigate("EnterPin");
         }else {
+
+          //TODO: listen to the pending state and redirect when fullfilled
           dispatch(createAccount(pin));
           navigation.navigate("ConnectYourPhoneNumberScreen");
         } 
