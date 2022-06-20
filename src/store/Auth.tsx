@@ -15,9 +15,9 @@ import { INITIAL_STATE } from "./Profile";
     initialState: {
         pin: null,
         data: {},
-        keys: {privateKey:'', publicKey: '', address: ''},
-        loading: '',
-        error: '',
+        keys: { privateKey: '', publicKey: '', address: '' },
+        loading: false,
+        status: '',
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -49,17 +49,20 @@ import { INITIAL_STATE } from "./Profile";
         builder.addCase(
             createAccount.fulfilled, 
             (state, action) => {
-                state.keys = action.payload
+                state.keys = action.payload;
+                state.loading = false;
+                state.status = 'Success';
             }),
         builder.addCase(
             createAccount.pending, 
             (state) => {
-                state.loading = 'pending'
+                state.loading = true;
             }),
         builder.addCase(
             createAccount.rejected, 
             (state) => {
-                state.loading = 'rejected'
+                state.loading = false;
+                state.status = "Failed";
             })
       },
  });
@@ -93,22 +96,21 @@ export const confirmPin: any = createAsyncThunk(
 
  export const createAccount: any = createAsyncThunk(
     'createAccount', async (pin: string) => {
-        const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
-        let keys: any;
+    const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
+    let keys: any;
 
-        if (encryptedMnemonic) {
-            const mnemonic = await getStoredMnemonic(pin);
-            keys = await getAccountFromMnemonic(mnemonic ?? "");
-            WakalaContractKit.createInstance(keys.privateKey);
-        }else {
-            await encryptPasswordWithNewMnemonic(pin);
-            const mnemonic = await getStoredMnemonic(pin);
-            keys = await getAccountFromMnemonic(mnemonic ?? "");
-            WakalaContractKit.createInstance(keys.privateKey);
-        }
+    if (encryptedMnemonic) {
+        const mnemonic = await getStoredMnemonic(pin);
+        keys = await getAccountFromMnemonic(mnemonic ?? "");
+        WakalaContractKit.createInstance(keys.privateKey);
+    }else {
+        await encryptPasswordWithNewMnemonic(pin);
+        const mnemonic = await getStoredMnemonic(pin);
+        keys = await getAccountFromMnemonic(mnemonic ?? "");
+        WakalaContractKit.createInstance(keys.privateKey);
+    }
 
-        storePublicAddress(keys.address)
-        //TODO: save public address to device
+    await storePublicAddress(keys.address);
 
     return keys;
  });

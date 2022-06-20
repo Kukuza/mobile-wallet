@@ -11,15 +11,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createAccount }  from '../../store/Auth';
 import { getProfile } from '../../store/Profile';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import store from '../../store';
 
 const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
    const navigation = props.navigation;
    const dispatch = useDispatch();
    const prevPin = useSelector((state: any) => state.auth.pin);
-   const accountCreated = useSelector((state: any) => state.auth);
 
-   useEffect(() => {dispatch(getProfile())}, []);
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
 
    const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
   // The current index of the pin number entry.
@@ -40,12 +42,7 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           dispatch(createAccount(pin));
           
           //TODO: listen to the pending state and redirect when fullfilled
-          
-
-          console.log(accountCreated.pending);
-          console.log(accountCreated);
-          console.log(accountCreated.rejected);
-
+          console.log("STATUS" , store.getState().auth);
           navigation.navigate("ConnectYourPhoneNumberScreen");
         } 
       }
