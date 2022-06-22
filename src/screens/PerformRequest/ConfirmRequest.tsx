@@ -6,13 +6,14 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import Modal from "../../components/modals/Modal";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { CONNECTIVITY, THANK_YOU_IMAGE } from "../../assets/images";
+import { CONNECTIVITY } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { connect, useDispatch } from "react-redux";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
+import Thankyou from "../../assets/images/modals/Thankyou";
 
 const CardElement = (props) => {
   
@@ -45,7 +46,7 @@ const ModalContent = (props) => {
       {props.isActionSuccess ? (
         props.operation === "TopUp" ? (
           <View>
-            <Image source={THANK_YOU_IMAGE} style={modalStyles.image} />
+            <Thankyou style={modalStyles.image} />
             <Text style={modalStyles.title}>Thank you!</Text>
             <Text style={modalStyles.text}>
               After your agents confirms of M-PESA payment receipt. Your cUSD
@@ -59,7 +60,7 @@ const ModalContent = (props) => {
         ) : (
           <View>
          <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={THANK_YOU_IMAGE} style={modalStyles.errorImage} />
+            <Thankyou style={modalStyles.errorImage} />
           </View>
             <Text style={[mainStyles.title, { color: "#4840BB" }]}>
                 Thank You!

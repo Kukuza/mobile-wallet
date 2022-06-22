@@ -11,7 +11,7 @@ import Modal from "../../components/modals/Modal";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
-import SwipeButton from "../../components/buttons/SwipeButton";
+import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 
 const ModalContent = (props) => {
   return (

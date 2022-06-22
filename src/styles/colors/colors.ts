@@ -37,10 +37,21 @@ export const COLORS = {
   realBlack: "#000000",
   black: "#181725",
 
-  //
-  buttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  //Buttons
+  //Onboarding button
   nextButtonGradient:["#FF93E1", "#133FDB"],
-
+ //DefaultButton
+  defaultbuttonGradient: ["rgba(183, 0, 76, 0.3)", "rgba(19, 63, 219, 1)"],
+  //Secondary Button
+  secondarybuttonGradient:["#B69FCB","#DA97C7"],
+  //SendButton
+  sendbuttonGradient:[
+    "#133FDB",
+    "rgba(20, 63, 218, 0.994943)",
+    "rgba(183, 0, 77, 0.3)",
+  ],
+  //Withdraw button
+  withdrawbuttonGradient:["#133FDB", "rgba(183, 0, 77, 0.3)"],
   cardGradient: [
     "rgba(255, 140, 161, 0.08)",
     "rgba(252, 207, 47, 0.08)",

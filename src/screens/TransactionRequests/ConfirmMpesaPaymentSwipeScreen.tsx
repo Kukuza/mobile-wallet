@@ -9,7 +9,7 @@ import React, { useState, useRef, useCallback, Fragment } from "react";
 import Modal from "../../components/modals/Modal";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import SwipeButton from "../../components/buttons/SwipeButton";
+import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";

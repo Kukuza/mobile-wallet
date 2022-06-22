@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, FlatList, Animated } from "react-native";
 import React, { useState, useRef } from "react";
 import slides from "../Onboarding/slides";
 import OnboardingItem from "../Onboarding/OnboardingItem";
-import NextButton from "../../components/buttons/NextButton";
+import NextButton from "../../components/buttons/LoaderButtons/NextButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import StandardBtn from "../../components/buttons/StandardBtn";
 import ScreenComponent from "../../containers/ScreenComponent";
