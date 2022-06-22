@@ -45,6 +45,7 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         <View style={styles.container}>
         <View style={styles.list}>
           <View style={{display:"flex", flexDirection:"row"}}>
+           
           </View>
           <FlatList
             data={locales}

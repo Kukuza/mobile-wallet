@@ -2,9 +2,9 @@ import { View, Animated, StyleSheet, TouchableOpacity, Pressable } from "react-n
 import React, { useEffect, useRef } from "react";
 import Svg, { G, Circle,} from "react-native-svg";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {NextArrow} from "../../assets/icons/Arrows";
+import {NextArrow} from "../../../assets/icons/Arrows";
 import { LinearGradient } from "expo-linear-gradient";
-import COLORS from "../../styles/colors/colors";
+import COLORS from "../../../styles/colors/colors";
 export default function NextButton({
   percentage,
   scrollTo,

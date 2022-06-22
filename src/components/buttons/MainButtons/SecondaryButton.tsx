@@ -2,14 +2,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { FONTS } from "../../styles/fonts/fonts";
-import COLORS from "../../styles/colors/colors";
-const DefaultButton = ({ onPress, style, text, }) => {
+import { FONTS } from "../../../styles/fonts/fonts";
+import COLORS from "../../../styles/colors/colors";
+const SecondaryButton = ({ onPress, style, text, }) => {
   return (
-    <View style={styles.container}>
+    <View  style={styles.container}>
       <TouchableOpacity onPress={onPress}  style={styles.button}>
         <LinearGradient
-          colors={["rgba(19, 63, 219, 1)", "rgba(183, 0, 76, 0.3)"]}
+          colors={COLORS.secondarybuttonGradient}
           start={{ x: 0.1, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={[styles.grandient, style]}
@@ -21,7 +21,7 @@ const DefaultButton = ({ onPress, style, text, }) => {
   );
 };
 
-export default DefaultButton;
+export default SecondaryButton;
 
 const styles = StyleSheet.create({
   container: {

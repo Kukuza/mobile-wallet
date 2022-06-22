@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput, Alert } from "react-native";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";

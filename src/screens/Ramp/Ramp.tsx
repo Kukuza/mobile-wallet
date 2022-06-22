@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import RampSdk from '@ramp-network/react-native-sdk';
-import DefaultButton from '../../components/buttons/DefaultButton';
+import DefaultButton from '../../components/buttons/MainButtons/DefaultButton';
 import { SIZES } from '../../styles/fonts/fonts';
 
 export default function RampScreen() {

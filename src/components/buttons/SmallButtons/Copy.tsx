@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { FONTS } from "../../styles/fonts/fonts";
-import COLORS from "../../styles/colors/colors";
+import { FONTS } from "../../../styles/fonts/fonts";
+import COLORS from "../../../styles/colors/colors";
 
 const CopyButton = ({ onPress, text }) => {
   return (

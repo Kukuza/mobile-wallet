@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import SwipeButton from '../../components/buttons/SwipeButton';
+import SwipeButton from '../../components/buttons/MainButtons/SwipeButton';
 
 
 export default function SwipeToSend({route,navigation}) {

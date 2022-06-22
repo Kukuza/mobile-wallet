@@ -2,11 +2,10 @@ import React from 'react';
 import { View, Text,StyleSheet } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Feather } from "@expo/vector-icons";
-import DefaultButton from '../../../components/buttons/DefaultButton';
-
+import DefaultButton from '../../../components/buttons/MainButtons/DefaultButton';
 import ScreenComponent from '../../../containers/ScreenComponent';
 import COLORS from '../../../styles/colors/colors';
-import {FONTS} from '../../../styles/fonts/fonts'
+import {FONTS} from '../../../styles/fonts/fonts';
 
 
 function RecoveryPhrase() {

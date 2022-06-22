@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import React, { Fragment, useRef, useState } from "react";
 import TransactionConfirmationCard from "../../components/cards/TransactionConfirmationCard";
-import SwipeButton from "../../components/buttons/SwipeButton";
+import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import ScreenComponent from "../../containers/ScreenComponent";
 import NavHeader from "../../containers/NavHeader";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -9,13 +9,14 @@ import { connect, useDispatch } from "react-redux";
 import Modal from "../../components/modals/Modal";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { THANK_YOU_IMAGE, CONNECTIVITY } from "../../assets/images";
+import {CONNECTIVITY } from "../../assets/images";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
 import { EventData } from "web3-eth-contract";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
+import Thankyou from "../../assets/images/modals/Thankyou";
 
 // const ModalContent = (props) => {
 //   return (
@@ -74,7 +75,7 @@ const ModalContent = (props) => {
       {props.isActionSuccess ? (
         <View>
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={THANK_YOU_IMAGE} style={modalStyles.image} />
+            <Thankyou style={modalStyles.image} />
           </View>
           <Text style={modalStyles.title}>Thank you!</Text>
           <Text style={modalStyles.text}>

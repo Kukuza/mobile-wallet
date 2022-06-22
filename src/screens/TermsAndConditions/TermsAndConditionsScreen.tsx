@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 import HeaderTitle from "../../components/HeaderTitle";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
