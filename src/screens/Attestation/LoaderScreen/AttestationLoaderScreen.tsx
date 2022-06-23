@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, Pressable, Modal, TouchableOpacity } from "react-native";
 import ScreenComponent from "../../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HeaderTitle from "../../../components/HeaderTitle";
 import DefaultButton from "../../../components/buttons/MainButtons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
@@ -19,7 +19,14 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
   
   const { navigation, route } = props;
 
+  // The number of seconds expected for the loader to load.
+  const loaderMaxTime = 120;
+  const waveRef = useRef<any>();
+
   const [modalVisible, setModalVisible] = useState(false);
+  const [timerProgress, setTimerProgress] = useState(0);
+  const [timerProgressPercentage, setTimerProgressPercentage] = useState(0);
+
 
   /**
    * Skip button handler.
@@ -43,6 +50,34 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
     setModalVisible(true)
   };
 
+  const myTimeout = setTimeout(function() {incrementProgress(false)}, 1000);
+
+  useEffect(() => {
+    return () => {
+      // Anything in here is fired on component unmount.
+      clearTimeout(myTimeout);
+  }
+  });
+
+  // perform progress loader increment and do the necessary actions.
+  const incrementProgress = (isDone: boolean) => {
+    if (timerProgress <= loaderMaxTime) {
+      if (isDone) {
+        setTimerProgress(loaderMaxTime);
+        setTimerProgressPercentage(100);
+        clearTimeout(myTimeout);
+      } else {
+        setTimerProgress(timerProgress + 1);
+        setTimerProgressPercentage(Math.round(timerProgress/loaderMaxTime * 100));
+      }
+    } else {
+      clearTimeout(myTimeout);
+    }
+    waveRef.current.setWaterHeight(timerProgressPercentage);
+  }
+
+  
+
   return (
     <ScreenComponent>
       <View style={styles.container}>
@@ -51,15 +86,16 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
 
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Wave
+              ref={waveRef}
               style={styles.waveBall}
-              H={58}
+              H={33}
               waveParams={[
-                  {A: 15, T: 200, fill: '#454BC9'},
+                  {A: 15, T: 110, fill: COLORS.primary},
               ]}
               animated={true}
           />
           <Text style={styles.text}>
-            58 %
+            {timerProgressPercentage} %
           </Text>
         </View>
        
