@@ -5,6 +5,7 @@ import CardImage from '../../components/cards/CardImage';
 import configs from '../../configs';
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { useDispatch, useSelector } from 'react-redux';
+import ExchangeSwapButton from '../../components/buttons/SmallButtons/ExchangeSwapButton';
 import Profile, { getProfile, saveProfile, INITIAL_STATE }  from '../../store/Profile';
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
@@ -45,7 +46,7 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         <View style={styles.container}>
         <View style={styles.list}>
           <View style={{display:"flex", flexDirection:"row"}}>
-           
+           <ExchangeSwapButton options={["cUsd", "Ksh"]}/>
           </View>
           <FlatList
             data={locales}
