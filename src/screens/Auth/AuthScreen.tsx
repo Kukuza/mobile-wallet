@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image,TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import DefaultButton from "../../components/buttons/DefaultButton";
 import ScreenComponent from "../../containers/ScreenComponent";
@@ -19,24 +19,19 @@ const SignUpScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     props.navigation.navigate("TermsAndConditionsScreen")
   };
 
- 
   return (
     
     <ScreenComponent>
         <NavHeader />
         <View style={styles.titleSection}>
-            <Image
-                source={require("../../assets/icons/icon.png")}
-                style={styles.icon}
-              />
             <Text style={styles.headerTitle}>
-              Welcome to Wakala
-              {`\n`}
-              lorem ipsum 
+              Prepare to write down {`\n`}your recovery {`\n`}phrase
             </Text>
-
             <Text style={styles.titleDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin in ligula tellus. Morbi at velit tincidunt, facilisis nunc at, consectetur leo.
+              If your device gets lost or stolen, you can restore your wallet using your recovery phrase.
+            </Text>
+            <Text style={styles.titleDescription}>
+              Get a pen and paper before you start.
             </Text>
           </View>
         
@@ -65,7 +60,7 @@ const styles = StyleSheet.create({
       marginVertical:hp("2%")
   },
   titleSection: {
-      flex: 0.4,
+      flex: 0.7,
       marginTop: hp("5%"),
       marginHorizontal: wp("8%"),
       justifyContent: 'flex-end'
@@ -76,9 +71,9 @@ const styles = StyleSheet.create({
     marginVertical:hp("1%")
   },
   createAccountBtn: {
-    width:wp("76%%"),
+    width:wp("76%"),
     height:hp("6%"),
-    marginVertical:hp("1%")
+    marginVertical:hp("2%")
 },
 });
 

@@ -22,7 +22,7 @@ import { COLORS } from '../../styles/colors/colors';
 
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
-  const locales = configs.LOCALES ?? [];
+  const languages = configs.LANGUAGES ?? [];
   const { navigation, route } = props;
   const dispatch = useDispatch();
 
@@ -40,10 +40,12 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         name: profile.name,
         phoneNumber: profile.phoneNumber,
         email: profile.email,
-        locale: code,
+        locale: profile.locale,
+        language: code,
         publicAddress: profile.publicAddress,
         registered: false,
-        mnemonic: profile.mnemonic
+        mnemonic: profile.mnemonic,
+        currencyCode: profile.currencyCode
       }
     }else {
       p = INITIAL_STATE;
@@ -73,7 +75,7 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
           <CancelIcon/>
           </View>
           <FlatList
-            data={locales}
+            data={languages}
             renderItem={({ item }) => (
               <CardImage 
                   text={item.name}
