@@ -16,21 +16,16 @@ import CodeInputComponent from "./CodeInputComponent";
 const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
+  const phoneNumber: string = route?.params?.phoneNumber;
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  /**
-   * Skip button handler.
-   */
-  const skipHandler = () => {
-    console.log("skip handler")
-  }
 
   /**
    * Back button handler.
    */
   const backButtonHandler = () => {
-    console.log("back handler")
+    navigation.navigate("AttestationLoaderScreen", {phoneNumber: phoneNumber});
   }
 
 
@@ -50,7 +45,7 @@ const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (prop
   return (
     <ScreenComponent>
 
-      <HeaderTitle skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
+      <HeaderTitle backButtonHandler={backButtonHandler} additionalStyling={styles.headerStyling}/>
       
       <View style={styles.textContainer}>
 
@@ -60,7 +55,7 @@ const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (prop
 
           <Text style={styles.bodyTxt}>
           
-            We sent three codes to <Text style={{ ...FONTS.body5 }}> +254 706 111 427,</Text>
+            We sent three codes to <Text style={{ ...FONTS.body5 }}> {phoneNumber},</Text>
             {"\n"} 
             please enter them below
           </Text>

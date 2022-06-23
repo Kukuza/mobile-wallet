@@ -98,7 +98,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName= { onboarded ? "AttestationLoaderScreen" : "AttestationLoaderScreen" } //MyDrawer
+            initialRouteName= { onboarded ? "ConnectYourPhoneNumberScreen" : "ConnectYourPhoneNumberScreen" } //MyDrawer
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (

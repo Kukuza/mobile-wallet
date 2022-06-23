@@ -29,7 +29,7 @@ const SkipHeader = (props) => {
           >
             <Text
               style={{
-                ...FONTS.body3,
+                ...FONTS.body7,
                 fontWeight: "bold",
                 color: COLORS.primary,
               }}

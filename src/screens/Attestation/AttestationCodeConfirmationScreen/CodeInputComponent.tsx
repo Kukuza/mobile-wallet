@@ -15,7 +15,21 @@ import { LinearGradient } from "expo-linear-gradient";
 const CodeInputComponent = (props) => {
 
 
-    const [code, onChangeCode] = React.useState("");
+    const [code, setCode] = React.useState("");
+
+    const onCodeChange = (c: string) => {
+        setCode(c);
+        if (c.length >= 6 && c.length < 9) {
+            onCodeVerified(false);
+            onCodeVerificationStart(true);
+        } else if (c.length > 8)  {
+            onCodeVerificationStart(false);
+            onCodeVerified(true);
+        } else { 
+            onCodeVerified(false);
+            onCodeVerificationStart(false);
+        }
+    }
 
     const [componentStateStyling, onChangeComponentStateStyling] = React.useState(styles.blurContainer);
 
@@ -35,7 +49,7 @@ const CodeInputComponent = (props) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeCode}
+                    onChangeText={onCodeChange}
                     placeholder="Paste Code"
                     keyboardType="numeric"
                     placeholderTextColor={COLORS.grayLight}
@@ -47,7 +61,7 @@ const CodeInputComponent = (props) => {
                
                 {verifying? 
                     <LinearGradient
-                        colors={COLORS.defaultbuttonGradient}
+                        colors={COLORS.nextButtonGradient}
                         start={[1, 0]}
                         end={[0, 1]}
                         style={styles.circularProgressBackground}
@@ -109,7 +123,7 @@ const styles = StyleSheet.create({
         // height: 40,
         margin: 12,
         width: SIZES.width * 0.6,
-        ...FONTS.body3
+        ...FONTS.body7,
     },
     inputLabel: {
         ...FONTS.body7,

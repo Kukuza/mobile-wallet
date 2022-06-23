@@ -16,8 +16,9 @@ import ScreenModal from "./ScreenModal";
  * @returns 
  */
 const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-  
+
   const { navigation, route } = props;
+  const phoneNumber: string = route?.params?.phoneNumber;
 
   // The number of seconds expected for the loader to load.
   const loaderMaxTime = 120;
@@ -26,6 +27,7 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
   const [modalVisible, setModalVisible] = useState(false);
   const [timerProgress, setTimerProgress] = useState(0);
   const [timerProgressPercentage, setTimerProgressPercentage] = useState(0);
+  const [startedAttestationProcess, setStatedAttestationLogic] = useState(false);
 
 
   /**
@@ -53,16 +55,30 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
   const myTimeout = setTimeout(function() {incrementProgress(false)}, 1000);
 
   useEffect(() => {
+    if (!startedAttestationProcess) {
+      setStatedAttestationLogic(true);
+      startAttestation();
+    }
+    
     return () => {
       // Anything in here is fired on component unmount.
       clearTimeout(myTimeout);
-  }
+    }
   });
+
+  const startAttestation = () => {
+    console.log("startAttestation () ==> phoneNumber", phoneNumber);
+    setTimeout(function () { 
+      incrementProgress(true);
+      navigation.navigate("AttestationCodeConfirmationScreen", {phoneNumber: phoneNumber})
+    }, 30000);
+  }
 
   // perform progress loader increment and do the necessary actions.
   const incrementProgress = (isDone: boolean) => {
     if (timerProgress <= loaderMaxTime) {
       if (isDone) {
+        
         setTimerProgress(loaderMaxTime);
         setTimerProgressPercentage(100);
         clearTimeout(myTimeout);
@@ -151,6 +167,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZES.width * 0.09,
         paddingTop: SIZES.width * 0.05
       },
+      
       footerTxt: {
         ...FONTS.body5,
         color: COLORS.primary
