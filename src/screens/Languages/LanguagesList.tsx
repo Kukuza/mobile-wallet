@@ -6,7 +6,6 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { useDispatch, useSelector } from 'react-redux';
 import Profile, { getProfile, saveProfile, INITIAL_STATE }  from '../../store/Profile';
 import SelectCountryCard from '../../components/cards/SelectCountryCard';
-import CodeField from '../../components/cards/CodeField';
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const locales = configs.LOCALES ?? [];
@@ -45,7 +44,6 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
     <ScreenComponent>
         <View style={styles.container}>
         <View style={styles.list}>
-        <CodeField/>
           <FlatList
             data={locales}
             renderItem={({ item }) => (

@@ -6,10 +6,11 @@ import COLORS from "../../styles/colors/colors";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { LinearGradient } from "expo-linear-gradient";
 import { connect, useDispatch } from "react-redux";
-import { CONNECTIVITY, SHARED } from "../../assets/images";
+import {SHARED } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 
 import Modal from "../../components/modals/Modal";
+import Error from "../../assets/images/modals/Error";
 const ModalContent = (props) => {
   return (
     <View style={modalStyles.container}>
@@ -27,7 +28,7 @@ const ModalContent = (props) => {
       ) : (
         <View>
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+            <Error style={modalStyles.errorImage} />
           </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>

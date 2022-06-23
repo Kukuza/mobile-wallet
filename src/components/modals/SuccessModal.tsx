@@ -65,7 +65,6 @@ SuccessModal.defaultProps = {
     title: "Prop {title}",
     message: "Prop {message}",
     btnText: "Prop {btnText}",
-    imageSrc: require("../../assets/images/modals/Connectivity.png"),
     onPressHanlder: handler
   }
 

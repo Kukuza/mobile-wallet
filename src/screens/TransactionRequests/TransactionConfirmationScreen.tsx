@@ -9,7 +9,6 @@ import { connect, useDispatch } from "react-redux";
 import Modal from "../../components/modals/Modal";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import {CONNECTIVITY } from "../../assets/images";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
@@ -17,6 +16,7 @@ import COLORS from "../../styles/colors/colors";
 import { EventData } from "web3-eth-contract";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import Thankyou from "../../assets/images/modals/Thankyou";
+import Error from "../../assets/images/modals/Error";
 
 // const ModalContent = (props) => {
 //   return (
@@ -53,7 +53,7 @@ import Thankyou from "../../assets/images/modals/Thankyou";
 //         )
 //       ) : (
 //         <View>
-//           <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+//           <Error style={modalStyles.errorImage} />
 //           <Text style={modalStyles.title}>Oh Snap!</Text>
 //           <Text style={modalStyles.text}>
 //             Something just happened. Please try again.
@@ -89,7 +89,7 @@ const ModalContent = (props) => {
       ) : (
         <View>
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+            <Error style={modalStyles.errorImage} />
           </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>

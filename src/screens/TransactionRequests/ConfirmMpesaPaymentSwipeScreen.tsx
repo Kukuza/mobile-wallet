@@ -16,8 +16,9 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { connect, useDispatch } from "react-redux";
 import ModalLoading from "../../components/modals/ModalLoading";
-import { SHARED, CONNECTIVITY } from "../../assets/images";
+import { SHARED } from "../../assets/images";
 import { modalStyles } from "../../components/componentTheme";
+import Error from "../../assets/images/modals/Error";
 
 const ModalContent = (props) => {
   return (
@@ -37,7 +38,7 @@ const ModalContent = (props) => {
       ) : (
         <View>
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+            <Error style={modalStyles.errorImage} />
           </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
