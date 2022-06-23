@@ -4,7 +4,7 @@ import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
 import React, { useEffect, useState } from "react";
 import HeaderTitle from "../../../components/HeaderTitle";
-import DefaultButton from "../../../components/buttons/DefaultButton";
+import DefaultButton from "../../../components/buttons/MainButtons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
 import ScreenModal from "./ScreenModal";
 import { useDispatch, useSelector } from "react-redux";

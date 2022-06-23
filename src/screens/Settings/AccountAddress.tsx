@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 
 import ScreenComponent from "../../containers/ScreenComponent";
 import COLORS from "../../styles/colors/colors";

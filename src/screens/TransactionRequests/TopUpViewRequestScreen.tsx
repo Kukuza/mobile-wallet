@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import React, { Fragment, useRef, useState } from "react";
 import ScreenComponent from "../../containers/ScreenComponent";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
-import SwipeButton from "../../components/buttons/SwipeButton";
+import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import NavHeader from "../../components/NavHeader";
 import { SHARED, CONNECTIVITY } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";

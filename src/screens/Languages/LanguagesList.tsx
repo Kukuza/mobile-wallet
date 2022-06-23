@@ -6,20 +6,6 @@ import configs from '../../configs';
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { useDispatch, useSelector } from 'react-redux';
 import Profile, { getProfile, saveProfile, INITIAL_STATE }  from '../../store/Profile';
-import DeleteIcon from '../../assets/icons/DeleteIcon';
-import InfoIcon from '../../assets/icons/InfoIcon';
-import MenuIcon from '../../assets/icons/MenuIcon';
-import BackIcon from '../../assets/icons/BackIcon';
-import CopyIcon from '../../assets/icons/CopyIcon';
-import LoaderIcon from '../../assets/icons/LoaderIcon';
-import SendIcon from '../../assets/icons/SendIcon';
-import HideIcon from '../../assets/icons/HideIcon';
-import QrIcon from '../../assets/icons/QrIcon';
-import ShareIcon from '../../assets/icons/ShareIcon';
-import CancelIcon from '../../assets/icons/CancelIcon';
-import PasswordIcon from '../../assets/icons/PasswordIcon';
-import { COLORS } from '../../styles/colors/colors';
-
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const languages = configs.LANGUAGES ?? [];
@@ -61,18 +47,7 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         <View style={styles.container}>
         <View style={styles.list}>
           <View style={{display:"flex", flexDirection:"row"}}>
-          <DeleteIcon/>
-          <MenuIcon/>
-          <BackIcon/>
-          <HideIcon/>
-          <QrIcon/>
-          <ShareIcon/>
-          <InfoIcon/>
-          <SendIcon/>
-          <CopyIcon/>
-          <LoaderIcon/>
-          <PasswordIcon color={COLORS.primary}/>
-          <CancelIcon/>
+           
           </View>
           <FlatList
             data={languages}

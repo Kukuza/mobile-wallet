@@ -16,8 +16,8 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Alert } from "react-native";
-import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import COLORS from "../../styles/colors/colors";
+import { FONTS, SIZES } from "../../../styles/fonts/fonts";
+import COLORS from "../../../styles/colors/colors";
 
 const BUTTON_WIDTH = SIZES.width * 0.85;
 const BUTTON_HEIGHT = 56;
@@ -132,7 +132,7 @@ const SwipeButton = (props) => {
     <AnimatedLinearGradient
           style={[styles.swipeCont, props.additionalStyling]}
           start={[1, 0]}
-          end={[0, 1]} colors={COLORS.buttonGradient}    >
+          end={[0, 1]} colors={COLORS.defaultbuttonGradient}    >
       <PanGestureHandler onGestureEvent={animatedGestureHandler}>
         <Animated.View style={[styles.swipeable, AnimatedStyles.swipeable]}>
           <AntDesign name="arrowright" size={24} color={COLORS.textDarkBlue} />

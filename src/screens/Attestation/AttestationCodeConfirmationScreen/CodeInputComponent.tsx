@@ -47,7 +47,7 @@ const CodeInputComponent = (props) => {
                
                 {verifying? 
                     <LinearGradient
-                        colors={COLORS.buttonGradient}
+                        colors={COLORS.defaultbuttonGradient}
                         start={[1, 0]}
                         end={[0, 1]}
                         style={styles.circularProgressBackground}
