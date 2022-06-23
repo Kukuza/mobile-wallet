@@ -29,4 +29,16 @@ export const NextArrow = (props: SvgProps) => (
     />
   </Svg>
 )
-
+export const ArrowRight = (props: SvgProps) => (
+<Svg
+    width={10}
+    height={17}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <Path
+      d="M2.963 15.95 9.659 9.01c.455-.47.455-1.246 0-1.736L2.963.353a1.177 1.177 0 0 0-1.68 0c-.454.469-.454 1.245 0 1.735L7.152 8.15l-5.867 6.064c-.455.47-.455 1.246 0 1.736.454.47 1.205.47 1.679 0Z"
+     fill={props.color}
+    />
+  </Svg>
+)

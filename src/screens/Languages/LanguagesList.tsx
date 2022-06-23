@@ -1,12 +1,12 @@
 import { View, StyleSheet, FlatList } from 'react-native'
 import React, { useEffect } from 'react'
 import ScreenComponent from '../../containers/ScreenComponent'
-import CardImage from '../../components/cards/CardImage';
 import configs from '../../configs';
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { useDispatch, useSelector } from 'react-redux';
-import ExchangeSwapButton from '../../components/buttons/SmallButtons/ExchangeSwapButton';
 import Profile, { getProfile, saveProfile, INITIAL_STATE }  from '../../store/Profile';
+import SelectCountryCard from '../../components/cards/SelectCountryCard';
+import CodeField from '../../components/cards/CodeField';
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const locales = configs.LOCALES ?? [];
@@ -45,13 +45,11 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
     <ScreenComponent>
         <View style={styles.container}>
         <View style={styles.list}>
-          <View style={{display:"flex", flexDirection:"row"}}>
-           <ExchangeSwapButton options={["cUsd", "Ksh"]}/>
-          </View>
+        <CodeField/>
           <FlatList
             data={locales}
             renderItem={({ item }) => (
-              <CardImage 
+              <SelectCountryCard 
                   text={item.name}
                   imgSrc={item.image} 
                   code={item.code}

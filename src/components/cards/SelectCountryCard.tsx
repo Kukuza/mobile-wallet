@@ -3,7 +3,7 @@ import React from 'react'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import COLORS from '../../styles/colors/colors';
 import { FONTS } from '../../styles/fonts/fonts';
-const CardImage = (props) => {
+const SelectCountryCard = (props) => {
   return (
     <View>
     <TouchableOpacity onPress={() => props.handleSelect(props.code)}>
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CardImage;
+export default SelectCountryCard;
