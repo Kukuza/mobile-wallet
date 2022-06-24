@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import ScreenComponent from "../../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTitle from "../../../components/HeaderTitle";
 import  DefaultButton   from "../../../components/buttons/MainButtons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
@@ -19,13 +19,23 @@ const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (prop
   const phoneNumber: string = route?.params?.phoneNumber;
 
   const [modalVisible, setModalVisible] = useState(false);
+  
+  const [code1VerificationStatus, setCode1VerificationStatus] = useState(false);
+  const [code2VerificationStatus, setCode2VerificationStatus] = useState(false);
+  const [code3VerificationStatus, setCode3VerificationStatus] = useState(false);
 
+  useEffect(() => {
+
+    if (code1VerificationStatus && code2VerificationStatus && code3VerificationStatus) {
+      navigation.navigate("YouAreAllSetScreen");
+    }
+  }, [code1VerificationStatus, code2VerificationStatus, code3VerificationStatus])
 
   /**
    * Back button handler.
    */
   const backButtonHandler = () => {
-    navigation.navigate("AttestationLoaderScreen", {phoneNumber: phoneNumber});
+    navigation.navigate("ConnectYourPhoneNumberScreen");
   }
 
 
@@ -60,11 +70,11 @@ const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (prop
             please enter them below
           </Text>
 
-        <CodeInputComponent inputLabel="Code 1"/>
+          <CodeInputComponent inputLabel="Code 1" setCodeVerificationStatus={setCode1VerificationStatus}/>
 
-          <CodeInputComponent inputLabel="Code 2"/>
+          <CodeInputComponent inputLabel="Code 2" setCodeVerificationStatus={setCode2VerificationStatus}/>
 
-          <CodeInputComponent inputLabel="Code 3"/>
+          <CodeInputComponent inputLabel="Code 3" setCodeVerificationStatus={setCode3VerificationStatus}/>
       </View>
       
       <View style={styles.buttonContainer}>

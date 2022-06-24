@@ -14,31 +14,33 @@ import { LinearGradient } from "expo-linear-gradient";
  */
 const CodeInputComponent = (props) => {
 
-
+    const setCodeVerificationStatus = props.setCodeVerificationStatus;
     const [code, setCode] = React.useState("");
+    const [componentStateStyling, onChangeComponentStateStyling] = React.useState(styles.blurContainer);
+    // True is being verified has been verified.
+    const  [verifying, onCodeVerificationStart] = React.useState(false);
+    // True if code has been verified.
+    const  [verified, onCodeVerified] = React.useState(false);
 
+    
     const onCodeChange = (c: string) => {
         setCode(c);
-        if (c.length >= 6 && c.length < 9) {
-            onCodeVerified(false);
+         if (c.length > 7)  {
             onCodeVerificationStart(true);
-        } else if (c.length > 8)  {
-            onCodeVerificationStart(false);
-            onCodeVerified(true);
+            onCodeVerified(false);
+
+            setTimeout(function () { 
+                onCodeVerificationStart(false);
+                onCodeVerified(true);
+                setCodeVerificationStatus(true);
+            }, 10000);
         } else { 
             onCodeVerified(false);
             onCodeVerificationStart(false);
         }
     }
 
-    const [componentStateStyling, onChangeComponentStateStyling] = React.useState(styles.blurContainer);
 
-    // True is being verified has been verified.
-    const  [verifying, onCodeVerificationStart] = React.useState(false);
-
-    // True if code has been verified.
-    const  [verified, onCodeVerified] = React.useState(false);
-    
     return (
         <View style={[styles.container, componentStateStyling]}>
             <SafeAreaView>
@@ -55,7 +57,7 @@ const CodeInputComponent = (props) => {
                     placeholderTextColor={COLORS.grayLight}
                     onBlur={ () => onChangeComponentStateStyling(styles.blurContainer) }
                     onFocus={ () => onChangeComponentStateStyling(styles.focusContainer) }
-                    // editable={code.length < 6}
+                    editable={!verifying && !verified}
                 />
 
                
@@ -76,7 +78,7 @@ const CodeInputComponent = (props) => {
                             activeStrokeSecondaryColor={COLORS.white}
                             inActiveStrokeColor={COLORS.white}
                             activeStrokeColor={COLORS.white}
-                            duration={5000}
+                            duration={10000}
                             dashedStrokeConfig={{
                                 count: 10,
                                 width: 2,
