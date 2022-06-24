@@ -14,17 +14,33 @@ import { LinearGradient } from "expo-linear-gradient";
  */
 const CodeInputComponent = (props) => {
 
-
-    const [code, onChangeCode] = React.useState("");
-
+    const setCodeVerificationStatus = props.setCodeVerificationStatus;
+    const [code, setCode] = React.useState("");
     const [componentStateStyling, onChangeComponentStateStyling] = React.useState(styles.blurContainer);
-
     // True is being verified has been verified.
     const  [verifying, onCodeVerificationStart] = React.useState(false);
-
     // True if code has been verified.
     const  [verified, onCodeVerified] = React.useState(false);
+
     
+    const onCodeChange = (c: string) => {
+        setCode(c);
+         if (c.length > 7)  {
+            onCodeVerificationStart(true);
+            onCodeVerified(false);
+
+            setTimeout(function () { 
+                onCodeVerificationStart(false);
+                onCodeVerified(true);
+                setCodeVerificationStatus(true);
+            }, 10000);
+        } else { 
+            onCodeVerified(false);
+            onCodeVerificationStart(false);
+        }
+    }
+
+
     return (
         <View style={[styles.container, componentStateStyling]}>
             <SafeAreaView>
@@ -35,19 +51,19 @@ const CodeInputComponent = (props) => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeCode}
+                    onChangeText={onCodeChange}
                     placeholder="Paste Code"
                     keyboardType="numeric"
                     placeholderTextColor={COLORS.grayLight}
                     onBlur={ () => onChangeComponentStateStyling(styles.blurContainer) }
                     onFocus={ () => onChangeComponentStateStyling(styles.focusContainer) }
-                    // editable={code.length < 6}
+                    editable={!verifying && !verified}
                 />
 
                
                 {verifying? 
                     <LinearGradient
-                        colors={COLORS.defaultbuttonGradient}
+                        colors={COLORS.nextButtonGradient}
                         start={[1, 0]}
                         end={[0, 1]}
                         style={styles.circularProgressBackground}
@@ -62,7 +78,7 @@ const CodeInputComponent = (props) => {
                             activeStrokeSecondaryColor={COLORS.white}
                             inActiveStrokeColor={COLORS.white}
                             activeStrokeColor={COLORS.white}
-                            duration={5000}
+                            duration={10000}
                             dashedStrokeConfig={{
                                 count: 10,
                                 width: 2,
@@ -109,7 +125,7 @@ const styles = StyleSheet.create({
         // height: 40,
         margin: 12,
         width: SIZES.width * 0.6,
-        ...FONTS.body3
+        ...FONTS.body7,
     },
     inputLabel: {
         ...FONTS.body7,

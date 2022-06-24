@@ -2,13 +2,16 @@ import { StyleSheet, View, Text, Pressable, Modal, Alert } from "react-native";
 import ScreenComponent from "../../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HeaderTitle from "../../../components/HeaderTitle";
 import DefaultButton from "../../../components/buttons/MainButtons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
 import ScreenModal from "./ScreenModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../../store/Profile";
+import PhoneInput from "react-native-phone-number-input";
+import NavHeader from "../../../components/NavHeader";
+import SkipHeader from "../../../components/SkipHeader";
 
 /**
  * 
@@ -16,9 +19,13 @@ import { getProfile } from "../../../store/Profile";
  * @returns 
  */
 const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+
+  const phoneInput = useRef<PhoneInput>(null);
   
   const { navigation, route } = props;
   const [modalVisible, setModalVisible] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [validPhoneNumber, setValidPhoneNumber] = useState(false);
   const dispatch = useDispatch();
 
   /**
@@ -36,7 +43,19 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
   }
 
   const continueHandler = () => {
-    navigation.navigate("AttestationLoaderScreen");
+
+    if (validPhoneNumber) {
+      navigation.navigate("AttestationLoaderScreen", { phoneNumber: phoneNumber});
+    } else {
+
+      Alert.alert(
+        "Error!!",
+        "Invalid phone number.",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
   }
 
   const closeModal = () => {
@@ -56,7 +75,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
   return (
     <ScreenComponent>
 
-      <HeaderTitle skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
+<HeaderTitle skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
       <View style={styles.textContainer}>
 
         <Text style={styles.title}>
@@ -69,12 +88,28 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
           {"\n"}
           To connect your number we will send you 3 SMS codes. The whole process will take about 3 minutes.
         </Text>
+
+        <PhoneInput
+            ref={phoneInput}
+            defaultCode="KE"
+            layout="first"
+            placeholder="Enter phone number"
+            onChangeFormattedText={(text) => {
+              setPhoneNumber(text);
+              setValidPhoneNumber(text.length > 9 && text.length < 14);
+              console.log(text, validPhoneNumber);
+            }}
+            withDarkTheme
+            withShadow
+            autoFocus
+          />
       </View>
 
+  
       
       <View style={styles.buttonContainer}>
 
-          <DefaultButton onPress={continueHandler} style={styles.button} text={"Connect"}></DefaultButton>
+          <DefaultButton onPress={continueHandler} style={styles.button} text={"Connect"} ></DefaultButton>
 
           <Pressable onPress={openModal}>
             <Text style={styles.footerTxt}>
@@ -99,13 +134,13 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
 
 const styles = StyleSheet.create({
   textContainer: {
-    flex: 0.5,
+    flex: 0.6,
     justifyContent: 'space-between',
     marginHorizontal: SIZES.width * 0.09
   },
 
   buttonContainer: {
-    flex: 0.6,
+    flex: 0.4,
     justifyContent: 'space-evenly',
     marginHorizontal: SIZES.width * 0.09,
     marginTop: SIZES.height * 0.25,

@@ -1,9 +1,7 @@
 import { StyleSheet, View, Text, Pressable, Modal, TouchableOpacity } from "react-native";
 import ScreenComponent from "../../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
-import React, { useState } from "react";
-import HeaderTitle from "../../../components/HeaderTitle";
-import DefaultButton from "../../../components/buttons/MainButtons/DefaultButton";
+import React, { useEffect, useRef, useState } from "react";
 import COLORS from '../../../styles/colors/colors';
 import Wave from "react-native-waveview";
 import { FONTS, SIZES } from '../../../styles/fonts/fonts';
@@ -16,10 +14,20 @@ import ScreenModal from "./ScreenModal";
  * @returns 
  */
 const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
-  
+
   const { navigation, route } = props;
+  const phoneNumber: string = route?.params?.phoneNumber;
+
+  // The number of seconds expected for the loader to load.
+  const loaderMaxTime = 120;
+  const waveRef = useRef<any>();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [timerProgress, setTimerProgress] = useState(0);
+  const [timerProgressPercentage, setTimerProgressPercentage] = useState(0);
+  const [startedAttestationProcess, setStatedAttestationLogic] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState("Connecting phone number...");
+
 
   /**
    * Skip button handler.
@@ -43,6 +51,54 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
     setModalVisible(true)
   };
 
+  const myTimeout = setTimeout(function() {incrementProgress(false)}, 1000);
+
+  useEffect(() => {
+    if (!startedAttestationProcess) {
+      setStatedAttestationLogic(true);
+      startAttestation();
+    }
+    
+    return () => {
+      // Anything in here is fired on component unmount.
+      clearTimeout(myTimeout);
+    }
+  });
+
+  const startAttestation = () => {
+    console.log("startAttestation () ==> phoneNumber", phoneNumber);
+    setTimeout(function () { 
+      incrementProgress(true);
+      navigation.navigate("AttestationCodeConfirmationScreen", {phoneNumber: phoneNumber})
+    }, 30000);
+  }
+
+  // perform progress loader increment and do the necessary actions.
+  const incrementProgress = (isDone: boolean) => {
+    if (timerProgress <= loaderMaxTime) {
+      if (isDone) {
+        
+        setTimerProgress(loaderMaxTime);
+        setTimerProgressPercentage(100);
+        clearTimeout(myTimeout);
+      } else {
+        setTimerProgress(timerProgress + 1);
+        setTimerProgressPercentage(Math.round(timerProgress/loaderMaxTime * 100));
+      }
+    } else {
+      clearTimeout(myTimeout);
+    }
+
+    if (timerProgressPercentage % 3 == 0) {
+      setDisplayMessage("Connecting phone number...")
+    } else {
+      setDisplayMessage("Please don’t leave this screen or you will have to restart.")
+    }
+    waveRef.current.setWaterHeight(timerProgressPercentage);
+  }
+
+  
+
   return (
     <ScreenComponent>
       <View style={styles.container}>
@@ -51,16 +107,19 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
 
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Wave
+              ref={waveRef}
               style={styles.waveBall}
-              H={58}
+              H={0}
               waveParams={[
-                  {A: 15, T: 200, fill: '#454BC9'},
+                  {A: 15, T: 110, fill: COLORS.primary},
               ]}
               animated={true}
           />
           <Text style={styles.text}>
-            58 %
+            {timerProgressPercentage} %
           </Text>
+
+          <Text style={styles.displayMessage}>{displayMessage}</Text>
         </View>
        
 
@@ -115,10 +174,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZES.width * 0.09,
         paddingTop: SIZES.width * 0.05
       },
+
       footerTxt: {
         ...FONTS.body5,
         color: COLORS.primary
       },
+      displayMessage: {
+        ...FONTS.body9,
+        color: COLORS.primary,
+        marginTop: 20
+      }
 });
 
 export default AttestationLoaderScreen;
