@@ -3,7 +3,7 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import React, { useEffect, useState } from "react";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 import COLORS from '../../styles/colors/colors';
 import NavHeader from "../../containers/NavHeader";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';

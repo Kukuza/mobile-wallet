@@ -3,7 +3,7 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import React, { useEffect, useState } from "react";
-import DefaultButton from "../../components/buttons/DefaultButton";
+import DefaultButton from "../../components/buttons//MainButtons/DefaultButton";
 import COLORS from '../../styles/colors/colors';
 import NavHeader from "../../containers/NavHeader";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -34,9 +34,8 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   const confirmRecovveryPhrase = () => {
     if (recoveryPhrase) {
-      //TODO: add final confirmation screens
-      alert("Work in progress");
-      //navigation.navigate("ConfirmRecoveryPhrase");
+      //TODO: add recovery confirmation screens
+      navigation.navigate("ConfirmRecoveryPhrase");
     }else {
       navigation.navigate("RecoveryCodePin");
     }
@@ -65,7 +64,7 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
         </View>
       </View>
       <View style = {{justifyContent: 'center'}}>
-        <DefaultButton onPress={continueHandler} style={styles.button} text="Continue"/>
+        <DefaultButton onPress={continueHandler} style={styles.button} text="Continue" />
 
         <Pressable onPress={openModal}>
             <Text style={styles.footer}>
