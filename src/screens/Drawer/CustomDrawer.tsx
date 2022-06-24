@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBalance }  from '../../store/Wallet';
 import { getCurrency } from "../../store/Currency";
 import { ICurrency } from "../../interfaces/ICurrency";
+import Blockie from "../../assets/icons/Blockie";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
@@ -98,10 +99,7 @@ export default function CustomDrawerContent(
           style={styles.header}
         >
           <View style={{ marginBottom: 80, marginTop: 31 }}>
-            <Image
-              source={require("../../assets/images/drawer/dummyimages/dummy_identicone.png")}
-              style={styles.identiconImg}
-            ></Image>
+            <Blockie style={styles.identiconImg}/>
 
             <View style={{ flexDirection: "row", height: "auto" }}>
               <Image

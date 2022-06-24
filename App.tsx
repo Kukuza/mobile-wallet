@@ -21,6 +21,7 @@ import {
 import { useFonts } from "expo-font";
 import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
+import TipProvider from "react-native-tip";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import routes from "./src/navigation/Routes";
@@ -98,7 +99,7 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName= { onboarded ? "LanguagesList" : "LanguagesList" } //MyDrawer
+            initialRouteName= { onboarded ? "LanguagesList" : "LanguagesList"  } //MyDrawer
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (
@@ -108,6 +109,7 @@ const App = () => {
         </NavigationContainer>
         <View>
         </View>
+        <TipProvider/>
       </Provider>
     );
   }

@@ -4,7 +4,7 @@ import { FONTS, SIZES } from "../../../styles/fonts/fonts";
 import { StyleSheet, View, Text, Pressable, ScrollView, Animated, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {ExpandingDot} from "react-native-animated-pagination-dots";
-import { MODAL_SLIDER_DATA } from "./ModalSliderData";
+import { MODAL_SLIDER_DATA } from "../../../screens/Attestation/LoaderScreen/ModalSliderData";
 import { ModalSliderCard } from "./ModalSliderCard";
 
 const ScreenModal = (props) => {

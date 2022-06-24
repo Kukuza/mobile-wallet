@@ -4,7 +4,7 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import RequestTxInformationCard from "../../components/cards/RequestTxInformationCard";
 import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import NavHeader from "../../components/NavHeader";
-import { SHARED, CONNECTIVITY } from "../../assets/images";
+import { SHARED} from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 
@@ -14,6 +14,7 @@ import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
 import { connect, useDispatch } from "react-redux";
 import { EventData } from "web3-eth-contract";
+import Error from "../../assets/images/modals/Error";
 
 const ModalContent = (props) => {
   return (
@@ -32,7 +33,7 @@ const ModalContent = (props) => {
       ) : (
         <View>
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+            <Error style={modalStyles.errorImage} />
           </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
