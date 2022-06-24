@@ -1,9 +1,10 @@
 import { Image, StyleSheet, View, Text } from "react-native";
-import React from "react";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import ScreenComponent from "../../containers/ScreenComponent";
 import COLORS from '../../styles/colors/colors';
 import { FONTS } from "../../styles/fonts/fonts";
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 
 /**
  * 
@@ -13,6 +14,12 @@ import { FONTS } from "../../styles/fonts/fonts";
 const YouAreAllSetScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
+
+  useFocusEffect(() => {
+    setTimeout(function () { 
+      navigation.navigate("MyDrawer")
+    }, 2000);
+  });
 
   return (
     <ScreenComponent>

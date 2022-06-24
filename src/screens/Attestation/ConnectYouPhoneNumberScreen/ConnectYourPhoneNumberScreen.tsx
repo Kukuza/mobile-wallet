@@ -10,6 +10,8 @@ import ScreenModal from "./ScreenModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../../../store/Profile";
 import PhoneInput from "react-native-phone-number-input";
+import NavHeader from "../../../components/NavHeader";
+import SkipHeader from "../../../components/SkipHeader";
 
 /**
  * 
@@ -73,7 +75,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
   return (
     <ScreenComponent>
 
-      <HeaderTitle skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
+      <SkipHeader skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
       <View style={styles.textContainer}>
 
         <Text style={styles.title}>

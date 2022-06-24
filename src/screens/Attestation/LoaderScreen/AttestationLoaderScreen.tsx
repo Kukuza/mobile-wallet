@@ -28,6 +28,7 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
   const [timerProgress, setTimerProgress] = useState(0);
   const [timerProgressPercentage, setTimerProgressPercentage] = useState(0);
   const [startedAttestationProcess, setStatedAttestationLogic] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState("Connecting phone number...");
 
 
   /**
@@ -89,6 +90,12 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
     } else {
       clearTimeout(myTimeout);
     }
+
+    if (timerProgressPercentage % 3 == 0) {
+      setDisplayMessage("Connecting phone number...")
+    } else {
+      setDisplayMessage("Please don’t leave this screen or you will have to restart.")
+    }
     waveRef.current.setWaterHeight(timerProgressPercentage);
   }
 
@@ -104,7 +111,7 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
           <Wave
               ref={waveRef}
               style={styles.waveBall}
-              H={33}
+              H={0}
               waveParams={[
                   {A: 15, T: 110, fill: COLORS.primary},
               ]}
@@ -113,6 +120,8 @@ const AttestationLoaderScreen: React.FunctionComponent<IStackScreenProps> = (pro
           <Text style={styles.text}>
             {timerProgressPercentage} %
           </Text>
+
+          <Text style={styles.displayMessage}>{displayMessage}</Text>
         </View>
        
 
@@ -167,11 +176,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: SIZES.width * 0.09,
         paddingTop: SIZES.width * 0.05
       },
-      
+
       footerTxt: {
         ...FONTS.body5,
         color: COLORS.primary
       },
+      displayMessage: {
+        ...FONTS.body9,
+        color: COLORS.primary,
+        marginTop: 20
+      }
 });
 
 export default AttestationLoaderScreen;
