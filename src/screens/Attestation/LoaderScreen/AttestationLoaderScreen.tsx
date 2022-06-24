@@ -6,7 +6,7 @@ import COLORS from '../../../styles/colors/colors';
 import Wave from "react-native-waveview";
 import { FONTS, SIZES } from '../../../styles/fonts/fonts';
 import SkipHeader from "../../../components/SkipHeader";
-import ScreenModal from "./ScreenModal";
+import ScreenModal from "../../../components/cards/InfoCards/ScreenModal";
 
 /**
  * 

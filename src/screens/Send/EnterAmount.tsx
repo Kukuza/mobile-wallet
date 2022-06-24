@@ -8,7 +8,7 @@ import { TextInput } from "react-native-gesture-handler";
 import KeyPad from '../../components/buttons/KeyPad';
 import { LinearGradient } from "expo-linear-gradient";
 import { PortalProvider } from "@gorhom/portal";
-import BottomSheet from './BottomSheet';
+import BottomSheet from '../../components/cards/BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";

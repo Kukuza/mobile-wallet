@@ -6,7 +6,6 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import Modal from "../../components/modals/Modal";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import { CONNECTIVITY } from "../../assets/images";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { connect, useDispatch } from "react-redux";
 import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
@@ -14,6 +13,7 @@ import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_typ
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import Thankyou from "../../assets/images/modals/Thankyou";
+import Error from "../../assets/images/modals/Error";
 
 const CardElement = (props) => {
   
@@ -75,7 +75,7 @@ const ModalContent = (props) => {
         )
       ) : (
         <View>
-          <Image source={CONNECTIVITY} style={modalStyles.errorImage} />
+          <Error style={modalStyles.errorImage} />
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
             Something just happened. Please try again.

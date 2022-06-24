@@ -3,6 +3,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
+import Error from "../../assets/images/modals/Error";
 
 /**
  * 
@@ -27,8 +28,7 @@ const LargeModal = (props) => {
               >
                   <View style={props.contentDivStyle}>
                       
-                      <Image 
-                        source={props.imageSrc}
+                      <Error
                         style={styles.image}
                       />
 
@@ -64,7 +64,6 @@ LargeModal.defaultProps = {
   title: "Prop {title}",
   message: "Prop {message}",
   btnText: "Prop {btnText}",
-  imageSrc: require("../../assets/images/modals/Connectivity.png"),
   onPressHanlder: handler
 }
 

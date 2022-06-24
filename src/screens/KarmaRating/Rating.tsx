@@ -6,11 +6,11 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import RateSlider from "../../components/RateSlider";
 import Modal from "../../components/modals/Modal";
 import NavHeader from "../../components/NavHeader";
-import { CONNECTIVITY } from "../../assets/images";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import ModalLoading from "../../components/modals/ModalLoading";
+import Error from "../../assets/images/modals/Error";
 
 const ModalContent = (props) => {
   return (
@@ -32,7 +32,7 @@ const ModalContent = (props) => {
       ) : (
         <View>
           <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Image source={CONNECTIVITY} style={modalStyles.image} />
+            <Error style={modalStyles.image} />
           </View>
           <Text style={modalStyles.title}>Oh Snap!</Text>
           <Text style={modalStyles.text}>
