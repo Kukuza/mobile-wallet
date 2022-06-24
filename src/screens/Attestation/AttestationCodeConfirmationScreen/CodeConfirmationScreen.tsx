@@ -48,7 +48,8 @@ const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (prop
   }
 
   const openModal = () => {
-    setModalVisible(true)
+    // setModalVisible(true)
+    navigation.navigate("ConnectYourPhoneNumberScreen");
   };
 
 
@@ -81,7 +82,7 @@ const CodeConfirmationScreen: React.FunctionComponent<IStackScreenProps> = (prop
 
           <Pressable onPress={openModal}>
             <Text style={styles.footerTxt}>
-            Resend all messages
+              Resend all messages
             </Text>
           </Pressable>
       </View>

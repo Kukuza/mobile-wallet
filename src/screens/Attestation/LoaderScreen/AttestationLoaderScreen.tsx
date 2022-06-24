@@ -2,8 +2,6 @@ import { StyleSheet, View, Text, Pressable, Modal, TouchableOpacity } from "reac
 import ScreenComponent from "../../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../../navigation/StackScreenProps";
 import React, { useEffect, useRef, useState } from "react";
-import HeaderTitle from "../../../components/HeaderTitle";
-import DefaultButton from "../../../components/buttons/MainButtons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
 import Wave from "react-native-waveview";
 import { FONTS, SIZES } from '../../../styles/fonts/fonts';

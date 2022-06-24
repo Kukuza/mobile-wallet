@@ -75,7 +75,7 @@ const ConnectYourPhoneNumberScreen: React.FunctionComponent<IStackScreenProps> =
   return (
     <ScreenComponent>
 
-      <SkipHeader skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
+<HeaderTitle skipAction={skipHandler} backButtonHandler={backButtonHandler} skipButton={true} additionalStyling={styles.headerStyling}/>
       <View style={styles.textContainer}>
 
         <Text style={styles.title}>
