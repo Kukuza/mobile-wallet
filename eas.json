@@ -10,12 +10,16 @@
       },
       "ios": {
         "buildConfiguration": "Debug"
-      }
+      },
+      "releaseChannel": "dev"
     },
     "preview": {
+      "releaseChannel": "release",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "releaseChannel": "prod"
+    }
   },
   "submit": {
     "production": {}
