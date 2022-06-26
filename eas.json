@@ -13,7 +13,7 @@
       },
       "releaseChannel": "dev"
     },
-    "preview": {
+    "release": {
       "releaseChannel": "release",
       "distribution": "internal"
     },

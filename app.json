@@ -18,14 +18,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": "2.718"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kukuza.kukuza"
+      "package": "com.kukuza.kukuza",
+      "runtimeVersion": "2.718"
     },
     "web": {
       "favicon": "./src/assets/icons/favicon.png"
