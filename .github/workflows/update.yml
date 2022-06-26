@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install --immutable
+        run: npm install --legacy-peer-deps --immutable
 
       - name: Publish update
         run: eas build --profile preview --platform android
