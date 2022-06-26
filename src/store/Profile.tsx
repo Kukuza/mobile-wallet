@@ -13,7 +13,8 @@ export const INITIAL_STATE: IProfile = {
     publicAddress: "",
     registered: false,
     mnemonic: "",
-    currencyCode: ""
+    currencyCode: "",
+    recoverySaved: false
 }
 
  const profileSlice = createSlice ({

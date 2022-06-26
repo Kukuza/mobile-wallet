@@ -8,4 +8,5 @@ interface IProfile {
     registered: boolean;
     mnemonic: string;
     currencyCode: string;
+    recoverySaved: boolean;
  } 

@@ -5,7 +5,7 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import slides from "../Onboarding/RecoveryInfo.slides";
 import SetupRecoveryInfoItem from "../Onboarding/SetupRecoveryInfoItem";
 import StandardBtn from "../../components/buttons/StandardBtn";
-import NextButton from "../../components/buttons/NextButton";
+import NextButton from "../../components/buttons/LoaderButtons/NextButton";
 import { SIZES } from "../../styles/fonts/fonts";
 import { Provider } from 'react-native-paper';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';

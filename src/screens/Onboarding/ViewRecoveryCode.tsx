@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import AcceptRadio from "../../components/cards/AcceptRadio";
 import ScreenModal from "../Attestation/ConnectYouPhoneNumberScreen/ScreenModal";
 
-const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
+const ViewRecoveryCode: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
   const [phraseWritten, setPhraseWritten] = React.useState("");
@@ -35,7 +35,7 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
   const confirmRecovveryPhrase = () => {
     if (recoveryPhrase) {
       //TODO: add recovery confirmation screens
-      navigation.navigate("ConfirmRecoveryPhrase");
+      navigation.navigate("RecoveryPhraseSaved");
     }else {
       navigation.navigate("RecoveryCodePin");
     }
@@ -132,4 +132,4 @@ footer: {
 },
 });
 
-export default SetupRecovery;
+export default ViewRecoveryCode;

@@ -30,9 +30,10 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         locale: profile.locale,
         language: code,
         publicAddress: profile.publicAddress,
-        registered: false,
+        registered: profile.registered,
         mnemonic: profile.mnemonic,
-        currencyCode: profile.currencyCode
+        currencyCode: profile.currencyCode,
+        recoverySaved: profile.recoverySaved
       }
     }else {
       p = INITIAL_STATE;

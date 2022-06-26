@@ -131,7 +131,8 @@ export async function storePublicAddress(publicAddress: string) {
             publicAddress: publicAddress,
             registered: true,
             mnemonic: "",
-            currencyCode: profile.currencyCode
+            currencyCode: profile.currencyCode,
+            recoverySaved: profile.recoverySaved
         }
       }else {
         p = INITIAL_STATE;

@@ -31,9 +31,10 @@ const CurrencySelector: React.FunctionComponent<IStackScreenProps> = (props) => 
           locale: profile.locale,
           language: profile.language,
           publicAddress: profile.publicAddress,
-          registered: false,
+          registered: profile.registered,
           mnemonic: profile.mnemonic,
-          currencyCode: currencyCode
+          currencyCode: currencyCode,
+          recoverySaved: profile.recoverySaved
         }
       }else {
         p = INITIAL_STATE;

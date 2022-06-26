@@ -18,8 +18,6 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
    const prevPin = useSelector((state: any) => state.auth.pin);
    const created = useSelector((state: any) => state.auth);
 
-   console.log(created.keys.publicKey);
-
   useEffect(() => {
     connectPhoneNumber();
   }, [created.keys.publicKey]);

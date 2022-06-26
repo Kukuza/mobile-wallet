@@ -19,7 +19,6 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
-import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { getBalance }  from '../../store/Wallet';
 import { getCurrency } from "../../store/Currency";
@@ -45,17 +44,14 @@ export default function CustomDrawerContent(
   const _local: number = useSelector((state: any) => state.currency.data);
   
   useEffect(() => {
+    dispatch(getBalance());
+    dispatch(getCurrency(convert));
     walletBalance();
   }, []);
 
-  console.log("Returned Balance", _bal)
-  console.log("Converted Balance", _local)
-
   const walletBalance = async () => {
-    //Get balance
-    dispatch(getBalance());
     //Convert to local currency
-    dispatch(getCurrency(convert))
+    
     const visibleAmount = _bal.toFixed(2);
       
     if(_bal > 0) {
@@ -68,22 +64,26 @@ export default function CustomDrawerContent(
     }else {
       setBalance('--');
       setKshBalance('--');
-    }    
+    }
+
+    console.log(
+      `DRAWER -> Balance ${convert.from} ${_bal} = ${convert.to} ${_local}`
+      ); 
   };
 
   // listen for transaction completion event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
-    async (error: Error, event: EventData) => {
-      await walletBalance();
+     (error: Error, event: EventData) => {
+      walletBalance();
     }
   );
 
   // listen for transaction initialization event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
-    async (error: Error, event: EventData) => {
-      await walletBalance();
+    (error: Error, event: EventData) => {
+      walletBalance();
     }
   );
 
