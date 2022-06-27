@@ -5,6 +5,7 @@ import { View } from "react-native";
 import React, { useState, useEffect } from "react";
 import store  from './src/store'
 import { Provider } from 'react-redux';
+import Storage from "./src/utils/Storage";
 
 import {
   Rubik_300Light,
@@ -28,6 +29,7 @@ import routes from "./src/navigation/Routes";
 import { LogBox } from "react-native";
 import { MNEMONIC_STORAGE_KEY } from './src/redux/auth/auth.utils'
 import { retrieveStoredItem } from "./src/redux/auth/session.key.storage.utils";
+import { ProfileKey } from "./src/enums/ProfileKey";
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
@@ -50,7 +52,8 @@ const App = () => {
   let [isReady, setReady] = React.useState(false);
 
   const [loading, setLoading] = useState(true);
-  const [onboarded, setOnboarded] = useState(false);
+  const [mnemonic, setMnemonic] = useState(false);
+  const [recovery, setRecovery] = useState(false);
 
   const loadAppSession = async () => {
     try {
@@ -63,18 +66,33 @@ const App = () => {
 
   const hasOnboarded = async () => {
     try {
-      const mnemonic = await retrieveStoredItem(
+      const _mnemonic = await retrieveStoredItem(
         MNEMONIC_STORAGE_KEY
         );
-      if (mnemonic) setOnboarded(true);
+
+      const profile: IProfile = await Storage.get(
+        ProfileKey.PROFILE_KEY
+        );
+
+        //console.log(profile);
+
+      if (_mnemonic) 
+        setMnemonic(true);
+
+      if (profile && profile.recoverySaved) 
+        setRecovery(true);
     } catch (error) {
-      console.error("checkOnboarding: ", error);
+      console.error("hasOnboarded: ", error);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {hasOnboarded();}, []);
+  /* useEffect(() => {
+    hasOnboarded();
+  }, []); */
+
+  hasOnboarded();
 
   /* const Loading = () => {
     return (
@@ -99,7 +117,10 @@ const App = () => {
         <NavigationContainer>
           {/* <Screens /> */}
           <Stack.Navigator
-            initialRouteName= { onboarded ? "LanguagesList" : "LanguagesList"  } //MyDrawer
+            initialRouteName= { mnemonic 
+              ? (recovery ? "MyDrawer" : "SetupRecovery") 
+              : "LanguagesList"  
+            }
             screenOptions={{ headerShown: false }}
           >
             {routes.map((r, i) => (

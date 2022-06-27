@@ -8,7 +8,8 @@ import { SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import { useDispatch, useSelector } from "react-redux";
+import { getBalance } from "../../store/Wallet";
 
 const OperationButton = (props) => {
   return (
@@ -54,23 +55,30 @@ const OperationButton = (props) => {
 
 const SelectOperation: React.FunctionComponent<IStackScreenProps> = () => {
   const navigation = useNavigation<any>();
-  const publicAddress =
-    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
-
+  const dispatch = useDispatch();
   const [balance, setBalance] = useState("...");
+  const _bal: number = useSelector((state: any) => state.wallet.balance);
 
   useEffect(() => {
-    walletBalance(publicAddress);
+    //walletBalance();
   }, []);
 
-  const walletBalance = async (publicAddress) => {
-    const kit = WakalaContractKit?.getInstance()?.kit;
-    let totalBalance = await kit.getTotalBalance(publicAddress);
-    let money = totalBalance.cUSD;
-    let amount = kit.web3.utils.fromWei(money.toString(), "ether");
-    const toNum = Number(amount);
-    const visibleAmount = toNum.toFixed(2);
-    setBalance(visibleAmount);
+  console.log("Returned Balance", _bal);
+
+  const walletBalance = () => {
+    //Get balance
+    dispatch(getBalance());
+    const visibleAmount = _bal.toFixed(2);
+      
+      if(_bal > 0) {
+        setBalance(visibleAmount); 
+        /*TODO: 
+          factor in other local currencies eg. Naira
+          currently fixed to usd to kes
+          */
+      }else {
+        setBalance('--');
+      }
   };
 
   return (

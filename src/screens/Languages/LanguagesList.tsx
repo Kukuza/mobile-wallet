@@ -9,7 +9,7 @@ import SelectCountryCard from '../../components/cards/SelectCountryCard';
 import DialogCard from '../../components/cards/InfoCards/DialogCard';
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
-  const locales = configs.LOCALES ?? [];
+  const languages = configs.LANGUAGES ?? [];
   const { navigation, route } = props;
   const dispatch = useDispatch();
 
@@ -27,10 +27,13 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         name: profile.name,
         phoneNumber: profile.phoneNumber,
         email: profile.email,
-        locale: code,
+        locale: profile.locale,
+        language: code,
         publicAddress: profile.publicAddress,
-        registered: false,
-        mnemonic: profile.mnemonic
+        registered: profile.registered,
+        mnemonic: profile.mnemonic,
+        currencyCode: profile.currencyCode,
+        recoverySaved: profile.recoverySaved
       }
     }else {
       p = INITIAL_STATE;
@@ -47,7 +50,7 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
         <View style={styles.list}>
           <DialogCard/>
           <FlatList
-            data={locales}
+            data={languages}
             renderItem={({ item }) => (
               <SelectCountryCard 
                   text={item.name}

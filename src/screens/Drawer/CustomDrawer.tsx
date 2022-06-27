@@ -19,9 +19,10 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
-import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { getBalance }  from '../../store/Wallet';
+import { getCurrency } from "../../store/Currency";
+import { ICurrency } from "../../interfaces/ICurrency";
 import Blockie from "../../assets/icons/Blockie";
 
 export default function CustomDrawerContent(
@@ -33,50 +34,56 @@ export default function CustomDrawerContent(
   const loading = false;
   const loadingMessage = "Loading...";
   const dispatch = useDispatch();
+  const _bal: number = useSelector((state: any) => state.wallet.balance);
+  const convert: ICurrency = {
+    from: "usd", 
+    to: "kes", 
+    amount: _bal
+  }
 
+  const _local: number = useSelector((state: any) => state.currency.data);
+  
   useEffect(() => {
     dispatch(getBalance());
+    dispatch(getCurrency(convert));
     walletBalance();
-  }, [])
+  }, []);
 
-  const _bal: number = useSelector((state: any) => state.wallet.balance);
-
-  console.log("Returned Balance", _bal)
-
-  //get balances and convert them to local currency.
   const walletBalance = async () => {
-      const visibleAmount = _bal.toFixed(2);
+    //Convert to local currency
+    
+    const visibleAmount = _bal.toFixed(2);
       
-      if(_bal > 0) {
-        setBalance(visibleAmount); 
-        //TODO: use currency reducer later
-        /*TODO: 
-          factor in other local currencies eg. Naira
-          currently fixed to usd to kes
-          */
-        //change balance to local currency.
-        const currencyConverter = new CurrencyLayerAPI();
-        const ksh = await currencyConverter.usdToKsh(_bal);
-        setKshBalance(ksh.toFixed(2));
-      }else {
-        setBalance('--');
-        setKshBalance('--');
-      }    
+    if(_bal > 0) {
+      setBalance(visibleAmount); 
+      /*TODO: 
+        factor in other local currencies eg. Naira
+        currently fixed to usd to kes
+        */
+      setKshBalance(_local.toFixed(2));
+    }else {
+      setBalance('--');
+      setKshBalance('--');
+    }
+
+    console.log(
+      `DRAWER -> Balance ${convert.from} ${_bal} = ${convert.to} ${_local}`
+      ); 
   };
 
   // listen for transaction completion event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
-    async (error: Error, event: EventData) => {
-      await walletBalance();
+     (error: Error, event: EventData) => {
+      walletBalance();
     }
   );
 
   // listen for transaction initialization event and update balance.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
-    async (error: Error, event: EventData) => {
-      await walletBalance();
+    (error: Error, event: EventData) => {
+      walletBalance();
     }
   );
 

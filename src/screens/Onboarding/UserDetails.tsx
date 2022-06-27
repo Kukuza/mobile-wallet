@@ -9,6 +9,7 @@ import Validator from "../../utils/Validator";
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, INITIAL_STATE, saveProfile }  from '../../store/Profile';
 import { useEffect } from 'react';
+import NavHeader from "../../containers/NavHeader";
 
 const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
   
@@ -29,9 +30,12 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
           phoneNumber: profile.phoneNumber,
           email: profile.email,
           locale: profile.locale,
+          language: profile.language,
           publicAddress: profile.publicAddress,
-          registered: false,
-          mnemonic: profile.mnemonic
+          registered: profile.registered,
+          mnemonic: profile.mnemonic,
+          currencyCode: profile.currencyCode,
+          recoverySaved: profile.recoverySaved
         }
       }else {
         p = INITIAL_STATE;
@@ -39,7 +43,7 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
       }
 
       dispatch(saveProfile(p));
-      navigation.navigate("EnterPin")
+      navigation.navigate("CurrencySelector")
     }else {
       //TODO: replace with Modal
       invalidNameAlert();
@@ -55,6 +59,11 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   return (
     <ScreenComponent>
+      <NavHeader
+        hideBackButton={true}
+        showTitle={true}
+        newTitle="Step 1 of 8"
+      />
       <View style={styles.container}>
           <Text style={styles.title}>How should we call you?</Text>
           <Text style={styles.text}>Please enter your full name below</Text>

@@ -55,6 +55,18 @@ const Validator = {
      isEmail: function(str: any): boolean {
         //TODO: implement
         return false;
+    },
+
+    /**
+     * Check if a string has spaces
+     * @param str String
+     * @returns boolean
+     */
+    hasSpaces: function (str: string): boolean {
+        if(str.indexOf(' ') >= 0) 
+        return true;
+        
+        return false;
     }
 
 };
