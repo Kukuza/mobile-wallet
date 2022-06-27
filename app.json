@@ -4,6 +4,7 @@
     "slug": "kukuza",
     "owner": "kukuza",
     "version": "1.0.0",
+    "runtimeVersion": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icons/icon.png",
     "splash": {
@@ -19,7 +20,6 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "runtimeVersion": "2.718"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +27,6 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.kukuza.kukuza",
-      "runtimeVersion": "2.718"
     },
     "web": {
       "favicon": "./src/assets/icons/favicon.png"
