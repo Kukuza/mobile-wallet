@@ -14,52 +14,56 @@ import { INITIAL_STATE } from "./Profile";
     name: 'auth',
     initialState: {
         pin: null,
+        confirmPin: null,
+        recoveryPhrase: '',
         data: {},
-        keys: {privateKey:'', publicKey: '', address: ''},
-        loading: '',
-        error: '',
+        keys: { publicKey: '', pin: '' },
+        loading: false,
+        status: '',
     },
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(
-            enterPin.fulfilled, 
-            (state, action) => {
-                state.pin = action.payload
-            }),
-        builder.addCase(
-            confirmPin.fulfilled, 
-            (state, action) => {
-                state.pin = action.payload
-            }),
-         builder.addCase(
-            retrieveItem.fulfilled, 
-            (state, action) => {
-                state.data = action.payload
-            }),
-        builder.addCase(
-            getMnemonic.fulfilled, 
-            (state, action) => {
-                state.data = action.payload
-            }),
-        builder.addCase(
-            getAccountByMnemonic.fulfilled, 
-            (state, action) => {
-                state.data = action.payload
-            }),
+        builder.addCase(enterPin.fulfilled, (state, action) => {state.pin = action.payload}),
+        builder.addCase(confirmPin.fulfilled, (state, action) => {state.pin = action.payload}),
+        builder.addCase(retrieveItem.fulfilled, (state, action) => {state.data = action.payload}),
+        builder.addCase(getAccountByMnemonic.fulfilled, (state, action) => {state.data = action.payload}),
+        //Create account    
         builder.addCase(
             createAccount.fulfilled, 
             (state, action) => {
-                state.keys = action.payload
+                state.keys = action.payload;
+                state.loading = false;
+                state.status = 'Success';
             }),
         builder.addCase(
             createAccount.pending, 
             (state) => {
-                state.loading = 'pending'
+                state.loading = true;
             }),
         builder.addCase(
             createAccount.rejected, 
             (state) => {
-                state.loading = 'rejected'
+                state.loading = false;
+                state.status = "Failed";
+            }),
+        //Get recovery phrase
+        builder.addCase(
+            getMnemonic.fulfilled, 
+            (state, action) => {
+                state.recoveryPhrase = action.payload
+                state.loading = false;
+                state.status = 'Success';
+            }),
+            builder.addCase(
+            getMnemonic.pending, 
+            (state) => {
+                state.loading = true;
+            }),
+        builder.addCase(
+            getMnemonic.rejected, 
+            (state) => {
+                state.loading = false;
+                state.status = "Failed";
             })
       },
  });
@@ -81,11 +85,6 @@ export const confirmPin: any = createAsyncThunk(
         return await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
  });
 
-  export const getMnemonic: any = createAsyncThunk(
-    'getMnemonic', async (pin: string) => {
-        return await getStoredMnemonic(pin);
- });
-
  export const getAccountByMnemonic: any = createAsyncThunk(
     'getAccountByMnemonic', async (mnemonic: string) => {
         return await getAccountFromMnemonic(mnemonic)
@@ -93,24 +92,29 @@ export const confirmPin: any = createAsyncThunk(
 
  export const createAccount: any = createAsyncThunk(
     'createAccount', async (pin: string) => {
-        const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
-        let keys: any;
+    const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
+    let keys: any;
 
-        if (encryptedMnemonic) {
-            const mnemonic = await getStoredMnemonic(pin);
-            keys = await getAccountFromMnemonic(mnemonic ?? "");
-            WakalaContractKit.createInstance(keys.privateKey);
-        }else {
-            await encryptPasswordWithNewMnemonic(pin);
-            const mnemonic = await getStoredMnemonic(pin);
-            keys = await getAccountFromMnemonic(mnemonic ?? "");
-            WakalaContractKit.createInstance(keys.privateKey);
-        }
+    if (encryptedMnemonic) {
+        const mnemonic = await getStoredMnemonic(pin);
+        keys = await getAccountFromMnemonic(mnemonic ?? "");
+        WakalaContractKit.createInstance(keys.privateKey);
+    }else {
+        await encryptPasswordWithNewMnemonic(pin);
+        const mnemonic = await getStoredMnemonic(pin);
+        keys = await getAccountFromMnemonic(mnemonic ?? "");
+        WakalaContractKit.createInstance(keys.privateKey);
+    }
 
-        storePublicAddress(keys.address)
-        //TODO: save public address to device
+    await storePublicAddress(keys.address);
+    const account = { publicKey: keys.publicKey, pin: pin }
 
-    return keys;
+    return account;
+ });
+
+ export const getMnemonic: any = createAsyncThunk(
+    'getMnemonic', async (pin: string) => {
+        return await getStoredMnemonic(pin);
  });
 
 export async function storePublicAddress(publicAddress: string) {
@@ -123,9 +127,12 @@ export async function storePublicAddress(publicAddress: string) {
             phoneNumber: profile.phoneNumber,
             email: profile.email,
             locale: profile.locale,
+            language: profile.language,
             publicAddress: publicAddress,
             registered: true,
-            mnemonic: ""
+            mnemonic: "",
+            currencyCode: profile.currencyCode,
+            recoverySaved: profile.recoverySaved
         }
       }else {
         p = INITIAL_STATE;

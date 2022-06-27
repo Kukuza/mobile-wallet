@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Feather } from "@expo/vector-icons";
-import { StyleSheet, Text, View,TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Text, View,Alert } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../styles/fonts/fonts";
 import COLORS from '../../styles/colors/colors';
@@ -8,20 +7,20 @@ import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAccount, storePublicAddress }  from '../../store/Auth';
-import { getProfile } from '../../store/Profile';
+import { createAccount, enterPin }  from '../../store/Auth';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { MNEMONIC_STORAGE_KEY, getStoredMnemonic, getAccountFromMnemonic, encryptPasswordWithNewMnemonic } from '../../redux/auth/auth.utils';
-import { retrieveStoredItem } from '../../redux/auth/session.key.storage.utils';
-import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
+import NavHeader from '../../containers/NavHeader';
 
 const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
    const navigation = props.navigation;
    const dispatch = useDispatch();
    const prevPin = useSelector((state: any) => state.auth.pin);
+   const created = useSelector((state: any) => state.auth);
 
-   useEffect(() => {dispatch(getProfile())}, []);
+  useEffect(() => {
+    connectPhoneNumber();
+  }, [created.keys.publicKey]);
 
    const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
   // The current index of the pin number entry.
@@ -35,37 +34,25 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       if (currentIndex == 5) {
         const pin = pinCharArray.join("");
         if (pin != prevPin) {
-          //TODO: replace with Modal
+          //TODO: highlight with error message
           pinMismatchAlert();
           navigation.navigate("EnterPin");
         }else {
-          // dispatch(createAccount(pin));
-          await createAccount(pin);
-          navigation.navigate("ConnectYourPhoneNumberScreen");
+          dispatch(createAccount(pin));
         } 
       }
     } else {
-      // unlikely path.
-      navigation.navigate("ConfirmPin");
+      navigation.navigate("EnterPin");
     }
   }
 
-  const createAccount = async (pin: string) =>{
-    const encryptedMnemonic = await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
-    let keys: any;
-
-    if (encryptedMnemonic) {
-        const mnemonic = await getStoredMnemonic(pin);
-        keys = await getAccountFromMnemonic(mnemonic ?? "");
-        WakalaContractKit.createInstance(keys.privateKey);
-    }else {
-        await encryptPasswordWithNewMnemonic(pin);
-        const mnemonic = await getStoredMnemonic(pin);
-        keys = await getAccountFromMnemonic(mnemonic ?? "");
-        WakalaContractKit.createInstance(keys.privateKey);
+  const connectPhoneNumber = () => {
+    if ((created.keys.pin == prevPin) 
+      && created.keys.publicKey) {
+        //Reset pin
+        dispatch(enterPin(""));
+      navigation.navigate("SetupRecovery");
     }
-
-    await storePublicAddress(keys.address)
   }
   
   const pinMismatchAlert = () =>
@@ -85,11 +72,11 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
   return (
     <ScreenComponent>
-    <TouchableOpacity style={styles.navIcon}
-    onPress={() => navigation.goBack()}
-    >
-    <Feather name="chevron-left" size={Number(wp("6.5%"))} color={COLORS.primary} />
-    </TouchableOpacity>
+      <NavHeader
+          hideBackButton={false}
+          showTitle={true}
+          newTitle="Step 3 of 8"
+      />
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Confirm PIN</Text>
     </View>

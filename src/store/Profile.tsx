@@ -9,9 +9,12 @@ export const INITIAL_STATE: IProfile = {
     phoneNumber: "",
     email: "",
     locale: "",
+    language: "en",
     publicAddress: "",
     registered: false,
-    mnemonic: ""
+    mnemonic: "",
+    currencyCode: "",
+    recoverySaved: false
 }
 
  const profileSlice = createSlice ({

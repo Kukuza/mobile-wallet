@@ -29,6 +29,12 @@ import Qrcode from "../screens/Send/Qrcode";
 import Onboarding from "../screens/Onboarding/Onboarding";
 import LanguagesList from "../screens/Languages/LanguagesList";
 import UserDetails from "../screens/Onboarding/UserDetails"; 
+import CurrencySelector from "../screens/Onboarding/CurrencySelector"
+import SetupRecovery from "../screens/Onboarding/SetupRecovery";
+import SetupRecoveryInfo from "../screens/Onboarding/SetupRecoveryInfo";
+import RecoveryCodePin from "../screens/Onboarding/RecoveryCodePin";
+import ViewRecoveryCode from "../screens/Onboarding/ViewRecoveryCode";
+import RecoveryPhraseSaved from "../screens/Onboarding/RecoveryPhraseSaved";
 
 const routes: IRouteProps[] = [
   {
@@ -155,8 +161,31 @@ const routes: IRouteProps[] = [
   {
     name: "UserDetails",
     component: UserDetails
+  },
+  {
+    name: "CurrencySelector",
+    component: CurrencySelector
+  },
+  {
+    name: "SetupRecovery",
+    component: SetupRecovery
+  },
+  {
+    name: "SetupRecoveryInfo",
+    component: SetupRecoveryInfo
+  },
+  {
+    name: "RecoveryCodePin",
+    component: RecoveryCodePin
+  },
+  {
+    name: "ViewRecoveryCode",
+    component: ViewRecoveryCode
+  },
+  {
+    name: "RecoveryPhraseSaved",
+    component: RecoveryPhraseSaved
   }
-
 ];
 
 export default routes;

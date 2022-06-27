@@ -1,5 +1,7 @@
 import { Platform } from 'react-native';
 import locales from './locale.config';
+import currencies from './currencies.config';
+import languages from './languages.config';
 import {
     DEFAULT_CURRENCY,
     DEFAULT_LANGUAGE,
@@ -28,4 +30,6 @@ export default {
     ),
     ENV: __DEV__ ? "DEV" : "PROD",
     LOCALES: locales,
+    LANGUAGES: languages,
+    CURRENCIES: currencies
 }

@@ -18,7 +18,9 @@ import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
-import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
+import { useDispatch, useSelector } from "react-redux";
+import { getRate } from "../../store/Currency";
+import { IRate } from "../../interfaces/IRate";
 
 const EmptyList = (props) => {
   return (
@@ -41,16 +43,15 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 
   let wakalaContractKit = WakalaContractKit.getInstance();
   const [kesRate, setKesRate] = useState({});
-
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState(new Array<WakalaEscrowTransaction>());
+  const dispatch = useDispatch();
 
   // fetch data
   const fetchData = async () => {
     if (wakalaContractKit) {
       const data = await wakalaContractKit?.fetchTransactions();
       setData(data);
-      
     } else {
       console.log("data is null");
     }
@@ -72,13 +73,20 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
       // onRefresh()
     }
   }, []);
+
+  const ksh: number = useSelector((state: any) => state.currency.rate);
   
-  const convertCurrencies = async () => {
-    const currencyConverter = new CurrencyLayerAPI();
-    const ksh = await currencyConverter.usdToKsh(1);
+  const convertCurrencies = () => {
+    //Get exchange rate
+    const rate: IRate = {
+      from: "usd", 
+      to: "kes", 
+    }
+
+    dispatch(getRate(rate));
+    console.log(`HOME -> rate: ${rate.from} to ${rate.to}`, ksh)
     setKesRate(ksh);
   }
-  
   
   // Rerender on new transaction event.
   wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   description: {
-    ...FONTS.body3,
+    ...FONTS.body4,
     color: COLORS.textColor2,
     paddingHorizontal: 64,
     flex: 1,
