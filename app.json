@@ -4,7 +4,7 @@
     "slug": "kukuza",
     "owner": "kukuza",
     "version": "1.0.1-dev",
-    "runtimeVersion": "1.0.1",
+    "runtimeVersion": "1.0.2",
     "orientation": "portrait",
     "icon": "./src/assets/icons/icon.png",
     "splash": {
