@@ -37,7 +37,8 @@ export default walletSlice.reducer;
 
 export const getBalance: any = createAsyncThunk(
     'getBalance', async () => {
-    const web3: Web3 | any = new Web3(configs.CONTRACT_KIT_URI!);
+    // const web3: Web3 | any = new Web3(configs.CONTRACT_KIT_URI!);
+    const web3: Web3 | any = new Web3("https://alfajores-forno.celo-testnet.org");
     const kit: ContractKit = newKitFromWeb3(web3);
     const profile: IProfile = await Storage.get(ProfileKey.PROFILE_KEY);
     const publicAddress = profile.publicAddress;  
