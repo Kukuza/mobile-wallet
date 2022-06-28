@@ -3,7 +3,8 @@
     "name": "mobile-wallet",
     "slug": "kukuza",
     "owner": "kukuza",
-    "version": "1.0.1",
+    "version": "1.0.1-dev",
+    "runtimeVersion": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/icons/icon.png",
     "splash": {
@@ -18,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
     },
     "android": {
       "adaptiveIcon": {
