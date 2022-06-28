@@ -70,8 +70,6 @@ export async function generateNewMnemonic(): Promise<string> {
 export async function createNewAccountWithMnemonic() {
     const mnemonic = await generateNewMnemonic();
     const keys = await getAccountFromMnemonic(mnemonic);
-    console.log("keys ==========>", keys);
-    WakalaContractKit.createInstance(keys.privateKey);
     return mnemonic;
 }
 
@@ -144,7 +142,8 @@ export async function getStoredMnemonic(
  * @returns the encrypted mnemonic.
  */
 export async function encryptMnemonic(phrase: string, password: string) {
-  return CryptoJS.AES.encrypt(phrase, password).toString()
+  const encryptedMnemonic = CryptoJS.AES.encrypt(phrase, password).toString();
+  return encryptedMnemonic;
 }
 
 /**
