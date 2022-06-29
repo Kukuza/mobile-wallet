@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "671747980167",
+    "project_id": "kukuza-5ee43",
+    "storage_bucket": "kukuza-5ee43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671747980167:android:52172555802cb7e7943122",
+        "android_client_info": {
+          "package_name": "com.kukuza.kukuza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671747980167-n960e3tsmg3lni1gd32toauj2vco7qnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN2Dp9d41IiS7RP_8pa2akd8SCPBMjJlY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671747980167-n960e3tsmg3lni1gd32toauj2vco7qnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,6 +14,7 @@ export const COLORS = {
   warn: "#ba4848",
 
   // Gray Color variants
+  grayLightest2: "#f5f5f5",
   grayLightest1: "#CFCFCF",
   grayLightest: "#A2A3A2",
   grayLighter: "#808080",
@@ -25,8 +26,10 @@ export const COLORS = {
   textPrimary: "#333333",
   textDarkBlue: "#002B4E",
   textColor2: "#1C1939CC",
-  textColor3: "#1C1939",
   textColor4:"#4840BB",
+  textColor3: "#1C1939",
+
+  bottomMenu: "#f5f5f5",
 
   dividerLine:"#444444",
   

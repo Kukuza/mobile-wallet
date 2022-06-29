@@ -30,6 +30,9 @@
     "@ramp-network/react-native-sdk": "^0.3.1",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-firebase/app": "^15.1.0",
+    "@react-native-firebase/crashlytics": "^15.1.0",
+    "@react-native-firebase/perf": "^15.1.0",
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/material-top-tabs": "^6.2.1",
     "@react-navigation/native": "^6.0.8",
@@ -94,7 +97,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@testing-library/react-native": "^9.0.0",
-    "@types/react": "~17.0.21",
+    "@types/react": "~18.0.8",
     "@types/react-native": "^0.67.7",
     "@types/react-test-renderer": "^17.0.1",
     "metro-react-native-babel-preset": "^0.59.0",

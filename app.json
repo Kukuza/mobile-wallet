@@ -26,10 +26,16 @@
         "foregroundImage": "./src/assets/icons/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kukuza.kukuza"
+      "package": "com.kukuza.kukuza",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/icons/favicon.png"
-    }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/perf",
+      "@react-native-firebase/crashlytics"
+    ]
   }
 }

@@ -5,6 +5,7 @@ import COLORS from '../../../styles/colors/colors';
 import QRCode from 'react-native-qrcode-svg';
 import WakalaContractKit from "../../../utils/Celo-Integration/WakalaContractKit";
 
+
 export default function QrGenerator() {
   const publicAddress = WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
   return (
