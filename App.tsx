@@ -86,6 +86,7 @@ const App = () => {
       console.error("hasOnboarded: ", error);
       crashlytics().recordError(error);
     } finally {
+      crashlytics().log(`User onboarded`);
       setLoading(false);
     }
   };

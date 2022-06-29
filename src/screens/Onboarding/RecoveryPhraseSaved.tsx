@@ -10,6 +10,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { useDispatch, useSelector } from "react-redux";
 import Format from "../../utils/Format";
 import { getProfile, INITIAL_STATE, saveProfile } from "../../store/Profile";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
   
@@ -44,6 +45,7 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
         currencyCode: profile.currencyCode,
         recoverySaved: true
       }
+      crashlytics().setAttributes({p})
     }else {
       p = INITIAL_STATE;
       p.recoverySaved = true;
@@ -59,9 +61,16 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
   }
 
   const confirmedRecoveryPhrase = () => {
-    if (profile.recoverySaved) {
-      navigation.navigate("ConnectYourPhoneNumberScreen");
+    try {
+      if (profile.recoverySaved) {
+        navigation.navigate("ConnectYourPhoneNumberScreen");
+      } else {
+        crashlytics().log(`Profile isnt saved`)
+      }
+    } catch (error : Error | any) {
+      crashlytics().recordError(error)
     }
+
   }
 
   return (
