@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { 
-    encryptPasswordWithNewMnemonic, 
+    encryptNewMnemonicWithPassword, 
     getAccountFromMnemonic, 
     getStoredMnemonic } from "../redux/auth/auth.utils";
 import WakalaContractKit from '../utils/Celo-Integration/WakalaContractKit';
@@ -99,8 +99,8 @@ export const confirmPin: any = createAsyncThunk(
         const mnemonic = await getStoredMnemonic(pin);
         keys = await getAccountFromMnemonic(mnemonic ?? "");
         WakalaContractKit.createInstance(keys.privateKey);
-    }else {
-        await encryptPasswordWithNewMnemonic(pin);
+    } else {
+        await encryptNewMnemonicWithPassword(pin);
         const mnemonic = await getStoredMnemonic(pin);
         keys = await getAccountFromMnemonic(mnemonic ?? "");
         WakalaContractKit.createInstance(keys.privateKey);
