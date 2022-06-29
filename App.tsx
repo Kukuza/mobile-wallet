@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import store  from './src/store'
 import { Provider } from 'react-redux';
 import Storage from "./src/utils/Storage";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 import {
   Rubik_300Light,
@@ -50,7 +51,6 @@ const App = () => {
     Rubik_900Black_Italic,
   });
   let [isReady, setReady] = React.useState(false);
-
   const [loading, setLoading] = useState(true);
   const [mnemonic, setMnemonic] = useState(false);
   const [recovery, setRecovery] = useState(false);
@@ -58,8 +58,9 @@ const App = () => {
   const loadAppSession = async () => {
     try {
       //return true;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
+
      //return true;
     }
   };
@@ -81,8 +82,9 @@ const App = () => {
 
       if (profile && profile.recoverySaved) 
         setRecovery(true);
-    } catch (error) {
+    } catch (error: Error | any) {
       console.error("hasOnboarded: ", error);
+      crashlytics().recordError(error);
     } finally {
       setLoading(false);
     }
@@ -107,7 +109,7 @@ const App = () => {
       <AppLoading
         startAsync={loadAppSession}
         onFinish={() => setReady(true)}
-        onError={console.warn}
+        onError={(err: Error) => crashlytics().recordError(err)}
         autoHideSplash={true}
       />
     );

@@ -137,13 +137,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
-        configurations.all {
-            resolutionStrategy { 
-                force 'androidx.sqlite:sqlite-framework:2.1.0'
-                force 'androidx.sqlite:sqlite:2.1.0'
-                force 'androidx.room:room-runtime:2.1.0' 
-                }
-        }
     }
     splits {
         abi {
@@ -249,3 +242,7 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply from: new File(["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json')"].execute(null, rootDir).text.trim(), "../native_modules.gradle");
 applyNativeModulesAppBuildGradle(project)
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
