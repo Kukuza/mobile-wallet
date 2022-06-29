@@ -35,7 +35,8 @@ export class WakalaContractEventsKit {
    * Instance of websocket provider.
    */
   public provider = new Web3.providers
-    .WebsocketProvider(configs.CONTRACT_KIT_LISTENER!);
+  .WebsocketProvider("wss://alfajores-forno.celo-testnet.org/ws");
+    // .WebsocketProvider(configs.CONTRACT_KIT_LISTENER!);
 
   /**
    * Instance of web 3.
@@ -67,7 +68,7 @@ export class WakalaContractEventsKit {
 
     this.provider = new Web3
       .providers
-      .WebsocketProvider(configs.CONTRACT_KIT_LISTENER!);
+      .WebsocketProvider('wss://alfajores-forno.celo-testnet.org/ws');
 
     this.web3 = new Web3(this.provider);
 

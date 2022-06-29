@@ -3,19 +3,23 @@
     "version": ">= 0.53.0"
   },
   "build": {
-    "development": {
+    "dev": {
       "distribution": "internal",
       "android": {
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
         "buildConfiguration": "Debug"
-      }
+      },
+      "releaseChannel": "dev"
     },
-    "preview": {
+    "release": {
+      "releaseChannel": "release",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "releaseChannel": "prod"
+    }
   },
   "submit": {
     "production": {}
