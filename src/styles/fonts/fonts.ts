@@ -75,7 +75,7 @@ export const FONTS = {
 
   body3: {
     fontFamily: "Rubik_500Medium",
-    fontSize:hp("1,97%"),
+    fontSize:hp("1.97%"),
     lineHeight: hp("2.955%"),
   },
 
