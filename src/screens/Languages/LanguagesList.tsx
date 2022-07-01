@@ -6,7 +6,6 @@ import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import { useDispatch, useSelector } from 'react-redux';
 import Profile, { getProfile, saveProfile, INITIAL_STATE }  from '../../store/Profile';
 import SelectCountryCard from '../../components/cards/SelectCountryCard';
-import NormalTextField from '../../components/TextFields/NormalTextField';
 const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const languages = configs.LANGUAGES ?? [];
@@ -48,12 +47,6 @@ const LanguagesList: React.FunctionComponent<IStackScreenProps> = (props) => {
     <ScreenComponent>
         <View style={styles.container}>
         <View style={styles.list}>
-          <NormalTextField 
-          onChangeText={null}
-          placeholder="Placeholder"
-          keyboardType="name-phone-pad"
-          inputLabel="Label"
-            />
           <FlatList
             data={languages}
             renderItem={({ item }) => (

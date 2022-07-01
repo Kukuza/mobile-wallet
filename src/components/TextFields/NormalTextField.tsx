@@ -4,8 +4,9 @@ import { FONTS } from '../../styles/fonts/fonts'
 import COLORS from '../../styles/colors/colors'
 
 export default function NormalTextField({inputLabel, onChangeText, placeholder, keyboardType}) {
-    const [onerrorInput, setOnErrorInput] = useState<Boolean>(true)
+    const [onerrorInput, setOnErrorInput] = useState<Boolean>(false)
   return (
+    <>
     <View style={[styles.inputWrapper, onerrorInput == true && styles.onErrorInput]}>
     <Text style={styles.inputLabel}>{inputLabel}</Text>
     <TextInput
@@ -16,6 +17,8 @@ export default function NormalTextField({inputLabel, onChangeText, placeholder, 
       placeholderTextColor={COLORS.grayLightest1}
       />
   </View>
+  {onerrorInput == true && <Text style={styles.errorText}>ErrorMessage</Text> }
+  </>
   )
 }
 
@@ -40,5 +43,10 @@ const styles = StyleSheet.create({
     onErrorInput:{
     borderWidth:1,
     borderColor:COLORS.error
+      },
+      errorText:{
+        padding: 10,
+        ...FONTS.body2,
+        color:COLORS.error
       }
 })
