@@ -31,6 +31,8 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   const continueHandler = () => {
     let p: any;
+
+    console.log("PROFILE", profile);
       
     if(profile) {
       p = {
@@ -45,7 +47,6 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
         currencyCode: profile.currencyCode,
         recoverySaved: true
       }
-      crashlytics().setAttributes({p})
     }else {
       p = INITIAL_STATE;
       p.recoverySaved = true;

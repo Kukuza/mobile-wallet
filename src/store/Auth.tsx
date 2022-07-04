@@ -14,7 +14,7 @@ import { INITIAL_STATE } from "./Profile";
     name: 'auth',
     initialState: {
         pin: null,
-        confirmPin: null,
+        pinConfirmed: '',
         recoveryPhrase: '',
         data: {},
         keys: { publicKey: '', pin: '' },
@@ -24,7 +24,7 @@ import { INITIAL_STATE } from "./Profile";
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(enterPin.fulfilled, (state, action) => {state.pin = action.payload}),
-        builder.addCase(confirmPin.fulfilled, (state, action) => {state.pin = action.payload}),
+        builder.addCase(confirmedPin.fulfilled, (state, action) => {state.pinConfirmed = action.payload}),
         builder.addCase(retrieveItem.fulfilled, (state, action) => {state.data = action.payload}),
         builder.addCase(getAccountByMnemonic.fulfilled, (state, action) => {state.data = action.payload}),
         //Create account    
@@ -75,9 +75,9 @@ export const enterPin: any = createAsyncThunk(
     return pin;
  });
 
-export const confirmPin: any = createAsyncThunk(
-    'confirmPin', (pin: string) => {
-    return pin;
+export const confirmedPin: any = createAsyncThunk(
+    'confirmedPin', (pinConfirmed: string) => {
+    return pinConfirmed;
 });
 
  export const retrieveItem: any = createAsyncThunk(

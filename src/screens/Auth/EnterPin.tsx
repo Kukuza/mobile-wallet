@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Feather } from "@expo/vector-icons";
 import { StyleSheet, Text, View,TouchableOpacity } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -7,27 +7,35 @@ import COLORS from '../../styles/colors/colors';
 import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { enterPin }  from '../../store/Auth';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import NavHeader from '../../containers/NavHeader';
 
 const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
+  const confirmed = useSelector((state: any) => state.auth.pinConfirmed);
+  const initPin = ["", "", "", "", "", ""];
   const dispatch = useDispatch();
 
   // navigation object.
    const navigation = props.navigation;
    //Contains the pin number text as an array.
-   const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
+   const [pinCharArray, setPinTextArray] = useState(initPin);
   // The current index of the pin number entry.
    const [currentIndex, setCurrentIndex] = useState(0);
 
+   useEffect(() => {
+    setPinTextArray(initPin);
+    setCurrentIndex(0);
+  }, []);
+
   //  Handles the change on the pin number input form the custom keypad.
   const handleChange = async (valPin) => {
-    if (currentIndex < 7) {
+    if (currentIndex < 6) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
+      
       if (currentIndex == 5) {
         const pin = pinCharArray.join("");
         dispatch(enterPin(pin))
@@ -54,8 +62,12 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           showTitle={true}
           newTitle="Step 3 of 8"
       />
+
+      {confirmed 
+          ? <Text style={styles.pinError}>{confirmed}</Text> 
+          : <Text style={styles.pinError}></Text>}
       <View style={styles.enterPin}>
-      <Text style={styles.pinText}>Create a PIN</Text>
+        <Text style={styles.pinText}>Create a PIN</Text>
       </View>
       <View style={styles.pinIcons}>
         {pinCharArray.map((text, index)=>
@@ -76,10 +88,6 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 export default EnterPin;
 
 const styles = StyleSheet.create({
-navIcon:{
-  marginTop: hp("5%"),
-  marginLeft: wp("5%"),
-},
 enterPin:{
   marginTop:hp("10%"),
   alignItems:'center',
@@ -88,6 +96,12 @@ enterPin:{
 pinText:{
   ...FONTS.displayBold,
   color: COLORS.textColor4,
+},
+pinError:{
+  marginTop: 20,
+  ...FONTS.body2,
+  color: COLORS.error,
+  textAlign: "center",
 },
 pinIcons:{
   marginVertical:hp("3%"),
