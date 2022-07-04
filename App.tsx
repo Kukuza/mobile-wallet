@@ -89,11 +89,9 @@ const App = () => {
     }
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     hasOnboarded();
-  }, []); */
-
-  hasOnboarded();
+  }, []);
 
   /* const Loading = () => {
     return (

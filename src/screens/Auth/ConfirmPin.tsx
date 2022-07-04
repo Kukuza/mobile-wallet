@@ -7,35 +7,41 @@ import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAccount, enterPin }  from '../../store/Auth';
+import { confirmedPin, createAccount, enterPin, pinMismatch }  from '../../store/Auth';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import NavHeader from '../../containers/NavHeader';
 
 const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
    const navigation = props.navigation;
+   const initPin = ["", "", "", "", "", ""];
    const dispatch = useDispatch();
    const prevPin = useSelector((state: any) => state.auth.pin);
    const created = useSelector((state: any) => state.auth);
+   const confirmed = useSelector((state: any) => state.auth.pinConfirmed);
 
   useEffect(() => {
     connectPhoneNumber();
   }, [created.keys.publicKey]);
 
-   const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
+   const [pinCharArray, setPinTextArray] = useState(initPin);
   // The current index of the pin number entry.
    const [currentIndex, setCurrentIndex] = useState(0);
 
+   useEffect(() => {
+    setPinTextArray(initPin);
+    setCurrentIndex(0);
+  }, []);
+
   const handleChange = async (valPin) => {
-    if (currentIndex < 7) {
+    if (currentIndex < 6) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
 
       if (currentIndex == 5) {
         const pin = pinCharArray.join("");
         if (pin != prevPin) {
-          //TODO: highlight with error message
-          pinMismatchAlert();
+          dispatch(confirmedPin("PINs do not match"));
           navigation.navigate("EnterPin");
         }else {
           dispatch(createAccount(pin));
@@ -55,13 +61,6 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
     }
   }
   
-  const pinMismatchAlert = () =>
-    Alert.alert(
-      "PIN mismatch", 
-      "Please try again", 
-      [{ text: 'Ok' }]
-    );
-
   // Handles deletion on the custom keypad.
   const onDelete = () => {
     if (currentIndex > 0) {
@@ -77,6 +76,9 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           showTitle={true}
           newTitle="Step 3 of 8"
       />
+      {confirmed 
+          ? <Text style={styles.pinError}>{confirmed}</Text> 
+          : <Text style={styles.pinError}></Text>}
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Confirm PIN</Text>
     </View>
@@ -112,6 +114,12 @@ const styles = StyleSheet.create({
   pinText:{
     ...FONTS.displayBold,
     color: COLORS.textColor4,
+  },
+  pinError:{
+    marginTop: 20,
+    ...FONTS.body2,
+    color: COLORS.error,
+    textAlign: "center",
   },
   pinIcons:{
     marginVertical:hp("3%"),

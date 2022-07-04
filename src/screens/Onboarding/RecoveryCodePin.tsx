@@ -14,18 +14,25 @@ import NavHeader from '../../containers/NavHeader';
 const RecoveryCodePin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
 
   const dispatch = useDispatch();
+  const initPin = ["", "", "", "", "", ""];
   const navigation = props.navigation;
    //Contains the pin number text as an array.
-   const [pinCharArray, setPinTextArray] = useState(["", "", "", "", "", ""]);
+   const [pinCharArray, setPinTextArray] = useState(initPin);
   // The current index of the pin number entry.
    const [currentIndex, setCurrentIndex] = useState(0);
    const recoveryPhrase = useSelector((state: any) => state.auth.recoveryPhrase);
 
+   useEffect(() => {
+    setPinTextArray(initPin);
+    setCurrentIndex(0);
+  }, []);
+
   //  Handles the change on the pin number input form the custom keypad.
   const handleChange = async (valPin) => {
-    if (currentIndex < 7) {
+    if (currentIndex < 6) {
       pinCharArray[currentIndex] = valPin;
       setCurrentIndex(currentIndex + 1);
+      
       if (currentIndex == 5) {
         const pin = pinCharArray.join("");
         dispatch(getMnemonic(pin))
