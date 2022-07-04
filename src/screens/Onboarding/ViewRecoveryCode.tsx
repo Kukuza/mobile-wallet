@@ -9,7 +9,7 @@ import NavHeader from "../../containers/NavHeader";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { useSelector } from "react-redux";
 import AcceptRadio from "../../components/cards/AcceptRadio";
-import ScreenModal from "../Attestation/ConnectYouPhoneNumberScreen/ScreenModal";
+import ModalAboutRecoveryPhrase from "../../components/modals/ModalAboutRecoveryPhrase";
 
 const ViewRecoveryCode: React.FunctionComponent<IStackScreenProps> = (props) => {
   
@@ -81,7 +81,7 @@ const ViewRecoveryCode: React.FunctionComponent<IStackScreenProps> = (props) => 
           setModalVisible(!modalVisible);
         }}
       > 
-        <ScreenModal handleAction={closeModal}  />
+        <ModalAboutRecoveryPhrase handleAction={closeModal}  />
       </Modal>
     </ScreenComponent>
   );
