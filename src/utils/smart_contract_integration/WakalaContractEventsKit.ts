@@ -3,8 +3,8 @@ import Web3 from "web3";
 import { Subscription } from "web3-core-subscriptions";
 import { Log } from "web3-core";
 import { AbiItem } from "web3-utils";
-import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
-import { WAKALA_CONTRACT_ADDRESS } from "../ContractAdresses/contract";
+import { WakalaEscrowAbi } from "./smart_contract_abis/WakalaEscrowAbi";
+import { WAKALA_CONTRACT_ADDRESS } from "./smart_contract_addresses_";
 import configs from "../../configs";
 
 /**

@@ -7,7 +7,7 @@ import { connect, useDispatch } from "react-redux";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
 import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";

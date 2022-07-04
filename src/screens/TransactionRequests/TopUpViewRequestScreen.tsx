@@ -9,9 +9,9 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
+import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
 import { connect, useDispatch } from "react-redux";
 import { EventData } from "web3-eth-contract";
 import Error from "../../assets/images/modals/Error";

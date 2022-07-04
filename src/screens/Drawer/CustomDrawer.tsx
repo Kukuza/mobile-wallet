@@ -17,7 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useDispatch, useSelector } from "react-redux";
 import { getBalance }  from '../../store/Wallet';

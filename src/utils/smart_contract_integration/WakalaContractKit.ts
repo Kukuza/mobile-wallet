@@ -1,13 +1,13 @@
 import Web3 from "web3";
 import { Contract, EventData } from "web3-eth-contract";
-import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
-import { KARMA_ABI } from "../ContractABIs/KarmaAbi";
-import ERC20Abi from "../ContractABIs/ERC20.abi.json";
+import { WakalaEscrowAbi } from "./smart_contract_abis/WakalaEscrowAbi";
+import { KARMA_ABI } from "./smart_contract_abis/KarmaAbi";
+import ERC20Abi from "./smart_contract_abis/ERC20.abi.json";
 import {
   WAKALA_CONTRACT_ADDRESS,
   ERC20_ADDRESS,
   KARMA_CONTRACT_ADDRESS,
-} from "../ContractAdresses/contract";
+} from "./smart_contract_addresses_";
 import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
 import { WakalaContractEventsKit } from "./WakalaContractEventsKit";

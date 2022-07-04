@@ -11,10 +11,10 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import Web3 from "web3";
 import { newKitFromWeb3 } from "@celo/contractkit";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
 import { EventData } from "web3-eth-contract";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
+import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
 import Thankyou from "../../assets/images/modals/Thankyou";
 import Error from "../../assets/images/modals/Error";
 

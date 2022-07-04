@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import WakalaContractKit from "../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../utils/smart_contract_integration/WakalaContractKit";
 import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import Web3 from "web3";
 import configs from "../configs";
