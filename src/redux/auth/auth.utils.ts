@@ -10,7 +10,6 @@ import {
 import * as bip39 from 'react-native-bip39';
 import CryptoJS from 'crypto-js'
 import { retrieveStoredItem, storeItem } from './session.key.storage.utils';
-import WakalaContractKit from '../../utils/Celo-Integration/WakalaContractKit';
 
 /**
  * The number of words to be contained in the mnemonic.
@@ -70,8 +69,6 @@ export async function generateNewMnemonic(): Promise<string> {
 export async function createNewAccountWithMnemonic() {
     const mnemonic = await generateNewMnemonic();
     const keys = await getAccountFromMnemonic(mnemonic);
-    console.log("keys ==========>", keys);
-    WakalaContractKit.createInstance(keys.privateKey);
     return mnemonic;
 }
 
@@ -89,7 +86,7 @@ export async function setEncryptionPassword(password: string, mnemonic: string) 
  * @param password the password/pin.
  * @param mnemonic the mnemonic to be encrypted and stored.
  */
- export async function encryptPasswordWithNewMnemonic(password: string) {
+ export async function encryptNewMnemonicWithPassword(password: string) {
   const mnemonic = await createNewAccountWithMnemonic();
   const storedItem = await storeMnemonic(mnemonic, password);
   return mnemonic;
@@ -144,7 +141,8 @@ export async function getStoredMnemonic(
  * @returns the encrypted mnemonic.
  */
 export async function encryptMnemonic(phrase: string, password: string) {
-  return CryptoJS.AES.encrypt(phrase, password).toString()
+  const encryptedMnemonic = CryptoJS.AES.encrypt(phrase, password).toString();
+  return encryptedMnemonic;
 }
 
 /**

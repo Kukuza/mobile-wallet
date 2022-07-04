@@ -7,6 +7,20 @@ import store  from './src/store'
 import { Provider } from 'react-redux';
 import Storage from "./src/utils/Storage";
 import crashlytics from "@react-native-firebase/crashlytics";
+import { setJSExceptionHandler, setNativeExceptionHandler } from "react-native-exception-handler";
+
+const handleJSError = (error, isFatal) => {
+  console.log("Global JS Error",error, isFatal);
+  crashlytics().recordError(error, error.name);
+}
+
+setJSExceptionHandler((error, isFatal) => {
+ handleJSError(error, isFatal);
+}, true);
+
+setNativeExceptionHandler(errorString => {
+  crashlytics().log(errorString);
+});
 
 import {
   Rubik_300Light,
@@ -21,7 +35,6 @@ import {
   Rubik_900Black_Italic,
 } from "@expo-google-fonts/rubik";
 import { useFonts } from "expo-font";
-import "react-native-gesture-handler";
 import AppLoading from "expo-app-loading";
 import TipProvider from "react-native-tip";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -50,20 +63,9 @@ const App = () => {
     Rubik_900Black,
     Rubik_900Black_Italic,
   });
-  let [isReady, setReady] = React.useState(false);
-  const [loading, setLoading] = useState(true);
+
   const [mnemonic, setMnemonic] = useState(false);
   const [recovery, setRecovery] = useState(false);
-
-  const loadAppSession = async () => {
-    try {
-      //return true;
-    } catch (error) {
-      console.log(error);
-
-     //return true;
-    }
-  };
 
   const hasOnboarded = async () => {
     try {
@@ -75,8 +77,6 @@ const App = () => {
         ProfileKey.PROFILE_KEY
         );
 
-        //console.log(profile);
-
       if (_mnemonic) 
         setMnemonic(true);
 
@@ -85,17 +85,13 @@ const App = () => {
     } catch (error: Error | any) {
       console.error("hasOnboarded: ", error);
       crashlytics().recordError(error);
-    } finally {
-      crashlytics().log(`User onboarded`);
-      setLoading(false);
+      handleJSError(error, false);
     }
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     hasOnboarded();
-  }, []); */
-
-  hasOnboarded();
+  }, []);
 
   /* const Loading = () => {
     return (
@@ -105,38 +101,33 @@ const App = () => {
     );
   }; */
 
-  if (!isReady || !fontsLoaded) {
+  if (!fontsLoaded) {
     return (
-      <AppLoading
-        startAsync={loadAppSession}
-        onFinish={() => setReady(true)}
-        onError={(err: Error) => crashlytics().recordError(err)}
-        autoHideSplash={true}
-      />
-    );
-  } else {
-    return (
-      <Provider store = { store }>
-        <NavigationContainer>
-          {/* <Screens /> */}
-          <Stack.Navigator
-            initialRouteName= { mnemonic 
-              ? (recovery ? "MyDrawer" : "SetupRecovery") 
-              : "LanguagesList"  
-            }
-            screenOptions={{ headerShown: false }}
-          >
-            {routes.map((r, i) => (
-              <Stack.Screen key={i} name={r.name} component={r.component} />
-            ))}
-          </Stack.Navigator>
-        </NavigationContainer>
-        <View>
-        </View>
-        <TipProvider/>
-      </Provider>
+      <AppLoading />
     );
   }
-};
+
+  return (
+    <Provider store = { store }>
+      <NavigationContainer>
+        {/* <Screens /> */}
+        <Stack.Navigator
+          initialRouteName= { mnemonic 
+            ? (recovery ? "MyDrawer" : "SetupRecovery") 
+            : "LanguagesList"  
+          }
+          screenOptions={{ headerShown: false }}
+        >
+          {routes.map((r, i) => (
+            <Stack.Screen key={i} name={r.name} component={r.component} />
+          ))}
+        </Stack.Navigator>
+      </NavigationContainer>
+      <View>
+      </View>
+      <TipProvider/>
+    </Provider>
+  );
+}
 
 export default App;

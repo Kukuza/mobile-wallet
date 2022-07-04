@@ -103,10 +103,10 @@ export default class WakalaContractKit {
    */
   private constructor(privateKey: string) {
 
-    // const provider = new HDWalletProvider(privateKey, configs.CONTRACT_KIT_URI);
+    // console.log("configs.CONTRACT_KIT_URI!", configs.CONTRACT_KIT_URI!);
+    // this.web3 = new Web3(configs.CONTRACT_KIT_URI!);
+    this.web3 = new Web3('https://alfajores-forno.celo-testnet.org');
 
-    console.log("configs.CONTRACT_KIT_URI!", configs.CONTRACT_KIT_URI!);
-    this.web3 = new Web3(configs.CONTRACT_KIT_URI!);
 
     const account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
     this.userMetadata = { 
@@ -132,7 +132,7 @@ export default class WakalaContractKit {
     this.wakalaContractEvents = new WakalaContractEventsKit([
       WAKALA_CONTRACT_ADDRESS,
     ]);
-    this.init();
+
   }
 
   /**

@@ -11,18 +11,19 @@ interface SecureStorage {
 
 export async function storeItem({ key, value, options = {} }: SecureStorage) {
   try {
-    const result = await Keychain.setGenericPassword('CELO', value, {
+    const result = await Keychain.setGenericPassword('KUKUZA', value, {
       service: key,
       accessible: Keychain.ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
       rules: Keychain.SECURITY_RULES.NONE,
       ...options,
     })
-    if (result === false) {
+
+    if (result == false) {
       throw new Error('Store result false')
     }
 
     // check that we can correctly read the keychain before proceeding
-    const retrievedResult = await retrieveStoredItem(key)
+    const retrievedResult = await retrieveStoredItem(key);
     if (retrievedResult !== value) {
       await removeStoredItem(key)
 
@@ -35,7 +36,7 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
 
     return result
   } catch (error) {
-    console.log(TAG, 'Error storing item', error, true, value)
+    console.log(TAG, 'Error storing item', error, value)
     throw error
   }
 }
