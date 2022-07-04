@@ -7,7 +7,7 @@ import ScreenComponent from '../../containers/ScreenComponent';
 import KeyPad from '../../components/buttons/KeyPad'
 import { IStackScreenProps } from '../../navigation/StackScreenProps';
 import { useDispatch, useSelector } from 'react-redux';
-import { confirmedPin, createAccount, enterPin, pinMismatch }  from '../../store/Auth';
+import { confirmedPin, createAccount, enterPin }  from '../../store/Auth';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import NavHeader from '../../containers/NavHeader';
 

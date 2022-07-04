@@ -80,11 +80,6 @@ export const confirmedPin: any = createAsyncThunk(
     return pinConfirmed;
 });
 
-export const pinMismatch: any = createAsyncThunk(
-    'pinMismatch', (pin: string) => {
-    return pin;
-});
-
  export const retrieveItem: any = createAsyncThunk(
     'retrieveItem', async () => {
         return await retrieveStoredItem(MNEMONIC_STORAGE_KEY);
