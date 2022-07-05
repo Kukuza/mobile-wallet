@@ -21,6 +21,9 @@ import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/
 import { useDispatch, useSelector } from "react-redux";
 import { getRate } from "../../store/Currency";
 import { IRate } from "../../interfaces/IRate";
+import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
 
 const EmptyList = (props) => {
   return (
@@ -39,9 +42,12 @@ const EmptyList = (props) => {
 };
 
 const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
+
   const { navigation } = props;
 
-  let wakalaContractKit = WakalaContractKit.getInstance();
+  const readDataContractKit = ReadContractDataKit.getInstance();
+  const contracEventListenerKit = ContractEventsListenerKit.getInstance();
+
   const [kesRate, setKesRate] = useState({});
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState(new Array<WakalaEscrowTransaction>());
@@ -49,8 +55,8 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
 
   // fetch data
   const fetchData = async () => {
-    if (wakalaContractKit) {
-      const data = await wakalaContractKit?.fetchTransactions();
+    if (readDataContractKit) {
+      const data = await readDataContractKit?.fetchTransactions();
       setData(data);
     } else {
       console.log("data is null");
@@ -89,7 +95,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   }
   
   // Rerender on new transaction event.
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contracEventListenerKit?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     async (error: Error, event: EventData) => {
       let index: number = event.returnValues.wtxIndex;
