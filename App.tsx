@@ -93,6 +93,7 @@ const App = () => {
     }
   };
 
+
   const selectAccount = () => Alert.alert(
       "Select account",
       "Use Address 1 for agent, and Address 2 for client.",
@@ -109,7 +110,7 @@ const App = () => {
   );
 
   useEffect(() => {
-    // hasOnboarded();
+    hasOnboarded();
     selectAccount();
     ReadContractDataKit.createInstance();
     ContractEventsListenerKit.createInstance([WAKALA_CONTRACT_ADDRESS]);
@@ -117,6 +118,7 @@ const App = () => {
   }, []);
 
   hasOnboarded();
+
 
   /* const Loading = () => {
     return (
