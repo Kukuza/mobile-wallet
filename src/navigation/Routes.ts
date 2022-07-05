@@ -35,6 +35,10 @@ import SetupRecoveryInfo from "../screens/Onboarding/SetupRecoveryInfo";
 import RecoveryCodePin from "../screens/Onboarding/RecoveryCodePin";
 import ViewRecoveryCode from "../screens/Onboarding/ViewRecoveryCode";
 import RecoveryPhraseSaved from "../screens/Onboarding/RecoveryPhraseSaved";
+import EditProfile from "../screens/Settings/EditProfile";
+import SelectLanguage from "../screens/Settings/SelectLanguage";
+import SelectCurrency from "../screens/Settings/SelectCurrency";
+import ConnectedDapps from "../screens/Settings/ConnectedDapps";
 
 const routes: IRouteProps[] = [
   {
@@ -110,6 +114,10 @@ const routes: IRouteProps[] = [
     component: EnterPin,
   },
   {
+    name:"EditProfile",
+    component: EditProfile,
+  },
+  {
     name:"ConfirmPin",
     component: ConfirmPin,
   },
@@ -141,6 +149,18 @@ const routes: IRouteProps[] = [
   {
     name:"EnterAmount",
     component: EnterAmount
+  },
+  {
+    name:"Select Language",
+    component: SelectLanguage
+  },
+  {
+    name:"Select Currency",
+    component: SelectCurrency
+  },
+  {
+    name:"Connected Dapps",
+    component: ConnectedDapps
   },
   {
     name:"Description",
@@ -185,7 +205,7 @@ const routes: IRouteProps[] = [
   {
     name: "RecoveryPhraseSaved",
     component: RecoveryPhraseSaved
-  }
+  },
 ];
 
 export default routes;
