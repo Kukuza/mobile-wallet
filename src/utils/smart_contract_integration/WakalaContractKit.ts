@@ -241,7 +241,7 @@ export default class WakalaContractKit {
     for (let index = 0; index < 16; index++) {
       let tx = await this.queryGetNextUnpairedTransaction(currentQueryTx);
 
-      if (tx.amount != 0) {
+      if (tx.grossAmount != 0) {
         wakalaTxsArray.push(tx);
       } else {
         // exit loop (no next tsx)
@@ -352,8 +352,6 @@ export default class WakalaContractKit {
    * @returns the wakala transaction object.
    */
    convertToWakalaTransactionObj(tx: string[]): WakalaEscrowTransaction {
-
-    console.log(tx);
 
     const wakalaTx: WakalaEscrowTransaction = {
       id: parseInt(tx[0]),

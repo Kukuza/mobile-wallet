@@ -186,8 +186,6 @@ export default class ReadContractDataKit {
    */
    convertToWakalaTransactionObj(tx: string[]): WakalaEscrowTransaction {
 
-    console.log(tx);
-
     const wakalaTx: WakalaEscrowTransaction = {
       id: parseInt(tx[0]),
       txType: TransactionType[parseInt(tx[1])],
