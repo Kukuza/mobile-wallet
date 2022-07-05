@@ -72,8 +72,11 @@ const RequestCardComponent = (props) => {
    * Convert funds from cUSD to ksh before display.
    */
   const convertCurrencies = async () => {
-    const ksh = wakalaTransaction.amount * Number(kesRate)
-    setAmount(ksh.toFixed(2))
+    const cUSDAmount = wakalaTransaction.netAmount;
+    const conversionRate = Number(wakalaTransaction.cryptoFiatConversionRate);
+
+    const kshAmount = (cUSDAmount * conversionRate).toFixed(2);
+    setAmount(kshAmount)
   }
   
   return (
@@ -145,7 +148,7 @@ const RequestCardComponent = (props) => {
               >
                 <Text style={styles.amountKsh}>
                   {/*Revert this to previous Ksh>Amount, this is a temporary fi */}
-                 {Number(kesRate) ? `Ksh ${amount}`:`cUSD ${Number(wakalaTransaction.amount).toFixed(4)}`}
+                 {Number(amount) ? `Ksh ${amount}`:`cUSD ${Number(wakalaTransaction.netAmount).toFixed(4)}`}
                 </Text>
 
                 <Pressable
