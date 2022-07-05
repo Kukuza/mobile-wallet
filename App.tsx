@@ -93,7 +93,7 @@ const App = () => {
     }
   };
 
-
+  // TODO remove this on PIN number integration logic.
   const selectAccount = () => Alert.alert(
       "Select account",
       "Use Address 1 for agent, and Address 2 for client.",
