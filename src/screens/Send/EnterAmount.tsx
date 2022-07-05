@@ -11,10 +11,6 @@ import { PortalProvider } from "@gorhom/portal";
 import BottomSheet from '../../components/cards/BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
-
-
-
 
 const EnterAmount = ({route, navigation}) => {
     const {recieversName, recieversPhoneNumber} = route.params;
@@ -31,21 +27,21 @@ const EnterAmount = ({route, navigation}) => {
    
 
     const walletBalance = async () => {
-      const wakalaKit = WakalaContractKit?.getInstance();
-      const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
-      let money = balances?.cUSD;
-      let celoMoney = balances?.CELO
+      // const wakalaKit = WakalaContractKit?.getInstance();
+      // const balances = await WakalaContractKit?.getInstance()?.getCurrentAccountBalance();
+      // let money = balances?.cUSD;
+      // let celoMoney = balances?.CELO
   
-      // change balance to cUSD.
-      let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
-      const toNum = Number(amount);
-      setBalance(toNum.toFixed(2));
+      // // change balance to cUSD.
+      // let amount = wakalaKit?.web3.utils.fromWei(money?.toString(), "ether");
+      // const toNum = Number(amount);
+      // setBalance(toNum.toFixed(2));
 
-      //Get CELO Balances.
-      let celoamount = wakalaKit?.web3.utils.fromWei(celoMoney?.toString(), "ether");
-      const celotoNum = Number(celoamount);
-      const celovisibleAmount = celotoNum.toFixed(2);
-      setCelo(celovisibleAmount);
+      // //Get CELO Balances.
+      // let celoamount = wakalaKit?.web3.utils.fromWei(celoMoney?.toString(), "ether");
+      // const celotoNum = Number(celoamount);
+      // const celovisibleAmount = celotoNum.toFixed(2);
+      // setCelo(celovisibleAmount);
 
     };
     useEffect(() => {

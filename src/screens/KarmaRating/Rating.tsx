@@ -8,7 +8,6 @@ import Modal from "../../components/modals/Modal";
 import NavHeader from "../../components/NavHeader";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Error from "../../assets/images/modals/Error";
 
@@ -70,10 +69,9 @@ const Rating = () => {
   //   KARMA_CONTRACT_ADDRESS
   // );
 
-  const contractMethods = WakalaContractKit.getInstance();
+  // const contractMethods = WakalaContractKit.getInstance();
 
-  const publicAddress =
-    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  const publicAddress = "";
   // fetch and set data from the child component to the parent component
   const childToParent = (childData) => {
     setData(childData);
@@ -94,17 +92,17 @@ const Rating = () => {
 
   const getKarmaRating = async (publicAddress) => {
     console.log("====>fetching rating");
-    await contractMethods?.init().then((result) => {
-      console.log("rating contract methods are initialised");
-    });
-    await contractMethods
-      ?.getKarma(publicAddress)
-      .then((karma) => {
-        setUserStars(karma);
-      })
-      .catch((error: any) => {
-        console.log(error.toString());
-      });
+    // await contractMethods?.init().then((result) => {
+    //   console.log("rating contract methods are initialised");
+    // });
+    // await contractMethods
+    //   ?.getKarma(publicAddress)
+    //   .then((karma) => {
+    //     setUserStars(karma);
+    //   })
+    //   .catch((error: any) => {
+    //     console.log(error.toString());
+    //   });
   };
 
   const handleRatingSubmition = async () => {
@@ -112,40 +110,40 @@ const Rating = () => {
     setIsLoading(true);
     console.log("handle rating contract methods are initialised");
     setLoadingMessage("Initializing the Blockchain connection...");
-    await contractMethods?.init().then((result) => {
-      console.log("contract methods are initialised ");
-    });
+    // await contractMethods?.init().then((result) => {
+    //   console.log("contract methods are initialised ");
+    // });
 
     setLoadingMessage("Submitting rating...");
     if (data !== "") {
-      await contractMethods
-        ?.updateKarma(publicAddress, data, 2)
-        .then((receipt) => {
-          setLoadingMessage("");
-          setIsLoading(false);
-          setIsRatingSubmissionSuccess(true);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          setIsRatingSubmissionSuccess(false);
-          setIsLoading(false);
-          console.log(error.toString());
-        });
+      // await contractMethods
+      //   ?.updateKarma(publicAddress, data, 2)
+      //   .then((receipt) => {
+      //     setLoadingMessage("");
+      //     setIsLoading(false);
+      //     setIsRatingSubmissionSuccess(true);
+      //   })
+      //   .catch((error: any) => {
+      //     setLoadingMessage(error.toString());
+      //     setIsRatingSubmissionSuccess(false);
+      //     setIsLoading(false);
+      //     console.log(error.toString());
+      //   });
     } else {
       const defaultRating: number = 3;
-      await contractMethods
-        ?.updateKarma(publicAddress, defaultRating, 2)
-        .then((receipt) => {
-          setLoadingMessage("");
-          setIsLoading(false);
-          setIsRatingSubmissionSuccess(true);
-        })
-        .catch((error: any) => {
-          setLoadingMessage(error.toString());
-          setIsRatingSubmissionSuccess(false);
-          setIsLoading(false);
-          console.log(error.toString());
-        });
+      // await contractMethods
+      //   ?.updateKarma(publicAddress, defaultRating, 2)
+      //   .then((receipt) => {
+      //     setLoadingMessage("");
+      //     setIsLoading(false);
+      //     setIsRatingSubmissionSuccess(true);
+      //   })
+      //   .catch((error: any) => {
+      //     setLoadingMessage(error.toString());
+      //     setIsRatingSubmissionSuccess(false);
+      //     setIsLoading(false);
+      //     console.log(error.toString());
+      //   });
     }
   };
 
