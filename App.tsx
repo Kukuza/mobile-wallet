@@ -1,7 +1,7 @@
 import "./global";
 import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import store  from './src/store'
 import { Provider } from 'react-redux';
@@ -93,11 +93,27 @@ const App = () => {
     }
   };
 
+  const selectAccount = () => Alert.alert(
+      "Select account",
+      "Use Address 1 for agent, and Address 2 for client.",
+      [
+        {
+          text: "Address 1",
+          onPress: () => WriteContractDataKit.createInstance("90692c1dcf146e54074ab474fd28878673bde5548b2732dc26079cda95286e78"),
+        },
+        { 
+          text: "Address 2",
+          onPress: () => WriteContractDataKit.createInstance("02c4914d9823f558d4b4ce44562a527320534a4df8286bc39d4e51e7612f40c0be"), 
+        }
+      ]
+  );
+
   useEffect(() => {
     // hasOnboarded();
+    selectAccount();
     ReadContractDataKit.createInstance();
     ContractEventsListenerKit.createInstance([WAKALA_CONTRACT_ADDRESS]);
-    WriteContractDataKit.createInstance("90692c1dcf146e54074ab474fd28878673bde5548b2732dc26079cda95286e78");
+    
   }, []);
 
   hasOnboarded();
