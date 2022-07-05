@@ -1,7 +1,7 @@
 import "./global";
 import "node-libs-react-native/globals";
 import "react-native-gesture-handler";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import store  from './src/store'
 import { Provider } from 'react-redux';
@@ -67,6 +67,10 @@ const App = () => {
   const [mnemonic, setMnemonic] = useState(false);
   const [recovery, setRecovery] = useState(false);
 
+  useEffect(() => {
+    hasOnboarded();
+  }, [mnemonic, recovery]);
+
   const hasOnboarded = async () => {
     try {
       const _mnemonic = await retrieveStoredItem(
@@ -82,16 +86,13 @@ const App = () => {
 
       if (profile && profile.recoverySaved) 
         setRecovery(true);
+
     } catch (error: Error | any) {
       console.error("hasOnboarded: ", error);
       crashlytics().recordError(error);
       handleJSError(error, false);
     }
   };
-
-  useEffect(() => {
-    hasOnboarded();
-  }, []);
 
   /* const Loading = () => {
     return (
@@ -101,7 +102,7 @@ const App = () => {
     );
   }; */
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded && !mnemonic && !recovery) {
     return (
       <AppLoading />
     );

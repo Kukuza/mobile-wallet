@@ -1,20 +1,19 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import COLORS from '../../styles/colors/colors';
 import { FONTS } from '../../styles/fonts/fonts';
-
-{/* TODO: use proper radio butoon component */}
+import RadioIcon from '../../assets/icons/RadioIcon';
 
 const CardRadio = (props) => {
   return (
     <View>
-    <TouchableOpacity onPress={() => props.handleSelect(props.code)}>
         <View style={styles.card}>
-            <Text style={styles.cardRadio}></Text>
+            <RadioIcon 
+                style={styles.cardRadio} 
+                onPress={() => props.handleSelect(props.code)}/>
             <Text style={styles.cardText}>{props.text}</Text>
         </View>
-    </TouchableOpacity>
     </View>
   );
 }
@@ -33,9 +32,6 @@ const styles = StyleSheet.create({
         marginRight: '4%',
         width:wp("4.53%"),
         height:wp("4.533"),
-        borderRadius:wp("50%"),
-        borderWidth: 1,
-        backgroundColor: COLORS.white
     },
     cardText: {
         ...FONTS.body4,
