@@ -7,11 +7,14 @@ import { connect, useDispatch } from "react-redux";
 import { FONTS } from "../../styles/fonts/fonts";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import NavHeader from "../../containers/NavHeader";
 import { EventData } from "web3-eth-contract";
 import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import Error from "../../assets/images/modals/Error";
+import WriteContractDataKit from '../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit';
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from '../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit';
+import { SHARED } from "../../assets/images";
 
 const ModalContent = (props) => {
   return (
@@ -70,15 +73,16 @@ const AddFundsConfirmationScreen = (props: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const wakalaContractKit = WakalaContractKit.getInstance();
-  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
+  const writeDataContractKit = WriteContractDataKit.getInstance();
+  const readDataContractKit = ReadContractDataKit.getInstance();
+  const contracEventListenerKit = ContractEventsListenerKit.getInstance();
 
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contracEventListenerKit?.wakalaEscrowContract?.once(
     "AgentPairingEvent",
     async (error: Error, event: EventData) => {
       console.log("AgentPairingEvent", event.returnValues.wtx[0]);
       const index: number = event.returnValues.wtx[0];
-      const tx = await wakalaContractKit?.queryTransactionByIndex(index);
+      const tx = await readDataContractKit?.queryTransactionByIndex(index);
       props.navigation.navigate("Confirm Request", { tx: tx });
       console.log("The transaction id is : " + index);
     }
@@ -105,21 +109,22 @@ const AddFundsConfirmationScreen = (props: any) => {
     setIsLoading(true);
     console.log("something is cooking");
 
-    let amount = wakalaContractKit?.kit?.web3?.utils.toWei(value);
+    let amount = writeDataContractKit?.kit?.web3?.utils.toWei(value);
+    const contract = writeDataContractKit?.wakalaEscrowContract;
 
     try {
       if (operation === "TopUp") {
         setLoadingMessage("Sending the top up/deposit transaction...");
-        const txObject = wakalaSmartContract?.methods.initializeDepositTransaction(amount, "KES", "117.41");
-        const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+        const txObject = contract?.methods.initializeDepositTransaction(amount, "KES", "117.41");
+        const receipt = await writeDataContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
         
       } else {
         setLoadingMessage("Approve fund transfer form account...");
-        await wakalaContractKit?.cUSDApproveAmount(amount);
+        await writeDataContractKit?.cUSDApproveAmount(amount);
         setLoadingMessage("Sending the withdrawal transaction...");
-        const txObject = wakalaSmartContract?.methods.initializeWithdrawalTransaction(amount, "KES", "117.41");
-        const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+        const txObject = contract?.methods.initializeWithdrawalTransaction(amount, "KES", "117.41");
+        const receipt = await writeDataContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
       }
       setLoadingMessage("");

@@ -44,6 +44,10 @@ import { LogBox } from "react-native";
 import { MNEMONIC_STORAGE_KEY } from './src/redux/auth/auth.utils'
 import { retrieveStoredItem } from "./src/redux/auth/session.key.storage.utils";
 import { ProfileKey } from "./src/enums/ProfileKey";
+import ReadContractDataKit from "./src/utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import WriteContractDataKit from "./src/utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
+import { ContractEventsListenerKit } from "./src/utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import { WAKALA_CONTRACT_ADDRESS } from './src/utils/smart_contract_integration/smart_contract_addresses_';
 LogBox.ignoreLogs([
   "Warning: The provided value 'moz",
   "Warning: The provided value 'ms-stream",
@@ -89,9 +93,12 @@ const App = () => {
     }
   };
 
-  /* useEffect(() => {
-    hasOnboarded();
-  }, []); */
+  useEffect(() => {
+    // hasOnboarded();
+    ReadContractDataKit.createInstance();
+    ContractEventsListenerKit.createInstance([WAKALA_CONTRACT_ADDRESS]);
+    WriteContractDataKit.createInstance("90692c1dcf146e54074ab474fd28878673bde5548b2732dc26079cda95286e78");
+  }, []);
 
   hasOnboarded();
 
