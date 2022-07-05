@@ -141,7 +141,7 @@ const App = () => {
     );
   }; */
 
-  if (!fontsLoaded && !mnemonic && !recovery) {
+  if (!fontsLoaded) {
     return (
       <AppLoading />
     );
