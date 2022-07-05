@@ -17,8 +17,7 @@ import { FONTS } from "../../styles/fonts/fonts";
 import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 
 function AccountAddress({ navigation }) {
-  const publicAddress =
-    WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  const publicAddress = "";
   const onShare = async () => {
     try {
       const result = await Share.share({

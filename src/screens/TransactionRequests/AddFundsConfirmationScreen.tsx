@@ -65,7 +65,7 @@ const AddFundsConfirmationScreen = (props: any) => {
   const operation = props.route.params.operation;
   const modalRef = useRef<any>();
   const publicAddress = ""
-    // WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  
   const value = props.route.params?.param;
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");

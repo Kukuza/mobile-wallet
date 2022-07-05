@@ -24,17 +24,25 @@ import { getBalance }  from '../../store/Wallet';
 import { getCurrency } from "../../store/Currency";
 import { ICurrency } from "../../interfaces/ICurrency";
 import Blockie from "../../assets/icons/Blockie";
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
-  const wakalaContractKit = WakalaContractKit.getInstance();
+
+  const writeDataContractKit = WriteContractDataKit.getInstance();
+  const readDataContractKit = ReadContractDataKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
+
   const [balance, setBalance] = useState("--");
   const [kshBalance, setKshBalance] = useState("--");
   const loading = false;
   const loadingMessage = "Loading...";
   const dispatch = useDispatch();
   const _bal: number = useSelector((state: any) => state.wallet.balance);
+
   const convert: ICurrency = {
     from: "usd", 
     to: "kes", 
@@ -72,7 +80,7 @@ export default function CustomDrawerContent(
   };
 
   // listen for transaction completion event and update balance.
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
      (error: Error, event: EventData) => {
       walletBalance();
@@ -80,14 +88,14 @@ export default function CustomDrawerContent(
   );
 
   // listen for transaction initialization event and update balance.
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     (error: Error, event: EventData) => {
       walletBalance();
     }
   );
 
-  let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+  let phoneNumber = "";
 
   return (
     <SafeAreaView style={styles.container}>

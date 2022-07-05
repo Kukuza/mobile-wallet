@@ -14,6 +14,9 @@ import WakalaContractKit from "../../utils/smart_contract_integration/WakalaCont
 import { EventData } from "web3-eth-contract";
 import Thankyou from "../../assets/images/modals/Thankyou";
 import Error from "../../assets/images/modals/Error";
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
 
 const CardElement = (props) => {
   
@@ -25,7 +28,7 @@ const CardElement = (props) => {
       <View>
         <Text style={cardStyles.subTitle}>Send</Text>
         <Text style={cardStyles.title}>
-            Ksh {transaction.amount * 115}
+            Ksh {transaction.grossAmount * 115}
         </Text>
       </View>
       
@@ -97,22 +100,24 @@ const ConfirmRequest = (props) => {
   const modalRef = useRef<any>();
   const navigation = useNavigation<any>();
 
+  const readDataContractKit = ReadContractDataKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
+
   const operation = "TopUp";
   const transaction: WakalaEscrowTransaction = route.params?.tx;
-  const value = transaction.amount;
+  const value = transaction.grossAmount;
   const dispatch = useDispatch();
 
   const [isActionSuccess, setIsActionSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingMessage, setLoadingMessage] = useState("");
 
-  const wakalaContractKit = WakalaContractKit.getInstance();
 
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit.wakalaEscrowContract?.once(
     "AgentConfirmationEvent",
     async (error: Error, event: EventData) => {
       const index: number = event.returnValues.wtx[0];
-      const tx = wakalaContractKit?.queryTransactionByIndex(index);
+      const tx = readDataContractKit?.queryTransactionByIndex(index);
       navigation.navigate("Transaction Confirmation Screen", {
         tx: transaction,
       });

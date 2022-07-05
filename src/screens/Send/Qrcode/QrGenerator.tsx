@@ -7,7 +7,7 @@ import WakalaContractKit from "../../../utils/smart_contract_integration/WakalaC
 
 
 export default function QrGenerator() {
-  const publicAddress = WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  const publicAddress = "";
   return (
     <ScreenComponent>
       <View style={styles.container}>
