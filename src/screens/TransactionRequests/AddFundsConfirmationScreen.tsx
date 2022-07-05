@@ -75,9 +75,9 @@ const AddFundsConfirmationScreen = (props: any) => {
 
   const writeDataContractKit = WriteContractDataKit.getInstance();
   const readDataContractKit = ReadContractDataKit.getInstance();
-  const contracEventListenerKit = ContractEventsListenerKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
 
-  contracEventListenerKit?.wakalaEscrowContract?.once(
+  contractEventListenerKit?.wakalaEscrowContract?.once(
     "AgentPairingEvent",
     async (error: Error, event: EventData) => {
       console.log("AgentPairingEvent", event.returnValues.wtx[0]);

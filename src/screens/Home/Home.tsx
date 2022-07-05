@@ -46,7 +46,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   const { navigation } = props;
 
   const readDataContractKit = ReadContractDataKit.getInstance();
-  const contracEventListenerKit = ContractEventsListenerKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
 
   const [kesRate, setKesRate] = useState({});
   const [isFetching, setIsFetching] = useState(false);
@@ -95,7 +95,7 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   }
   
   // Rerender on new transaction event.
-  contracEventListenerKit?.wakalaEscrowContract?.once(
+  contractEventListenerKit?.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     async (error: Error, event: EventData) => {
       let index: number = event.returnValues.wtxIndex;
