@@ -11,7 +11,7 @@ import { PortalProvider } from "@gorhom/portal";
 import BottomSheet from '../../components/cards/BottomSheet';
 import Banner from '../../components/cards/Banner';
 import Popup from '../../components/cards/Popup';
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 
 
 

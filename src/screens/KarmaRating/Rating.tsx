@@ -8,7 +8,7 @@ import Modal from "../../components/modals/Modal";
 import NavHeader from "../../components/NavHeader";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Error from "../../assets/images/modals/Error";
 

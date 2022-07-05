@@ -8,7 +8,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { connect, useDispatch } from "react-redux";
 import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
+import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
 import Error from "../../assets/images/modals/Error";
 
 const ModalContent = (props) => {

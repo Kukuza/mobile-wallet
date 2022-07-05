@@ -12,67 +12,84 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
+import Storage from "../../utils/Storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useDispatch, useSelector } from "react-redux";
 import { getBalance }  from '../../store/Wallet';
 import { getCurrency } from "../../store/Currency";
 import { ICurrency } from "../../interfaces/ICurrency";
 import Blockie from "../../assets/icons/Blockie";
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
+import { ProfileKey } from "../../enums/ProfileKey";
+import CurrencyLayerAPI from "../../utils/currencyLayerUtils";
 
 export default function CustomDrawerContent(
   props: DrawerContentComponentProps
 ) {
-  const wakalaContractKit = WakalaContractKit.getInstance();
+
+  const readDataContractKit = ReadContractDataKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
+
   const [balance, setBalance] = useState("--");
   const [kshBalance, setKshBalance] = useState("--");
   const loading = false;
   const loadingMessage = "Loading...";
   const dispatch = useDispatch();
-  const _bal: number = useSelector((state: any) => state.wallet.balance);
-  const convert: ICurrency = {
-    from: "usd", 
-    to: "kes", 
-    amount: _bal
-  }
+  // const _bal: number = useSelector((state: any) => state.wallet.balance);
+
+  // const convert: ICurrency = {
+  //   from: "usd", 
+  //   to: "kes", 
+  //   amount: _bal
+  // }
 
   const _local: number = useSelector((state: any) => state.currency.data);
   
   useEffect(() => {
     dispatch(getBalance());
-    dispatch(getCurrency(convert));
+    // dispatch(getCurrency(convert));
     walletBalance();
   }, []);
 
   const walletBalance = async () => {
     //Convert to local currency
+
+    const profile: IProfile = await Storage.get(ProfileKey.PROFILE_KEY);
+    const publicAddress = profile.publicAddress;  
+    const balances = await readDataContractKit?.getCurrentAccountBalance(publicAddress);
+    let money: any = balances?.cUSD;
+    // change balance to cUSD.
+    let amount = readDataContractKit?.kit?.web3.utils.fromWei(money?.toString(), "ether");
+    const balance = Number(amount);
+    console.log("Tx public address: ", publicAddress, balance);
+
     
-    const visibleAmount = _bal.toFixed(2);
+    const visibleAmount = balance.toFixed(2);
       
-    if(_bal > 0) {
+    if(balance > 0) {
       setBalance(visibleAmount); 
       /*TODO: 
         factor in other local currencies eg. Naira
         currently fixed to usd to kes
         */
-      setKshBalance(_local.toFixed(2));
+      const convert = new CurrencyLayerAPI();
+      const kshBalance = await convert.usdToKsh(balance);
+      setKshBalance(kshBalance.toFixed(2));
     }else {
       setBalance('--');
       setKshBalance('--');
     }
-
-    console.log(
-      `DRAWER -> Balance ${convert.from} ${_bal} = ${convert.to} ${_local}`
-      ); 
   };
 
   // listen for transaction completion event and update balance.
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
      (error: Error, event: EventData) => {
       walletBalance();
@@ -80,14 +97,14 @@ export default function CustomDrawerContent(
   );
 
   // listen for transaction initialization event and update balance.
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit.wakalaEscrowContract?.once(
     "TransactionInitEvent",
     (error: Error, event: EventData) => {
       walletBalance();
     }
   );
 
-  let phoneNumber = wakalaContractKit?.userMetadata?.phoneNumber ?? "";
+  let phoneNumber = "";
 
   return (
     <SafeAreaView style={styles.container}>
