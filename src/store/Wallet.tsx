@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import WakalaContractKit from "../utils/Celo-Integration/WakalaContractKit";
+import WakalaContractKit from "../utils/smart_contract_integration/WakalaContractKit";
 import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import Web3 from "web3";
 import configs from "../configs";
 import { ProfileKey } from "../enums/ProfileKey";
 import Storage from "../utils/Storage";
+import ReadContractDataKit from '../utils/smart_contract_integration/read_data_utils/ReadContractDataKit';
 
 const walletSlice = createSlice ({
     name: 'wallet',
@@ -38,16 +39,17 @@ export default walletSlice.reducer;
 export const getBalance: any = createAsyncThunk(
     'getBalance', async () => {
     // const web3: Web3 | any = new Web3(configs.CONTRACT_KIT_URI!);
-    const web3: Web3 | any = new Web3("https://alfajores-forno.celo-testnet.org");
-    const kit: ContractKit = newKitFromWeb3(web3);
+
+    const readContractData = ReadContractDataKit.getInstance();
+
     const profile: IProfile = await Storage.get(ProfileKey.PROFILE_KEY);
     const publicAddress = profile.publicAddress;  
-    const balances = await kit.getTotalBalance(publicAddress);
+    const balances = await readContractData?.getCurrentAccountBalance(publicAddress);
     let money: any = balances?.cUSD;
     // change balance to cUSD.
-    let amount = kit?.web3.utils.fromWei(money?.toString(), "ether");
+    let amount = readContractData?.kit?.web3.utils.fromWei(money?.toString(), "ether");
     const balance = Number(amount);
-    console.log("Tx public address: ", publicAddress);
+    console.log("Tx public address: ", publicAddress, balance);
 
     return balance;
 });

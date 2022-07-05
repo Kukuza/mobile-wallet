@@ -6,7 +6,7 @@ import { FONTS } from "../../styles/fonts/fonts";
 import { COLORS } from "../../styles/colors/colors";
 import { Ionicons } from "@expo/vector-icons";
 import CopyButton from "../buttons/SmallButtons/Copy";
-import { WakalaEscrowTransaction } from '../../utils/Celo-Integration/wakala_types';
+import { WakalaEscrowTransaction } from '../../utils/smart_contract_integration/wakala_types';
 
 /**
  *

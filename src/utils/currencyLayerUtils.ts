@@ -27,11 +27,13 @@ export default class CurrencyLayerAPI {
                 return 0;
             } else {
                 try {
-                    const rqstStr = `${configs.CURRENCY_LAYER_BASE_URI}/currency_data/convert?to=${to}&from=${from}&amount=${amount.toString()}`
+                    // const rqstStr = `${configs.CURRENCY_LAYER_BASE_URI}/currency_data/convert?to=${to}&from=${from}&amount=${amount.toString()}`
+
+                    const rqstStr = `https://api.apilayer.com/currency_data/convert?to=${to}&from=${from}&amount=${amount.toString()}`
                     let resp = await axios.get(rqstStr, {
                         headers: {
-                            apikey: configs.CURRENCY_LAYER_API_KEY!
-                            
+                            // apikey: configs.CURRENCY_LAYER_API_KEY!
+                            apiKey: `YtOZXS1BqTeTZ00KOqlqaIHF1GaZEdgH`
                         }
                     });
 

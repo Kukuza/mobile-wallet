@@ -3,7 +3,7 @@ import {
     encryptNewMnemonicWithPassword, 
     getAccountFromMnemonic, 
     getStoredMnemonic } from "../redux/auth/auth.utils";
-import WakalaContractKit from '../utils/Celo-Integration/WakalaContractKit';
+import WakalaContractKit from '../utils/smart_contract_integration/WakalaContractKit';
 import { retrieveStoredItem } from '../redux/auth/session.key.storage.utils';
 import {MNEMONIC_STORAGE_KEY} from '../redux/auth/auth.utils'
 import Storage from "../utils/Storage";
