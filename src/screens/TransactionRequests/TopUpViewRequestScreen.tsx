@@ -9,12 +9,14 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import Modal from "../../components/modals/Modal";
 
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
 import { connect, useDispatch } from "react-redux";
 import { EventData } from "web3-eth-contract";
 import Error from "../../assets/images/modals/Error";
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
 
 const ModalContent = (props) => {
   return (
@@ -63,13 +65,15 @@ const TopUpViewRequestScreen = (props) => {
   const { navigation, route } = props;
   const wakalaEscrowTx: WakalaEscrowTransaction = route?.params?.transaction;
 
-  const wakalaContractKit = WakalaContractKit.getInstance();
-  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
+  const writeDataContractKit = WriteContractDataKit.getInstance();
+  const readDataContractKit = ReadContractDataKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
+
 
   let phoneNumber =  ""; //wakalaContractKit?.userMetadata?.phoneNumber ??
   phoneNumber = Buffer.from(phoneNumber).toString("base64");
 
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit?.wakalaEscrowContract?.once(
     "ClientConfirmationEvent",
     async (error: Error, event: EventData) => {
       const index: number = event.returnValues.wtx[0];
@@ -114,30 +118,33 @@ const TopUpViewRequestScreen = (props) => {
     openModal();
     //Init
     setIsLoading(true);
+
+    const contract = writeDataContractKit?.wakalaEscrowContract;
+
     try {
       if (operation === "DEPOSIT") {
         // handle deposit transaction contract calls.
 
         // Approve amount to be transferred from account to smart contract.
         setLoadingMessage("Approving fund transfer from account...");
-        let weiAmount = wakalaContractKit?.kit?.web3?.utils.toWei(wakalaEscrowTx.amount);
-        const approvalReceipt = await wakalaContractKit?.cUSDApproveAmount(weiAmount);
+        let weiAmount = readDataContractKit?.kit?.web3?.utils.toWei(wakalaEscrowTx.grossAmount.toString());
+        const approvalReceipt = await writeDataContractKit?.cUSDApproveAmount(weiAmount);
         // console.log("approval receipt", approvalReceipt);
 
         // Agent accept transaction
         setLoadingMessage("Accepting deposit transaction...");
-        const tsxObj = wakalaSmartContract?.methods
+        const tsxObj = contract?.methods
                 .agentAcceptDepositTransaction(wakalaEscrowTx?.id, phoneNumber);
-        const receipt = wakalaContractKit?.sendTransactionObject(tsxObj);   
+        const receipt = writeDataContractKit?.sendTransactionObject(tsxObj);   
         console.log(receipt);
         setLoadingMessage("");
 
       } else {
         // handle deposit transaction contract calls.
         setLoadingMessage("Accepting the withdrawal transaction...");
-        const tsxObj = wakalaSmartContract?.methods
+        const tsxObj = contract?.methods
                   .agentAcceptWithdrawalTransaction(wakalaEscrowTx?.id, phoneNumber);
-        const receipt = wakalaContractKit?.sendTransactionObject(tsxObj);   
+        const receipt = writeDataContractKit?.sendTransactionObject(tsxObj);   
         // console.log("approval receipt", receipt);
         setLoadingMessage("");
       } 
@@ -167,7 +174,7 @@ const TopUpViewRequestScreen = (props) => {
                 : "Member wants to withdraw"
             }
             cardSubtitle2="You Earn"
-            grossAmount={wakalaEscrowTx?.amount}
+            grossAmount={wakalaEscrowTx?.grossAmount}
             totalLabel="Total you send"
             earnings={0.05}
             // netValue={wakalaEscrowTx?.grossAmount}
