@@ -44,8 +44,7 @@ const ViewRecoveryCode: React.FunctionComponent<IStackScreenProps> = (props) => 
 
   const confirmRecovveryPhrase = () => {
     if (recoveryPhrase) {
-      //TODO: add recovery confirmation screens
-      navigation.navigate("RecoveryPhraseSaved");
+      navigation.navigate("RecoveryPhraseConfirm");
     }else {
       navigation.navigate("RecoveryCodePin");
     }

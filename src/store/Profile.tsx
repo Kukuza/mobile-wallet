@@ -92,7 +92,7 @@ export const getProfile: any = createAsyncThunk(
 
  export const deleteProfile: any = createAsyncThunk(
     'deleteProfile', 
-    async (data: IProfile) => {
+    async () => {
     Storage.remove(PROFILE_KEY);
     return await Storage.get(PROFILE_KEY);
  });

@@ -9,48 +9,21 @@ import NavHeader from "../../containers/NavHeader";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { useDispatch, useSelector } from "react-redux";
 import Format from "../../utils/Format";
-import { getProfile, INITIAL_STATE, saveProfile } from "../../store/Profile";
 
-const RecoveryPhraseSaved: React.FunctionComponent<IStackScreenProps> = (props) => {
+const RecoveryPhraseConfirm: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
   const [phraseWords, setPhraseWords] = React.useState();
   const recoveryPhrase = useSelector((state: any) => state.auth.recoveryPhrase);
-  const profile: IProfile = useSelector((state: any) => state.profile.data);
   const dispatch = useDispatch();
 
   useEffect(() => {
     separatePhrase();
-    dispatch(getProfile());
   }, []);
 
   useEffect(() => {
-    confirmedRecoveryPhrase();
-  }, [profile.recoverySaved]);
-
-  const continueHandler = () => {
-    let p: any;
-
-    if(profile) {
-      p = {
-        name: profile.name,
-        phoneNumber: profile.phoneNumber,
-        email: profile.email,
-        locale: profile.locale,
-        language: profile.language,
-        publicAddress: profile.publicAddress,
-        registered: profile.registered,
-        mnemonic: profile.mnemonic,
-        currencyCode: profile.currencyCode,
-        recoverySaved: true
-      }
-    }else {
-      p = INITIAL_STATE;
-      p.recoverySaved = true;
-    }
-
-    dispatch(saveProfile(p));
-  }
+    //confirmedRecoveryPhrase();
+  }, []);
 
   const separatePhrase = () => {
     let words:any = Format.toArray(
@@ -58,9 +31,13 @@ const RecoveryPhraseSaved: React.FunctionComponent<IStackScreenProps> = (props) 
     setPhraseWords(words);
   }
 
+  //TODO: redirect
   const confirmedRecoveryPhrase = () => {
-      if (profile.recoverySaved) 
-        navigation.navigate("ConnectYourPhoneNumberScreen");
+        navigation.navigate("RecoveryPhraseSaved");
+  }
+
+  const handlePick = (phrasePicked: string) => {
+    alert(phrasePicked);
   }
 
   return (
@@ -72,6 +49,10 @@ const RecoveryPhraseSaved: React.FunctionComponent<IStackScreenProps> = (props) 
       />
       <View style={styles.container}>
         <Text style={styles.title}>Recovery phrase</Text>
+        {/* Remove once done with screen */}
+        <Pressable onPress={confirmedRecoveryPhrase}>
+          <Text style={styles.textCount}>Incomplete screen. Skip for testing</Text>
+        </Pressable>
       </View>
       <View style={styles.textItem}>
       <FlatList
@@ -84,8 +65,24 @@ const RecoveryPhraseSaved: React.FunctionComponent<IStackScreenProps> = (props) 
           showsHorizontalScrollIndicator={false}
         />
       </View>
-      <View style = {{justifyContent: 'center'}}>
-        <DefaultButton onPress={continueHandler} style={styles.button} text="Submit" />
+      <View style = {styles.phraseItem}>
+        <Text style={styles.question}>
+          What's the 
+          <Text style={styles.textCount}> first </Text>
+          word of your Recovery
+        </Text>
+        <Text style={styles.question}>Phrase?</Text>
+
+        <FlatList
+          data={phraseWords}
+          numColumns={3}
+          renderItem={({ item }) => (
+              <Text style={styles.textPicker}>{item}</Text>
+          )}
+          keyExtractor={(item) => item}
+          showsHorizontalScrollIndicator={false}
+        />
+
       </View>
     </ScreenComponent>
   );
@@ -105,11 +102,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center"
   },
+  question: {
+    ...FONTS.body3,
+    color: COLORS.black,
+    textAlign: "center",
+    marginBottom: hp("1%"),
+  },
+  textCount: {
+    ...FONTS.body3,
+    color: COLORS.success,
+    textAlign: "center",
+    marginBottom: hp("1%"),
+  },
   textItem: {
-    flex: 0.7,
-    marginTop: hp("2%"),
+    flex: 0.4,
     marginHorizontal: wp("4%"),
-    padding: 5
+    padding: 5,
   },
   text: {
     flex: 1/4,
@@ -120,11 +128,22 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     ...FONTS.body4,
   },
-  button: {
-    width:wp("76%"),
-    height:hp("6%"),
-    marginVertical:hp("2%")
+  textPicker: {
+    flex: 1/3,
+    backgroundColor: '#fff',
+    margin: '1%',
+    textAlign: "center",
+    textAlignVertical: "center",
+    color: COLORS.success,
+    padding: 12,
+    borderRadius: 15,
+    ...FONTS.body4,
+  },
+  phraseItem: {
+    flex: 1/3,
+    marginHorizontal: wp("4%"),
+    marginVertical:hp("1%")
 }
 });
 
-export default RecoveryPhraseSaved;
+export default RecoveryPhraseConfirm;
