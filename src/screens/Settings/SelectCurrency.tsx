@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity,StyleSheet } from "react-native";
+import { View, Text, ScrollView,StyleSheet } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import { RadioButton } from "react-native-paper";
-import { Feather } from "@expo/vector-icons";
-
-
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS } from "../../styles/fonts/fonts";
 import { COLORS } from '../../styles/colors/colors';
+import NavHeader from "../../containers/NavHeader";
+import RadioIcon from "../../assets/icons/RadioIcon";
 function SelectCurrency() {
   const [list, setList] = useState([
     {
@@ -79,14 +77,11 @@ function SelectCurrency() {
 
   return (
     <ScreenComponent>
-      <View style={styles.currencyContainer}>
-        <View style={styles.currencyHeadingContainer}>
-        <TouchableOpacity>
-            <Feather name="chevron-left" size={32} color={COLORS.primary} />
-        </TouchableOpacity>
-          <Text style={styles.currencyHeadingText}>Select Currency</Text>
-        </View>
-      </View>
+<NavHeader
+          hideBackButton={false}
+          showTitle={true}
+          newTitle="Select Currency"
+      />
       <ScrollView>
         <View
           style={styles.currencyListContainer}>
@@ -94,15 +89,10 @@ function SelectCurrency() {
             <View key={i} style={styles.currencyListItem}>
             <View style={styles.currencyListDivider}/>
               <View style={styles.currencyListItemContainer}>
+              <View>
+                    <RadioIcon/>
+              </View>
                 <Text style={styles.currencyListItemText}>{item.currencyText}</Text>
-                <View style={styles.radioButtonContainer}>
-                  <RadioButton
-                    value="first"
-                    color={COLORS.radioButton}
-                    status={item.enable.length < 8 ? "checked":'unchecked'}
-                    onPress={() => handleCurrency(i)}
-                  />
-                </View>
               </View>
             </View>
           ))}
@@ -124,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems:"center",
     marginTop: RFPercentage(3),
-    marginLeft: RFPercentage(3) 
+    marginLeft: RFPercentage(3),
  },
  currencyHeadingText:{
     marginLeft:'auto',
@@ -160,13 +150,7 @@ const styles = StyleSheet.create({
  },
  currencyListItemText:{
     ...FONTS.body1,
-    marginLeft: RFPercentage(0.5),
-    color: COLORS.textColor4,
-    fontSize: RFPercentage(2.6),
+    marginLeft: RFPercentage(2),
+    color: COLORS.primary,
  },
- radioButtonContainer:{
-    marginLeft: RFPercentage(5),
- }
-
-
 })

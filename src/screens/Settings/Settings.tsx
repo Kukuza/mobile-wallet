@@ -1,39 +1,78 @@
-import React , {useState} from 'react';
-import { MaterialIcons } from "@expo/vector-icons";
+import React , {useState, Fragment, useRef} from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
 import ScreenComponent from '../../containers/ScreenComponent';
+import MenuIcon from '../../assets/icons/MenuIcon';
+import { PortalProvider } from "@gorhom/portal";
+import ResetAccountSheet from '../../components/cards/BottomSheets/ResetAccountSheet';
 
 
 export default function SettingsScreen({navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
     const [isEnabled2, setIsEnabled2] = useState(false);
     const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
-
+    const modalRef = useRef<any>();
+    const closeModal = () => {
+        modalRef.current?.close();
+    }
+    const openModal = () => {
+            modalRef.current?.open();
+    };
     return (
+        <PortalProvider>
+             <Fragment>
         <ScreenComponent>
             <View style={styles.settingsContainer}>
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <MaterialIcons name="menu" size={24} color={COLORS.primary} />
+                <MenuIcon/>
           </TouchableOpacity>
                 <Text style={styles.headerText}>Settings</Text>
             </View>
             <ScrollView style={{ flex: 1, width: '100%' }} >
                 <View style={styles.settingsListContainer}>
                     <View style={styles.settingsHeadingDivider} />
+                    <TouchableOpacity 
+                    activeOpacity={0.6} 
+                    onPress={() => navigation.navigate("EditProfile")}>
+                    <Text style={styles.button}>Edit Profile</Text>
+                    </TouchableOpacity>
+                    <View style={styles.settingsListDivider} />
                     <TouchableOpacity activeOpacity={0.6}>
-                    <Text style={styles.button}>Currency(Ksh)</Text>
+                    <Text style={styles.button}>Connect phone number</Text>
+                    </TouchableOpacity>
+                    <View style={styles.settingsListDivider} />
+                    <TouchableOpacity 
+                    onPress={() => navigation.navigate("Select Language")} 
+                    activeOpacity={0.6} 
+                    style={styles.wideButtons}>
+                      <Text style={styles.button}>Language</Text>
+                       <Text style={styles.textButton}>English</Text>
+                    </TouchableOpacity>
+                    <View style={styles.settingsListDivider} />
+                    <TouchableOpacity 
+                    activeOpacity={0.6}
+                    style={styles.wideButtons}
+                    onPress={() => navigation.navigate("Select Currency")}
+                    >
+                      <Text style={styles.button}>Currency</Text>
+                       <Text style={styles.textButton}>Ksh</Text>
+                    </TouchableOpacity>
+                    <View style={styles.settingsListDivider} />
+                    <TouchableOpacity 
+                    onPress={() => navigation.navigate("Connected Dapps")}
+                    activeOpacity={0.6}
+                    style={styles.wideButtons}>
+                      <Text style={styles.button}>Connected Dapps</Text>
+                       <Text style={styles.textButton}>0</Text>
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />
                     <Text style={styles.walletText}>Wallet</Text>
                     <View style={styles.settingsListDivider} />
                     <TouchableOpacity activeOpacity={0.6}
-                    onPress={() => navigation.navigate("AccountAddress")}
-                    >
+                    onPress={() => navigation.navigate("AccountInfo")}>
                         <Text style={styles.button}>Account Address</Text>
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />    
@@ -83,7 +122,9 @@ export default function SettingsScreen({navigation}) {
                     <View style={styles.textDivider} />
                     <Text style={styles.button}>Privacy Policy</Text>
                     <View style={styles.settingsListDivider} />
-                    <TouchableOpacity activeOpacity={0.6}>
+                    <TouchableOpacity activeOpacity={0.6}
+                    onPress={() => openModal()}
+                    >
                     <Text style={styles.reset}>Reset Wakala</Text>
                     </TouchableOpacity>
                     <View style={styles.resetTextContainer}>
@@ -94,6 +135,11 @@ export default function SettingsScreen({navigation}) {
                 </View>
             </ScrollView>
         </ScreenComponent>
+        </Fragment>
+        <ResetAccountSheet 
+      modalRef={modalRef}
+      onClose={closeModal}/>
+    </PortalProvider>
     );
 }
 
@@ -106,8 +152,7 @@ settingsHeadingDivider:{
     opacity:0.3
 },
 headerText:{
-    ...FONTS.body3,
-    fontWeight: "bold",
+    ...FONTS.h3,
     color: COLORS.textPrimary,
     marginLeft:'auto',
 },
@@ -154,6 +199,11 @@ settingsListDivider: {
     opacity:0.3
 
 },
+wideButtons:{
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"space-between",
+    width:"100%"},
 
 settings:{
     position: 'absolute', 
@@ -205,4 +255,10 @@ walletText:{
      marginLeft: RFPercentage(6),
      
      },
+textButton:{
+    ...FONTS.body4,
+    color:COLORS.grayLighter,
+    marginTop: RFPercentage(2.6),
+    marginRight: RFPercentage(6),
+}
 })

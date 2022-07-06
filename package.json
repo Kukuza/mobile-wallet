@@ -1,6 +1,6 @@
 {
-  "name": "mobile-wallet",
-  "version": "1.0.0",
+  "name": "sargo",
+  "version": "1.0.1",
   "scripts": {
     "start": "NODE_ENV=development npx react-native start",
     "android": "expo run:android",
