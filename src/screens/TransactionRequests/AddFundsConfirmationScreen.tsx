@@ -15,6 +15,7 @@ import WriteContractDataKit from '../../utils/smart_contract_integration/write_d
 import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
 import { ContractEventsListenerKit } from '../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit';
 import { SHARED } from "../../assets/images";
+import CurrencyLayerAPI from '../../utils/currencyLayerUtils';
 
 const ModalContent = (props) => {
   return (
@@ -104,6 +105,10 @@ const AddFundsConfirmationScreen = (props: any) => {
     let phoneNumber =  ""; // wakalaContractKit?.userMetadata?.phoneNumber ??
     phoneNumber = Buffer.from(phoneNumber).toString("base64");
 
+    const currencyConverter = new CurrencyLayerAPI();
+    const conversionRate = await currencyConverter.usdToKsh(1);
+    const conversionRateString = Number(conversionRate).toString();
+
     openModal();
     //Init
     setIsLoading(true);
@@ -112,10 +117,12 @@ const AddFundsConfirmationScreen = (props: any) => {
     let amount = writeDataContractKit?.kit?.web3?.utils.toWei(value);
     const contract = writeDataContractKit?.wakalaEscrowContract;
 
+    console.log("=========>", amount, conversionRateString);
+
     try {
       if (operation === "TopUp") {
         setLoadingMessage("Sending the top up/deposit transaction...");
-        const txObject = contract?.methods.initializeDepositTransaction(amount, "KES", "117.41");
+        const txObject = contract?.methods.initializeDepositTransaction(amount, "KES", conversionRateString);
         const receipt = await writeDataContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
         
@@ -123,7 +130,7 @@ const AddFundsConfirmationScreen = (props: any) => {
         setLoadingMessage("Approve fund transfer form account...");
         await writeDataContractKit?.cUSDApproveAmount(amount);
         setLoadingMessage("Sending the withdrawal transaction...");
-        const txObject = contract?.methods.initializeWithdrawalTransaction(amount, "KES", "117.41");
+        const txObject = contract?.methods.initializeWithdrawalTransaction(amount, "KES", conversionRateString);
         const receipt = await writeDataContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
       }

@@ -14,7 +14,6 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
