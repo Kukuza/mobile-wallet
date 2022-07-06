@@ -2,40 +2,47 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import CurrencyLayerAPI from "../utils/currencyLayerUtils";
 import {ICurrency} from '../interfaces/ICurrency';
 import { IRate } from "../interfaces/IRate";
+import { Status } from "../enums/Status";
 
  const currencySlice = createSlice ({
     name:"currency",
     initialState: {
         data:null,
         rate: null,
-        loading: '',
-        error: '',
+        loading: false,
+        status: '',
     },
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(
             getCurrency.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.data = action.payload;
+                state.loading = false;
+                state.status = Status.SUCCESS;
             }),
         builder.addCase(
         getCurrency.pending, (state) => {
-            state.loading = 'pending'
+            state.loading = true;
         }),
         builder.addCase(
         getCurrency.rejected, (state) => {
-            state.error = 'rejected'
+            state.loading = false;
+            state.status = Status.FAILED;
         }),
         builder.addCase(
             getRate.fulfilled, (state, action) => {
-                state.rate = action.payload
+                state.rate = action.payload;
+                state.loading = false;
+                state.status = Status.SUCCESS;
             }),
         builder.addCase(
             getRate.pending, (state) => {
-            state.loading = 'pending'
+                state.loading = true;
         }),
         builder.addCase(
             getRate.rejected, (state) => {
-            state.error = 'rejected'
+                state.loading = false;
+                state.status = Status.FAILED;
         })
       }
  });

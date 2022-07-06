@@ -10,16 +10,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, INITIAL_STATE, saveProfile }  from '../../store/Profile';
 import { useEffect } from 'react';
 import NavHeader from "../../containers/NavHeader";
+import { Status } from "../../enums/Status";
 
 const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
   const [name, setName] = React.useState("");
+  const [invalid, setInvalid] = React.useState(false);
+  const status: string = useSelector((state: any) => state.profile.status);
+  const profile: IProfile = useSelector((state: any) => state.profile.data);
   const dispatch = useDispatch();
 
-  useEffect(() => {dispatch(getProfile())}, []);
+  useEffect(() => {
+    dispatch(getProfile());
+    setInvalid(false);
+  }, []);
+  useEffect(() => {nameSaved()}, [profile.name]);
 
-  const profile: IProfile = useSelector((state: any) => state.profile.data);
+  const nameSaved = () => {
+    try {
+      if (!Validator.isEmpty(name) 
+        && profile && profile.name) 
+        navigation.navigate("CurrencySelector");
+
+    } catch (error: Error | any) {
+      console.error("nameSaved: ", error);
+    }
+  };
+  
   const moveNext = async () => {
     if(!Validator.isEmpty(name)) {
       let p: any;
@@ -43,19 +61,11 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
       }
 
       dispatch(saveProfile(p));
-      navigation.navigate("CurrencySelector")
+      nameSaved();
     }else {
-      //TODO: replace with Modal
-      invalidNameAlert();
+      setInvalid(true);
     }
   };
-  
-  const invalidNameAlert = () =>
-    Alert.alert(
-      "Name", 
-      "Please enter your name to continue", 
-      [{ text: 'Ok' }]
-    );
 
   return (
     <ScreenComponent>
@@ -66,8 +76,8 @@ const UserDetails: React.FunctionComponent<IStackScreenProps> = (props) => {
       />
       <View style={styles.container}>
           <Text style={styles.title}>How should we call you?</Text>
-          <Text style={styles.text}>Please enter your full name below</Text>
-          <View style={styles.inputWrapper}>
+          <Text style={!invalid ? styles.text : styles.textError}>Please enter your full name below</Text>
+          <View style={!invalid ? styles.inputWrapper : styles.inputWrapperError}>
           <Text style={styles.inputLabel}>Full name</Text>
             <TextInput
               style={styles.input}
@@ -105,10 +115,26 @@ const styles = StyleSheet.create({
     color: COLORS.textColor2
   },
 
+  textError: {
+    ...FONTS.s3,
+    width: SIZES.width * 0.8,
+    marginTop: 20,
+    marginBottom: 20,
+    color: COLORS.error
+  },
+
   inputWrapper: {
     backgroundColor: '#fff',
     padding: 10,
     borderRadius: 8
+  },
+
+  inputWrapperError: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: COLORS.error
   },
 
   inputLabel: {
@@ -122,7 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     paddingVertical: 10,
     ...FONTS.body4,
-}
+  }
 });
 
 export default UserDetails;

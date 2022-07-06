@@ -12,7 +12,7 @@ import Format from "../../utils/Format";
 import { getProfile, INITIAL_STATE, saveProfile } from "../../store/Profile";
 import crashlytics from "@react-native-firebase/crashlytics";
 
-const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
+const RecoveryPhraseSaved: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
   const [phraseWords, setPhraseWords] = React.useState();
@@ -62,16 +62,8 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
   }
 
   const confirmedRecoveryPhrase = () => {
-    try {
-      if (profile.recoverySaved) {
+      if (profile.recoverySaved) 
         navigation.navigate("ConnectYourPhoneNumberScreen");
-      } else {
-        crashlytics().log(`Profile isnt saved`)
-      }
-    } catch (error : Error | any) {
-      crashlytics().recordError(error)
-    }
-
   }
 
   return (
@@ -138,4 +130,4 @@ const styles = StyleSheet.create({
 }
 });
 
-export default SetupRecovery;
+export default RecoveryPhraseSaved;

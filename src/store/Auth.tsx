@@ -8,6 +8,7 @@ import {MNEMONIC_STORAGE_KEY} from '../redux/auth/auth.utils'
 import Storage from "../utils/Storage";
 import { ProfileKey} from '../enums/ProfileKey'
 import { INITIAL_STATE } from "./Profile";
+import { Status } from "../enums/Status";
 
  const authSlice = createSlice ({
     name: 'auth',
@@ -32,7 +33,7 @@ import { INITIAL_STATE } from "./Profile";
             (state, action) => {
                 state.keys = action.payload;
                 state.loading = false;
-                state.status = 'Success';
+                state.status = Status.SUCCESS;
             }),
         builder.addCase(
             createAccount.pending, 
@@ -43,7 +44,7 @@ import { INITIAL_STATE } from "./Profile";
             createAccount.rejected, 
             (state) => {
                 state.loading = false;
-                state.status = "Failed";
+                state.status = Status.FAILED;
             }),
         //Get recovery phrase
         builder.addCase(
@@ -51,7 +52,7 @@ import { INITIAL_STATE } from "./Profile";
             (state, action) => {
                 state.recoveryPhrase = action.payload
                 state.loading = false;
-                state.status = 'Success';
+                state.status = Status.SUCCESS;
             }),
             builder.addCase(
             getMnemonic.pending, 
@@ -62,7 +63,7 @@ import { INITIAL_STATE } from "./Profile";
             getMnemonic.rejected, 
             (state) => {
                 state.loading = false;
-                state.status = "Failed";
+                state.status = Status.FAILED;
             })
       },
  });
