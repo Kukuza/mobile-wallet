@@ -14,7 +14,6 @@ import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 import ScreenComponent from "../../containers/ScreenComponent";
 import COLORS from "../../styles/colors/colors";
 import { FONTS } from "../../styles/fonts/fonts";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 
 function AccountAddress({ navigation }) {
   const publicAddress = "";

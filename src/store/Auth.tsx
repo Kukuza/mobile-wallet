@@ -3,7 +3,6 @@ import {
     encryptNewMnemonicWithPassword, 
     getAccountFromMnemonic, 
     getStoredMnemonic } from "../redux/auth/auth.utils";
-import WakalaContractKit from '../utils/smart_contract_integration/WakalaContractKit';
 import { retrieveStoredItem } from '../redux/auth/session.key.storage.utils';
 import {MNEMONIC_STORAGE_KEY} from '../redux/auth/auth.utils'
 import Storage from "../utils/Storage";
@@ -99,12 +98,10 @@ export const confirmedPin: any = createAsyncThunk(
     if (encryptedMnemonic) {
         const mnemonic = await getStoredMnemonic(pin);
         keys = await getAccountFromMnemonic(mnemonic ?? "");
-        WakalaContractKit.createInstance(keys.privateKey);
     } else {
         await encryptNewMnemonicWithPassword(pin);
         const mnemonic = await getStoredMnemonic(pin);
         keys = await getAccountFromMnemonic(mnemonic ?? "");
-        WakalaContractKit.createInstance(keys.privateKey);
     }
 
     await storePublicAddress(keys.address);
