@@ -80,8 +80,8 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
           : <Text style={styles.pinError}></Text> }
 
       {created.loading 
-          ? <Text style={styles.pinError}>Creating Account...</Text> 
-          : <Text style={styles.pinError}></Text> }
+          ? <Text style={styles.loading}>Creating Account...</Text> 
+          : <Text style={styles.loading}></Text> }
 
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Confirm PIN</Text>
@@ -123,6 +123,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     ...FONTS.body2,
     color: COLORS.error,
+    textAlign: "center",
+  },
+  loading:{
+    marginTop: 20,
+    ...FONTS.body2,
+    color: COLORS.success,
     textAlign: "center",
   },
   pinIcons:{
