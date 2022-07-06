@@ -1,20 +1,29 @@
-import React , {useState} from 'react';
+import React , {useState, Fragment, useRef} from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../../styles/fonts/fonts";
 import COLORS from "../../styles/colors/colors";
 import ScreenComponent from '../../containers/ScreenComponent';
 import MenuIcon from '../../assets/icons/MenuIcon';
-
+import { PortalProvider } from "@gorhom/portal";
+import ResetAccountSheet from '../../components/cards/BottomSheets/ResetAccountSheet';
 
 
 export default function SettingsScreen({navigation}) {
   const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
     const [isEnabled2, setIsEnabled2] = useState(false);
     const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+    const modalRef = useRef<any>();
+    const closeModal = () => {
+        modalRef.current?.close();
+    }
+    const openModal = () => {
+            modalRef.current?.open();
+    };
     return (
+        <PortalProvider>
+             <Fragment>
         <ScreenComponent>
             <View style={styles.settingsContainer}>
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -63,8 +72,7 @@ export default function SettingsScreen({navigation}) {
                     <Text style={styles.walletText}>Wallet</Text>
                     <View style={styles.settingsListDivider} />
                     <TouchableOpacity activeOpacity={0.6}
-                    onPress={() => navigation.navigate("AccountAddress")}
-                    >
+                    onPress={() => navigation.navigate("AccountInfo")}>
                         <Text style={styles.button}>Account Address</Text>
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />    
@@ -114,7 +122,9 @@ export default function SettingsScreen({navigation}) {
                     <View style={styles.textDivider} />
                     <Text style={styles.button}>Privacy Policy</Text>
                     <View style={styles.settingsListDivider} />
-                    <TouchableOpacity activeOpacity={0.6}>
+                    <TouchableOpacity activeOpacity={0.6}
+                    onPress={() => openModal()}
+                    >
                     <Text style={styles.reset}>Reset Wakala</Text>
                     </TouchableOpacity>
                     <View style={styles.resetTextContainer}>
@@ -125,6 +135,11 @@ export default function SettingsScreen({navigation}) {
                 </View>
             </ScrollView>
         </ScreenComponent>
+        </Fragment>
+        <ResetAccountSheet 
+      modalRef={modalRef}
+      onClose={closeModal}/>
+    </PortalProvider>
     );
 }
 

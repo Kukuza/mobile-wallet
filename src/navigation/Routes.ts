@@ -12,7 +12,7 @@ import Rating from "../screens/KarmaRating/Rating";
 import TransactionSuccess from "../screens/TransactionRequests/TransactionSuccess";
 import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
-import AccountAddress from "../screens/Settings/AccountAddress";
+import AccountAddress from "../screens/Settings/AccountAddress/AccountAddress";
 import EnterPin from "../screens/Auth/EnterPin";
 import ConfirmPin from "../screens/Auth/ConfirmPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
@@ -39,6 +39,7 @@ import EditProfile from "../screens/Settings/EditProfile";
 import SelectLanguage from "../screens/Settings/SelectLanguage";
 import SelectCurrency from "../screens/Settings/SelectCurrency";
 import ConnectedDapps from "../screens/Settings/ConnectedDapps";
+import ViewAccountInfo from "../screens/Settings/AccountAddress/ViewAccountInfo";
 
 const routes: IRouteProps[] = [
   {
@@ -173,6 +174,10 @@ const routes: IRouteProps[] = [
   {
     name:"Qr",
     component: Qrcode
+  },
+  {
+    name:"AccountInfo",
+    component:ViewAccountInfo
   },
   {
     name: "LanguagesList",
