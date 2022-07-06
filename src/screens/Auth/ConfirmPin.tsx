@@ -53,8 +53,7 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
   }
 
   const connectPhoneNumber = () => {
-    if ((created.keys.pin == prevPin) 
-      && created.keys.publicKey) {
+    if ((created.keys.pin == prevPin) && created.keys.publicKey) {
         //Reset pin
         dispatch(enterPin(""));
       navigation.navigate("SetupRecovery");
@@ -78,7 +77,12 @@ const ConfirmPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       />
       {confirmed 
           ? <Text style={styles.pinError}>{confirmed}</Text> 
-          : <Text style={styles.pinError}></Text>}
+          : <Text style={styles.pinError}></Text> }
+
+      {created.loading 
+          ? <Text style={styles.pinError}>Creating Account...</Text> 
+          : <Text style={styles.pinError}></Text> }
+
      <View style={styles.enterPin}>
      <Text style={styles.pinText}>Confirm PIN</Text>
     </View>

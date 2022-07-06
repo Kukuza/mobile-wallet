@@ -6,30 +6,34 @@ import configs from "../configs";
 import { ProfileKey } from "../enums/ProfileKey";
 import Storage from "../utils/Storage";
 import ReadContractDataKit from '../utils/smart_contract_integration/read_data_utils/ReadContractDataKit';
+import { Status } from "../enums/Status";
 
 const walletSlice = createSlice ({
     name: 'wallet',
     initialState: {
         balance: 0,
-        loading: '',
-        error: '',
+        loading: false,
+        status: '',
     },
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(
             getBalance.fulfilled, 
             (state, action) => {
-                state.balance = action.payload
+                state.balance = action.payload;
+                state.loading = false;
+                state.status = Status.SUCCESS;
             }),
         builder.addCase(
             getBalance.pending, 
             (state) => {
-                state.loading = 'pending'
+                state.loading = true;
             }),
         builder.addCase(
             getBalance.rejected, 
             (state) => {
-                state.loading = 'rejected'
+                state.loading = false;
+                state.status = Status.FAILED;
             })
       },
  });
