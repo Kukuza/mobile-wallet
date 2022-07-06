@@ -11,14 +11,17 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
-import { WakalaEscrowTransaction } from "../../utils/Celo-Integration/wakala_types";
-import WakalaContractKit from "../../utils/Celo-Integration/WakalaContractKit";
+import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
+import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { connect, useDispatch } from "react-redux";
 import ModalLoading from "../../components/modals/ModalLoading";
 import { SHARED } from "../../assets/images";
 import { modalStyles } from "../../components/componentTheme";
 import Error from "../../assets/images/modals/Error";
+import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
+import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
 
 const ModalContent = (props) => {
   return (
@@ -69,8 +72,10 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
 
   const transaction: WakalaEscrowTransaction = route.params?.transaction;
 
+  const writeDataContractKit = WriteContractDataKit.getInstance();
+  const contractEventListenerKit = ContractEventsListenerKit.getInstance();
+
   const publicAddress = ""
-    // WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
 
   // used to change the visibility state of the modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -89,11 +94,7 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
   const [processIsError, setProcessIsError] = useState(false);
 
 
-  const wakalaContractKit = WakalaContractKit.getInstance();
-  const wakalaSmartContract = wakalaContractKit?.wakalaEscrowContract;
-
-
-  wakalaContractKit?.wakalaContractEvents?.wakalaEscrowContract?.once(
+  contractEventListenerKit.wakalaEscrowContract?.once(
     "TransactionCompletionEvent",
     async (error: Error, event: EventData) => {
       const index: number = event.returnValues.wtx[0];
@@ -112,11 +113,13 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     console.log("something is cooking");
     setLoadingMessage("Initializing the transaction...");
 
+    const contract = writeDataContractKit?.wakalaEscrowContract;
+
     if (operation === "TopUp") {
       try {
         setLoadingMessage("Confirming payment receipt to the user...");
-        const txObject = wakalaSmartContract?.methods.agentConfirmPayment(transaction.id);
-        const receipt = await wakalaContractKit?.sendTransactionObject(txObject);
+        const txObject = contract?.methods.agentConfirmPayment(transaction.id);
+        const receipt = await writeDataContractKit?.sendTransactionObject(txObject);
         console.log(receipt);
         setLoadingMessage("");
         setIsLoading(false);

@@ -1,13 +1,13 @@
 import Web3 from "web3";
 import { Contract, EventData } from "web3-eth-contract";
-import { WakalaEscrowAbi } from "../ContractABIs/WakalaEscrowAbi";
-import { KARMA_ABI } from "../ContractABIs/KarmaAbi";
-import ERC20Abi from "../ContractABIs/ERC20.abi.json";
+import { WakalaEscrowAbi } from "./smart_contract_abis/WakalaEscrowAbi";
+import { KARMA_ABI } from "./smart_contract_abis/KarmaAbi";
+import ERC20Abi from "./smart_contract_abis/ERC20.abi.json";
 import {
   WAKALA_CONTRACT_ADDRESS,
   ERC20_ADDRESS,
   KARMA_CONTRACT_ADDRESS,
-} from "../ContractAdresses/contract";
+} from "./smart_contract_addresses_";
 import { ContractKit, newKitFromWeb3 } from "@celo/contractkit";
 import { AbiItem } from "web3-utils";
 import { WakalaContractEventsKit } from "./WakalaContractEventsKit";
@@ -241,7 +241,7 @@ export default class WakalaContractKit {
     for (let index = 0; index < 16; index++) {
       let tx = await this.queryGetNextUnpairedTransaction(currentQueryTx);
 
-      if (tx.amount != 0) {
+      if (tx.grossAmount != 0) {
         wakalaTxsArray.push(tx);
       } else {
         // exit loop (no next tsx)
@@ -352,8 +352,6 @@ export default class WakalaContractKit {
    * @returns the wakala transaction object.
    */
    convertToWakalaTransactionObj(tx: string[]): WakalaEscrowTransaction {
-
-    console.log(tx);
 
     const wakalaTx: WakalaEscrowTransaction = {
       id: parseInt(tx[0]),
