@@ -42,6 +42,9 @@ export default function EditProfile({navigation}) {
         }
     
         dispatch(saveProfile(p));
+        console.log(p)
+        navigation.navigate("Settings");
+
       }
   return (
     <ScreenComponent>

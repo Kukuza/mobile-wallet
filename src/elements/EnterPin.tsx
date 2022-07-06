@@ -64,7 +64,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       <NavHeader
           hideBackButton={false}
           showTitle={false}
-          newTitle="Step 4 of 8"
+          newTitle="Enter PIN"
       />
       <View style={styles.enterPin}>
       <Text style={styles.pinText}>Enter PIN</Text>
