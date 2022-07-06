@@ -21,8 +21,9 @@ const ViewRecoveryCode: React.FunctionComponent<IStackScreenProps> = (props) => 
     confirmRecovveryPhrase();
   }
 
+  //TODO: remove after switch button is complete
   const pendingHandler = () => {
-    console.log("Not yet accepted");
+    confirmRecovveryPhrase();
   }
 
   const getOptionValue = () => {
@@ -67,7 +68,7 @@ const ViewRecoveryCode: React.FunctionComponent<IStackScreenProps> = (props) => 
         <View style={styles.accept}>
           
           <View style={styles.acceptItem}>
-              <SwitchButton style={styles.acceptRadio} onPress={getOptionValue}/>
+              <SwitchButton style={styles.acceptRadio} />
               <Text style={styles.acceptText}>Yes, I have written my phrase</Text>
           </View>
           
