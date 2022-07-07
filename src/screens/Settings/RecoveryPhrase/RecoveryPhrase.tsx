@@ -1,106 +1,78 @@
-import React, { useState } from 'react';
-import { View, Text,StyleSheet, TouchableOpacity } from 'react-native'
-import { RFPercentage } from 'react-native-responsive-fontsize';
-import { Feather } from "@expo/vector-icons";
-import DefaultButton from '../../../components/buttons/MainButtons/DefaultButton';
-import ScreenComponent from '../../../containers/ScreenComponent';
+import { StyleSheet, View, Text} from "react-native";
+import ScreenComponent from "../../../containers/ScreenComponent";
+import { FONTS, SIZES } from "../../../styles/fonts/fonts";
+import { IStackScreenProps } from "../../../navigation/StackScreenProps";
+import React, { useEffect, useState } from "react";
+import DefaultButton from "../../../components/buttons//MainButtons/DefaultButton";
 import COLORS from '../../../styles/colors/colors';
-import {FONTS} from '../../../styles/fonts/fonts';
-import EnterPinElement from '../../../elements/EnterPinElement';
-import NavHeader from '../../../containers/NavHeader';
+import NavHeader from "../../../containers/NavHeader";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { useSelector } from "react-redux";
 
+const RecoveryPhrase: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const { navigation,} = props;
+  const recoveryPhrase = useSelector((state: any) => state.auth.recoveryPhrase);
 
-function RecoveryPhrase({navigation}) {
-    const [onPinSuccessful, setOnPinSuccessful] = useState(false);
-
-    function onPinSuccess (){ setOnPinSuccessful(true) }
-    return (
-        <ScreenComponent>
-          {onPinSuccessful === true ? <>
-            <NavHeader
+  return (
+    <ScreenComponent>
+      <NavHeader
           hideBackButton={false}
           showTitle={true}
           newTitle="Recovery Phrase"
       />
-            <View style={styles.textContainer}>
-                <View style={styles.phraseContainer}>
-                    <View style={styles.phraseWrapper}>
-                        <Text style={styles.phrase}>
-                        horse giraffe dog money book fire drink cup phone car jacket computer wire charger curtain router window plate floor plate wine glass oak
-                        </Text>
-                    </View>
-                </View>
-            </View>
-            <View style={ styles.bottomBtn}>
-                <DefaultButton
-                text="Okay"
-                onPress={() =>navigation.navigate("Settings") }
-                style={styles.button}
-               />
-          </View>
-          </>:<EnterPinElement pinInput="526422" onSucess={onPinSuccess}/>}
-        </ScreenComponent>
-    );
-}
-export default RecoveryPhrase;
-const styles = StyleSheet.create({
-    button:{
-        fontSize:RFPercentage(3),
-        flex:1,
-        height: RFPercentage(7),
-        width: RFPercentage(30),
-        borderRadius: RFPercentage(3),
-        alignItems:"center",
-    },
-    bottomBtn:{
-          position:'absolute',
-          bottom:RFPercentage(10),
-          left:RFPercentage(10),
-    },
-    settingsContainer:{
-        marginEnd:0,
-        paddingLeft:"5%",
-        alignSelf:"center",
-        width: '100%',
-        flexDirection: 'row',
-        marginTop: RFPercentage(3),
-        justifyContent: 'space-between',
+      <View style={styles.container}>
+        <Text style={styles.text}>{recoveryPhrase}</Text>
+      </View>
+      <View style = {{justifyContent: 'center'}}>
+        <DefaultButton onPress={() => navigation.navigate("Settings")} style={styles.button} text="Okay" />
+      </View>
+    </ScreenComponent>
+  );
+};
 
-    },
-    headerText:{
-        ...FONTS.body3,
-        fontWeight: "bold",
-        color: COLORS.textPrimary,
-        alignSelf:"center",
-        justifyContent: 'center',
-        marginRight:"40%"
-        
-    },
-    textContainer:{
-        alignSelf:'center',
-        marginTop: RFPercentage(20),
-        width: "80%",
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.white,
-        height: RFPercentage(26),
-        borderRadius: RFPercentage(3),
-    },
-    phraseContainer:{
-        width: "99%",
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: COLORS.grayLightest1,
-        height: RFPercentage(25.6),
-        borderRadius: RFPercentage(3),
-    },
-    phrase:{
-        ...FONTS.body4,
-        color: COLORS.textColor2,
-        fontSize:RFPercentage(2.2),
-    },
-    phraseWrapper:{
-        width: '90%', 
-        marginTop: RFPercentage(7)
-    }
-})
+const styles = StyleSheet.create({
+  container: {
+    flex: 0.9,
+    justifyContent: "center",
+    height: SIZES.height,
+    marginTop: hp("5%"),
+     marginHorizontal: wp("8%")
+  },
+  title: {
+    ...FONTS.body1,
+    color: COLORS.black,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+    titleDescription: {
+      ...FONTS.body4,
+      textAlign: "center",
+      color: COLORS.textDarkBlue,
+      marginVertical:hp("2%")
+  },
+  text: {
+    height: hp("25%"),
+    backgroundColor: '#fff',
+    marginTop: hp("4%"),
+    padding: 25,
+    borderRadius: 15,
+    ...FONTS.body1,
+  },
+  accept: {
+    marginTop: hp("4%"),
+    ...FONTS.body1,
+  },
+  button: {
+    width:wp("76%"),
+    height:hp("6%"),
+    marginVertical:hp("2%")
+},
+footer: {
+  ...FONTS.body5,
+  marginTop:hp("5%"),
+  textAlign: "center",
+  color: COLORS.primary
+},
+});
+
+export default RecoveryPhrase;

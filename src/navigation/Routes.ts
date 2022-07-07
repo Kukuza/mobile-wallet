@@ -41,6 +41,8 @@ import SelectCurrency from "../screens/Settings/SelectCurrency";
 import ConnectedDapps from "../screens/Settings/ConnectedDapps";
 import ViewAccountInfo from "../screens/Settings/AccountAddress/ViewAccountInfo";
 import RecoveryPhrase from "../screens/Settings/RecoveryPhrase/RecoveryPhrase";
+import ViewRecoveryInfo from "../screens/Settings/RecoveryPhrase/ViewRecoveryInfo";
+import RecoveryEnterPin from "../screens/Settings/RecoveryPhrase/RecoveryEnterPin";
 
 const routes: IRouteProps[] = [
   {
@@ -183,6 +185,14 @@ const routes: IRouteProps[] = [
   {
     name:"AccountInfo",
     component:ViewAccountInfo
+  },
+  {
+    name:"ViewRecoveryInfo",
+    component:ViewRecoveryInfo
+  },
+  {
+    name:"RecoveryEnterPin",
+    component:RecoveryEnterPin
   },
   {
     name: "LanguagesList",

@@ -77,7 +77,7 @@ export default function SettingsScreen({navigation}) {
                     </TouchableOpacity>
                     <View style={styles.settingsListDivider} />    
                     <TouchableOpacity activeOpacity={0.6}
-                     onPress={() => navigation.navigate("RecoveryPhraseSetting")}
+                     onPress={() => navigation.navigate("ViewRecoveryInfo")}
                     >
                        <Text style={styles.button}> Recovery Phrase </Text>
                     </TouchableOpacity>

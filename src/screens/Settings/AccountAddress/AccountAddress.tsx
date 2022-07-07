@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   View,
   Text,
@@ -11,13 +11,19 @@ import DefaultButton from "../../../components/buttons/MainButtons/DefaultButton
 import ScreenComponent from "../../../containers/ScreenComponent";
 import COLORS from "../../../styles/colors/colors";
 import { FONTS } from "../../../styles/fonts/fonts";
-import WakalaContractKit from "../../../utils/smart_contract_integration/WakalaContractKit";
 import NavHeader from "../../../containers/NavHeader";
 import QRCode from 'react-native-qrcode-svg';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile} from "../../../store/Profile";
 
 function AccountAddress({ navigation }) {
-  const publicAddress =WakalaContractKit.getInstance()?.userMetadata?.publicAddress;
+  const profile: IProfile = useSelector((state: any) => state.profile.data);
+  const dispatch = useDispatch();
+  useEffect(() => {
+      dispatch(getProfile());
+    }, []);
+  const publicAddress =profile?.publicAddress
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -58,7 +64,7 @@ function AccountAddress({ navigation }) {
     <View style={styles.addressContainer}>
         <Text style={styles.yourAddress}>Your  Address</Text>
         <View style={styles.textContainer}>
-          <Text style={styles.addressText}>N3veRg0nnAgiV3y0uUpn3v3rg0nn4L3ty0ud0wn</Text>
+          <Text style={styles.addressText}>{publicAddress}</Text>
         </View>
     </View>
       <Pressable style={styles.shareButton} onPress={onShare}>
