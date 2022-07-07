@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text,StyleSheet, TouchableOpacity } from 'react-native'
+import React from 'react';
+import { View, Text,StyleSheet } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Feather } from "@expo/vector-icons";
 import DefaultButton from '../../../components/buttons/MainButtons/DefaultButton';
 import ScreenComponent from '../../../containers/ScreenComponent';
 import COLORS from '../../../styles/colors/colors';
 import {FONTS} from '../../../styles/fonts/fonts';
-import EnterPinElement from '../../../elements/EnterPinElement';
-import NavHeader from '../../../containers/NavHeader';
 
 
-function RecoveryPhrase({navigation}) {
-    const [onPinSuccessful, setOnPinSuccessful] = useState(false);
-
-    function onPinSuccess (){ setOnPinSuccessful(true) }
+function RecoveryPhrase() {
     return (
         <ScreenComponent>
-          {onPinSuccessful === true ? <>
-            <NavHeader
-          hideBackButton={false}
-          showTitle={true}
-          newTitle="Recovery Phrase"
-      />
+            <View style={styles.settingsContainer}>
+            <Feather name="chevron-left" size={32} color={COLORS.primary} />
+            <Text style={styles.headerText}>Recovery Phrase</Text>
+            </View>
             <View style={styles.textContainer}>
                 <View style={styles.phraseContainer}>
                     <View style={styles.phraseWrapper}>
@@ -34,14 +27,17 @@ function RecoveryPhrase({navigation}) {
             <View style={ styles.bottomBtn}>
                 <DefaultButton
                 text="Okay"
-                onPress={() =>navigation.navigate("Settings") }
+                onPress={() => null}
                 style={styles.button}
                />
+
           </View>
-          </>:<EnterPinElement pinInput="526422" onSucess={onPinSuccess}/>}
         </ScreenComponent>
     );
 }
+
+
+
 export default RecoveryPhrase;
 const styles = StyleSheet.create({
     button:{
