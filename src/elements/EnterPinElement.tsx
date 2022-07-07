@@ -3,28 +3,23 @@ import { StyleSheet, Text, View } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { FONTS } from "../styles/fonts/fonts";
 import COLORS from '../styles/colors/colors';
-import ScreenComponent from '../containers/ScreenComponent';
 import KeyPad from '../components/buttons/KeyPad';
-import { IStackScreenProps } from '../navigation/StackScreenProps';
-import { useDispatch, useSelector } from 'react-redux';
-import { getMnemonic }  from '../store/Auth';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import NavHeader from '../containers/NavHeader';
 
-const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
+const EnterPinElement = ({pinInput, onSucess}) =>  {
 
-  const dispatch = useDispatch();
-  const initPin = ["", "", "", "", "", ""];
-  const navigation = props.navigation;
+  const initPin = ["", "", "", "", "", ""]
    //Contains the pin number text as an array.
    const [pinCharArray, setPinTextArray] = useState(initPin);
   // The current index of the pin number entry.
    const [currentIndex, setCurrentIndex] = useState(0);
-   const recoveryPhrase = useSelector((state: any) => state.auth.recoveryPhrase);
+   const [errorInput, setErrorInput] = useState("")
 
    useEffect(() => {
     setPinTextArray(initPin);
     setCurrentIndex(0);
+    setErrorInput("");
   }, []);
 
   //  Handles the change on the pin number input form the custom keypad.
@@ -35,24 +30,35 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       
       if (currentIndex == 5) {
         const pin = pinCharArray.join("");
-        dispatch(getMnemonic(pin))
+        validateInput(pin);
       }
     } else {
-      navigation.navigate("SetupRecoveryInfo");
+     return
     }
   }
 
-  useEffect(() => {
-    viewRecovveryPhrase();
-  }, [recoveryPhrase]);
+  function validateInput(pin:string){
+    if(pinInput.length === pin.length){
+      var result= pinInput.localeCompare(pin)
+      if(result === 0){
+        handleSuccess()
+        setErrorInput("");
+      } else if (result === -1) {
+        setErrorInput("Incorrect PIN")
+      } else {
+        setErrorInput("Incorrect PIN")
+      }
+    } else{
+      setErrorInput("The PIN is too short!")
+    }
 
-  const viewRecovveryPhrase = () => {
-    if (recoveryPhrase) 
-      navigation.navigate("ViewRecoveryCode");
   }
-
   // Handles deletion on the custom keypad.
+  const handleSuccess = () => {
+    onSucess()
+  }
   const onDelete = () => {
+    setErrorInput("")
     if (currentIndex > 0) {
       pinCharArray[currentIndex - 1] = "";
       setCurrentIndex(currentIndex - 1);
@@ -60,7 +66,7 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
   }
 
   return (
-    <ScreenComponent>
+    <View>
       <NavHeader
           hideBackButton={false}
           showTitle={false}
@@ -68,6 +74,9 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       />
       <View style={styles.enterPin}>
       <Text style={styles.pinText}>Enter PIN</Text>
+      </View>
+      <View style={styles.errorInput}>
+        <Text style={styles.errorText}>{errorInput}</Text>
       </View>
       <View style={styles.pinIcons}>
         {pinCharArray.map((text, index)=>
@@ -81,11 +90,11 @@ const EnterPin: React.FunctionComponent<IStackScreenProps> = (props) =>  {
       <View style={styles.keyPad}>
       <KeyPad onChange={handleChange} onDelete={onDelete} />
       </View>
-    </ScreenComponent>
+    </View>
   )
 }
 
-export default EnterPin;
+export default EnterPinElement;
 
 const styles = StyleSheet.create({
 navIcon:{
@@ -126,5 +135,13 @@ starText:{
   ...FONTS.h3,
   color: COLORS.primary,
   alignSelf:"center",
+},
+errorInput:{
+  alignSelf:"center",
+  margin:hp("2%")
+},
+errorText:{
+...FONTS.body7,
+color:COLORS.error
 }
 })
