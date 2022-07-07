@@ -10,7 +10,6 @@ import ModalLoading from "../../components/modals/ModalLoading";
 import { connect, useDispatch } from "react-redux";
 import DefaultButton from "../../components/buttons/MainButtons/DefaultButton";
 import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import Thankyou from "../../assets/images/modals/Thankyou";
 import Error from "../../assets/images/modals/Error";

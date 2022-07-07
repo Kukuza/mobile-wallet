@@ -12,7 +12,6 @@ import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import SwipeButton from "../../components/buttons/MainButtons/SwipeButton";
 import COLORS from "../../styles/colors/colors";
 import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { connect, useDispatch } from "react-redux";
 import ModalLoading from "../../components/modals/ModalLoading";
@@ -132,9 +131,6 @@ const ConfirmMpesaPaymentSwipeScreen = (props: any) => {
     } else {
       try {
         setLoadingMessage("Sending the withdrawal transaction...");
-        // let result = await contractMethods.initializeWithdrawalTransaction(
-        //   amount
-        // );
         setLoadingMessage("");
         setIsLoading(false);
       } catch (error: any) {

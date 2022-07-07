@@ -14,7 +14,6 @@ import ScreenComponent from "../../containers/ScreenComponent";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
 import COLORS from "../../styles/colors/colors";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
-import WakalaContractKit from "../../utils/smart_contract_integration/WakalaContractKit";
 import { EventData } from "web3-eth-contract";
 import { useEffect, useState } from "react";
 import { WakalaEscrowTransaction } from "../../utils/smart_contract_integration/wakala_types";
@@ -24,6 +23,8 @@ import { IRate } from "../../interfaces/IRate";
 import WriteContractDataKit from "../../utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
 import ReadContractDataKit from "../../utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
 import { ContractEventsListenerKit } from "../../utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
+import { getProfile } from "../../store/Profile";
+import { Status } from "../../enums/Status";
 
 const EmptyList = (props) => {
   return (
@@ -51,7 +52,28 @@ const HomeScreen: React.FunctionComponent<IStackScreenProps> = (props: any) => {
   const [kesRate, setKesRate] = useState({});
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState(new Array<WakalaEscrowTransaction>());
+  const profile: IProfile = useSelector((state: any) => state.profile.data);
+  const status: string = useSelector((state: any) => state.profile.status);
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
+  useEffect(() => {
+    confirmedRecoveryPhrase();
+  }, [status]);
+
+  const confirmedRecoveryPhrase = () => {
+    try {
+      if (status == Status.SUCCESS 
+        && profile && !profile.recoverySaved) 
+        navigation.navigate("SetupRecovery");
+
+    } catch (error: Error | any) {
+      console.error("confirmedRecoveryPhrase: ", error);
+    }
+  };
 
   // fetch data
   const fetchData = async () => {

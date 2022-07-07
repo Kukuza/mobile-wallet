@@ -5,13 +5,11 @@ import { Alert, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import store  from './src/store'
 import { Provider } from 'react-redux';
-import Storage from "./src/utils/Storage";
 import crashlytics from "@react-native-firebase/crashlytics";
 import { setJSExceptionHandler, setNativeExceptionHandler } from "react-native-exception-handler";
 
-const handleJSError = (error, isFatal) => {
-  console.log("Global JS Error",error, isFatal);
-  crashlytics().recordError(error, error.name);
+const handleJSError = (error, isFatal: boolean) => {
+  console.log("Global JS Error", error, isFatal);
 }
 
 setJSExceptionHandler((error, isFatal) => {
@@ -43,7 +41,6 @@ import routes from "./src/navigation/Routes";
 import { LogBox } from "react-native";
 import { MNEMONIC_STORAGE_KEY } from './src/redux/auth/auth.utils'
 import { retrieveStoredItem } from "./src/redux/auth/session.key.storage.utils";
-import { ProfileKey } from "./src/enums/ProfileKey";
 import ReadContractDataKit from "./src/utils/smart_contract_integration/read_data_utils/ReadContractDataKit";
 import WriteContractDataKit from "./src/utils/smart_contract_integration/write_data_utils/WriteContractDataKit";
 import { ContractEventsListenerKit } from "./src/utils/smart_contract_integration/read_data_utils/WakalaContractEventsKit";
@@ -70,7 +67,6 @@ const App = () => {
   });
 
   const [mnemonic, setMnemonic] = useState(false);
-  const [recovery, setRecovery] = useState(false);
 
   const hasOnboarded = async () => {
     try {
@@ -78,18 +74,11 @@ const App = () => {
         MNEMONIC_STORAGE_KEY
         );
 
-      const profile: IProfile = await Storage.get(
-        ProfileKey.PROFILE_KEY
-        );
-
       if (_mnemonic) 
         setMnemonic(true);
 
-      if (profile && profile.recoverySaved) 
-        setRecovery(true);
     } catch (error: Error | any) {
       console.error("hasOnboarded: ", error);
-      crashlytics().recordError(error);
       handleJSError(error, false);
     }
   };
@@ -125,9 +114,6 @@ const App = () => {
     
   }, []);
 
-  hasOnboarded();
-
-
   /* const Loading = () => {
     return (
       <View>
@@ -147,10 +133,7 @@ const App = () => {
       <NavigationContainer>
         {/* <Screens /> */}
         <Stack.Navigator
-          initialRouteName= { mnemonic 
-            ? (recovery ? "MyDrawer" : "SetupRecovery") 
-            : "LanguagesList"  
-          }
+          initialRouteName= { mnemonic ? "MyDrawer" : "LanguagesList" }
           screenOptions={{ headerShown: false }}
         >
           {routes.map((r, i) => (

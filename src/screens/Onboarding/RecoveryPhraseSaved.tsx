@@ -10,9 +10,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { useDispatch, useSelector } from "react-redux";
 import Format from "../../utils/Format";
 import { getProfile, INITIAL_STATE, saveProfile } from "../../store/Profile";
-import crashlytics from "@react-native-firebase/crashlytics";
 
-const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
+const RecoveryPhraseSaved: React.FunctionComponent<IStackScreenProps> = (props) => {
   
   const { navigation, route } = props;
   const [phraseWords, setPhraseWords] = React.useState();
@@ -32,8 +31,6 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
   const continueHandler = () => {
     let p: any;
 
-    console.log("PROFILE", profile);
-      
     if(profile) {
       p = {
         name: profile.name,
@@ -62,16 +59,8 @@ const SetupRecovery: React.FunctionComponent<IStackScreenProps> = (props) => {
   }
 
   const confirmedRecoveryPhrase = () => {
-    try {
-      if (profile.recoverySaved) {
+      if (profile.recoverySaved) 
         navigation.navigate("ConnectYourPhoneNumberScreen");
-      } else {
-        crashlytics().log(`Profile isnt saved`)
-      }
-    } catch (error : Error | any) {
-      crashlytics().recordError(error)
-    }
-
   }
 
   return (
@@ -127,9 +116,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: '1%',
     textAlign: "center",
-    padding: 5,
+    padding: 4,
     borderRadius: 15,
-    ...FONTS.body7,
+    ...FONTS.body4,
   },
   button: {
     width:wp("76%"),
@@ -138,4 +127,4 @@ const styles = StyleSheet.create({
 }
 });
 
-export default SetupRecovery;
+export default RecoveryPhraseSaved;

@@ -3,12 +3,12 @@ import {
     encryptNewMnemonicWithPassword, 
     getAccountFromMnemonic, 
     getStoredMnemonic } from "../redux/auth/auth.utils";
-import WakalaContractKit from '../utils/smart_contract_integration/WakalaContractKit';
 import { retrieveStoredItem } from '../redux/auth/session.key.storage.utils';
 import {MNEMONIC_STORAGE_KEY} from '../redux/auth/auth.utils'
 import Storage from "../utils/Storage";
 import { ProfileKey} from '../enums/ProfileKey'
 import { INITIAL_STATE } from "./Profile";
+import { Status } from "../enums/Status";
 
  const authSlice = createSlice ({
     name: 'auth',
@@ -33,7 +33,7 @@ import { INITIAL_STATE } from "./Profile";
             (state, action) => {
                 state.keys = action.payload;
                 state.loading = false;
-                state.status = 'Success';
+                state.status = Status.SUCCESS;
             }),
         builder.addCase(
             createAccount.pending, 
@@ -44,7 +44,7 @@ import { INITIAL_STATE } from "./Profile";
             createAccount.rejected, 
             (state) => {
                 state.loading = false;
-                state.status = "Failed";
+                state.status = Status.FAILED;
             }),
         //Get recovery phrase
         builder.addCase(
@@ -52,7 +52,7 @@ import { INITIAL_STATE } from "./Profile";
             (state, action) => {
                 state.recoveryPhrase = action.payload
                 state.loading = false;
-                state.status = 'Success';
+                state.status = Status.SUCCESS;
             }),
             builder.addCase(
             getMnemonic.pending, 
@@ -63,7 +63,7 @@ import { INITIAL_STATE } from "./Profile";
             getMnemonic.rejected, 
             (state) => {
                 state.loading = false;
-                state.status = "Failed";
+                state.status = Status.FAILED;
             })
       },
  });
@@ -98,12 +98,10 @@ export const confirmedPin: any = createAsyncThunk(
     if (encryptedMnemonic) {
         const mnemonic = await getStoredMnemonic(pin);
         keys = await getAccountFromMnemonic(mnemonic ?? "");
-        WakalaContractKit.createInstance(keys.privateKey);
     } else {
         await encryptNewMnemonicWithPassword(pin);
         const mnemonic = await getStoredMnemonic(pin);
         keys = await getAccountFromMnemonic(mnemonic ?? "");
-        WakalaContractKit.createInstance(keys.privateKey);
     }
 
     await storePublicAddress(keys.address);

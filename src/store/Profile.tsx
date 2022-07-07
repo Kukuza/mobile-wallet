@@ -1,6 +1,7 @@
 import Storage from "../utils/Storage";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ProfileKey} from '../enums/ProfileKey'
+import { Status } from "../enums/Status";
 
 const PROFILE_KEY = ProfileKey.PROFILE_KEY;
 
@@ -21,46 +22,55 @@ export const INITIAL_STATE: IProfile = {
     name: PROFILE_KEY,
     initialState: {
         data: INITIAL_STATE,
-        loading: '',
-        error: '',
+        loading: false,
+        status: '',
     },
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(
             saveProfile.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.data = action.payload;
+                state.loading = false;
+                state.status = Status.SUCCESS;
             }),
         builder.addCase(
             saveProfile.pending, (state) => {
-                state.loading = 'pending'
+                state.loading = true;
             }),
         builder.addCase(
             saveProfile.rejected, (state) => {
-                state.loading = 'rejected'
+                state.loading = false;
+                state.status = Status.FAILED;
             }),
         builder.addCase(
             getProfile.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.data = action.payload;
+                state.loading = false;
+                state.status = Status.SUCCESS;
             }),
           builder.addCase(
             getProfile.pending, (state) => {
-                state.loading = 'pending'
+                state.loading = true;
             }),
           builder.addCase(
             getProfile.rejected, (state) => {
-                state.loading = 'rejected'
+                state.loading = false;
+                state.status = Status.FAILED;
             }),
         builder.addCase(
             deleteProfile.fulfilled, (state, action) => {
-                state.data = action.payload
+                state.data = action.payload;
+                state.loading = false;
+                state.status = Status.SUCCESS;
             }),
           builder.addCase(
             deleteProfile.pending, (state) => {
-                state.loading = 'pending'
+                state.loading = true;
             }),
           builder.addCase(
             deleteProfile.rejected, (state) => {
-                state.loading = 'rejected'
+                state.loading = false;
+                state.status = Status.FAILED;
             })
       },
  });
@@ -82,7 +92,7 @@ export const getProfile: any = createAsyncThunk(
 
  export const deleteProfile: any = createAsyncThunk(
     'deleteProfile', 
-    async (data: IProfile) => {
+    async () => {
     Storage.remove(PROFILE_KEY);
     return await Storage.get(PROFILE_KEY);
  });

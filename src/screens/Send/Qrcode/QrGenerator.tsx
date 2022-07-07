@@ -3,8 +3,6 @@ import React from 'react'
 import ScreenComponent from '../../../containers/ScreenComponent';
 import COLORS from '../../../styles/colors/colors';
 import QRCode from 'react-native-qrcode-svg';
-import WakalaContractKit from "../../../utils/smart_contract_integration/WakalaContractKit";
-
 
 export default function QrGenerator() {
   const publicAddress = "";
