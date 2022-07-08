@@ -66,7 +66,7 @@ export default function EditProfile({navigation}) {
       <NormalTextField 
     inputLabel="Full name" 
     onChangeText={setProfileName}
-    placeholder="Martin Chege"
+    placeholder={profile?.name}
     keyboardType="email-address"
     />
       </View>
