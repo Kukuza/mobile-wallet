@@ -43,6 +43,7 @@ import ViewAccountInfo from "../screens/Settings/AccountAddress/ViewAccountInfo"
 import RecoveryPhrase from "../screens/Settings/RecoveryPhrase/RecoveryPhrase";
 import ViewRecoveryInfo from "../screens/Settings/RecoveryPhrase/ViewRecoveryInfo";
 import RecoveryEnterPin from "../screens/Settings/RecoveryPhrase/RecoveryEnterPin";
+import RecoveryPhraseConfirm from "../screens/Onboarding/RecoveryPhraseConfirm";
 
 const routes: IRouteProps[] = [
   {
@@ -112,6 +113,10 @@ const routes: IRouteProps[] = [
   {
     name: "AccountAddress",
     component: AccountAddress,
+  },
+  {
+    name:"RecoveryPhraseConfirm",
+    component:RecoveryPhraseConfirm
   },
   {
     name:"EnterPin",
