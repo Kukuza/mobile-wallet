@@ -3,11 +3,11 @@ import { Dimensions, View, StyleSheet,Text, Pressable } from "react-native";
 import { Portal } from "@gorhom/portal";
 import { Modalize } from "react-native-modalize";
 import { RFPercentage } from "react-native-responsive-fontsize";
-import COLORS from "../../styles/colors/colors";
-import { FONTS } from "../../styles/fonts/fonts";
+import COLORS from "../../../styles/colors/colors";
+import { FONTS } from "../../../styles/fonts/fonts";
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrency } from '../../store/Currency';
-import { ICurrency } from '../../interfaces/ICurrency';
+import { getCurrency } from '../../../store/Currency';
+import { ICurrency } from '../../../interfaces/ICurrency';
 const { height } = Dimensions.get("screen");
 const modalHeight = height * 0.4;
 
