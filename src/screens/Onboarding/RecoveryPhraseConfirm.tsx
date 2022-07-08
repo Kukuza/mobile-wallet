@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable, Modal, Alert, TextInput, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import ScreenComponent from "../../containers/ScreenComponent";
 import { FONTS, SIZES } from "../../styles/fonts/fonts";
 import { IStackScreenProps } from "../../navigation/StackScreenProps";
@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import COLORS from '../../styles/colors/colors';
 import NavHeader from "../../containers/NavHeader";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Format from "../../utils/Format";
 import Phrase from "../../utils/Phrase";
 
@@ -18,7 +18,6 @@ const RecoveryPhraseConfirm: React.FunctionComponent<IStackScreenProps> = (props
   const [selectedCount, setSelectedCount] = React.useState(-1);
   const [displayCount, setDisplayCount] = React.useState("");
   const [randomPhraseWords, setRandomPhraseWords] = React.useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     separatePhrase();
