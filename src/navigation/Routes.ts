@@ -12,7 +12,7 @@ import Rating from "../screens/KarmaRating/Rating";
 import TransactionSuccess from "../screens/TransactionRequests/TransactionSuccess";
 import TopUpViewRequestScreen from "../screens/TransactionRequests/TopUpViewRequestScreen";
 import AddFundsConfirmationScreen from "../screens/TransactionRequests/AddFundsConfirmationScreen";
-import AccountAddress from "../screens/Settings/AccountAddress";
+import AccountAddress from "../screens/Settings/AccountAddress/AccountAddress";
 import EnterPin from "../screens/Auth/EnterPin";
 import ConfirmPin from "../screens/Auth/ConfirmPin";
 import ConnectYourPhoneNumberScreen from "../screens/Attestation/ConnectYouPhoneNumberScreen/ConnectYourPhoneNumberScreen";
@@ -34,8 +34,15 @@ import SetupRecovery from "../screens/Onboarding/SetupRecovery";
 import SetupRecoveryInfo from "../screens/Onboarding/SetupRecoveryInfo";
 import RecoveryCodePin from "../screens/Onboarding/RecoveryCodePin";
 import ViewRecoveryCode from "../screens/Onboarding/ViewRecoveryCode";
-import RecoveryPhraseConfirm from "../screens/Onboarding/RecoveryPhraseConfirm";
 import RecoveryPhraseSaved from "../screens/Onboarding/RecoveryPhraseSaved";
+import EditProfile from "../screens/Settings/EditProfile";
+import SelectLanguage from "../screens/Settings/SelectLanguage";
+import SelectCurrency from "../screens/Settings/SelectCurrency";
+import ConnectedDapps from "../screens/Settings/ConnectedDapps";
+import ViewAccountInfo from "../screens/Settings/AccountAddress/ViewAccountInfo";
+import RecoveryPhrase from "../screens/Settings/RecoveryPhrase/RecoveryPhrase";
+import ViewRecoveryInfo from "../screens/Settings/RecoveryPhrase/ViewRecoveryInfo";
+import RecoveryEnterPin from "../screens/Settings/RecoveryPhrase/RecoveryEnterPin";
 
 const routes: IRouteProps[] = [
   {
@@ -111,6 +118,10 @@ const routes: IRouteProps[] = [
     component: EnterPin,
   },
   {
+    name:"EditProfile",
+    component: EditProfile,
+  },
+  {
     name:"ConfirmPin",
     component: ConfirmPin,
   },
@@ -144,6 +155,22 @@ const routes: IRouteProps[] = [
     component: EnterAmount
   },
   {
+    name:"Select Language",
+    component: SelectLanguage
+  },
+  {
+    name:"Select Currency",
+    component: SelectCurrency
+  },
+  {
+    name:"RecoveryPhraseSetting",
+    component:RecoveryPhrase
+  },
+  {
+    name:"Connected Dapps",
+    component: ConnectedDapps
+  },
+  {
     name:"Description",
     component: Description
   },
@@ -154,6 +181,18 @@ const routes: IRouteProps[] = [
   {
     name:"Qr",
     component: Qrcode
+  },
+  {
+    name:"AccountInfo",
+    component:ViewAccountInfo
+  },
+  {
+    name:"ViewRecoveryInfo",
+    component:ViewRecoveryInfo
+  },
+  {
+    name:"RecoveryEnterPin",
+    component:RecoveryEnterPin
   },
   {
     name: "LanguagesList",
@@ -184,13 +223,9 @@ const routes: IRouteProps[] = [
     component: ViewRecoveryCode
   },
   {
-    name: "RecoveryPhraseConfirm",
-    component: RecoveryPhraseConfirm
-  },
-  {
     name: "RecoveryPhraseSaved",
     component: RecoveryPhraseSaved
-  }
+  },
 ];
 
 export default routes;
