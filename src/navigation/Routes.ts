@@ -34,6 +34,7 @@ import SetupRecovery from "../screens/Onboarding/SetupRecovery";
 import SetupRecoveryInfo from "../screens/Onboarding/SetupRecoveryInfo";
 import RecoveryCodePin from "../screens/Onboarding/RecoveryCodePin";
 import ViewRecoveryCode from "../screens/Onboarding/ViewRecoveryCode";
+import RecoveryPhraseConfirm from "../screens/Onboarding/RecoveryPhraseConfirm";
 import RecoveryPhraseSaved from "../screens/Onboarding/RecoveryPhraseSaved";
 import EditProfile from "../screens/Settings/EditProfile";
 import SelectLanguage from "../screens/Settings/SelectLanguage";
@@ -43,7 +44,6 @@ import ViewAccountInfo from "../screens/Settings/AccountAddress/ViewAccountInfo"
 import RecoveryPhrase from "../screens/Settings/RecoveryPhrase/RecoveryPhrase";
 import ViewRecoveryInfo from "../screens/Settings/RecoveryPhrase/ViewRecoveryInfo";
 import RecoveryEnterPin from "../screens/Settings/RecoveryPhrase/RecoveryEnterPin";
-import RecoveryPhraseConfirm from "../screens/Onboarding/RecoveryPhraseConfirm";
 
 const routes: IRouteProps[] = [
   {
@@ -113,10 +113,6 @@ const routes: IRouteProps[] = [
   {
     name: "AccountAddress",
     component: AccountAddress,
-  },
-  {
-    name:"RecoveryPhraseConfirm",
-    component:RecoveryPhraseConfirm
   },
   {
     name:"EnterPin",
@@ -226,6 +222,10 @@ const routes: IRouteProps[] = [
   {
     name: "ViewRecoveryCode",
     component: ViewRecoveryCode
+  },
+  {
+    name: "RecoveryPhraseConfirm",
+    component: RecoveryPhraseConfirm
   },
   {
     name: "RecoveryPhraseSaved",
